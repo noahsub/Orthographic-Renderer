@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orthographic.Renderer", "Orthographic.Renderer.csproj", "{F727C428-F664-41F8-BC9C-03B430D2BBAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F727C428-F664-41F8-BC9C-03B430D2BBAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F727C428-F664-41F8-BC9C-03B430D2BBAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F727C428-F664-41F8-BC9C-03B430D2BBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F727C428-F664-41F8-BC9C-03B430D2BBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

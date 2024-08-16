@@ -1,0 +1,182 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.1.0"/>
+        <PackageReference Include="Avalonia.Desktop" Version="11.1.0"/>
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0"/>
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.0"/>
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\Fonts\" />
+      <Folder Include="Assets\Icons\" />
+      <Folder Include="Assets\Images\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\Fonts\JetBrainsMono-Bold.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Bold.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-ExtraBold.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-ExtraBold.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-ExtraBoldItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-ExtraBoldItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-ExtraLight.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-ExtraLight.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-ExtraLightItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-ExtraLightItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-Italic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Italic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-Light.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Light.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-LightItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-LightItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-Medium.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Medium.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-MediumItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-MediumItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-Regular.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Regular.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-SemiBold.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-SemiBold.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-SemiBoldItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-SemiBoldItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-Thin.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Thin.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMono-ThinItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-ThinItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-Bold.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-Bold.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-BoldItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-BoldItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-ExtraBold.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-ExtraBold.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-ExtraBoldItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-ExtraBoldItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-ExtraLight.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-ExtraLight.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-ExtraLightItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-ExtraLightItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-Italic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-Italic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-Light.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-Light.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-LightItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-LightItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-Medium.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-Medium.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-MediumItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-MediumItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-Regular.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-Regular.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-SemiBold.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-SemiBold.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-SemiBoldItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-SemiBoldItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-Thin.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-Thin.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Fonts\JetBrainsMonoNL-ThinItalic.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\JetBrainsMonoNL-ThinItalic.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Images\blue_cube.png" />
+      <AvaloniaResource Include="Assets\Images\blue_cube.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Images\green_cube.png" />
+      <AvaloniaResource Include="Assets\Images\green_cube.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Images\orange_cube.png" />
+      <AvaloniaResource Include="Assets\Images\orange_cube.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <None Remove="Assets\Icons\green_cube.ico" />
+      <AvaloniaResource Include="Assets\Icons\green_cube.ico">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Data\settings.json" />
+      <Content Include="Data\settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    
+    
+</Project>
