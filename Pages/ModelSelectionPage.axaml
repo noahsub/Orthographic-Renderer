@@ -49,6 +49,7 @@
         <Rectangle Grid.Row="2" Fill="#1b1c20"/>
         
         <Grid x:Name="HardwareStatusGrid" Grid.Row="0">
+            <Label x:Name="TestLabel" Content="" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>
 </UserControl>
