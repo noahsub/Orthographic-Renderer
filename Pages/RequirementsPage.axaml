@@ -34,26 +34,28 @@
     </UserControl.Styles>
     
     <Grid Background="#202124">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
-            <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/>
-            <Label Content="Orthographic Renderer" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
-            <StackPanel Orientation="Horizontal">
-                <Image Source="avares://Orthographic.Renderer/Assets/Images/orange_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
-                <StackPanel>
-                    <Label Content="Blender Path"/>
-                    <Label Content="Version 4.2.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+        <ScrollViewer>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
+                <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/>
+                <Label Content="Orthographic Renderer" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="avares://Orthographic.Renderer/Assets/Images/orange_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                    <StackPanel>
+                        <Label Content="Blender Path"/>
+                        <Label Content="Version 4.2.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <TextBox x:Name="BlenderPathTextBox" Watermark="None"/>
-            <StackPanel Orientation="Horizontal">
-                <Image Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
-                <StackPanel>
-                    <Label Content="Python Path"/>
-                    <Label Content="Version 3.12.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                <TextBox x:Name="BlenderPathTextBox" Watermark="Write the path to your blender installation"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                    <StackPanel>
+                        <Label Content="Python Path"/>
+                        <Label Content="Version 3.12.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                    </StackPanel>
                 </StackPanel>
+                <TextBox x:Name="PythonPathTextBox" Watermark="Write the path to your python installation"/>
+                <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
-            <TextBox x:Name="PythonPathTextBox" Watermark="None"/>
-            <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

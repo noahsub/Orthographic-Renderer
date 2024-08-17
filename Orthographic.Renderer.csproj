@@ -169,13 +169,14 @@
       <AvaloniaResource Include="Assets\Icons\green_cube.ico">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
+      <None Remove="Data\program_paths.json" />
+      <Content Include="Data\program_paths.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Data\settings.json" />
-      <Content Include="Data\settings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
     
     
