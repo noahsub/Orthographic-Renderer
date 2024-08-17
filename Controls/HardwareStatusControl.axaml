@@ -1,0 +1,25 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150"
+             x:Class="Orthographic.Renderer.Controls.HardwareStatusControl">
+    
+    <UserControl.Styles>
+        <Style Selector="Label">
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid Background="Transparent" ShowGridLines="False">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label x:Name="ValueLabel" Content="0.0" FontSize="40" Foreground="MediumSeaGreen"/>
+                <Label Content=" " FontSize="10"/>
+                <Label x:Name="UnitLabel" Content="%" FontSize="25" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Label x:Name="TypeLabel" Content="Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
