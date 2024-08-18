@@ -64,46 +64,57 @@ public class HardwareStatusManager
         var requiredMemorySensorsTypes = new List<SensorType> { SensorType.Load };
         var requiredMemorySensorNames = new List<string> { "Memory" };
         
+        var cpuHardware = new List<Hardware>();
+        var gpuHardware = new List<Hardware>();
+        var memoryHardware = new List<Hardware>();
+        
         foreach (var hardware in hardwareMap)
         {
             // Cpu filter 
             if (hardware.Type == HardwareType.Cpu && requiredCpuSensorsTypes.Contains(hardware.SensorType) && requiredCpuSensorNames.Contains(hardware.SensorName))
             {
-                RenderHardware.Add(hardware);
+                cpuHardware.Add(hardware);
             }
             
             // Gpu filter
             else if (gpuTypes.Contains(hardware.Type) && requiredGpuSensorsTypes.Contains(hardware.SensorType) && requiredGpuSensorNames.Contains(hardware.SensorName))
             {
-                RenderHardware.Add(hardware);
+                gpuHardware.Add(hardware);
             }
             
             // Memory filter
             else if (hardware.Type == HardwareType.Memory && requiredMemorySensorsTypes.Contains(hardware.SensorType) && requiredMemorySensorNames.Contains(hardware.SensorName))
             {
-                RenderHardware.Add(hardware);
+                memoryHardware.Add(hardware);
             }
         }
+        
+        // Add all hardware to the RenderHardware list in the order of CPU, GPU, Memory
+        RenderHardware.AddRange(cpuHardware);
+        RenderHardware.AddRange(gpuHardware);
+        RenderHardware.AddRange(memoryHardware);
         
         RenderHardwareCollected = true;
     }
     
-    private static string FormatName(Hardware hardware)
+    public static string FormatName(Hardware hardware)
     {
         // Create a new name to display in the UI
         var newName = hardware.Name;
         
         // Remove certain words from the name to reduce length in the UI
-        var redundantWords = new List<string> { "Generic ", "NVIDIA", "Intel", "AMD" };
+        var redundantWords = new List<string> { "Generic ", "NVIDIA", "Intel", "AMD", "GeForce" };
         foreach (var word in redundantWords)
         {
             newName = newName.Replace(word, "");
         }
         
-        // If name contains a single alphanumeric character (e.g. "A", "1") at the end, remove it
-        if (char.IsLetterOrDigit(newName[^1]))
+        // If the name ends with a space followed by a single alphanumeric character, remove it, for example
+        // "CPU 1" -> "CPU"
+        // "CPU A" -> "CPU"
+        if (newName.Length > 1 && char.IsLetterOrDigit(newName[^1]) && newName[^2] == ' ')
         {
-            newName = newName.Substring(0, newName.Length - 1);
+            newName = newName.Substring(0, newName.Length - 2);
         }
         
         // Remove any leading or trailing whitespace
