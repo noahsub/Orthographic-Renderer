@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Threading;
-using LibreHardwareMonitor.Hardware;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 using Hardware = Orthographic.Renderer.Entities.Hardware;
@@ -42,6 +43,7 @@ public partial class ModelSelectionPage : UserControl
         {
             var currentSize = MainWindow.GetSize();
             var currentPosition = MainWindow.GetPosition();
+            var currentScrollPosition = 0.0;
             
             while (true)
             {
@@ -60,10 +62,23 @@ public partial class ModelSelectionPage : UserControl
                 
                 Dispatcher.UIThread.Post(() =>
                 {
+                    // If the scroll position has changed, skip the update
+                    // Must be done in the UI thread
+                    var newScrollPosition = RenderSelectionScrollViewer.Offset.Y;
+                    
+                    if (Math.Abs(currentScrollPosition - newScrollPosition) > 0.5f)
+                    {
+                        currentScrollPosition = newScrollPosition;
+                        return;
+                    }
+                    
                     UpdateHardwareStatus();
                 });
             }
         });
+        
+
+        PopulateAngles();
     }
 
     private void SetupHardwareGrid()
@@ -86,6 +101,12 @@ public partial class ModelSelectionPage : UserControl
 
     private void UpdateHardwareStatus()
     {
+        // Catch concurrency issue where the grid has not been initialized yet
+        if (HardwareStatusGrid is null)
+        {
+            return;
+        }
+        
         if (HardwareStatusGrid.Children.Count != HardwareStatusManager.RenderHardware.Count)
         {
             return;
@@ -108,5 +129,56 @@ public partial class ModelSelectionPage : UserControl
         hardwareStatusControl.ValueLabel.Content = 0.00;
         hardwareStatusControl.UnitLabel.Content = hardware.Unit;
         return hardwareStatusControl;
+    }
+
+    private void PopulateAngles()
+    {
+        var angles = new List<string>
+        {
+            "top-front-right",
+            "top-right-back",
+            "top-back-left",
+            "top-left-front",
+            "front-right-bottom",
+            "right-back-bottom",
+            "back-left-bottom",
+            "left-front-bottom",
+            "top-front",
+            "top-right",
+            "top-back",
+            "top-left",
+            "front-bottom",
+            "right-bottom",
+            "back-bottom",
+            "left-bottom",
+            "front-right",
+            "right-back",
+            "back-left",
+            "left-front",
+            "front",
+            "right",
+            "back",
+            "left",
+            "top",
+            "bottom"
+        };
+        
+        // foreach (var angle in angles)
+        // {
+        //     var renderSelectionControl = new RenderSelectionControl();
+        //
+        //     var image = new Bitmap(AssetLoader.Open(new Uri($"/Assets/Images/RenderAngles/{angle}.png")));
+        //     renderSelectionControl.Image.Source = image;
+        //     // remove hyphens from angle name
+        //     var formattedName = angle.Replace("-", " ");
+        //     // convert to title case
+        //     formattedName = string.Concat(formattedName[..1].ToUpper(), formattedName.AsSpan(1));
+        //     // set the name label
+        //     renderSelectionControl.Name.Content = formattedName;
+        //     // add the control to the stack panel
+        //     RenderSelectionStackPanel.Children.Add(renderSelectionControl);
+        // }
+
+        return;
     }
 }

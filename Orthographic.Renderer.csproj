@@ -22,7 +22,6 @@
     <ItemGroup>
       <Folder Include="Assets\Fonts\" />
       <Folder Include="Assets\Icons\" />
-      <Folder Include="Assets\Images\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -172,6 +171,110 @@
       </AvaloniaResource>
       <None Remove="Data\program_paths.json" />
       <Content Include="Data\program_paths.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\back.png" />
+      <Content Include="Assets\Images\RenderAngles\back.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\back-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\back-bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\back-left.png" />
+      <Content Include="Assets\Images\RenderAngles\back-left.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\back-left-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\back-left-bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\front.png" />
+      <Content Include="Assets\Images\RenderAngles\front.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\front-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\front-bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\front-right.png" />
+      <Content Include="Assets\Images\RenderAngles\front-right.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\front-right-back.png" />
+      <Content Include="Assets\Images\RenderAngles\front-right-back.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\left.png" />
+      <Content Include="Assets\Images\RenderAngles\left.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\left-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\left-bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\left-front.png" />
+      <Content Include="Assets\Images\RenderAngles\left-front.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\left-front-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\left-front-bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\right.png" />
+      <Content Include="Assets\Images\RenderAngles\right.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\right-back.png" />
+      <Content Include="Assets\Images\RenderAngles\right-back.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\right-back-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\right-back-bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\right-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\right-bottom.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top.png" />
+      <Content Include="Assets\Images\RenderAngles\top.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-back.png" />
+      <Content Include="Assets\Images\RenderAngles\top-back.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-back-left.png" />
+      <Content Include="Assets\Images\RenderAngles\top-back-left.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-front.png" />
+      <Content Include="Assets\Images\RenderAngles\top-front.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-front-right.png" />
+      <Content Include="Assets\Images\RenderAngles\top-front-right.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-left.png" />
+      <Content Include="Assets\Images\RenderAngles\top-left.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-left-front.png" />
+      <Content Include="Assets\Images\RenderAngles\top-left-front.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-right.png" />
+      <Content Include="Assets\Images\RenderAngles\top-right.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\top-right-back.png" />
+      <Content Include="Assets\Images\RenderAngles\top-right-back.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

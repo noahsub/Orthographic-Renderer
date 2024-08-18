@@ -126,6 +126,12 @@ public class HardwareStatusManager
         {
             newName = $"{newName} VRAM";
         }
+        
+        // Add "Temperature" to the end of temperature sensor names
+        if (hardware.SensorType == SensorType.Temperature)
+        {
+            newName = $"{newName} Temp";
+        }
 
         return newName;
     }
