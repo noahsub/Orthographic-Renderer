@@ -163,21 +163,21 @@ public partial class ModelSelectionPage : UserControl
             "bottom"
         };
         
-        // foreach (var angle in angles)
-        // {
-        //     var renderSelectionControl = new RenderSelectionControl();
-        //
-        //     var image = new Bitmap(AssetLoader.Open(new Uri($"/Assets/Images/RenderAngles/{angle}.png")));
-        //     renderSelectionControl.Image.Source = image;
-        //     // remove hyphens from angle name
-        //     var formattedName = angle.Replace("-", " ");
-        //     // convert to title case
-        //     formattedName = string.Concat(formattedName[..1].ToUpper(), formattedName.AsSpan(1));
-        //     // set the name label
-        //     renderSelectionControl.Name.Content = formattedName;
-        //     // add the control to the stack panel
-        //     RenderSelectionStackPanel.Children.Add(renderSelectionControl);
-        // }
+        foreach (var angle in angles)
+        {
+            var renderSelectionControl = new RenderSelectionControl();
+        
+            var image = new Bitmap($"Assets/Images/RenderAngles/{angle}.png");
+            renderSelectionControl.Image.Source = image;
+            // remove hyphens from angle name
+            var formattedName = angle.Replace("-", " ");
+            // convert to title case
+            formattedName = string.Concat(formattedName[..1].ToUpper(), formattedName.AsSpan(1));
+            // set the name label
+            renderSelectionControl.Name.Content = formattedName;
+            // add the control to the stack panel
+            RenderSelectionStackPanel.Children.Add(renderSelectionControl);
+        }
 
         return;
     }

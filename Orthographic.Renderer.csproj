@@ -205,10 +205,6 @@
       <Content Include="Assets\Images\RenderAngles\front-right.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <None Remove="Assets\Images\RenderAngles\front-right-back.png" />
-      <Content Include="Assets\Images\RenderAngles\front-right-back.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Assets\Images\RenderAngles\left.png" />
       <Content Include="Assets\Images\RenderAngles\left.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -275,6 +271,10 @@
       </Content>
       <None Remove="Assets\Images\RenderAngles\top-right-back.png" />
       <Content Include="Assets\Images\RenderAngles\top-right-back.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\RenderAngles\front-right-bottom.png" />
+      <Content Include="Assets\Images\RenderAngles\front-right-bottom.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
