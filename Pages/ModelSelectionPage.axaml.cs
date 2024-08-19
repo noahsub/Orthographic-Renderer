@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -27,7 +28,7 @@ public partial class ModelSelectionPage : UserControl
         {
             while (!HardwareStatusManager.RenderHardwareCollected)
             {
-                Thread.Sleep(250);
+                Thread.Sleep(500);
             }
         })
             .ContinueWith(task =>
@@ -44,16 +45,18 @@ public partial class ModelSelectionPage : UserControl
             var currentSize = MainWindow.GetSize();
             var currentPosition = MainWindow.GetPosition();
             var currentScrollPosition = 0.0;
+            var currentMousePressed = MainWindow.IsPointerPressed;
             
             while (true)
             {
-                await Task.Delay(500);
+                await Task.Delay(1500);
                 
                 var newSize = MainWindow.GetSize();
                 var newPosition = MainWindow.GetPosition();
+                var newMousePressed = MainWindow.IsPointerPressed;
                 
                 // If the window is currently being moved or resized, skip the update
-                if (currentSize != newSize || currentPosition != newPosition)
+                if (currentSize != newSize || currentPosition != newPosition || newMousePressed != currentMousePressed)
                 {
                     currentSize = newSize;
                     currentPosition = newPosition;
@@ -131,6 +134,18 @@ public partial class ModelSelectionPage : UserControl
         return hardwareStatusControl;
     }
 
+    private StackPanel GetAngleSelectionStackPanel(int index)
+    {
+        return index switch
+        {
+            0 => AngleSelectionStackPanel0,
+            1 => AngleSelectionStackPanel1,
+            2 => AngleSelectionStackPanel2,
+            3 => AngleSelectionStackPanel3,
+            _ => AngleSelectionStackPanel0
+        };
+    }
+
     private void PopulateAngles()
     {
         var angles = new List<string>
@@ -162,7 +177,8 @@ public partial class ModelSelectionPage : UserControl
             "top",
             "bottom"
         };
-        
+
+        int i = 0;
         foreach (var angle in angles)
         {
             var renderSelectionControl = new RenderSelectionControl();
@@ -176,9 +192,9 @@ public partial class ModelSelectionPage : UserControl
             // set the name label
             renderSelectionControl.Name.Content = formattedName;
             // add the control to the stack panel
-            RenderSelectionStackPanel.Children.Add(renderSelectionControl);
+            var AngleSelectionStackPanel = GetAngleSelectionStackPanel(i % 4);
+            AngleSelectionStackPanel.Children.Add(renderSelectionControl);
+            i++;
         }
-
-        return;
     }
 }

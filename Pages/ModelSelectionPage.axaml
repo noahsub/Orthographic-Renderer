@@ -63,13 +63,32 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Angles" FontSize="20" VerticalAlignment="Center" Margin="20 0 0 0"/>
             <Label Grid.Row="0" Grid.Column="1" Content="Settings" FontSize="20" VerticalAlignment="Center"/>
                 
+            <!-- <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="RenderSelectionScrollViewer" Margin="0 0 0 20"> -->
+            <!--     <StackPanel x:Name="RenderSelectionStackPanel" Spacing="20" Margin="20 0 20 0"> -->
+            <!--     </StackPanel> -->
+            <!-- </ScrollViewer> -->
+            
             <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="RenderSelectionScrollViewer" Margin="0 0 0 20">
-                <StackPanel x:Name="RenderSelectionStackPanel" Spacing="20" Margin="20 0 20 0">
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                
+                    <StackPanel x:Name="AngleSelectionStackPanel0" Grid.Column="0" Spacing="20" Margin="20 0 0 0">
+                    </StackPanel>
+                    <StackPanel x:Name="AngleSelectionStackPanel1" Grid.Column="1" Spacing="20" Margin="20 0 0 0">
+                    </StackPanel>
+                    <StackPanel x:Name="AngleSelectionStackPanel2" Grid.Column="2" Spacing="20" Margin="20 0 0 0">
+                    </StackPanel>
+                    <StackPanel x:Name="AngleSelectionStackPanel3" Grid.Column="3" Spacing="20" Margin="20 0 20 0">
+                    </StackPanel>
+                </Grid>
             </ScrollViewer>
             
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="20">
-                
             </StackPanel>
             
         </Grid>

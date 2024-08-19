@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="50"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="300"
              x:Class="Orthographic.Renderer.Controls.RenderSelectionControl">
     <UserControl.Styles>
         <Style Selector="Label">
@@ -14,14 +14,13 @@
         </Style>
     </UserControl.Styles>
     
-    <Grid x:Name="Grid" Background="#1a1b1e" Height="50">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="50"/>
-        </Grid.ColumnDefinitions>
-        <Image x:Name="Image" Grid.Column="0" MaxHeight="35" MaxWidth="35"/>
-        <Label x:Name="Name"  Grid.Column="1" Content="Top Front Right" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="20 0 0 0"/>
-        <CheckBox x:Name="CheckBox" Grid.Column="2"/>
+    <Grid x:Name="MainGrid" Background="#1a1b1e" Height="300" Tapped="Grid_OnTapped">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="75"/>
+        </Grid.RowDefinitions>
+        
+        <Image Grid.Row="0" x:Name="Image" Margin="20 20 20 20" MaxHeight="150" MaxWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Grid.Row="1" x:Name="Name" Content="Top Front Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>
