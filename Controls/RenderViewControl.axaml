@@ -28,6 +28,6 @@
         
         <Image Grid.Row="0" x:Name="Image" Margin="20 20 20 20" MaxHeight="150" MaxWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Grid.Row="1" x:Name="Name" Content="Top Front Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <CheckBox Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 10 10 10"/>
+        <CheckBox x:Name="CheckBox" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 10 10 10"/>
     </Grid>
 </UserControl>
