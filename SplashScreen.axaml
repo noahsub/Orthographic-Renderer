@@ -1,0 +1,38 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
+        x:Class="Orthographic.Renderer.SplashScreen"
+        Title="Orthographic Renderer"
+        Width="700"
+        Height="500"
+        WindowStartupLocation="CenterOwner"
+        SystemDecorations="None"
+        Topmost="True">
+    <Window.Styles>
+        <Style Selector="Label">
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+    </Window.Styles>
+    
+    <Grid Background="#202124"> 
+        <Rectangle Opacity="0.8">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#38b178" Offset="0"/>
+                    <GradientStop Color="#1c3e35" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <StackPanel Margin="10 10 10 10" Spacing="30" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="200" Height="200"/>
+            <StackPanel>
+                <Label Content="Orthographic" FontWeight="Bold" FontSize="40" HorizontalAlignment="Center"/>
+                <Label Content="Renderer" FontWeight="Bold" FontSize="40" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <Label Content="Loading" FontStyle="Italic" FontSize="20" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>
