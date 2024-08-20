@@ -27,7 +27,7 @@ public partial class RequirementsPage : UserControl
         // Ensure that the key matches the file
         // for example if the key is "blender" then the path should be "blender" in its last segment
         var lastSegment = Path.GetFileNameWithoutExtension(path).ToLower();
-        if (!lastSegment.Equals(key.ToLower()))
+        if (!lastSegment.Contains(key.ToLower()))
         {
             return false;
         }
