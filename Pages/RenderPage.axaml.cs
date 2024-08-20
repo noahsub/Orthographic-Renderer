@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
+using LibreHardwareMonitor.Hardware;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 using Hardware = Orthographic.Renderer.Entities.Hardware;
@@ -185,10 +186,19 @@ public partial class RenderPage : UserControl
         for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
         {
             var hardware = HardwareManager.HardwareToMonitor[i];
-            HardwareManager.RefreshHardware(HardwareManager.Computer, hardware);
+            
+            if (hardware.Path == null && hardware.Type == HardwareType.GpuNvidia)
+            {
+                continue;
+            }
+
+            else
+            {
+                HardwareManager.RefreshHardware(HardwareManager.Computer, hardware);
+            }
+            
             var formattedValue = $"{hardware.Value:0.00}";
-            ((HardwareMonitorControl)HardwareStatusGrid.Children[i]).ValueLabel.Content =
-                formattedValue;
+            ((HardwareMonitorControl)HardwareStatusGrid.Children[i]).ValueLabel.Content = formattedValue;
         }
     }
 
