@@ -3,18 +3,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="300"
-             x:Class="Orthographic.Renderer.Controls.RenderSelectionControl">
+             x:Class="Orthographic.Renderer.Controls.RenderViewControl">
     <UserControl.Styles>
         <Style Selector="Label">
             <Setter Property="Foreground" Value="GhostWhite"></Setter>
             <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
         </Style>
-        <Style Selector="CheckBox">
-            <Setter Property="BorderBrush" Value="Wheat"/>
+        <Style Selector="CheckBox:pointerover /template/ Border#NormalRectangle">
+            <Setter Property="BorderBrush" Value="#38b178" />
+        </Style>
+        <Style Selector="CheckBox:pressed /template/ Border#NormalRectangle">
+            <Setter Property="Background" Value="#38b178" />
+        </Style>
+        <Style Selector="CheckBox:checked /template/ Border#NormalRectangle">
+            <Setter Property="Background" Value="#38b178" />
         </Style>
     </UserControl.Styles>
     
-    <Grid x:Name="MainGrid" Background="#1a1b1e" Height="300" Tapped="Grid_OnTapped">
+    <Grid x:Name="MainGrid" Background="#1a1b1e" Height="300">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="75"/>
@@ -22,5 +28,6 @@
         
         <Image Grid.Row="0" x:Name="Image" Margin="20 20 20 20" MaxHeight="150" MaxWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Grid.Row="1" x:Name="Name" Content="Top Front Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 10 10 10"/>
     </Grid>
 </UserControl>

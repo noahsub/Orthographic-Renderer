@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
-             x:Class="Orthographic.Renderer.Pages.ModelSelectionPage">
+             x:Class="Orthographic.Renderer.Pages.RenderPage">
     
     <UserControl.Styles>
         <Style Selector="Button">
@@ -32,7 +32,7 @@
             <Setter Property="Foreground" Value="GhostWhite"></Setter>
             <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
         </Style>
-        <Style Selector="controls|HardwareStatusControl">
+        <Style Selector="controls|HardwareMonitorControl">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -60,13 +60,8 @@
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Angles" FontSize="20" VerticalAlignment="Center" Margin="20 0 0 0"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Views" FontSize="20" VerticalAlignment="Center" Margin="20 0 0 0"/>
             <Label Grid.Row="0" Grid.Column="1" Content="Settings" FontSize="20" VerticalAlignment="Center"/>
-                
-            <!-- <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="RenderSelectionScrollViewer" Margin="0 0 0 20"> -->
-            <!--     <StackPanel x:Name="RenderSelectionStackPanel" Spacing="20" Margin="20 0 20 0"> -->
-            <!--     </StackPanel> -->
-            <!-- </ScrollViewer> -->
             
             <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="RenderSelectionScrollViewer" Margin="0 0 0 20">
                 <Grid>
@@ -77,20 +72,19 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                 
-                    <StackPanel x:Name="AngleSelectionStackPanel0" Grid.Column="0" Spacing="20" Margin="20 0 0 0">
+                    <StackPanel x:Name="ViewSelectionStackPanel0" Grid.Column="0" Spacing="20" Margin="20 0 0 0">
                     </StackPanel>
-                    <StackPanel x:Name="AngleSelectionStackPanel1" Grid.Column="1" Spacing="20" Margin="20 0 0 0">
+                    <StackPanel x:Name="ViewSelectionStackPanel1" Grid.Column="1" Spacing="20" Margin="20 0 0 0">
                     </StackPanel>
-                    <StackPanel x:Name="AngleSelectionStackPanel2" Grid.Column="2" Spacing="20" Margin="20 0 0 0">
+                    <StackPanel x:Name="ViewSelectionStackPanel2" Grid.Column="2" Spacing="20" Margin="20 0 0 0">
                     </StackPanel>
-                    <StackPanel x:Name="AngleSelectionStackPanel3" Grid.Column="3" Spacing="20" Margin="20 0 20 0">
+                    <StackPanel x:Name="ViewSelectionStackPanel3" Grid.Column="3" Spacing="20" Margin="20 0 20 0">
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
             
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="20">
             </StackPanel>
-            
         </Grid>
     </Grid>
 </UserControl>
