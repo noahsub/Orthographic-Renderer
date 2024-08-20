@@ -382,7 +382,7 @@ public class HardwareManager
         var newName = hardware.Name;
 
         // Remove certain words from the name to reduce length in the UI
-        var redundantWords = new List<string> { "Generic ", "NVIDIA", "Intel", "AMD", "GeForce" };
+        var redundantWords = new List<string> { "Generic ", "NVIDIA", "Intel", "AMD", "GeForce", "Laptop" };
         foreach (var word in redundantWords)
         {
             newName = newName.Replace(word, "");
