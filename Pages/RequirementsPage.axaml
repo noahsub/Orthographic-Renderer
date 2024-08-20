@@ -36,8 +36,8 @@
     <Grid Background="#202124">
         <ScrollViewer>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
-                <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/>
-                <Label Content="Orthographic Renderer" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
+                <!-- <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/> -->
+                <Label Content="Program Paths" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="avares://Orthographic.Renderer/Assets/Images/orange_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
                     <StackPanel>

@@ -13,12 +13,6 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        Task.Run(() => HardwareManager.SetupComputer())
-            .ContinueWith(_ =>
-            {
-                HardwareManager.CollectHardwareToMonitor();
-            });
-
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
