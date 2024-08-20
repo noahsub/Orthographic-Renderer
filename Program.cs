@@ -1,6 +1,6 @@
-﻿using Avalonia;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Avalonia;
 using Orthographic.Renderer.Managers;
 
 namespace Orthographic.Renderer;
@@ -13,26 +13,16 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        Task.Run(() => HardwareStatusManager.SetupComputer())
-            .ContinueWith(task =>
+        Task.Run(() => HardwareManager.SetupComputer())
+            .ContinueWith(_ =>
             {
-                if (HardwareStatusManager.HardwareMonitoringReady)
-                {
-                    HardwareStatusManager.CollectRenderHardware();
-                    foreach (var hardware in HardwareStatusManager.RenderHardware)
-                    {
-                        Console.WriteLine(hardware);
-                    }
-                }
+                HardwareManager.CollectHardwareToMonitor();
             });
-        
+
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
-            .UsePlatformDetect()
-            .WithInterFont()
-            .LogToTrace();
+    public static AppBuilder BuildAvaloniaApp() =>
+        AppBuilder.Configure<App>().UsePlatformDetect().WithInterFont().LogToTrace();
 }
