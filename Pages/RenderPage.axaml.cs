@@ -10,11 +10,16 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
+using LibreHardwareMonitor.Hardware;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 using Hardware = Orthographic.Renderer.Entities.Hardware;
@@ -55,7 +60,7 @@ public partial class RenderPage : UserControl
         Task.Run(UpdateMonitor);
 
         // Populate the angles
-        PopulateViews();
+        PopulateViews(RenderManager.RenderViews);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +158,7 @@ public partial class RenderPage : UserControl
             {
                 // If the scroll position has changed, skip the update
                 // Must be done in the UI thread
-                var newScrollPosition = RenderSelectionScrollViewer.Offset.Y;
+                var newScrollPosition = ViewSelectionScrollViewer.Offset.Y;
 
                 if (Math.Abs(currentScrollPosition - newScrollPosition) > 0.5f)
                 {
@@ -185,10 +190,19 @@ public partial class RenderPage : UserControl
         for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
         {
             var hardware = HardwareManager.HardwareToMonitor[i];
-            HardwareManager.RefreshHardware(HardwareManager.Computer, hardware);
+            
+            if (hardware.Path == null && hardware.Type == HardwareType.GpuNvidia)
+            {
+                continue;
+            }
+
+            else
+            {
+                HardwareManager.RefreshHardware(HardwareManager.Computer, hardware);
+            }
+            
             var formattedValue = $"{hardware.Value:0.00}";
-            ((HardwareMonitorControl)HardwareStatusGrid.Children[i]).ValueLabel.Content =
-                formattedValue;
+            ((HardwareMonitorControl)HardwareStatusGrid.Children[i]).ValueLabel.Content = formattedValue;
         }
     }
 
@@ -247,10 +261,8 @@ public partial class RenderPage : UserControl
     │ I │ │ J │ │ K │ │ . │
     └───┘ └───┘ └───┘ └───┘
      */
-    private void PopulateViews()
+    private void PopulateViews(List<string> views)
     {
-        var views = RenderManager.RenderViews;
-
         var index = 0;
         foreach (var view in views)
         {
@@ -277,6 +289,76 @@ public partial class RenderPage : UserControl
             var viewSelectionStackPanel = DetermineViewSelectionStackPanel(index % 4);
             viewSelectionStackPanel.Children.Add(renderSelectionControl);
             index++;
+        }
+    }
+
+    private void SortViewStackPanel_OnTapped(object? sender, TappedEventArgs e)
+    {
+        var allViewSelectionStackPanels = new List<StackPanel>();
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel0);
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel1);
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel2);
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel3);
+        
+        var selectedViews = new List<string>();
+        foreach (var stackPanel in allViewSelectionStackPanels)
+        {
+            foreach (var item in stackPanel.Children)
+            {
+                var renderViewControl = (RenderViewControl)item;
+                if (renderViewControl.CheckBox.IsChecked == true)
+                {
+                    selectedViews.Add(renderViewControl.Name.Content.ToString());
+                }
+            }
+        }
+        
+        ViewSelectionStackPanel0.Children.Clear();
+        ViewSelectionStackPanel1.Children.Clear();
+        ViewSelectionStackPanel2.Children.Clear();
+        ViewSelectionStackPanel3.Children.Clear();
+        
+        var viewsToSortBy = new List<string>();
+        foreach (var child in SortViewStackPanel.Children.OfType<ToggleButton>())
+        {
+            if (child.IsChecked == true)
+            {
+                viewsToSortBy.Add(child.Content.ToString().ToLower());
+            }
+        }
+
+        var matchingViews = new List<string>();
+        var nonMatchingViews = new List<string>();
+        // find the views that contain all the selected views
+        foreach (var view in RenderManager.RenderViews)
+        {
+            if (viewsToSortBy.All(view.Contains))
+            {
+                matchingViews.Add(view);
+            }
+            
+            else
+            {
+                nonMatchingViews.Add(view);
+            }
+        }
+        
+        List<string> sortedViews = [];
+        sortedViews.AddRange(matchingViews);
+        sortedViews.AddRange(nonMatchingViews);
+        
+        PopulateViews(sortedViews);
+        
+        foreach (var stackPanel in allViewSelectionStackPanels)
+        {
+            foreach (var item in stackPanel.Children)
+            {
+                var renderViewControl = (RenderViewControl)item;
+                if (selectedViews.Contains(renderViewControl.Name.Content.ToString()))
+                {
+                    renderViewControl.CheckBox.IsChecked = true;
+                }
+            }
         }
     }
 }

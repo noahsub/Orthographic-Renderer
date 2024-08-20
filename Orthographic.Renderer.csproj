@@ -277,6 +277,10 @@
       <Content Include="Assets\Images\RenderAngles\front-right-bottom.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Assets\Images\grey_cube.png" />
+      <AvaloniaResource Include="Assets\Images\grey_cube.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
     </ItemGroup>
 
     <ItemGroup>

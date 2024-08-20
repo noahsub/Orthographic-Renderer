@@ -11,9 +11,9 @@ public class Hardware
     public SensorType SensorType { get; set; }
     public float? Value;
     public string? Unit { get; set; }
-    public List<int> Path { get; set; }
+    public List<int>? Path { get; set; }
 
-    public Hardware(string name, HardwareType type, string sensorName, SensorType sensorType, float? value, string? unit, List<int> path)
+    public Hardware(string name, HardwareType type, string sensorName, SensorType sensorType, float? value, string? unit, List<int>? path)
     {
         Name = name;
         Type = type;
