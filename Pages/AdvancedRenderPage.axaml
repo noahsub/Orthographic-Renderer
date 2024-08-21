@@ -1,0 +1,28 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="Orthographic.Renderer.Pages.AdvancedRenderPage">
+    <!-- MAIN GRID -->
+    <Grid Background="#202124" RowDefinitions="150,*,75">
+        <!-- CONTENT GRID -->
+        <Grid Grid.Row="1" ColumnDefinitions="3*,1*" Background="Red">
+            <!-- VIEW GRID -->
+            <Grid Grid.Column="0" RowDefinitions="70,*" Background="Aqua">
+            </Grid>
+            
+            <!-- QUEUE AND SETTINGS GRID -->
+            <Grid Grid.Column="1" RowDefinitions="2*,1*" Background="Azure">
+                <!-- QUEUE GRID -->
+                <Grid Grid.Row="0" RowDefinitions="70,*" Background="Coral">
+                </Grid>
+                
+                <!-- SETTINGS GRID -->
+                <Grid Grid.Row="1" RowDefinitions="70,*" Background="Goldenrod">
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+    
+</UserControl>

@@ -202,7 +202,7 @@ public partial class RenderPage : UserControl
             }
             
             var formattedValue = $"{hardware.Value:0.00}";
-            ((HardwareMonitorControl)HardwareStatusGrid.Children[i]).ValueLabel.Content = formattedValue;
+            ((HardwareControl)HardwareStatusGrid.Children[i]).ValueLabel.Content = formattedValue;
         }
     }
 
@@ -213,7 +213,7 @@ public partial class RenderPage : UserControl
     /// <returns>A control displaying the hardware status.</returns>
     private static Control CreateHardwareMonitorControl(Hardware hardware)
     {
-        var hardwareMonitorControl = new HardwareMonitorControl();
+        var hardwareMonitorControl = new HardwareControl();
         hardwareMonitorControl.TypeLabel.Content = HardwareManager.FormatName(hardware);
         hardwareMonitorControl.ValueLabel.Content = 0.00;
         hardwareMonitorControl.UnitLabel.Content = hardware.Unit;

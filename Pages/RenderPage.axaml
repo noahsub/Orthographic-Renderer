@@ -29,7 +29,6 @@
             <Setter Property="Background" Value="#1e1f22"></Setter>
             <Setter Property="Foreground" Value="#61646e"></Setter>
             <Setter Property="BorderBrush" Value="Transparent"></Setter>
-            <Setter Property="Margin" Value="0 20 0 20"></Setter>
             <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
         </Style>
         <Style Selector="ListBox">
@@ -39,7 +38,7 @@
             <Setter Property="Foreground" Value="GhostWhite"></Setter>
             <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
         </Style>
-        <Style Selector="controls|HardwareMonitorControl">
+        <Style Selector="controls|HardwareControl">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -55,22 +54,22 @@
         <Rectangle Grid.Row="0" Fill="#1a1b1e"/>
         <Rectangle Grid.Row="2" Fill="#1a1b1e"/>
         
-        <Grid x:Name="HardwareStatusGrid" Grid.Row="0">
+        <Grid x:Name="HardwareStatusGrid" Grid.Row="0" >
         </Grid>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" MinHeight="250"/>
                 </Grid.RowDefinitions>
                 
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
                         <RowDefinition Height="*"/>
@@ -82,12 +81,43 @@
                     </StackPanel>
                 </Grid>
                 
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+
                     <Label Grid.Row="0" Content="Settings" FontSize="20" VerticalAlignment="Center" Margin="20 0 0 0"/>
+                    <StackPanel Grid.Row="1" Margin="20 0 0 0" Spacing="10">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Label Content="Render Type:" VerticalAlignment="Center"/>
+                            <ComboBox HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="Sequential"/>
+                                <ComboBoxItem Content="Concurrent"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Label Content="Max Concurrent Renders:" VerticalAlignment="Center"/>
+                            <TextBox Text="1" Height="10" HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Label Content="Output Directory:" VerticalAlignment="Center"/>
+                            <TextBox Text="C:\Output" HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Label Content="Camera Distance:" VerticalAlignment="Center"/>
+                            <TextBox Text="1920" HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Label Content="Resolution:" VerticalAlignment="Center"/>
+                            <TextBox Text="1920" HorizontalAlignment="Stretch"/>
+                            <TextBox Text="1080" HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Label Content="Scale:" VerticalAlignment="Center"/>
+                            <TextBox Text="100" HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
             </Grid>
             
