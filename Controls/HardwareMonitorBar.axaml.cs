@@ -8,14 +8,14 @@ using Hardware = Orthographic.Renderer.Entities.Hardware;
 
 namespace Orthographic.Renderer.Controls;
 
-public partial class HardwareMonitorControl : UserControl
+public partial class HardwareMonitorBar : UserControl
 {
     /// <summary>
     /// Interval for polling updates in milliseconds.
     /// </summary>
     private const int PollingInterval = 1500;
     
-    public HardwareMonitorControl()
+    public HardwareMonitorBar()
     {
         InitializeComponent();
         
@@ -64,7 +64,7 @@ public partial class HardwareMonitorControl : UserControl
                 for (int i = 0; i < HardwareGrid.Children.Count; i++)
                 {
                     
-                    ((HardwareControl)HardwareGrid.Children[i]).ValueLabel.Content = updatedValues?[i];
+                    ((HardwareStatus)HardwareGrid.Children[i]).ValueLabel.Content = updatedValues?[i];
                 }
             });
         }
@@ -149,7 +149,7 @@ public partial class HardwareMonitorControl : UserControl
     /// <returns>A control displaying the hardware status.</returns>
     private static Control CreateHardwareMonitorControl(Hardware hardware)
     {
-        var hardwareMonitorControl = new HardwareControl();
+        var hardwareMonitorControl = new HardwareStatus();
         hardwareMonitorControl.TypeLabel.Content = HardwareManager.FormatName(hardware);
         hardwareMonitorControl.ValueLabel.Content = 0.00;
         hardwareMonitorControl.UnitLabel.Content = hardware.Unit;

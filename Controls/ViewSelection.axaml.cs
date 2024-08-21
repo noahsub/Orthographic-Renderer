@@ -6,11 +6,11 @@ using Avalonia.Media;
 
 namespace Orthographic.Renderer.Controls;
 
-public partial class RenderViewControl : UserControl
+public partial class ViewSelection : UserControl
 {
     public bool IsSelected { get; set; }
     
-    public RenderViewControl()
+    public ViewSelection()
     {
         InitializeComponent();
     }

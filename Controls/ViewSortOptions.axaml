@@ -2,8 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Orthographic.Renderer.Controls.SelectControl">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="100"
+             x:Class="Orthographic.Renderer.Controls.ViewSortOptions">
     <UserControl.Styles>
         <Style Selector="ToggleButton">
             <Setter Property="Background" Value="#1a1b1e"></Setter>
@@ -35,11 +35,14 @@
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="Select" VerticalAlignment="Center"/>
-        <StackPanel Grid.Column="2" x:Name="ViewStackPanel" Spacing="10" Orientation="Horizontal">
-            <ToggleButton x:Name="AllButton" Height="30" Content="All" Click="AllButton_OnClick"/>
-            <ToggleButton x:Name="NoneButton" Height="30" Content="None" Click="NoneButton_OnClick"/>
-            <ToggleButton x:Name="InvertButton" Height="30" Content="Invert" Click="InvertButton_OnClick"/>
+        <Label Grid.Column="0" Content="Sort" VerticalAlignment="Center"/>
+        <StackPanel Grid.Column="2" x:Name="Faces" Spacing="10" Orientation="Horizontal">
+            <ToggleButton Height="30" Content="Front"/>
+            <ToggleButton Height="30" Content="Right"/>
+            <ToggleButton Height="30" Content="Back"/>
+            <ToggleButton Height="30" Content="Left"/>
+            <ToggleButton Height="30" Content="Top"/>
+            <ToggleButton Height="30" Content="Bottom"/>
         </StackPanel>
     </Grid>
 </UserControl>

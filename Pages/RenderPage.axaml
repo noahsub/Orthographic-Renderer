@@ -38,7 +38,7 @@
             <Setter Property="Foreground" Value="GhostWhite"></Setter>
             <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
         </Style>
-        <Style Selector="controls|HardwareControl">
+        <Style Selector="controls|HardwareStatus">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -129,8 +129,8 @@
                 <Label Grid.Row="0" Content="Views" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
                 
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="50" HorizontalAlignment="Right" Margin="0 0 20 0 ">
-                    <controls:SelectControl x:Name="ViewSelect" Tapped="ViewSelect_OnTapped"/>
-                    <controls:ViewSortControl x:Name="ViewSort" Tapped="ViewSort_OnTapped"/>
+                    <controls:SelectOptions x:Name="ViewSelect" Tapped="ViewSelect_OnTapped"/>
+                    <controls:ViewSortOptions x:Name="ViewSort" Tapped="ViewSort_OnTapped"/>
                 </StackPanel>
                 
                 

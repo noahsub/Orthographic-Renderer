@@ -117,7 +117,7 @@ public partial class RenderPage : UserControl
         foreach (var view in views)
         {
             // Create a new RenderViewControl
-            var renderSelectionControl = new RenderViewControl();
+            var renderSelectionControl = new ViewSelection();
 
             // Set the image source
             var image = new Bitmap($"Assets/Images/RenderAngles/{view}.png");
@@ -155,7 +155,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var item in stackPanel.Children)
             {
-                var renderViewControl = (RenderViewControl)item;
+                var renderViewControl = (ViewSelection)item;
                 if (renderViewControl.CheckBox.IsChecked == true)
                 {
                     selectedViews.Add(renderViewControl.Name.Content.ToString());
@@ -169,7 +169,7 @@ public partial class RenderPage : UserControl
         ViewSelectionStackPanel3.Children.Clear();
         
         var viewsToSortBy = new List<string>();
-        foreach (var child in ViewSort.ViewStackPanel.Children.OfType<ToggleButton>())
+        foreach (var child in ViewSort.Faces.Children.OfType<ToggleButton>())
         {
             if (child.IsChecked == true)
             {
@@ -203,7 +203,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var item in stackPanel.Children)
             {
-                var renderViewControl = (RenderViewControl)item;
+                var renderViewControl = (ViewSelection)item;
                 if (selectedViews.Contains(renderViewControl.Name.Content.ToString()))
                 {
                     renderViewControl.CheckBox.IsChecked = true;
@@ -224,7 +224,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var stackPanel in allViewSelectionStackPanels)
             {
-                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                foreach (var item in stackPanel.Children.OfType<ViewSelection>())
                 {
                     item.CheckBox.IsChecked = true;
                 }
@@ -237,7 +237,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var stackPanel in allViewSelectionStackPanels)
             {
-                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                foreach (var item in stackPanel.Children.OfType<ViewSelection>())
                 {
                     item.CheckBox.IsChecked = false;
                 }
@@ -250,7 +250,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var stackPanel in allViewSelectionStackPanels)
             {
-                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                foreach (var item in stackPanel.Children.OfType<ViewSelection>())
                 {
                     item.CheckBox.IsChecked = !item.CheckBox.IsChecked;
                 }

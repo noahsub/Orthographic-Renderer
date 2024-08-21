@@ -5,13 +5,63 @@
              xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="Orthographic.Renderer.Pages.AdvancedRenderPage">
+    
+    <!-- STYLE -->
+    <UserControl.Styles>
+        <Style Selector="ToggleButton">
+            <Setter Property="Background" Value="#1a1b1e"></Setter>
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="0"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+        <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="MediumSeaGreen"/>
+            <Setter Property="Foreground" Value="#1a1b1e"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#1e1f22"></Setter>
+            <Setter Property="Foreground" Value="#61646e"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="Transparent"></Setter>
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+        <Style Selector="controls|HardwareStatus">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Styles>
+    
     <!-- MAIN GRID -->
     <Grid Background="#202124" RowDefinitions="150,*,75">
-        <controls:HardwareMonitorControl Grid.Row="0"/>
+        <Rectangle Grid.Row="0" Fill="#1a1b1e"/>
+        <Rectangle Grid.Row="2" Fill="#1a1b1e"/>
+        <controls:HardwareMonitorBar Grid.Row="0"/>
         <!-- CONTENT GRID -->
-        <Grid Grid.Row="1" ColumnDefinitions="3*,1*" Background="Red">
+        <Grid Grid.Row="1" ColumnDefinitions="3*,1*">
             <!-- VIEW GRID -->
-            <Grid Grid.Column="0" RowDefinitions="70,*" Background="Aqua">
+            <Grid Grid.Column="0" RowDefinitions="70,*">
+                <Label Grid.Row="0" Content="Views" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="50" HorizontalAlignment="Right" Margin="0 0 20 0 ">
+                    <controls:SelectOptions x:Name="ViewSelect" Tapped="ViewSelect_OnTapped"/>
+                    <controls:ViewSortOptions x:Name="ViewSort" Tapped="ViewSort_OnTapped"/>
+                </StackPanel>
+                <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
+                    <controls:StackGrid x:Name="ViewStackGrid"/>
+                </ScrollViewer>
             </Grid>
             
             <!-- QUEUE AND SETTINGS GRID -->
