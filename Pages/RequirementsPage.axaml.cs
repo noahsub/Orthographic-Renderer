@@ -81,19 +81,6 @@ public partial class RequirementsPage : UserControl
         }
     }
 
-    private string ReformatPath(string path)
-    {
-        var newPath = path;
-        
-        // Remove double quotes in the path
-        newPath = newPath.Replace("\"", "");
-        
-        // Convert backslashes to forward slashes
-        newPath = newPath.Replace("\\", "/");
-        
-        return newPath;
-    }
-
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var blenderValid = false;
@@ -101,12 +88,12 @@ public partial class RequirementsPage : UserControl
         
         if (BlenderPathTextBox.PathTextBox.Text != null)
         {
-            BlenderPathTextBox.PathTextBox.Text = ReformatPath(BlenderPathTextBox.PathTextBox.Text);
+            BlenderPathTextBox.PathTextBox.Text = FileManager.ReformatPath(BlenderPathTextBox.PathTextBox.Text);
         }
 
         if (PythonPathTextBox.PathTextBox.Text != null)
         {
-            PythonPathTextBox.PathTextBox.Text = ReformatPath(PythonPathTextBox.PathTextBox.Text);
+            PythonPathTextBox.PathTextBox.Text = FileManager.ReformatPath(PythonPathTextBox.PathTextBox.Text);
         }
         
         var blenderPath = BlenderPathTextBox.PathTextBox.Text;
@@ -147,7 +134,7 @@ public partial class RequirementsPage : UserControl
             // Get the ContentControl called "PageContent" from the MainWindow
             var mainWindow = (MainWindow) this.VisualRoot;
             var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-            pageContent.Content = new RenderPage();
+            pageContent.Content = new ModelPage();
         }
     }
 

@@ -1,0 +1,53 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Orthographic.Renderer.Pages.ModelPage">
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#3f8463"></Setter>
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="CornerRadius" Value="0"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Width" Value="100"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#1e1f22"></Setter>
+            <Setter Property="Foreground" Value="#61646e"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter Property="Margin" Value="0 20 0 20"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="Transparent"></Setter>
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid Background="#202124">
+        <ScrollViewer>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
+                <!-- <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/> -->
+                <Label Content="Select Model" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <Label Content="Model Path"/>
+                        <Label Content="Supported file types are .blend, .obj, .3mf, and .stl" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                    </StackPanel>
+                </StackPanel>
+                <controls:BrowsableTextBox x:Name="ModelPathTextBox"/>
+                <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
