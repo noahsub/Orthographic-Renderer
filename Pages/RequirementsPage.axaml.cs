@@ -60,24 +60,24 @@ public partial class RequirementsPage : UserControl
         
         if (blenderPathValid)
         {
-            BlenderPathTextBox.Text = paths["blender"];
-            BlenderPathTextBox.BorderBrush = Brushes.MediumSpringGreen;
+            BlenderPathTextBox.PathTextBox.Text = paths["blender"];
+            BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
         }
 
         else
         {
-            BlenderPathTextBox.BorderBrush = Brushes.Red;
+            BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
         }
         
         if (pythonPathValid)
         {
-            PythonPathTextBox.Text = paths["python"];
-            PythonPathTextBox.BorderBrush = Brushes.MediumSpringGreen;
+            PythonPathTextBox.PathTextBox.Text = paths["python"];
+            PythonPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
         }
 
         else
         {
-            PythonPathTextBox.BorderBrush = Brushes.Red;
+            PythonPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
         }
     }
 
@@ -99,31 +99,31 @@ public partial class RequirementsPage : UserControl
         var blenderValid = false;
         var pythonValid = false;
         
-        if (BlenderPathTextBox.Text != null)
+        if (BlenderPathTextBox.PathTextBox.Text != null)
         {
-            BlenderPathTextBox.Text = ReformatPath(BlenderPathTextBox.Text);
+            BlenderPathTextBox.PathTextBox.Text = ReformatPath(BlenderPathTextBox.PathTextBox.Text);
         }
 
-        if (PythonPathTextBox.Text != null)
+        if (PythonPathTextBox.PathTextBox.Text != null)
         {
-            PythonPathTextBox.Text = ReformatPath(PythonPathTextBox.Text);
+            PythonPathTextBox.PathTextBox.Text = ReformatPath(PythonPathTextBox.PathTextBox.Text);
         }
         
-        var blenderPath = BlenderPathTextBox.Text;
-        var pythonPath = PythonPathTextBox.Text;
+        var blenderPath = BlenderPathTextBox.PathTextBox.Text;
+        var pythonPath = PythonPathTextBox.PathTextBox.Text;
 
         if (blenderPath != null)
         {
             if (CheckPathValid("blender", blenderPath))
             {
                 FileManager.WriteToJsonFile(path: "Data/program_paths.json", key: "blender", value: blenderPath);
-                BlenderPathTextBox.BorderBrush = Brushes.MediumSpringGreen;
+                BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
                 blenderValid = true;
             }
 
             else
             {
-                BlenderPathTextBox.BorderBrush = Brushes.Red;
+                BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
             }
         }
 
@@ -132,13 +132,13 @@ public partial class RequirementsPage : UserControl
             if (CheckPathValid("python", pythonPath))
             {
                 FileManager.WriteToJsonFile(path: "Data/program_paths.json", key: "python", value: pythonPath);
-                PythonPathTextBox.BorderBrush = Brushes.MediumSpringGreen;
+                PythonPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
                 pythonValid = true;
             }
 
             else
             {
-                PythonPathTextBox.BorderBrush = Brushes.Red;
+                PythonPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
             }
         }
         
@@ -149,5 +149,25 @@ public partial class RequirementsPage : UserControl
             var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
             pageContent.Content = new RenderPage();
         }
+    }
+
+    private void BlenderInstallButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var url = "https://www.blender.org/download/";
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = url,
+            UseShellExecute = true
+        });
+    }
+
+    private void PythonInstallButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var url = "https://www.python.org/downloads/";
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = url,
+            UseShellExecute = true
+        });
     }
 }

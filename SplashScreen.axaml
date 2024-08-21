@@ -9,7 +9,8 @@
         Height="500"
         WindowStartupLocation="CenterOwner"
         SystemDecorations="None"
-        Topmost="True">
+        Topmost="True"
+        Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico">
     <Window.Styles>
         <Style Selector="Label">
             <Setter Property="Foreground" Value="GhostWhite"></Setter>
