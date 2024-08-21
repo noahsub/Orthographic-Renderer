@@ -292,7 +292,7 @@ public partial class RenderPage : UserControl
         }
     }
 
-    private void SortViewStackPanel_OnTapped(object? sender, TappedEventArgs e)
+    private void ViewSort_OnTapped(object? sender, TappedEventArgs e)
     {
         var allViewSelectionStackPanels = new List<StackPanel>();
         allViewSelectionStackPanels.Add(ViewSelectionStackPanel0);
@@ -319,7 +319,7 @@ public partial class RenderPage : UserControl
         ViewSelectionStackPanel3.Children.Clear();
         
         var viewsToSortBy = new List<string>();
-        foreach (var child in SortViewStackPanel.Children.OfType<ToggleButton>())
+        foreach (var child in ViewSort.ViewStackPanel.Children.OfType<ToggleButton>())
         {
             if (child.IsChecked == true)
             {
@@ -359,6 +359,54 @@ public partial class RenderPage : UserControl
                     renderViewControl.CheckBox.IsChecked = true;
                 }
             }
+        }
+    }
+
+    private void ViewSelect_OnTapped(object? sender, TappedEventArgs e)
+    {
+        var allViewSelectionStackPanels = new List<StackPanel>();
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel0);
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel1);
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel2);
+        allViewSelectionStackPanels.Add(ViewSelectionStackPanel3);
+        
+        if (ViewSelect.AllButton.IsChecked == true)
+        {
+            foreach (var stackPanel in allViewSelectionStackPanels)
+            {
+                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                {
+                    item.CheckBox.IsChecked = true;
+                }
+            }
+            
+            ViewSelect.AllButton.IsChecked = false;
+        }
+        
+        else if (ViewSelect.NoneButton.IsChecked == true)
+        {
+            foreach (var stackPanel in allViewSelectionStackPanels)
+            {
+                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                {
+                    item.CheckBox.IsChecked = false;
+                }
+            }
+            
+            ViewSelect.NoneButton.IsChecked = false;
+        }
+        
+        else if (ViewSelect.InvertButton.IsChecked == true)
+        {
+            foreach (var stackPanel in allViewSelectionStackPanels)
+            {
+                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                {
+                    item.CheckBox.IsChecked = !item.CheckBox.IsChecked;
+                }
+            }
+            
+            ViewSelect.InvertButton.IsChecked = false;
         }
     }
 }

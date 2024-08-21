@@ -3,9 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
-             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
-             x:Class="Orthographic.Renderer.Pages.RequirementsPage">
-    
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Orthographic.Renderer.Pages.ModelPage">
     <UserControl.Styles>
         <Style Selector="Button">
             <Setter Property="Background" Value="#3f8463"></Setter>
@@ -38,29 +37,17 @@
         <ScrollViewer>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
                 <!-- <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/> -->
-                <Label Content="Program Paths" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
+                <Label Content="Select Model" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="avares://Orthographic.Renderer/Assets/Images/orange_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                    <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
                     <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="Blender Path"/>
-                        <Label Content="Version 4.2.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                        <Label Content="Model Path"/>
+                        <Label Content="Supported file types are .blend, .obj, .3mf, and .stl" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
                     </StackPanel>
                 </StackPanel>
-                <controls:BrowsableTextBox x:Name="BlenderPathTextBox"/>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
-                    <StackPanel>
-                        <Label Content="Python Path"/>
-                        <Label Content="Version 3.12.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
-                    </StackPanel>
-                </StackPanel>
-                <controls:BrowsableTextBox x:Name="PythonPathTextBox"/>
+                <controls:BrowsableTextBox x:Name="ModelPathTextBox"/>
                 <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 20 20 20" Spacing="20">
-            <Button x:Name="BlenderInstallButton" Content="Install Blender" Width="150" Background="#1a1b1e" Click="BlenderInstallButton_OnClick"/>
-            <Button x:Name="PythonInstallButton" Content="Install Python" Width="150" Background="#1a1b1e" Click="PythonInstallButton_OnClick"/>
-        </StackPanel>
     </Grid>
 </UserControl>
