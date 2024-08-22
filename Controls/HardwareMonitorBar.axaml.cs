@@ -13,7 +13,7 @@ public partial class HardwareMonitorBar : UserControl
     /// <summary>
     /// Interval for polling updates in milliseconds.
     /// </summary>
-    private const int PollingInterval = 1500;
+    private const int PollingInterval = 500;
     
     public HardwareMonitorBar()
     {

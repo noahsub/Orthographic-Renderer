@@ -38,4 +38,9 @@ public class FileManager
         
         return newPath;
     }
+    
+    public static string GetAbsolutePath(string localPath)
+    {
+        return Path.GetFullPath(localPath);
+    }
 }

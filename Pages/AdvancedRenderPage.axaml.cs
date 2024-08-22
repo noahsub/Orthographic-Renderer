@@ -1,12 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using Orthographic.Renderer.Controls;
+using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Managers;
 
 namespace Orthographic.Renderer.Pages;
@@ -18,15 +25,6 @@ public partial class AdvancedRenderPage : UserControl
         InitializeComponent();
         ViewStackGrid.SetColumns(5);
         PopulateViews(RenderManager.RenderViews);
-
-        for (int i = 0; i < 20; i++)
-        {
-            var renderItem = new RenderQueueItem();
-            renderItem.Name.Content = "Render Item " + i;
-            renderItem.Status.Content = "PENDING";
-            RenderItems.EnqueueProgress(renderItem);
-            RenderItems.AddToDisplay(renderItem);
-        }
     }
     
     /// <summary>
@@ -160,5 +158,85 @@ public partial class AdvancedRenderPage : UserControl
         }
 
         return selectedViews;
+    }
+
+    private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        RenderItems.ClearItems();
+
+        var prefix = Settings.PrefixTextBox.Text;
+        var outputDir = Settings.OutputDirTextBox.PathTextBox.Text;
+        var distance = (float)Settings.DistanceNumeric.Value;
+        var width = Settings.ResolutionWidthNumeric.Value;
+        var height = Settings.ResolutionHeightNumeric.Value;
+        var scale = Settings.ScaleNumeric.Value;
+        var sound = Settings.PlaySoundCheckBox.IsChecked;
+        var mode = Settings.RenderModeComboBox.SelectionBoxItem.ToString().ToLower();
+        var threads = (int)Settings.ThreadsNumeric.Value;
+
+        var views = new List<Tuple<string, RenderQueueItem>>();
+        foreach (var view in GetSelectedViews())
+        {
+            var viewKey = view.ToLower().Replace(" ", "-");
+            var renderItem = new RenderQueueItem();
+            renderItem.Name.Content = view;
+            RenderItems.EnqueueProgress(renderItem);
+            RenderItems.AddToDisplay(renderItem);
+            views.Add(new Tuple<string, RenderQueueItem>(viewKey, renderItem));
+        }
+
+        var blenderPath = DataManager.BlenderPath;
+        var pythonPath = DataManager.PythonPath;
+        var modelPath = DataManager.ModelPath;
+        var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
+
+        switch (mode)
+        {
+            case "sequential":
+                foreach (var view in views)
+                {
+                    var position = RenderManager.GetPosition(view.Item1, distance);
+                    view.Item2.SetStatus(RenderStatus.InProgress);
+
+                    var arguments =
+                        $"-b \"{modelPath}\" -P \"{scriptPath}\" -- --name {prefix} --output_path \"{outputDir}\" --resolution {width} {height} --scale {scale} --distance {distance} --x {position.X} --y {position.Y} --z {position.Z} --rx {position.Rx} --ry {position.Ry} --rz {position.Rz}";
+
+                    await Task.Run(() => { ProcessManager.RunProcess(blenderPath, arguments); });
+
+                    await Dispatcher.UIThread.InvokeAsync(() => { view.Item2.SetStatus(RenderStatus.Completed); });
+
+                    RenderItems.DequeueProgress();
+                }
+
+                break;
+            case "parallel":
+                var semaphore = new SemaphoreSlim(threads);
+
+                var tasks = views.Select(async view =>
+                {
+                    await semaphore.WaitAsync();
+                    try
+                    {
+                        var position = RenderManager.GetPosition(view.Item1, distance);
+                        view.Item2.SetStatus(RenderStatus.InProgress);
+
+                        var arguments =
+                            $"-b \"{modelPath}\" -P \"{scriptPath}\" -- --name {prefix} --output_path \"{outputDir}\" --resolution {width} {height} --scale {scale} --distance {distance} --x {position.X} --y {position.Y} --z {position.Z} --rx {position.Rx} --ry {position.Ry} --rz {position.Rz}";
+
+                        await Task.Run(() => { ProcessManager.RunProcess(blenderPath, arguments); });
+
+                        await Dispatcher.UIThread.InvokeAsync(() => { view.Item2.SetStatus(RenderStatus.Completed); });
+
+                        RenderItems.DequeueProgress();
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                });
+
+                await Task.WhenAll(tasks);
+                break;
+        }
     }
 }

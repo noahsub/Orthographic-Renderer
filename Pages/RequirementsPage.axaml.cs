@@ -134,6 +134,8 @@ public partial class RequirementsPage : UserControl
             // Get the ContentControl called "PageContent" from the MainWindow
             var mainWindow = (MainWindow) this.VisualRoot;
             var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
+            DataManager.BlenderPath = blenderPath;
+            DataManager.PythonPath = pythonPath;
             pageContent.Content = new ModelPage();
         }
     }

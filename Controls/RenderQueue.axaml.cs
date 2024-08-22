@@ -71,4 +71,12 @@ public partial class RenderQueue : UserControl
         // Combine the two queues into a single enumerable
         return ProgressQueue.ToArray().Concat(CompletedQueue.ToArray());
     }
+    
+    public void ClearItems()
+    {
+        ProgressQueue.Clear();
+        CompletedQueue.Clear();
+        Items.Children.Clear();
+        EmptyImage.IsVisible = true;
+    }
 }

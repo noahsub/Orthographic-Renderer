@@ -281,6 +281,10 @@
       <AvaloniaResource Include="Assets\Images\grey_cube.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
+      <None Remove="Scripts\render.py" />
+      <Content Include="Scripts\render.py">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

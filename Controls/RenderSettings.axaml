@@ -21,29 +21,33 @@
             <Label Content="Mode: " Grid.Column="0" />
             <ComboBox x:Name="RenderModeComboBox" Grid.Column="1" HorizontalAlignment="Stretch">
                 <ComboBoxItem Content="Sequential" />
-                <ComboBoxItem Content="Concurrent" />
+                <ComboBoxItem Content="Parallel" />
             </ComboBox>
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Threads: " Grid.Column="0" />
-            <TextBox x:Name="ThreadsTextBox" Text="1" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <NumericUpDown x:Name="ThreadsNumeric" Text="1" Grid.Column="1" HorizontalAlignment="Stretch"/>
+        </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Prefix: " Grid.Column="0" />
+            <TextBox x:Name="PrefixTextBox" Text="render" Grid.Column="1" HorizontalAlignment="Stretch" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Output Dir: " Grid.Column="0" />
             <controls:BrowsableTextBox x:Name="OutputDirTextBox" Grid.Column="1" HorizontalAlignment="Stretch" />
         </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Distance: " Grid.Column="0" />
+            <NumericUpDown x:Name="DistanceNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
+        </Grid>
         <Grid ColumnDefinitions="110,*,*">
             <Label Content="Resolution: " Grid.Column="0" />
-            <TextBox x:Name="ResolutionWidthTextBox" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
-            <TextBox x:Name="ResolutionHeightTextBox" Text="1080" Grid.Column="2" HorizontalAlignment="Stretch" />
+            <NumericUpDown x:Name="ResolutionWidthNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <NumericUpDown x:Name="ResolutionHeightNumeric" Text="1080" Grid.Column="2" HorizontalAlignment="Stretch"/>
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Scale: " Grid.Column="0" />
-            <TextBox x:Name="ScaleTextBox" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
-        </Grid>
-        <Grid ColumnDefinitions="110,*">
-            <Label Content="Prefix: " Grid.Column="0" />
-            <TextBox x:Name="PrefixTextBox" Text="render" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <NumericUpDown x:Name="ScaleNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Play Sound: " Grid.Column="0"/>
