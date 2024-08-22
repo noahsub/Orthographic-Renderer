@@ -164,10 +164,8 @@ public partial class AdvancedRenderPage : UserControl
 
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // start a timer thread to update timer label every second until this method completes
-        var timerRunning = true;
-
         // Start a timer thread to update the timer label every second until this method completes
+        var timerRunning = true;
         var timerTask = Task.Run(async () =>
         {
             var stopwatch = Stopwatch.StartNew();
@@ -180,7 +178,7 @@ public partial class AdvancedRenderPage : UserControl
                 await Task.Delay(100);
             }
         });
-        
+
         RenderItems.ClearItems();
 
         var prefix = Settings.PrefixTextBox.Text;
@@ -193,7 +191,6 @@ public partial class AdvancedRenderPage : UserControl
         var mode = Settings.RenderModeComboBox.SelectionBoxItem.ToString().ToLower();
         var threads = (int)Settings.ThreadsNumeric.Value;
 
-        var views = new List<Tuple<string, RenderQueueItem>>();
         foreach (var view in GetSelectedViews())
         {
             var viewKey = view.ToLower().Replace(" ", "-");
@@ -201,7 +198,6 @@ public partial class AdvancedRenderPage : UserControl
             renderItem.Name.Content = view;
             RenderItems.EnqueueProgress(renderItem);
             RenderItems.AddToDisplay(renderItem);
-            views.Add(new Tuple<string, RenderQueueItem>(viewKey, renderItem));
         }
 
         var blenderPath = DataManager.BlenderPath;
@@ -212,41 +208,22 @@ public partial class AdvancedRenderPage : UserControl
         switch (mode)
         {
             case "sequential":
-                foreach (var view in views)
+                while (RenderItems.ProgressQueue.Count > 0)
                 {
-                    var position = RenderManager.GetPosition(view.Item1, distance);
-                    view.Item2.SetStatus(RenderStatus.InProgress);
-
-                    var arguments =
-                        $"-b \"{modelPath}\" -P \"{scriptPath}\" -- --name {prefix} --output_path \"{outputDir}\" --resolution {width} {height} --scale {scale} --distance {distance} --x {position.X} --y {position.Y} --z {position.Z} --rx {position.Rx} --ry {position.Ry} --rz {position.Rz}";
-
-                    await Task.Run(() => { ProcessManager.RunProcess(blenderPath, arguments); });
-
-                    await Dispatcher.UIThread.InvokeAsync(() => { view.Item2.SetStatus(RenderStatus.Completed); });
-
-                    RenderItems.DequeueProgress();
+                    var renderItem = RenderItems.DequeueProgress();
+                    await Render(renderItem, distance, modelPath, scriptPath, prefix, outputDir, width, height, scale, blenderPath);
                 }
-
                 break;
+
             case "parallel":
                 var semaphore = new SemaphoreSlim(threads);
 
-                var tasks = views.Select(async view =>
+                var tasks = RenderItems.GetItemsInProgress().Cast<RenderQueueItem>().Select(async renderItem =>
                 {
                     await semaphore.WaitAsync();
                     try
                     {
-                        var position = RenderManager.GetPosition(view.Item1, distance);
-                        view.Item2.SetStatus(RenderStatus.InProgress);
-
-                        var arguments =
-                            $"-b \"{modelPath}\" -P \"{scriptPath}\" -- --name {prefix} --output_path \"{outputDir}\" --resolution {width} {height} --scale {scale} --distance {distance} --x {position.X} --y {position.Y} --z {position.Z} --rx {position.Rx} --ry {position.Ry} --rz {position.Rz}";
-
-                        await Task.Run(() => { ProcessManager.RunProcess(blenderPath, arguments); });
-
-                        await Dispatcher.UIThread.InvokeAsync(() => { view.Item2.SetStatus(RenderStatus.Completed); });
-
-                        RenderItems.DequeueProgress();
+                        await Render(renderItem, distance, modelPath, scriptPath, prefix, outputDir, width, height, scale, blenderPath);
                     }
                     finally
                     {
@@ -257,8 +234,29 @@ public partial class AdvancedRenderPage : UserControl
                 await Task.WhenAll(tasks);
                 break;
         }
-        
+
         // Cancel the timer task
         timerRunning = false;
+    }
+
+    private async Task Render(RenderQueueItem renderItem, float distance, string modelPath, string scriptPath,
+        string? prefix, string? outputDir, decimal? width, decimal? height, decimal? scale, string? blenderPath)
+    {
+        var position = RenderManager.GetPosition(renderItem.Name.Content.ToString().ToLower().Replace(" ", "-"), distance);
+        renderItem.SetStatus(RenderStatus.InProgress);
+
+        var arguments =
+            $"-b \"{modelPath}\" -P \"{scriptPath}\" -- --name {prefix} --output_path \"{outputDir}\" --resolution {width} {height} --scale {scale} --distance {distance} --x {position.X} --y {position.Y} --z {position.Z} --rx {position.Rx} --ry {position.Ry} --rz {position.Rz}";
+
+        await Task.Run(() => { ProcessManager.RunProcess(blenderPath, arguments); });
+
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            renderItem.SetStatus(RenderStatus.Completed);
+            RenderItems.RemoveFromDisplay(renderItem);
+            RenderItems.AddToDisplay(renderItem);
+        });
+
+        RenderItems.EnqueueCompleted(renderItem);
     }
 }
