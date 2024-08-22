@@ -285,6 +285,10 @@
       <Content Include="Scripts\render.py">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Data\recent_models.json" />
+      <Content Include="Data\recent_models.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

@@ -54,7 +54,7 @@ public partial class RequirementsPage : UserControl
     
     private void CheckSavedPaths()
     {
-        var paths = FileManager.ReadJsonFile("Data/program_paths.json");
+        var paths = FileManager.ReadJsonKeyValue("Data/program_paths.json");
         var blenderPathValid = CheckPathValid("blender", paths["blender"].ToString());
         var pythonPathValid = CheckPathValid("python", paths["python"].ToString());
         
