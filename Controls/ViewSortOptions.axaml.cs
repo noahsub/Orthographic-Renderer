@@ -4,13 +4,10 @@ using Avalonia.Markup.Xaml;
 
 namespace Orthographic.Renderer.Controls;
 
-public partial class HardwareMonitorControl : UserControl
+public partial class ViewSortOptions : UserControl
 {
-    public static float Value = 0;
-    
-    public HardwareMonitorControl()
+    public ViewSortOptions()
     {
         InitializeComponent();
-        DataContext = this;
     }
 }

@@ -37,7 +37,9 @@ public partial class ModelPage : UserControl
             // Get the ContentControl called "PageContent" from the MainWindow
             var mainWindow = (MainWindow) this.VisualRoot;
             var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-            pageContent.Content = new RenderPage();
+            var modelPath = ModelPathTextBox.PathTextBox.Text;
+            DataManager.ModelPath = modelPath;
+            pageContent.Content = new AdvancedRenderPage();
         }
     }
 }

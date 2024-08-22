@@ -37,10 +37,7 @@ public partial class RenderPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBAL VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// <summary>
-    /// Interval for polling updates in milliseconds.
-    /// </summary>
-    private const int PollingInterval = 1500;
+    
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -53,11 +50,7 @@ public partial class RenderPage : UserControl
     {
         InitializeComponent();
 
-        // Wait for RenderHardwareCollected to be true asynchronously
-        Task.Run(SetupMonitor);
-
-        // Update hardware status asynchronously
-        Task.Run(UpdateMonitor);
+        
 
         // Populate the angles
         PopulateViews(RenderManager.RenderViews);
@@ -67,158 +60,15 @@ public partial class RenderPage : UserControl
     // MONITOR
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /// <summary>
-    /// Sets up the hardware monitor by waiting for hardware data to be collected and then initializing the UI.
-    /// </summary>
-    private async Task SetupMonitor()
-    {
-        while (!HardwareManager.RenderHardwareCollected)
-        {
-            await Task.Delay(500);
-        }
 
-        Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            SetupMonitorColumns();
-            PopulateMonitorGrid();
-        });
-    }
 
-    /// <summary>
-    /// Sets up the columns in the hardware status grid based on the number of hardware items to monitor.
-    /// </summary>
-    private void SetupMonitorColumns()
-    {
-        // Ensure the hardware to monitor has been collected
-        if (HardwareManager.HardwareToMonitor == null)
-        {
-            return;
-        }
 
-        for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
-        {
-            HardwareStatusGrid.ColumnDefinitions.Add(
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-            );
-        }
-    }
 
-    /// <summary>
-    /// Populates the hardware status grid with controls for each hardware item.
-    /// </summary>
-    private void PopulateMonitorGrid()
-    {
-        if (HardwareManager.HardwareToMonitor == null)
-        {
-            return;
-        }
 
-        for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
-        {
-            var hardwareStatusControl = CreateHardwareMonitorControl(
-                HardwareManager.HardwareToMonitor[i]
-            );
-            Grid.SetColumn(hardwareStatusControl, i);
-            HardwareStatusGrid.Children.Add(hardwareStatusControl);
-        }
-    }
 
-    /// <summary>
-    /// Continuously updates the hardware monitor and check for changes in window size, position, and scroll to ensure
-    /// that such operations are not affected by the update of the hardware monitor.
-    /// </summary>
-    private async Task UpdateMonitor()
-    {
-        var currentSize = MainWindow.GetSize();
-        var currentPosition = MainWindow.GetPosition();
-        var currentScrollPosition = 0.0;
-        var currentMousePressed = MainWindow.IsPointerPressed;
 
-        while (true)
-        {
-            await Task.Delay(PollingInterval);
 
-            var newSize = MainWindow.GetSize();
-            var newPosition = MainWindow.GetPosition();
-            var newMousePressed = MainWindow.IsPointerPressed;
 
-            // If the window is currently being moved or resized, skip the update
-            if (
-                currentSize != newSize
-                || currentPosition != newPosition
-                || newMousePressed != currentMousePressed
-            )
-            {
-                currentSize = newSize;
-                currentPosition = newPosition;
-                continue;
-            }
-
-            Dispatcher.UIThread.Post(() =>
-            {
-                // If the scroll position has changed, skip the update
-                // Must be done in the UI thread
-                var newScrollPosition = ViewSelectionScrollViewer.Offset.Y;
-
-                if (Math.Abs(currentScrollPosition - newScrollPosition) > 0.5f)
-                {
-                    currentScrollPosition = newScrollPosition;
-                    return;
-                }
-
-                UpdateHardwareMonitorControl();
-            });
-        }
-        // ReSharper disable once FunctionNeverReturns
-    }
-
-    /// <summary>
-    /// Updates the hardware monitor controls with the latest hardware status values.
-    /// </summary>
-    private void UpdateHardwareMonitorControl()
-    {
-        if (HardwareManager.HardwareToMonitor == null)
-        {
-            return;
-        }
-
-        if (HardwareStatusGrid.Children.Count != HardwareManager.HardwareToMonitor.Count)
-        {
-            return;
-        }
-
-        for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
-        {
-            var hardware = HardwareManager.HardwareToMonitor[i];
-            
-            if (hardware.Path == null && hardware.Type == HardwareType.GpuNvidia)
-            {
-                continue;
-            }
-
-            else
-            {
-                HardwareManager.RefreshHardware(HardwareManager.Computer, hardware);
-            }
-            
-            var formattedValue = $"{hardware.Value:0.00}";
-            ((HardwareMonitorControl)HardwareStatusGrid.Children[i]).ValueLabel.Content = formattedValue;
-        }
-    }
-
-    /// <summary>
-    /// Creates a hardware monitor control for a given hardware item.
-    /// </summary>
-    /// <param name="hardware">The hardware item to create a control for.</param>
-    /// <returns>A control displaying the hardware status.</returns>
-    private static Control CreateHardwareMonitorControl(Hardware hardware)
-    {
-        var hardwareMonitorControl = new HardwareMonitorControl();
-        hardwareMonitorControl.TypeLabel.Content = HardwareManager.FormatName(hardware);
-        hardwareMonitorControl.ValueLabel.Content = 0.00;
-        hardwareMonitorControl.UnitLabel.Content = hardware.Unit;
-        return hardwareMonitorControl;
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // VIEWS
@@ -267,7 +117,7 @@ public partial class RenderPage : UserControl
         foreach (var view in views)
         {
             // Create a new RenderViewControl
-            var renderSelectionControl = new RenderViewControl();
+            var renderSelectionControl = new ViewSelection();
 
             // Set the image source
             var image = new Bitmap($"Assets/Images/RenderAngles/{view}.png");
@@ -305,7 +155,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var item in stackPanel.Children)
             {
-                var renderViewControl = (RenderViewControl)item;
+                var renderViewControl = (ViewSelection)item;
                 if (renderViewControl.CheckBox.IsChecked == true)
                 {
                     selectedViews.Add(renderViewControl.Name.Content.ToString());
@@ -319,7 +169,7 @@ public partial class RenderPage : UserControl
         ViewSelectionStackPanel3.Children.Clear();
         
         var viewsToSortBy = new List<string>();
-        foreach (var child in ViewSort.ViewStackPanel.Children.OfType<ToggleButton>())
+        foreach (var child in ViewSort.Faces.Children.OfType<ToggleButton>())
         {
             if (child.IsChecked == true)
             {
@@ -353,7 +203,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var item in stackPanel.Children)
             {
-                var renderViewControl = (RenderViewControl)item;
+                var renderViewControl = (ViewSelection)item;
                 if (selectedViews.Contains(renderViewControl.Name.Content.ToString()))
                 {
                     renderViewControl.CheckBox.IsChecked = true;
@@ -374,7 +224,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var stackPanel in allViewSelectionStackPanels)
             {
-                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                foreach (var item in stackPanel.Children.OfType<ViewSelection>())
                 {
                     item.CheckBox.IsChecked = true;
                 }
@@ -387,7 +237,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var stackPanel in allViewSelectionStackPanels)
             {
-                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                foreach (var item in stackPanel.Children.OfType<ViewSelection>())
                 {
                     item.CheckBox.IsChecked = false;
                 }
@@ -400,7 +250,7 @@ public partial class RenderPage : UserControl
         {
             foreach (var stackPanel in allViewSelectionStackPanels)
             {
-                foreach (var item in stackPanel.Children.OfType<RenderViewControl>())
+                foreach (var item in stackPanel.Children.OfType<ViewSelection>())
                 {
                     item.CheckBox.IsChecked = !item.CheckBox.IsChecked;
                 }

@@ -8,9 +8,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Orthographic.Renderer.Controls;
 
-public partial class SelectControl : UserControl
+public partial class SelectOptions : UserControl
 {
-    public SelectControl()
+    public SelectOptions()
     {
         InitializeComponent();
     }

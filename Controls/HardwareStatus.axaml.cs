@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Orthographic.Renderer.Controls;
 
-public partial class ViewSortControl : UserControl
+public partial class HardwareStatus : UserControl
 {
-    public ViewSortControl()
+    public HardwareStatus()
     {
         InitializeComponent();
     }
