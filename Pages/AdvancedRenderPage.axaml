@@ -65,13 +65,21 @@
             </Grid>
             
             <!-- QUEUE AND SETTINGS GRID -->
-            <Grid Grid.Column="1" RowDefinitions="2*,1*" Background="Azure">
+            <Grid Grid.Column="1" RowDefinitions="2*,1*">
                 <!-- QUEUE GRID -->
-                <Grid Grid.Row="0" RowDefinitions="70,*" Background="Coral">
+                <Grid Grid.Row="0" RowDefinitions="70,*">
+                    <Label Grid.Row="0" Content="Render Queue" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
+                    <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
+                        <controls:RenderQueue x:Name="RenderItems" Margin="20 0 20 0"/>
+                    </ScrollViewer>
                 </Grid>
                 
                 <!-- SETTINGS GRID -->
-                <Grid Grid.Row="1" RowDefinitions="70,*" Background="Goldenrod">
+                <Grid Grid.Row="1" RowDefinitions="70,*">
+                    <Label Grid.Row="0" Content="Render Settings" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
+                    <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
+                        <controls:RenderSettings Margin="20 0 20 0"/>
+                    </ScrollViewer>
                 </Grid>
             </Grid>
         </Grid>

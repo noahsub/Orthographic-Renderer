@@ -1,0 +1,12 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1200"
+             x:Class="Orthographic.Renderer.Controls.RenderQueue">
+        <Grid>
+            <Image x:Name="EmptyImage" Source="avares://Orthographic.Renderer/Assets/Images/grey_cube.png" Width="150" Height="150" Margin="0 0 10 0" Opacity="0.2"/>
+            <StackPanel x:Name="Items" Spacing="10" HorizontalAlignment="Stretch">
+            </StackPanel>
+        </Grid>
+</UserControl>

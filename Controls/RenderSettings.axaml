@@ -1,0 +1,49 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Orthographic.Renderer.Controls.RenderSettings">
+
+    <UserControl.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel VerticalAlignment="Top" Orientation="Vertical" Spacing="10">
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Mode: " Grid.Column="0" />
+            <ComboBox x:Name="RenderModeComboBox" Grid.Column="1" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="Sequential" />
+                <ComboBoxItem Content="Concurrent" />
+            </ComboBox>
+        </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Threads: " Grid.Column="0" />
+            <TextBox x:Name="ThreadsTextBox" Text="1" Grid.Column="1" HorizontalAlignment="Stretch" />
+        </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Output Dir: " Grid.Column="0" />
+            <controls:BrowsableTextBox x:Name="OutputDirTextBox" Grid.Column="1" HorizontalAlignment="Stretch" />
+        </Grid>
+        <Grid ColumnDefinitions="110,*,*">
+            <Label Content="Resolution: " Grid.Column="0" />
+            <TextBox x:Name="ResolutionWidthTextBox" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <TextBox x:Name="ResolutionHeightTextBox" Text="1080" Grid.Column="2" HorizontalAlignment="Stretch" />
+        </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Scale: " Grid.Column="0" />
+            <TextBox x:Name="ScaleTextBox" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
+        </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Prefix: " Grid.Column="0" />
+            <TextBox x:Name="PrefixTextBox" Text="render" Grid.Column="1" HorizontalAlignment="Stretch" />
+        </Grid>
+    </StackPanel>
+</UserControl>

@@ -18,6 +18,15 @@ public partial class AdvancedRenderPage : UserControl
         InitializeComponent();
         ViewStackGrid.SetColumns(5);
         PopulateViews(RenderManager.RenderViews);
+
+        for (int i = 0; i < 20; i++)
+        {
+            var renderItem = new RenderQueueItem();
+            renderItem.Name.Content = "Render Item " + i;
+            renderItem.Status.Content = "PENDING";
+            RenderItems.EnqueueProgress(renderItem);
+            RenderItems.AddToDisplay(renderItem);
+        }
     }
     
     /// <summary>
