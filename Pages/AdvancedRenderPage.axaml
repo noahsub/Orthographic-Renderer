@@ -69,6 +69,7 @@
                 <!-- QUEUE GRID -->
                 <Grid Grid.Row="0" RowDefinitions="70,*">
                     <Label Grid.Row="0" Content="Render Queue" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
+                    <Label Grid.Row="0" x:Name="TimerLabel" Content="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 20 0"/>
                     <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
                         <controls:RenderQueue x:Name="RenderItems" Margin="20 0 20 0"/>
                     </ScrollViewer>
@@ -86,7 +87,7 @@
         
         <!-- BOTTOM GRID -->
         <Grid Grid.Row="2">
-            <Label Content="File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label x:Name="FileLabel" Content="File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Button x:Name="RenderButton" Content="Render" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 20 0" Click="RenderButton_OnClick"/>
         </Grid>
     </Grid>

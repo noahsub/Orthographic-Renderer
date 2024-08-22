@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ public partial class AdvancedRenderPage : UserControl
         InitializeComponent();
         ViewStackGrid.SetColumns(5);
         PopulateViews(RenderManager.RenderViews);
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
     }
     
     /// <summary>
@@ -162,6 +164,23 @@ public partial class AdvancedRenderPage : UserControl
 
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        // start a timer thread to update timer label every second until this method completes
+        var timerRunning = true;
+
+        // Start a timer thread to update the timer label every second until this method completes
+        var timerTask = Task.Run(async () =>
+        {
+            var stopwatch = Stopwatch.StartNew();
+            while (timerRunning)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    TimerLabel.Content = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+                });
+                await Task.Delay(100);
+            }
+        });
+        
         RenderItems.ClearItems();
 
         var prefix = Settings.PrefixTextBox.Text;
@@ -238,5 +257,8 @@ public partial class AdvancedRenderPage : UserControl
                 await Task.WhenAll(tasks);
                 break;
         }
+        
+        // Cancel the timer task
+        timerRunning = false;
     }
 }
