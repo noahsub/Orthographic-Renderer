@@ -45,5 +45,9 @@
             <Label Content="Prefix: " Grid.Column="0" />
             <TextBox x:Name="PrefixTextBox" Text="render" Grid.Column="1" HorizontalAlignment="Stretch" />
         </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Play Sound: " Grid.Column="0"/>
+            <CheckBox x:Name="PlaySoundCheckBox" Grid.Column="1" HorizontalAlignment="Stretch"/>
+        </Grid>
     </StackPanel>
 </UserControl>

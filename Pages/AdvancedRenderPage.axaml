@@ -83,6 +83,12 @@
                 </Grid>
             </Grid>
         </Grid>
+        
+        <!-- BOTTOM GRID -->
+        <Grid Grid.Row="2">
+            <Label Content="File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button x:Name="RenderButton" Content="Render" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 20 0"/>
+        </Grid>
     </Grid>
     
 </UserControl>
