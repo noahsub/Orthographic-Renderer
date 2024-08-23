@@ -16,6 +16,7 @@ using Avalonia.Threading;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Managers;
+using Orthographic.Renderer.Windows;
 
 namespace Orthographic.Renderer.Pages;
 
@@ -241,6 +242,10 @@ public partial class AdvancedRenderPage : UserControl
         timerRunning = false;
         
         UnlockPage();
+        
+        var renderComplete = new RenderComplete();
+        renderComplete.SetRenderTime(TimerLabel.Content.ToString());
+        renderComplete.Show();
     }
 
     private async Task Render(RenderQueueItem renderItem, float distance, string modelPath, string scriptPath,
