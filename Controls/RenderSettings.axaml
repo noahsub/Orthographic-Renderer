@@ -19,7 +19,7 @@
     <StackPanel VerticalAlignment="Top" Orientation="Vertical" Spacing="10">
         <Grid ColumnDefinitions="110,*">
             <Label Content="Mode: " Grid.Column="0" />
-            <ComboBox x:Name="RenderModeComboBox" Grid.Column="1" HorizontalAlignment="Stretch">
+            <ComboBox x:Name="RenderModeComboBox" Grid.Column="1" HorizontalAlignment="Stretch" SelectionChanged="RenderModeComboBox_OnSelectionChanged">
                 <ComboBoxItem Content="Sequential" />
                 <ComboBoxItem Content="Parallel" />
             </ComboBox>

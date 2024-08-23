@@ -65,7 +65,7 @@
             </Grid>
             
             <!-- QUEUE AND SETTINGS GRID -->
-            <Grid Grid.Column="1" RowDefinitions="2*,1*">
+            <Grid Grid.Column="1" RowDefinitions="2*,1.5*">
                 <!-- QUEUE GRID -->
                 <Grid Grid.Row="0" RowDefinitions="70,*">
                     <Label Grid.Row="0" Content="Render Queue" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>

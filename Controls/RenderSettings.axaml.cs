@@ -18,8 +18,9 @@ public partial class RenderSettings : UserControl
         ScaleNumeric.Minimum = 1;
         ScaleNumeric.Maximum = 100;
         PlaySoundCheckBox.IsChecked = true;
-
-        RenderModeComboBox.SelectedValue = "Sequential";
+        
+        RenderModeComboBox.SelectedIndex = 0;
+        
         ThreadsNumeric.Value = 1;
         PrefixTextBox.Text = "Render";
         
@@ -63,6 +64,20 @@ public partial class RenderSettings : UserControl
             };
             
             PresetResolutions.AddItem(button);
+        }
+    }
+
+    private void RenderModeComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (RenderModeComboBox.SelectedIndex == 0)
+        {
+            ThreadsNumeric.Value = 1;
+            ThreadsNumeric.IsEnabled = false;
+        }
+        
+        else
+        {
+            ThreadsNumeric.IsEnabled = true;
         }
     }
 }
