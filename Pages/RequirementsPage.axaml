@@ -46,7 +46,7 @@
                         <Label Content="Version 4.2.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
                     </StackPanel>
                 </StackPanel>
-                <controls:BrowsableTextBox x:Name="BlenderPathTextBox"/>
+                <controls:BrowsableFileTextBox x:Name="BlenderPathTextBox"/>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
                     <StackPanel>
@@ -54,7 +54,7 @@
                         <Label Content="Version 3.12.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
                     </StackPanel>
                 </StackPanel>
-                <controls:BrowsableTextBox x:Name="PythonPathTextBox"/>
+                <controls:BrowsableFileTextBox x:Name="PythonPathTextBox"/>
                 <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
         </ScrollViewer>

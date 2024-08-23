@@ -285,10 +285,21 @@
       <Content Include="Scripts\render.py">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Data\recent_models.json" />
+      <Content Include="Data\recent_models.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Data\settings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Controls\BrowsableDirectoryTextBox.axaml.cs">
+        <DependentUpon>BrowsableDirectoryTextBox.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
     
     

@@ -8,9 +8,9 @@ using Avalonia.Platform.Storage;
 
 namespace Orthographic.Renderer.Controls;
 
-public partial class BrowsableTextBox : UserControl
+public partial class BrowsableFileTextBox : UserControl
 {
-    public BrowsableTextBox()
+    public BrowsableFileTextBox()
     {
         InitializeComponent();
     }

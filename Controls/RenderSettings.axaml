@@ -19,7 +19,7 @@
     <StackPanel VerticalAlignment="Top" Orientation="Vertical" Spacing="10">
         <Grid ColumnDefinitions="110,*">
             <Label Content="Mode: " Grid.Column="0" />
-            <ComboBox x:Name="RenderModeComboBox" Grid.Column="1" HorizontalAlignment="Stretch">
+            <ComboBox x:Name="RenderModeComboBox" Grid.Column="1" HorizontalAlignment="Stretch" SelectionChanged="RenderModeComboBox_OnSelectionChanged">
                 <ComboBoxItem Content="Sequential" />
                 <ComboBoxItem Content="Parallel" />
             </ComboBox>
@@ -30,18 +30,21 @@
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Prefix: " Grid.Column="0" />
-            <TextBox x:Name="PrefixTextBox" Text="render" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <TextBox x:Name="PrefixTextBox" Grid.Column="1" HorizontalAlignment="Stretch" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Output Dir: " Grid.Column="0" />
-            <controls:BrowsableTextBox x:Name="OutputDirTextBox" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <controls:BrowsableDirectoryTextBox x:Name="OutputDirTextBox" Grid.Column="1" HorizontalAlignment="Stretch" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Distance: " Grid.Column="0" />
             <NumericUpDown x:Name="DistanceNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
         </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Resolution: " Grid.Column="0" VerticalAlignment="Top"/>
+            <controls:StackGrid Grid.Column="1" x:Name="PresetResolutions"/>
+        </Grid>
         <Grid ColumnDefinitions="110,*,*">
-            <Label Content="Resolution: " Grid.Column="0" />
             <NumericUpDown x:Name="ResolutionWidthNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch"/>
             <NumericUpDown x:Name="ResolutionHeightNumeric" Text="1080" Grid.Column="2" HorizontalAlignment="Stretch"/>
         </Grid>
