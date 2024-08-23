@@ -164,6 +164,8 @@ public partial class AdvancedRenderPage : UserControl
 
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        LockPage();
+        
         // Start a timer thread to update the timer label every second until this method completes
         var timerRunning = true;
         var timerTask = Task.Run(async () =>
@@ -184,8 +186,8 @@ public partial class AdvancedRenderPage : UserControl
         var prefix = Settings.PrefixTextBox.Text;
         var outputDir = Settings.OutputDirTextBox.PathTextBox.Text;
         var distance = (float)Settings.DistanceNumeric.Value;
-        var width = Settings.ResolutionWidthNumeric.Value;
-        var height = Settings.ResolutionHeightNumeric.Value;
+        var width = (int)Settings.ResolutionWidthNumeric.Value;
+        var height = (int)Settings.ResolutionHeightNumeric.Value;
         var scale = Settings.ScaleNumeric.Value;
         var sound = Settings.PlaySoundCheckBox.IsChecked;
         var mode = Settings.RenderModeComboBox.SelectionBoxItem.ToString().ToLower();
@@ -237,6 +239,8 @@ public partial class AdvancedRenderPage : UserControl
 
         // Cancel the timer task
         timerRunning = false;
+        
+        UnlockPage();
     }
 
     private async Task Render(RenderQueueItem renderItem, float distance, string modelPath, string scriptPath,
@@ -258,5 +262,23 @@ public partial class AdvancedRenderPage : UserControl
         });
 
         RenderItems.EnqueueCompleted(renderItem);
+    }
+
+    private void LockPage()
+    {
+        Settings.IsEnabled = false;
+        ViewSelect.IsEnabled = false;
+        ViewSort.IsEnabled = false;
+        ViewStackGrid.IsEnabled = false;
+        RenderButton.IsEnabled = false;
+    }
+    
+    private void UnlockPage()
+    {
+        Settings.IsEnabled = true;
+        ViewSelect.IsEnabled = true;
+        ViewSort.IsEnabled = true;
+        ViewStackGrid.IsEnabled = true;
+        RenderButton.IsEnabled = true;
     }
 }

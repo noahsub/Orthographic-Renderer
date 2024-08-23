@@ -18,7 +18,7 @@ public partial class StackGrid : UserControl
         NumItems = 0;
     }
     
-    public void SetColumns(int columns)
+    public void SetColumns(int columns, int marginSize = 20, bool endMargins = true)
     {
         Items.ColumnDefinitions.Clear();
         
@@ -30,13 +30,26 @@ public partial class StackGrid : UserControl
             {
                 Name = $"ItemColumn{i}",
                 Orientation = Orientation.Vertical,
-                Spacing = 20,
-                Margin = new Thickness(20, 0, 0, 0)
+                Spacing = marginSize,
+                Margin = new Thickness(marginSize, 0, 0, 0)
             };
+
+            if (i == 0 && !endMargins)
+            {
+                stackPanel.Margin = new Thickness(0, 0, marginSize, 0);
+            }
 
             if (i == columns - 1)
             {
-                stackPanel.Margin = new Thickness(20, 0, 20, 0);
+                if (endMargins)
+                {
+                    stackPanel.Margin = new Thickness(marginSize, 0, marginSize, 0);
+                }
+                
+                else
+                {
+                    stackPanel.Margin = new Thickness(marginSize, 0, 0, 0);
+                }
             }
             
             Grid.SetColumn(stackPanel, i);

@@ -294,6 +294,13 @@
     <ItemGroup>
       <None Remove="Data\settings.json" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Controls\BrowsableDirectoryTextBox.axaml.cs">
+        <DependentUpon>BrowsableDirectoryTextBox.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
     
     
 </Project>

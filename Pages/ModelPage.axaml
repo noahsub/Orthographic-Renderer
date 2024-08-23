@@ -51,7 +51,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel>
-                    <controls:BrowsableTextBox x:Name="ModelPathTextBox"/>
+                    <controls:BrowsableFileTextBox x:Name="ModelPathTextBox"/>
                     <ComboBox x:Name="RecentlyOpenedComboBox" HorizontalAlignment="Stretch" SelectionChanged="RecentlyOpenedComboBox_OnSelectionChanged">
                     </ComboBox>
                 </StackPanel>
