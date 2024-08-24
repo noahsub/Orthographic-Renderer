@@ -12,9 +12,13 @@ public partial class RenderComplete : Window
         InitializeComponent();
     }
     
-    public void SetRenderTime(string time)
+    public void SetValues(string startTime, string endTime, string totalTime, int completed, int failed)
     {
-        TimeLabel.Content = time;
+        StartTimeLabel.Content = $"Start Time: {startTime}";
+        EndTimeLabel.Content = $"End Time: {endTime}";
+        RenderTimeLabel.Content = $"Total Time: {totalTime}";
+        RendersCompleted.Content = $"Completed: {completed}";
+        RendersFailed.Content = $"Failed: {failed}";
     }
 
     private void CloseButton_OnClick(object? sender, RoutedEventArgs e)

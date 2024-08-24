@@ -4,13 +4,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200"
         x:Class="Orthographic.Renderer.Windows.RenderComplete"
-        Title="RenderComplete"
-        Width="300"
-        Height="100">
-    <Grid Background="#202124">
-        <StackPanel HorizontalAlignment="Stretch">
-            <Label Content="Render Complete" Margin="20 0 0 0"/>
-            <Label x:Name="TimeLabel" Content="0:00:00" Margin="20 0 0 0"/>
+        Title="Render Complete"
+        Width="400"
+        Height="400"
+        CanResize="True"
+        WindowStartupLocation="CenterOwner"
+        WindowState="Minimized"
+        Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico">
+    
+    <Window.Styles>
+        <Style Selector="Label">
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#3f8463"></Setter>
+            <Setter Property="Foreground" Value="GhostWhite"></Setter>
+            <Setter Property="CornerRadius" Value="0"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Width" Value="100"></Setter>
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
+        </Style>
+    </Window.Styles>
+    
+    <Grid Background="#202124" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StackPanel HorizontalAlignment="Center" Spacing="20" VerticalAlignment="Center">
+            <Label Content="Render Complete" FontSize="20" HorizontalAlignment="Center"/>
+            <Label x:Name="StartTimeLabel" Content="Start: 0:00:00" HorizontalAlignment="Center"/>
+            <Label x:Name="EndTimeLabel" Content="End: 0:00:00" HorizontalAlignment="Center"/>
+            <Label x:Name="RenderTimeLabel" Content="Total: 0:00:00" HorizontalAlignment="Center"/>
+            <Label x:Name="RendersCompleted" Content="Renders Completed: 0" HorizontalAlignment="Center"/>
+            <Label x:Name="RendersFailed" Content="Renders Failed: 0" HorizontalAlignment="Center"/>
             <Button x:Name="CloseButton" Content="Close" Click="CloseButton_OnClick" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
