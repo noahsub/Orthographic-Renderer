@@ -167,7 +167,11 @@ def render_generic_view(name: str, output_folder: str, position: Position):
     """
     set_camera_pos_and_rot(position)
     bpy.context.scene.render.filepath = (output_folder + f"{name}_{str(position)}_{get_formatted_date()}")
-    bpy.ops.render.render(write_still=True)
+    try:
+        bpy.ops.render.render(write_still=True)
+    except Exception as e:
+        sys.exit(1)
+   
 
 
 ########################################################################################################################

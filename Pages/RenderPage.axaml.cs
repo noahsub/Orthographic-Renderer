@@ -255,13 +255,13 @@ public partial class RenderPage : UserControl
     private async Task Render(RenderQueueItem renderItem, string prefix, string outputDir, float distance, int width, int height, int scale)
     {
         renderItem.SetStatus(RenderStatus.InProgress);
-        
+
         var blenderPath = DataManager.BlenderPath;
         var modelPath = DataManager.ModelPath;
         var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
 
         var position = RenderManager.GetPosition(renderItem.Key, distance);
-        
+
         var arguments = $"-b \"{modelPath}\" -P \"{scriptPath}\" -- " +
                         $"--name {prefix} " +
                         $"--output_path \"{outputDir}\" " +
@@ -275,18 +275,32 @@ public partial class RenderPage : UserControl
                         $"--ry {position.Ry} " +
                         $"--rz {position.Rz}";
 
-        await Task.Run(() =>
+        bool success = await Task.Run(() =>
         {
-            ProcessManager.RunProcess(blenderPath, arguments);
+            return ProcessManager.RunProcessCheck(blenderPath, arguments);
         });
 
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            renderItem.SetStatus(RenderStatus.Completed);
+            if (success)
+            {
+                renderItem.SetStatus(RenderStatus.Completed);
+            }
+            else
+            {
+                renderItem.SetStatus(RenderStatus.Failed);
+            }
             RenderItems.RemoveFromDisplay(renderItem);
             RenderItems.AddToDisplay(renderItem);
         });
 
-        RenderItems.EnqueueCompleted(renderItem);
+        if (success)
+        {
+            RenderItems.EnqueueCompleted(renderItem);
+        }
+        else
+        {
+            RenderItems.EnqueueFailed(renderItem);
+        }
     }
 }

@@ -1,12 +1,14 @@
+using System.Diagnostics;
+
 namespace Orthographic.Renderer.Managers;
 
 public class ProcessManager
 {
     public static string RunProcess(string path, string arguments)
     {
-        var process = new System.Diagnostics.Process
+        var process = new Process
         {
-            StartInfo = new System.Diagnostics.ProcessStartInfo
+            StartInfo = new ProcessStartInfo
             {
                 FileName = path,
                 Arguments = arguments,
@@ -25,9 +27,9 @@ public class ProcessManager
     
     public static bool RunProcessCheck(string path, string arguments)
     {
-        var process = new System.Diagnostics.Process
+        var process = new Process
         {
-            StartInfo = new System.Diagnostics.ProcessStartInfo
+            StartInfo = new ProcessStartInfo
             {
                 FileName = path,
                 Arguments = arguments,
@@ -38,9 +40,14 @@ public class ProcessManager
         };
 
         process.Start();
+        var output = process.StandardOutput.ReadToEnd();
         process.WaitForExit();
-        
-        // if process completed successfully return true otherwise return false
-        return process.ExitCode == 0;
+
+        if (process.ExitCode != 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
