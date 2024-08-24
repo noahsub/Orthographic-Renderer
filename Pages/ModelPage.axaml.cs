@@ -71,7 +71,7 @@ public partial class ModelPage : UserControl
             var jsonString = JsonConvert.SerializeObject(json, Formatting.Indented);
             File.WriteAllText("Data/recent_models.json", jsonString);
 
-            pageContent.Content = new AdvancedRenderPage();
+            pageContent.Content = new RenderPage();
         }
     }
 

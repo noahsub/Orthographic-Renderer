@@ -20,9 +20,9 @@ using Orthographic.Renderer.Windows;
 
 namespace Orthographic.Renderer.Pages;
 
-public partial class AdvancedRenderPage : UserControl
+public partial class RenderPage : UserControl
 {
-    public AdvancedRenderPage()
+    public RenderPage()
     {
         InitializeComponent();
         ViewStackGrid.SetColumns(5);
