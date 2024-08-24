@@ -26,6 +26,8 @@ public partial class ModelPage : UserControl
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
             return;
         }
+        
+        modelPath = FileManager.ReformatPath(modelPath);
 
         if (!IsValidModelPath(modelPath))
         {
@@ -34,7 +36,6 @@ public partial class ModelPage : UserControl
         }
 
         ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.MediumSpringGreen);
-        modelPath = FileManager.ReformatPath(modelPath);
         DataManager.ModelPath = modelPath;
         UpdateRecentFiles(modelPath);
 

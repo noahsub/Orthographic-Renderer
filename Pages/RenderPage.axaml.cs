@@ -264,7 +264,19 @@ public partial class RenderPage : UserControl
 
         var position = RenderManager.GetPosition(renderItem.Key, distance);
 
-        var arguments = $"-b \"{modelPath}\" -P \"{scriptPath}\" -- " +
+        string blenderArguments;
+        if (modelPath.EndsWith(".blend"))
+        {
+            blenderArguments = $"-b \"{modelPath}\" -P \"{scriptPath}\" -- ";
+        }
+
+        else
+        {
+            blenderArguments = $"-b -P \"{scriptPath}\" -- ";
+        }
+
+        var arguments = blenderArguments +
+                        $"--model \"{modelPath}\" " +
                         $"--name {prefix} " +
                         $"--output_path \"{outputDir}\" " +
                         $"--resolution {width} {height} " +

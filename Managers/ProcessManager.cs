@@ -41,6 +41,8 @@ public class ProcessManager
 
         process.Start();
         process.WaitForExit();
+        
+        Debug.WriteLine($"COMMAND: {path} {arguments}");
 
         if (process.ExitCode != 0)
         {
