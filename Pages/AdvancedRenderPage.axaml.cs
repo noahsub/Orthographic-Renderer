@@ -16,6 +16,7 @@ using Avalonia.Threading;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Managers;
+using Orthographic.Renderer.Windows;
 
 namespace Orthographic.Renderer.Pages;
 
@@ -164,6 +165,8 @@ public partial class AdvancedRenderPage : UserControl
 
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        var timeStarted = DateTime.Now;
+        
         LockPage();
         
         // Start a timer thread to update the timer label every second until this method completes
@@ -240,7 +243,21 @@ public partial class AdvancedRenderPage : UserControl
         // Cancel the timer task
         timerRunning = false;
         
+        var timeEnded = DateTime.Now;
+        
         UnlockPage();
+        
+        var renderComplete = new RenderComplete();
+        renderComplete.SetValues(timeStarted.ToString(), timeEnded.ToString(), TimerLabel.Content.ToString(), RenderItems.CompletedQueue.Count, 0);
+        renderComplete.Show();
+
+        if (sound == true)
+        {
+            Task.Run(() =>
+            {
+                SoundManager.PlaySound("Assets/Sounds/ping.mp3");
+            });
+        }
     }
 
     private async Task Render(RenderQueueItem renderItem, float distance, string modelPath, string scriptPath,
