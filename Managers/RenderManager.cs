@@ -96,34 +96,40 @@ public class RenderManager
     
     public static List<string> SortViews(List<string> keys)
     {
-        var matchingViews = new List<string>();
-        var nonMatchingViews = new List<string>();
-
+        var x = new List<string>();
+        var y = new List<string>();
+        var z = new List<string>();
+        var w = new List<string>();
+        
         foreach (var view in RenderViews)
         {
-            var numMatchingViews = NumMatchingViews(view, keys);
-
-            if (numMatchingViews == 0)
+            var viewFaces = view.Split('-');
+            
+            // if viewFaces is an equal set to keys
+            if (viewFaces.Length == keys.Count && viewFaces.All(keys.Contains))
             {
-                nonMatchingViews.Add(view);
+                x.Add(view);
             }
             
-            else if (numMatchingViews == keys.Count)
+            // if viewFaces is a subset of keys
+            else if (viewFaces.All(keys.Contains))
             {
-                matchingViews.Insert(0, view);
+                y.Add(view);
             }
             
+            // if viewFaces is a superset of keys
+            else if (keys.All(viewFaces.Contains))
+            {
+                z.Add(view);
+            }
+    
             else
             {
-                matchingViews.Add(view);
+                w.Add(view);
             }
         }
-        
-        return matchingViews.Concat(nonMatchingViews).ToList();
-    }
     
-    private static int NumMatchingViews(string view, List<string> keys)
-    {
-        return keys.Count(view.Contains);
+        // combine the lists in the order of x, y, z, w
+        return x.Concat(y).Concat(z).Concat(w).ToList();
     }
 }
