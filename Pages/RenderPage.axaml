@@ -56,8 +56,8 @@
             <Grid Grid.Column="0" RowDefinitions="70,*">
                 <Label Grid.Row="0" Content="Views" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="50" HorizontalAlignment="Right" Margin="0 0 20 0 ">
-                    <controls:SelectOptions x:Name="ViewSelect" Tapped="ViewSelect_OnTapped"/>
-                    <controls:ViewSortOptions x:Name="ViewSort" Tapped="ViewSort_OnTapped"/>
+                    <controls:ViewSelectOptions x:Name="ViewSelectOptions" Tapped="ViewSelect_OnTapped"/>
+                    <controls:ViewSortOptions x:Name="ViewSortOptions" Tapped="ViewSort_OnTapped"/>
                 </StackPanel>
                 <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
                     <controls:StackGrid x:Name="ViewStackGrid"/>

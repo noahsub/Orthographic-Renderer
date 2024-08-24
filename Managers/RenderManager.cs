@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Orthographic.Renderer.Entities;
 
 namespace Orthographic.Renderer.Managers;
@@ -77,5 +79,51 @@ public class RenderManager
     private static float ComputeTriangularLeg(float distance)
     {
         return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
+    }
+    
+    public static string GetFormattedViewName(string view)
+    {
+        var formattedName = view;
+        formattedName = formattedName.Replace("-", " ");
+        formattedName = ToTitleCase(formattedName);
+        return formattedName;
+    }
+    
+    private static string ToTitleCase(string str)
+    {
+        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+    }
+    
+    public static List<string> SortViews(List<string> keys)
+    {
+        var matchingViews = new List<string>();
+        var nonMatchingViews = new List<string>();
+
+        foreach (var view in RenderViews)
+        {
+            var numMatchingViews = NumMatchingViews(view, keys);
+
+            if (numMatchingViews == 0)
+            {
+                nonMatchingViews.Add(view);
+            }
+            
+            else if (numMatchingViews == keys.Count)
+            {
+                matchingViews.Insert(0, view);
+            }
+            
+            else
+            {
+                matchingViews.Add(view);
+            }
+        }
+        
+        return matchingViews.Concat(nonMatchingViews).ToList();
+    }
+    
+    private static int NumMatchingViews(string view, List<string> keys)
+    {
+        return keys.Count(view.Contains);
     }
 }
