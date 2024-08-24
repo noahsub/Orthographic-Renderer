@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Avalonia.Remote.Protocol.Input;
 using Newtonsoft.Json;
 
 namespace Orthographic.Renderer.Managers;
@@ -66,6 +67,11 @@ public class FileManager
     public static string GetAbsolutePath(string localPath)
     {
         return Path.GetFullPath(localPath);
+    }
+
+    public static bool VerifyDirectoryPath(string path)
+    {
+        return Directory.Exists(path);
     }
 
     public static bool VerifyProgramPath(string key, string path)

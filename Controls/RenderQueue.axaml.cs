@@ -8,22 +8,23 @@ namespace Orthographic.Renderer.Controls;
 
 public partial class RenderQueue : UserControl
 {
-    public Queue ProgressQueue { get; } = new();
+    public Queue PendingQueue { get; } = new();
     public Queue CompletedQueue { get; } = new();
+    public Queue FailedQueue { get; } = new();
 
     public RenderQueue()
     {
         InitializeComponent();
     }
 
-    public void EnqueueProgress(RenderQueueItem item)
+    public void EnqueuePending(RenderQueueItem item)
     {
-        ProgressQueue.Enqueue(item);
+        PendingQueue.Enqueue(item);
     }
 
-    public RenderQueueItem DequeueProgress()
+    public RenderQueueItem DequeuePending()
     {
-        return (RenderQueueItem)ProgressQueue.Dequeue();
+        return (RenderQueueItem)PendingQueue.Dequeue();
     }
 
     public void EnqueueCompleted(RenderQueueItem item)
@@ -34,6 +35,16 @@ public partial class RenderQueue : UserControl
     public RenderQueueItem DequeueCompleted()
     {
         return (RenderQueueItem)CompletedQueue.Dequeue();
+    }
+    
+    public void EnqueueFailed(RenderQueueItem item)
+    {
+        FailedQueue.Enqueue(item);
+    }
+    
+    public RenderQueueItem DequeueFailed()
+    {
+        return (RenderQueueItem)FailedQueue.Dequeue();
     }
 
     public void AddToDisplay(RenderQueueItem item)
@@ -56,26 +67,32 @@ public partial class RenderQueue : UserControl
         Items.Children.Remove(item);
     }
 
-    public IEnumerable GetItemsInProgress()
+    public IEnumerable GetItemsPending()
     {
-        return ProgressQueue.ToArray();
+        return PendingQueue.ToArray();
     }
 
     public IEnumerable GetItemsCompleted()
     {
         return CompletedQueue.ToArray();
     }
+    
+    public IEnumerable GetItemsFailed()
+    {
+        return FailedQueue.ToArray();
+    }
 
     public IEnumerable GetItems()
     {
-        // Combine the two queues into a single enumerable
-        return ProgressQueue.ToArray().Concat(CompletedQueue.ToArray());
+        // Combine the three queues into one
+        return PendingQueue.ToArray().Concat(CompletedQueue.ToArray()).Concat(FailedQueue.ToArray());
     }
 
     public void ClearItems()
     {
-        ProgressQueue.Clear();
+        PendingQueue.Clear();
         CompletedQueue.Clear();
+        FailedQueue.Clear();
         Items.Children.Clear();
         EmptyImage.IsVisible = true;
     }

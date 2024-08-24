@@ -84,6 +84,9 @@ public partial class RequirementsPage : UserControl
         {
             return;
         }
+        
+        DataManager.BlenderPath = BlenderPathTextBox.PathTextBox.Text;
+        DataManager.PythonPath = PythonPathTextBox.PathTextBox.Text;
 
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new ModelPage());

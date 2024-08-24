@@ -8,6 +8,7 @@ namespace Orthographic.Renderer.Controls;
 
 public partial class RenderQueueItem : UserControl
 {
+    public string Key { get; set; }
     public RenderStatus Status { get; set; }
 
     public RenderQueueItem()
