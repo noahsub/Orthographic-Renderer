@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Newtonsoft.Json;
 using Orthographic.Renderer.Managers;
 
 namespace Orthographic.Renderer.Pages;
 
 public partial class ModelPage : UserControl
 {
+    private static readonly List<string> ValidTypes = [".blend", ".obj", ".3mf", ".stl"];
+
     public ModelPage()
     {
         InitializeComponent();
@@ -20,59 +19,52 @@ public partial class ModelPage : UserControl
 
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (ModelPathTextBox.PathTextBox.Text == null)
+        var modelPath = ModelPathTextBox.PathTextBox.Text;
+
+        if (modelPath == null)
         {
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
             return;
         }
+
+        if (!IsValidModelPath(modelPath))
+        {
+            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            return;
+        }
+
+        ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.MediumSpringGreen);
+        modelPath = FileManager.ReformatPath(modelPath);
+        DataManager.ModelPath = modelPath;
+        UpdateRecentFiles(modelPath);
         
-        ModelPathTextBox.PathTextBox.Text = FileManager.ReformatPath(ModelPathTextBox.PathTextBox.Text);
-        var validTypes = new List<string> { ".blend", ".obj", ".3mf", ".stl" };
-
-        if (!File.Exists(ModelPathTextBox.PathTextBox.Text))
+        var mainWindow = (MainWindow)this.VisualRoot!;
+        var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
+        
+        if (pageContent != null)
         {
-            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-        }
-
-        else if (!validTypes.Contains(Path.GetExtension(ModelPathTextBox.PathTextBox.Text)))
-        {
-            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-        }
-
-        else
-        {
-            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.MediumSpringGreen);
-            // Get the ContentControl called "PageContent" from the MainWindow
-            var mainWindow = (MainWindow)this.VisualRoot;
-            var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-            var modelPath = ModelPathTextBox.PathTextBox.Text;
-            DataManager.ModelPath = modelPath;
-
-            // Save the model path to the recent_models.json file
-            var paths = FileManager.ReadJsonArray("Data/recent_models.json", "paths");
-
-            if (!paths.Contains(modelPath))
-            {
-                paths.Insert(0, modelPath);
-            }
-
-            else
-            {
-                // bring the file to the front of the list
-                paths.Remove(modelPath);
-                paths.Insert(0, modelPath);
-            }
-
-            var json = new Dictionary<string, object>
-            {
-                { "paths", paths }
-            };
-
-            var jsonString = JsonConvert.SerializeObject(json, Formatting.Indented);
-            File.WriteAllText("Data/recent_models.json", jsonString);
-
             pageContent.Content = new RenderPage();
         }
+    }
+
+    private static bool IsValidModelPath(string modelPath)
+    {
+        if (string.IsNullOrEmpty(modelPath))
+        {
+            return false;
+        }
+
+        return File.Exists(modelPath) && ValidTypes.Contains(Path.GetExtension(modelPath));
+    }
+
+    private static void UpdateRecentFiles(string modelPath)
+    {
+        var paths = FileManager.ReadJsonArray("Data/recent_models.json", "paths");
+
+        paths.Remove(modelPath);
+        paths.Insert(0, modelPath);
+        
+        FileManager.WriteArrayToJsonFile("Data/recent_models.json", "paths", paths);
     }
 
     private void LoadRecentFiles()
@@ -86,7 +78,7 @@ public partial class ModelPage : UserControl
 
     private void RecentlyOpenedComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        var selectedText = RecentlyOpenedComboBox.SelectedItem.ToString();
+        var selectedText = RecentlyOpenedComboBox.SelectedItem?.ToString();
         ModelPathTextBox.PathTextBox.Text = selectedText;
     }
 }

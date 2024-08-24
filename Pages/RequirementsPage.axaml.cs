@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using System.IO;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Newtonsoft.Json;
+using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 
 namespace Orthographic.Renderer.Pages;
@@ -13,150 +11,89 @@ public partial class RequirementsPage : UserControl
     public RequirementsPage()
     {
         InitializeComponent();
-        CheckSavedPaths();
+        LoadPaths();
+        PathValid("blender", BlenderPathTextBox);
+        PathValid("python", PythonPathTextBox);
     }
 
-    private bool CheckPathValid(string key, string path)
+    private bool PathValid(string key, BrowsableFileTextBox pathTextBox, bool save = false)
     {
-        // Ensure that the file exists
-        if (!File.Exists(path))
+        var path = NormalizePath(pathTextBox);
+        if (path == null)
         {
             return false;
         }
         
-        // Ensure that the key matches the file
-        // for example if the key is "blender" then the path should be "blender" in its last segment
-        var lastSegment = Path.GetFileNameWithoutExtension(path).ToLower();
-        if (!lastSegment.Contains(key.ToLower()))
+        if (FileManager.VerifyProgramPath(key, path))
         {
-            return false;
-        }
-        
-        // Check that the --version argument of the executable is able to be run
-        var process = new System.Diagnostics.Process
-        {
-            StartInfo = new System.Diagnostics.ProcessStartInfo
+            SetBorder(pathTextBox, true);
+            if (save)
             {
-                FileName = path,
-                Arguments = "--version",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
+                FileManager.WriteKeyValueToJsonFile("Data/program_paths.json", key, path);
             }
-        };
-        
-        process.Start();
-        var output = process.StandardOutput.ReadToEnd();
-        process.WaitForExit();
-        
-        return !string.IsNullOrEmpty(output);
+            return true;
+        }
+
+        SetBorder(pathTextBox, false);
+        return false;
     }
-    
-    private void CheckSavedPaths()
+
+    private void LoadPaths()
     {
         var paths = FileManager.ReadJsonKeyValue("Data/program_paths.json");
-        var blenderPathValid = CheckPathValid("blender", paths["blender"].ToString());
-        var pythonPathValid = CheckPathValid("python", paths["python"].ToString());
+        var blenderPath = paths?.blender;
+        var pythonPath = paths?.python;
         
-        if (blenderPathValid)
+        if (blenderPath != null)
         {
-            BlenderPathTextBox.PathTextBox.Text = paths["blender"];
-            BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
-        }
-
-        else
-        {
-            BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
+            BlenderPathTextBox.PathTextBox.Text = blenderPath;
         }
         
-        if (pythonPathValid)
+        if (pythonPath != null)
         {
-            PythonPathTextBox.PathTextBox.Text = paths["python"];
-            PythonPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
+            PythonPathTextBox.PathTextBox.Text = pythonPath;
         }
+    }
 
-        else
+    private string? NormalizePath(BrowsableFileTextBox pathTextBox)
+    {
+        var path = pathTextBox.PathTextBox.Text;
+        if (path == null)
         {
-            PythonPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
+            return null;
         }
+        
+        path = FileManager.ReformatPath(path);
+        pathTextBox.PathTextBox.Text = path;
+        return path;
+    }
+
+    private void SetBorder(BrowsableFileTextBox pathTextBox, bool isValid)
+    {
+        pathTextBox.PathTextBox.BorderBrush = isValid ? Brushes.MediumSpringGreen : Brushes.IndianRed;
     }
 
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var blenderValid = false;
-        var pythonValid = false;
-        
-        if (BlenderPathTextBox.PathTextBox.Text != null)
-        {
-            BlenderPathTextBox.PathTextBox.Text = FileManager.ReformatPath(BlenderPathTextBox.PathTextBox.Text);
-        }
+        var blenderValid = PathValid("blender", BlenderPathTextBox, true);
+        var pythonValid = PathValid("python", PythonPathTextBox, true);
 
-        if (PythonPathTextBox.PathTextBox.Text != null)
+        if (!blenderValid || !pythonValid)
         {
-            PythonPathTextBox.PathTextBox.Text = FileManager.ReformatPath(PythonPathTextBox.PathTextBox.Text);
+            return;
         }
         
-        var blenderPath = BlenderPathTextBox.PathTextBox.Text;
-        var pythonPath = PythonPathTextBox.PathTextBox.Text;
-
-        if (blenderPath != null)
-        {
-            if (CheckPathValid("blender", blenderPath))
-            {
-                FileManager.WriteToJsonFile(path: "Data/program_paths.json", key: "blender", value: blenderPath);
-                BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
-                blenderValid = true;
-            }
-
-            else
-            {
-                BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
-            }
-        }
-
-        if (pythonPath != null)
-        {
-            if (CheckPathValid("python", pythonPath))
-            {
-                FileManager.WriteToJsonFile(path: "Data/program_paths.json", key: "python", value: pythonPath);
-                PythonPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
-                pythonValid = true;
-            }
-
-            else
-            {
-                PythonPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
-            }
-        }
-        
-        if (blenderValid && pythonValid)
-        {
-            // Get the ContentControl called "PageContent" from the MainWindow
-            var mainWindow = (MainWindow) this.VisualRoot;
-            var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-            DataManager.BlenderPath = blenderPath;
-            DataManager.PythonPath = pythonPath;
-            pageContent.Content = new ModelPage();
-        }
+        var mainWindow = (MainWindow)this.VisualRoot!;
+        NavigationManager.SwitchPage(mainWindow, new ModelPage());
     }
 
     private void BlenderInstallButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var url = "https://www.blender.org/download/";
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = url,
-            UseShellExecute = true
-        });
+        WebManager.OpenUrl("https://www.blender.org/download/");
     }
 
     private void PythonInstallButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var url = "https://www.python.org/downloads/";
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = url,
-            UseShellExecute = true
-        });
+        WebManager.OpenUrl("https://www.python.org/downloads/");
     }
 }
