@@ -23,7 +23,7 @@ public partial class RequirementsPage : UserControl
         {
             return false;
         }
-        
+
         if (FileManager.VerifyProgramPath(key, path))
         {
             SetBorder(pathTextBox, true);
@@ -43,12 +43,12 @@ public partial class RequirementsPage : UserControl
         var paths = FileManager.ReadJsonKeyValue("Data/program_paths.json");
         var blenderPath = paths?.blender;
         var pythonPath = paths?.python;
-        
+
         if (blenderPath != null)
         {
             BlenderPathTextBox.PathTextBox.Text = blenderPath;
         }
-        
+
         if (pythonPath != null)
         {
             PythonPathTextBox.PathTextBox.Text = pythonPath;
@@ -62,7 +62,7 @@ public partial class RequirementsPage : UserControl
         {
             return null;
         }
-        
+
         path = FileManager.ReformatPath(path);
         pathTextBox.PathTextBox.Text = path;
         return path;
@@ -70,7 +70,9 @@ public partial class RequirementsPage : UserControl
 
     private void SetBorder(BrowsableFileTextBox pathTextBox, bool isValid)
     {
-        pathTextBox.PathTextBox.BorderBrush = isValid ? Brushes.MediumSpringGreen : Brushes.IndianRed;
+        pathTextBox.PathTextBox.BorderBrush = isValid
+            ? Brushes.MediumSpringGreen
+            : Brushes.IndianRed;
     }
 
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
@@ -82,7 +84,7 @@ public partial class RequirementsPage : UserControl
         {
             return;
         }
-        
+
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new ModelPage());
     }

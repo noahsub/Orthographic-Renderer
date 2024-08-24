@@ -8,7 +8,7 @@ public class Position
     public float Rx { get; set; }
     public float Ry { get; set; }
     public float Rz { get; set; }
-    
+
     public Position(float x, float y, float z, float rx, float ry, float rz)
     {
         X = x;

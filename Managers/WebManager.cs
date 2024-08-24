@@ -6,10 +6,6 @@ public class WebManager
 {
     public static void OpenUrl(string url)
     {
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = url,
-            UseShellExecute = true
-        });
+        Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
     }
 }

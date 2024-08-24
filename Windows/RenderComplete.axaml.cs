@@ -11,8 +11,14 @@ public partial class RenderComplete : Window
     {
         InitializeComponent();
     }
-    
-    public void SetValues(string startTime, string endTime, string totalTime, int completed, int failed)
+
+    public void SetValues(
+        string startTime,
+        string endTime,
+        string totalTime,
+        int completed,
+        int failed
+    )
     {
         StartTimeLabel.Content = $"Start Time: {startTime}";
         EndTimeLabel.Content = $"End Time: {endTime}";

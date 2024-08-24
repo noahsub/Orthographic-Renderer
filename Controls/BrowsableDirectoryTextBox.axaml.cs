@@ -18,11 +18,10 @@ public partial class BrowsableDirectoryTextBox : UserControl
     private async void BrowseButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var topLevel = TopLevel.GetTopLevel(this);
-        
-        var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
-        {
-            Title = "Select a Directory"
-        });
+
+        var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(
+            new FolderPickerOpenOptions() { Title = "Select a Directory" }
+        );
 
         if (directory.Count >= 1)
         {

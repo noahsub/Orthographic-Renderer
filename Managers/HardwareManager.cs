@@ -203,14 +203,13 @@ public class HardwareManager
                 memoryHardware.Add(hardware);
             }
         }
-        
+
         if (gpuHardware.Count == 0)
         {
             try
             {
                 gpuHardware = GetNvidiaGpuHardware();
             }
-            
             catch (Exception e)
             {
                 Console.WriteLine(e);
@@ -225,28 +224,66 @@ public class HardwareManager
         // Set the flag to indicate that render hardware has been collected to true
         RenderHardwareCollected = true;
     }
-    
+
     private static List<Hardware> GetNvidiaGpuHardware()
     {
         // excute `nvidia-smi --query-gpu=count --format=csv,noheader` to get the number of NVIDIA GPUs
-        
-        var gpuCount = int.Parse(ProcessManager.RunProcess("/bin/bash", "-c \"nvidia-smi --query-gpu=count --format=csv,noheader\""));
-        
+
+        var gpuCount = int.Parse(
+            ProcessManager.RunProcess(
+                "/bin/bash",
+                "-c \"nvidia-smi --query-gpu=count --format=csv,noheader\""
+            )
+        );
+
         List<Hardware> gpuHardware = new List<Hardware>();
         for (int i = 0; i < gpuCount; i++)
         {
             // execute `nvidia-smi -i 0 --query-gpu=name,temperature.gpu,utilization.gpu,memory.used --format=csv,noheader,nounits`
-            var gpuInfo = ProcessManager.RunProcess("/bin/bash",
-                    $"-c \"nvidia-smi -i {i} --query-gpu=name,temperature.gpu,utilization.gpu,memory.used --format=csv,noheader,nounits\"")
+            var gpuInfo = ProcessManager
+                .RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {i} --query-gpu=name,temperature.gpu,utilization.gpu,memory.used --format=csv,noheader,nounits\""
+                )
                 .Split(", ");
             var gpuName = gpuInfo[0];
             var gpuTemperature = float.Parse(gpuInfo[1]);
             var gpuLoad = float.Parse(gpuInfo[2]);
             var gpuMemoryUsed = float.Parse(gpuInfo[3]);
-            
-            gpuHardware.Add(new Hardware(gpuName, HardwareType.GpuNvidia, "Temperature", SensorType.Temperature, gpuTemperature, FindUnit(SensorType.Temperature), [i]));
-            gpuHardware.Add(new Hardware(gpuName, HardwareType.GpuNvidia, "GPU Core", SensorType.Load, gpuLoad, FindUnit(SensorType.Load), [i]));
-            gpuHardware.Add(new Hardware(gpuName, HardwareType.GpuNvidia, "GPU Memory Used", SensorType.SmallData, gpuMemoryUsed, FindUnit(SensorType.SmallData), [i]));
+
+            gpuHardware.Add(
+                new Hardware(
+                    gpuName,
+                    HardwareType.GpuNvidia,
+                    "Temperature",
+                    SensorType.Temperature,
+                    gpuTemperature,
+                    FindUnit(SensorType.Temperature),
+                    [i]
+                )
+            );
+            gpuHardware.Add(
+                new Hardware(
+                    gpuName,
+                    HardwareType.GpuNvidia,
+                    "GPU Core",
+                    SensorType.Load,
+                    gpuLoad,
+                    FindUnit(SensorType.Load),
+                    [i]
+                )
+            );
+            gpuHardware.Add(
+                new Hardware(
+                    gpuName,
+                    HardwareType.GpuNvidia,
+                    "GPU Memory Used",
+                    SensorType.SmallData,
+                    gpuMemoryUsed,
+                    FindUnit(SensorType.SmallData),
+                    [i]
+                )
+            );
         }
 
         return gpuHardware;
@@ -318,7 +355,7 @@ public class HardwareManager
             case 1:
                 RefreshNvidiaGpuHardware(hardware);
                 break;
-            
+
             // A path length of two indicates that the hardware has a sensor attached to it directly.
             case 2:
             {
@@ -332,7 +369,8 @@ public class HardwareManager
             {
                 // Update the value.
                 computer?.Hardware[path[0]].Update();
-                hardware.UpdateValue(computer?.Hardware[path[0]].SubHardware[path[1]].Sensors[path[2]].Value
+                hardware.UpdateValue(
+                    computer?.Hardware[path[0]].SubHardware[path[1]].Sensors[path[2]].Value
                 );
                 break;
             }
@@ -346,22 +384,31 @@ public class HardwareManager
         {
             return;
         }
-        
+
         switch (hardware.SensorType)
         {
             case SensorType.Temperature:
                 // execute `nvidia-smi -i 0 --query-gpu=temperature.gpu --format=csv,noheader,nounits`
-                var temperature = ProcessManager.RunProcess("/bin/bash", $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=temperature.gpu --format=csv,noheader,nounits\"");
+                var temperature = ProcessManager.RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=temperature.gpu --format=csv,noheader,nounits\""
+                );
                 hardware.UpdateValue(float.Parse(temperature));
                 break;
             case SensorType.Load:
                 // execute `nvidia-smi -i 0 --query-gpu=utilization.gpu --format=csv,noheader,nounits`
-                var load = ProcessManager.RunProcess("/bin/bash", $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=utilization.gpu --format=csv,noheader,nounits\"");
+                var load = ProcessManager.RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=utilization.gpu --format=csv,noheader,nounits\""
+                );
                 hardware.UpdateValue(float.Parse(load));
                 break;
             case SensorType.SmallData:
                 // execute `nvidia-smi -i 0 --query-gpu=memory.used --format=csv,noheader,nounits`
-                var memoryUsed = ProcessManager.RunProcess("/bin/bash", $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=memory.used --format=csv,noheader,nounits\"");
+                var memoryUsed = ProcessManager.RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=memory.used --format=csv,noheader,nounits\""
+                );
                 hardware.UpdateValue(float.Parse(memoryUsed));
                 break;
         }
@@ -382,7 +429,15 @@ public class HardwareManager
         var newName = hardware.Name;
 
         // Remove certain words from the name to reduce length in the UI
-        var redundantWords = new List<string> { "Generic ", "NVIDIA", "Intel", "AMD", "GeForce", "Laptop" };
+        var redundantWords = new List<string>
+        {
+            "Generic ",
+            "NVIDIA",
+            "Intel",
+            "AMD",
+            "GeForce",
+            "Laptop",
+        };
         foreach (var word in redundantWords)
         {
             newName = newName.Replace(word, "");

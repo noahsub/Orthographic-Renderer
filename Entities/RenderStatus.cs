@@ -5,5 +5,5 @@ public enum RenderStatus
     Pending,
     InProgress,
     Completed,
-    Failed
+    Failed,
 }

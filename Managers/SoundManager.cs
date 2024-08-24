@@ -7,8 +7,8 @@ public class SoundManager
 {
     public static void PlaySound(string path)
     {
-        using(var audioFile = new AudioFileReader(path))
-        using(var outputDevice = new WaveOutEvent())
+        using (var audioFile = new AudioFileReader(path))
+        using (var outputDevice = new WaveOutEvent())
         {
             outputDevice.Init(audioFile);
             outputDevice.Play();

@@ -22,7 +22,7 @@ public partial class MainWindow : Window
         this.PointerReleased += OnPointerReleased;
         PageContent.Content = new RequirementsPage();
     }
-    
+
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         IsPointerPressed = true;

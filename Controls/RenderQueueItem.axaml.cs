@@ -9,13 +9,13 @@ namespace Orthographic.Renderer.Controls;
 public partial class RenderQueueItem : UserControl
 {
     public RenderStatus Status { get; set; }
-    
+
     public RenderQueueItem()
     {
         InitializeComponent();
         SetStatus(RenderStatus.Pending);
     }
-    
+
     public void SetStatus(RenderStatus status)
     {
         switch (status)

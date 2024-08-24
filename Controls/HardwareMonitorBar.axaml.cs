@@ -14,18 +14,18 @@ public partial class HardwareMonitorBar : UserControl
     /// Interval for polling updates in milliseconds.
     /// </summary>
     private const int PollingInterval = 500;
-    
+
     public HardwareMonitorBar()
     {
         InitializeComponent();
-        
+
         // Wait for RenderHardwareCollected to be true asynchronously
         Task.Run(SetupMonitor);
 
         // Update hardware status asynchronously
         Task.Run(UpdateMonitor);
     }
-    
+
     /// <summary>
     /// Sets up the hardware monitor by waiting for hardware data to be collected and then initializing the UI.
     /// </summary>
@@ -42,7 +42,7 @@ public partial class HardwareMonitorBar : UserControl
             PopulateMonitorGrid();
         });
     }
-    
+
     /// <summary>
     /// Continuously updates the hardware monitor and check for changes in window size, position, and scroll to ensure
     /// that such operations are not affected by the update of the hardware monitor.
@@ -52,7 +52,7 @@ public partial class HardwareMonitorBar : UserControl
         while (true)
         {
             await Task.Delay(PollingInterval);
-            
+
             // Perform the update on a background thread
             var updatedValues = await Task.Run(() =>
             {
@@ -63,14 +63,15 @@ public partial class HardwareMonitorBar : UserControl
             {
                 for (int i = 0; i < HardwareGrid.Children.Count; i++)
                 {
-                    
-                    ((HardwareStatus)HardwareGrid.Children[i]).ValueLabel.Content = updatedValues?[i];
+                    ((HardwareStatus)HardwareGrid.Children[i]).ValueLabel.Content = updatedValues?[
+                        i
+                    ];
                 }
             });
         }
         // ReSharper disable once FunctionNeverReturns
     }
-    
+
     /// <summary>
     /// Sets up the columns in the hardware status grid based on the number of hardware items to monitor.
     /// </summary>
@@ -84,7 +85,9 @@ public partial class HardwareMonitorBar : UserControl
 
         for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
         {
-            HardwareGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            HardwareGrid.ColumnDefinitions.Add(
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+            );
         }
     }
 
@@ -100,19 +103,21 @@ public partial class HardwareMonitorBar : UserControl
 
         for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
         {
-            var hardwareStatusControl = CreateHardwareMonitorControl(HardwareManager.HardwareToMonitor[i]);
+            var hardwareStatusControl = CreateHardwareMonitorControl(
+                HardwareManager.HardwareToMonitor[i]
+            );
             Grid.SetColumn(hardwareStatusControl, i);
             HardwareGrid.Children.Add(hardwareStatusControl);
         }
     }
-    
+
     /// <summary>
     /// Updates the hardware monitor controls with the latest hardware status values.
     /// </summary>
     private List<string>? UpdateHardwareMonitorControl()
     {
         List<string> newValues = new List<string>();
-        
+
         if (HardwareManager.HardwareToMonitor == null)
         {
             return null;
@@ -126,7 +131,7 @@ public partial class HardwareMonitorBar : UserControl
         for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
         {
             var hardware = HardwareManager.HardwareToMonitor[i];
-            
+
             if (hardware.Path == null && hardware.Type == HardwareType.GpuNvidia)
             {
                 continue;
@@ -141,7 +146,7 @@ public partial class HardwareMonitorBar : UserControl
 
         return newValues;
     }
-    
+
     /// <summary>
     /// Creates a hardware monitor control for a given hardware item.
     /// </summary>

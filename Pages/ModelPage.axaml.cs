@@ -37,10 +37,10 @@ public partial class ModelPage : UserControl
         modelPath = FileManager.ReformatPath(modelPath);
         DataManager.ModelPath = modelPath;
         UpdateRecentFiles(modelPath);
-        
+
         var mainWindow = (MainWindow)this.VisualRoot!;
         var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-        
+
         if (pageContent != null)
         {
             pageContent.Content = new RenderPage();
@@ -63,7 +63,7 @@ public partial class ModelPage : UserControl
 
         paths.Remove(modelPath);
         paths.Insert(0, modelPath);
-        
+
         FileManager.WriteArrayToJsonFile("Data/recent_models.json", "paths", paths);
     }
 
@@ -76,7 +76,10 @@ public partial class ModelPage : UserControl
         }
     }
 
-    private void RecentlyOpenedComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private void RecentlyOpenedComboBox_OnSelectionChanged(
+        object? sender,
+        SelectionChangedEventArgs e
+    )
     {
         var selectedText = RecentlyOpenedComboBox.SelectedItem?.ToString();
         ModelPathTextBox.PathTextBox.Text = selectedText;

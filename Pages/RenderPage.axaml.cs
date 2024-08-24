@@ -5,12 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Orthographic.Renderer.Controls;
@@ -29,7 +27,7 @@ public partial class RenderPage : UserControl
         PopulateViews(RenderManager.RenderViews);
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
     }
-    
+
     /// <summary>
     /// Populates the view selection stack panels with render view controls for different angles from left to right, top
     /// to bottom.
@@ -80,24 +78,22 @@ public partial class RenderPage : UserControl
 
             ViewSelect.AllButton.IsChecked = false;
         }
-        
         else if (ViewSelect.NoneButton.IsChecked == true)
         {
             foreach (ViewSelection view in ViewStackGrid.GetItems())
             {
                 view.CheckBox.IsChecked = false;
             }
-            
+
             ViewSelect.NoneButton.IsChecked = false;
         }
-        
         else if (ViewSelect.InvertButton.IsChecked == true)
         {
             foreach (ViewSelection view in ViewStackGrid.GetItems())
             {
                 view.CheckBox.IsChecked = !view.CheckBox.IsChecked;
             }
-            
+
             ViewSelect.InvertButton.IsChecked = false;
         }
     }
@@ -126,7 +122,6 @@ public partial class RenderPage : UserControl
             {
                 matchingViews.Add(view);
             }
-
             else
             {
                 nonMatchingViews.Add(view);
@@ -136,7 +131,7 @@ public partial class RenderPage : UserControl
         var sortedViews = new List<string>();
         sortedViews.AddRange(matchingViews);
         sortedViews.AddRange(nonMatchingViews);
-        
+
         PopulateViews(sortedViews);
 
         foreach (ViewSelection view in ViewStackGrid.GetItems())
@@ -166,9 +161,9 @@ public partial class RenderPage : UserControl
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var timeStarted = DateTime.Now;
-        
+
         LockPage();
-        
+
         // Start a timer thread to update the timer label every second until this method completes
         var timerRunning = true;
         var timerTask = Task.Run(async () =>
@@ -216,25 +211,50 @@ public partial class RenderPage : UserControl
                 while (RenderItems.ProgressQueue.Count > 0)
                 {
                     var renderItem = RenderItems.DequeueProgress();
-                    await Render(renderItem, distance, modelPath, scriptPath, prefix, outputDir, width, height, scale, blenderPath);
+                    await Render(
+                        renderItem,
+                        distance,
+                        modelPath,
+                        scriptPath,
+                        prefix,
+                        outputDir,
+                        width,
+                        height,
+                        scale,
+                        blenderPath
+                    );
                 }
                 break;
 
             case "parallel":
                 var semaphore = new SemaphoreSlim(threads);
 
-                var tasks = RenderItems.GetItemsInProgress().Cast<RenderQueueItem>().Select(async renderItem =>
-                {
-                    await semaphore.WaitAsync();
-                    try
+                var tasks = RenderItems
+                    .GetItemsInProgress()
+                    .Cast<RenderQueueItem>()
+                    .Select(async renderItem =>
                     {
-                        await Render(renderItem, distance, modelPath, scriptPath, prefix, outputDir, width, height, scale, blenderPath);
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                });
+                        await semaphore.WaitAsync();
+                        try
+                        {
+                            await Render(
+                                renderItem,
+                                distance,
+                                modelPath,
+                                scriptPath,
+                                prefix,
+                                outputDir,
+                                width,
+                                height,
+                                scale,
+                                blenderPath
+                            );
+                        }
+                        finally
+                        {
+                            semaphore.Release();
+                        }
+                    });
 
                 await Task.WhenAll(tasks);
                 break;
@@ -242,13 +262,19 @@ public partial class RenderPage : UserControl
 
         // Cancel the timer task
         timerRunning = false;
-        
+
         var timeEnded = DateTime.Now;
-        
+
         UnlockPage();
-        
+
         var renderComplete = new RenderComplete();
-        renderComplete.SetValues(timeStarted.ToString(), timeEnded.ToString(), TimerLabel.Content.ToString(), RenderItems.CompletedQueue.Count, 0);
+        renderComplete.SetValues(
+            timeStarted.ToString(),
+            timeEnded.ToString(),
+            TimerLabel.Content.ToString(),
+            RenderItems.CompletedQueue.Count,
+            0
+        );
         renderComplete.Show();
 
         if (sound == true)
@@ -260,16 +286,32 @@ public partial class RenderPage : UserControl
         }
     }
 
-    private async Task Render(RenderQueueItem renderItem, float distance, string modelPath, string scriptPath,
-        string? prefix, string? outputDir, decimal? width, decimal? height, decimal? scale, string? blenderPath)
+    private async Task Render(
+        RenderQueueItem renderItem,
+        float distance,
+        string modelPath,
+        string scriptPath,
+        string? prefix,
+        string? outputDir,
+        decimal? width,
+        decimal? height,
+        decimal? scale,
+        string? blenderPath
+    )
     {
-        var position = RenderManager.GetPosition(renderItem.Name.Content.ToString().ToLower().Replace(" ", "-"), distance);
+        var position = RenderManager.GetPosition(
+            renderItem.Name.Content.ToString().ToLower().Replace(" ", "-"),
+            distance
+        );
         renderItem.SetStatus(RenderStatus.InProgress);
 
         var arguments =
             $"-b \"{modelPath}\" -P \"{scriptPath}\" -- --name {prefix} --output_path \"{outputDir}\" --resolution {width} {height} --scale {scale} --distance {distance} --x {position.X} --y {position.Y} --z {position.Z} --rx {position.Rx} --ry {position.Ry} --rz {position.Rz}";
 
-        await Task.Run(() => { ProcessManager.RunProcess(blenderPath, arguments); });
+        await Task.Run(() =>
+        {
+            ProcessManager.RunProcess(blenderPath, arguments);
+        });
 
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
@@ -289,7 +331,7 @@ public partial class RenderPage : UserControl
         ViewStackGrid.IsEnabled = false;
         RenderButton.IsEnabled = false;
     }
-    
+
     private void UnlockPage()
     {
         Settings.IsEnabled = true;

@@ -18,12 +18,10 @@ public partial class BrowsableFileTextBox : UserControl
     private async void BrowseButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var topLevel = TopLevel.GetTopLevel(this);
-        
-        var file = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-        {
-            Title = "Select a file",
-            AllowMultiple = false
-        });
+
+        var file = await topLevel.StorageProvider.OpenFilePickerAsync(
+            new FilePickerOpenOptions { Title = "Select a file", AllowMultiple = false }
+        );
 
         if (file.Count >= 1)
         {

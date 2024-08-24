@@ -21,7 +21,7 @@ public partial class SelectOptions : UserControl
         {
             return;
         }
-        
+
         NoneButton.IsChecked = false;
         InvertButton.IsChecked = false;
     }
@@ -32,7 +32,7 @@ public partial class SelectOptions : UserControl
         {
             return;
         }
-        
+
         AllButton.IsChecked = false;
         InvertButton.IsChecked = false;
     }
@@ -43,7 +43,7 @@ public partial class SelectOptions : UserControl
         {
             return;
         }
-        
+
         AllButton.IsChecked = false;
         NoneButton.IsChecked = false;
     }

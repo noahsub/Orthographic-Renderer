@@ -12,14 +12,14 @@ public class ProcessManager
                 Arguments = arguments,
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
-                CreateNoWindow = true
-            }
+                CreateNoWindow = true,
+            },
         };
-        
+
         process.Start();
         var output = process.StandardOutput.ReadToEnd();
         process.WaitForExit();
-        
+
         return output;
     }
 }
