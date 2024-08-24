@@ -1,13 +1,9 @@
-using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Orthographic.Renderer.Pages;
 
-namespace Orthographic.Renderer;
+namespace Orthographic.Renderer.Windows;
 
 public partial class MainWindow : Window
 {

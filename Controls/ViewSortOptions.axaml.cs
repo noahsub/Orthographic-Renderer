@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Markup.Xaml;
 
 namespace Orthographic.Renderer.Controls;
 
@@ -21,7 +19,7 @@ public partial class ViewSortOptions : UserControl
             var button = (ToggleButton)control;
             if (button.IsChecked == true)
             {
-                selectedFaces.Add(button.Content.ToString().ToLower());
+                selectedFaces.Add(button.Content?.ToString()?.ToLower() ?? string.Empty);
             }
         }
 

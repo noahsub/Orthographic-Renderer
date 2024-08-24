@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ public partial class RenderPage : UserControl
         InitializeComponent();
         ViewStackGrid.SetColumns(5);
         PopulateViews(RenderManager.RenderViews);
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
     }
 
     private void PopulateViews(List<string> views)

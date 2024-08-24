@@ -80,17 +80,12 @@ public class HardwareManager
     /// <summary>
     /// This computer.
     /// </summary>
-    public static Computer? Computer { get; set; }
-
-    /// <summary>
-    /// Flag indicating whether hardware monitoring is ready.
-    /// </summary>
-    public static bool HardwareMonitoringReady { get; set; }
+    public static Computer Computer { get; set; } = new();
 
     /// <summary>
     /// List of hardware to monitor.
     /// </summary>
-    public static List<Hardware>? HardwareToMonitor { get; set; }
+    public static List<Hardware> HardwareToMonitor { get; set; } = [];
 
     /// <summary>
     /// Flag indicating whether render hardware has been collected.
@@ -120,7 +115,6 @@ public class HardwareManager
 
         Computer.Open();
         Computer.Accept(new UpdateVisitor());
-        HardwareMonitoringReady = true;
     }
 
     /// <summary>
@@ -128,7 +122,7 @@ public class HardwareManager
     /// </summary>
     public static void CloseComputer()
     {
-        Computer?.Close();
+        Computer.Close();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,46 +288,45 @@ public class HardwareManager
     /// </summary>
     /// <param name="computer">This computer.</param>
     /// <returns>A list of hardware components.</returns>
-    private static List<Hardware> MapHardware(Computer? computer)
+    private static List<Hardware> MapHardware(Computer computer)
     {
         var map = new List<Hardware>();
 
-        if (computer != null)
-            for (var i = 0; i < computer.Hardware.Count; i++)
+        for (var i = 0; i < computer.Hardware.Count; i++)
+        {
+            for (var j = 0; j < computer.Hardware[i].SubHardware.Length; j++)
             {
-                for (var j = 0; j < computer.Hardware[i].SubHardware.Length; j++)
-                {
-                    for (var k = 0; k < computer.Hardware[i].SubHardware[j].Sensors.Length; k++)
-                    {
-                        var hardware = new Hardware(
-                            computer.Hardware[i].SubHardware[j].Name,
-                            computer.Hardware[i].SubHardware[j].HardwareType,
-                            computer.Hardware[i].SubHardware[j].Sensors[k].Name,
-                            computer.Hardware[i].SubHardware[j].Sensors[k].SensorType,
-                            computer.Hardware[i].SubHardware[j].Sensors[k].Value,
-                            FindUnit(computer.Hardware[i].SubHardware[j].Sensors[k].SensorType),
-                            new List<int> { i, j, k }
-                        );
-
-                        map.Add(hardware);
-                    }
-                }
-
-                for (var j = 0; j < computer.Hardware[i].Sensors.Length; j++)
+                for (var k = 0; k < computer.Hardware[i].SubHardware[j].Sensors.Length; k++)
                 {
                     var hardware = new Hardware(
-                        computer.Hardware[i].Name,
-                        computer.Hardware[i].HardwareType,
-                        computer.Hardware[i].Sensors[j].Name,
-                        computer.Hardware[i].Sensors[j].SensorType,
-                        computer.Hardware[i].Sensors[j].Value,
-                        FindUnit(computer.Hardware[i].Sensors[j].SensorType),
-                        new List<int> { i, j }
+                        computer.Hardware[i].SubHardware[j].Name,
+                        computer.Hardware[i].SubHardware[j].HardwareType,
+                        computer.Hardware[i].SubHardware[j].Sensors[k].Name,
+                        computer.Hardware[i].SubHardware[j].Sensors[k].SensorType,
+                        computer.Hardware[i].SubHardware[j].Sensors[k].Value ?? 0,
+                        FindUnit(computer.Hardware[i].SubHardware[j].Sensors[k].SensorType),
+                        [i, j, k]
                     );
 
                     map.Add(hardware);
                 }
             }
+
+            for (var j = 0; j < computer.Hardware[i].Sensors.Length; j++)
+            {
+                var hardware = new Hardware(
+                    computer.Hardware[i].Name,
+                    computer.Hardware[i].HardwareType,
+                    computer.Hardware[i].Sensors[j].Name,
+                    computer.Hardware[i].Sensors[j].SensorType,
+                    computer.Hardware[i].Sensors[j].Value ?? 0,
+                    FindUnit(computer.Hardware[i].Sensors[j].SensorType),
+                    [i, j]
+                );
+
+                map.Add(hardware);
+            }
+        }
 
         return map;
     }
@@ -343,7 +336,7 @@ public class HardwareManager
     /// </summary>
     /// <param name="computer">This computer.</param>
     /// <param name="hardware">The hardware to refresh.</param>
-    public static void RefreshHardware(Computer? computer, Hardware hardware)
+    public static void RefreshHardware(Computer computer, Hardware hardware)
     {
         var path = hardware.Path;
 
@@ -360,18 +353,32 @@ public class HardwareManager
             case 2:
             {
                 // Update the value.
-                computer?.Hardware[path[0]].Update();
-                hardware.UpdateValue(computer?.Hardware[path[0]].Sensors[path[1]].Value);
+                computer.Hardware[path[0]].Update();
+                var value = computer.Hardware[path[0]].Sensors[path[1]].Value;
+                if (value != null)
+                {
+                    hardware.UpdateValue((float)value);
+                }
+                else
+                {
+                    hardware.UpdateValue(0);
+                }
                 break;
             }
             // A path length of three indicates that the hardware has a sub-hardware with a sensor attached to it.
             case 3:
             {
                 // Update the value.
-                computer?.Hardware[path[0]].Update();
-                hardware.UpdateValue(
-                    computer?.Hardware[path[0]].SubHardware[path[1]].Sensors[path[2]].Value
-                );
+                computer.Hardware[path[0]].Update();
+                var value = computer.Hardware[path[0]].SubHardware[path[1]].Sensors[path[2]].Value;
+                if (value != null)
+                {
+                    hardware.UpdateValue((float)value);
+                }
+                else
+                {
+                    hardware.UpdateValue(0);
+                }
                 break;
             }
         }
@@ -480,7 +487,7 @@ public class HardwareManager
     /// </summary>
     /// <param name="sensorType">The sensor type.</param>
     /// <returns>The unit as a string.</returns>
-    private static string? FindUnit(SensorType sensorType)
+    private static string FindUnit(SensorType sensorType)
     {
         return sensorType switch
         {
@@ -495,7 +502,7 @@ public class HardwareManager
             SensorType.Control => "?",
             SensorType.SmallData => "MB",
             SensorType.Throughput => "KB/s",
-            _ => null,
+            _ => "NA"
         };
     }
 }

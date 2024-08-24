@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace Orthographic.Renderer.Controls;
 
@@ -24,7 +22,7 @@ public partial class RenderQueue : UserControl
 
     public RenderQueueItem DequeuePending()
     {
-        return (RenderQueueItem)PendingQueue.Dequeue();
+        return (RenderQueueItem)PendingQueue.Dequeue()!;
     }
 
     public void EnqueueCompleted(RenderQueueItem item)
@@ -34,7 +32,7 @@ public partial class RenderQueue : UserControl
 
     public RenderQueueItem DequeueCompleted()
     {
-        return (RenderQueueItem)CompletedQueue.Dequeue();
+        return (RenderQueueItem)CompletedQueue.Dequeue()!;
     }
     
     public void EnqueueFailed(RenderQueueItem item)
@@ -44,7 +42,7 @@ public partial class RenderQueue : UserControl
     
     public RenderQueueItem DequeueFailed()
     {
-        return (RenderQueueItem)FailedQueue.Dequeue();
+        return (RenderQueueItem)FailedQueue.Dequeue()!;
     }
 
     public void AddToDisplay(RenderQueueItem item)

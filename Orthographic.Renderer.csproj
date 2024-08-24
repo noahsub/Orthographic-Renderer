@@ -306,6 +306,14 @@
         <DependentUpon>BrowsableDirectoryTextBox.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Windows\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Windows\SplashScreen.axaml.cs">
+        <DependentUpon>SplashScreen.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
     
     

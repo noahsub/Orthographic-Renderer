@@ -9,18 +9,18 @@ public class Hardware
     public HardwareType Type { get; set; }
     public string SensorName { get; set; }
     public SensorType SensorType { get; set; }
-    public float? Value;
-    public string? Unit { get; set; }
-    public List<int>? Path { get; set; }
+    public float Value;
+    public string Unit { get; set; }
+    public List<int> Path { get; set; }
 
     public Hardware(
         string name,
         HardwareType type,
         string sensorName,
         SensorType sensorType,
-        float? value,
-        string? unit,
-        List<int>? path
+        float value,
+        string unit,
+        List<int> path
     )
     {
         Name = name;
@@ -38,7 +38,7 @@ public class Hardware
         return $"Name: {Name}, Type: {Type}, SensorName: {SensorName}, SensorType: {SensorType}, Value: {Value}, Unit: {Unit}, Path: {pathString}";
     }
 
-    public void UpdateValue(float? value)
+    public void UpdateValue(float value)
     {
         // Update value, but format to 2 decimal places
         Value = value;

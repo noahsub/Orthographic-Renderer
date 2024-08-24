@@ -1,8 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 
-namespace Orthographic.Renderer;
+namespace Orthographic.Renderer.Windows;
 
 public partial class SplashScreen : Window
 {

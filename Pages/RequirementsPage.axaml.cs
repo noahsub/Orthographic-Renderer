@@ -41,7 +41,7 @@ public partial class RequirementsPage : UserControl
     private void LoadPaths()
     {
         var paths = FileManager.ReadJsonKeyValue("Data/program_paths.json");
-        var blenderPath = paths?.blender;
+        var blenderPath = paths.blender;
         // var pythonPath = paths?.python;
 
         if (blenderPath != null)
@@ -90,10 +90,10 @@ public partial class RequirementsPage : UserControl
             return;
         }
         
-        DataManager.BlenderPath = BlenderPathTextBox.PathTextBox.Text;
+        DataManager.BlenderPath = BlenderPathTextBox.PathTextBox.Text ?? string.Empty;
         // DataManager.PythonPath = PythonPathTextBox.PathTextBox.Text;
 
-        var mainWindow = (MainWindow)this.VisualRoot!;
+        var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new ModelPage());
     }
 

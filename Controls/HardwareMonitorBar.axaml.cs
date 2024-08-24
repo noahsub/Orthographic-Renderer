@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using LibreHardwareMonitor.Hardware;
 using Orthographic.Renderer.Managers;
 using Hardware = Orthographic.Renderer.Entities.Hardware;
 
@@ -77,16 +76,9 @@ public partial class HardwareMonitorBar : UserControl
     /// </summary>
     private void SetupMonitorColumns()
     {
-        // Ensure the hardware to monitor has been collected
-        if (HardwareManager.HardwareToMonitor == null)
-        {
-            return;
-        }
-
         for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
         {
-            HardwareGrid.ColumnDefinitions.Add(
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+            HardwareGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
             );
         }
     }
@@ -96,11 +88,6 @@ public partial class HardwareMonitorBar : UserControl
     /// </summary>
     private void PopulateMonitorGrid()
     {
-        if (HardwareManager.HardwareToMonitor == null)
-        {
-            return;
-        }
-
         for (var i = 0; i < HardwareManager.HardwareToMonitor.Count; i++)
         {
             var hardwareStatusControl = CreateHardwareMonitorControl(
@@ -118,11 +105,6 @@ public partial class HardwareMonitorBar : UserControl
     {
         List<string> newValues = new List<string>();
 
-        if (HardwareManager.HardwareToMonitor == null)
-        {
-            return null;
-        }
-
         if (HardwareGrid.Children.Count != HardwareManager.HardwareToMonitor.Count)
         {
             return null;
@@ -132,16 +114,10 @@ public partial class HardwareMonitorBar : UserControl
         {
             var hardware = HardwareManager.HardwareToMonitor[i];
 
-            if (hardware.Path == null && hardware.Type == HardwareType.GpuNvidia)
-            {
-                continue;
-            }
-
             HardwareManager.RefreshHardware(HardwareManager.Computer, hardware);
 
             var formattedValue = $"{hardware.Value:0.00}";
             newValues.Add(formattedValue);
-            // ((HardwareControl)HardwareGrid.Children[i]).ValueLabel.Content = formattedValue;
         }
 
         return newValues;

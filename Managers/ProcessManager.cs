@@ -33,14 +33,13 @@ public class ProcessManager
             {
                 FileName = path,
                 Arguments = arguments,
-                RedirectStandardOutput = true,
+                RedirectStandardOutput = false,
                 UseShellExecute = false,
                 CreateNoWindow = true,
             },
         };
 
         process.Start();
-        var output = process.StandardOutput.ReadToEnd();
         process.WaitForExit();
 
         if (process.ExitCode != 0)

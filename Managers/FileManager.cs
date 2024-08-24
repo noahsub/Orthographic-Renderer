@@ -1,32 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Avalonia.Remote.Protocol.Input;
 using Newtonsoft.Json;
 
 namespace Orthographic.Renderer.Managers;
 
 public class FileManager
 {
-    public static dynamic? ReadJsonKeyValue(string path)
+    public static dynamic ReadJsonKeyValue(string path)
     {
         var text = File.ReadAllText(path);
-        return JsonConvert.DeserializeObject(text) ?? null;
+        return JsonConvert.DeserializeObject(text) ?? string.Empty;
     }
 
-    public static List<string?> ReadJsonArray(string path, string key)
+    public static List<string> ReadJsonArray(string path, string key)
     {
         var text = File.ReadAllText(path);
         var json = JsonConvert.DeserializeObject<Dictionary<string, object>>(text);
-        if (
-            json != null
-            && json.TryGetValue(key, out var value)
-            && value is Newtonsoft.Json.Linq.JArray jArray
-        )
+        if (json != null && json.TryGetValue(key, out var value) && value is Newtonsoft.Json.Linq.JArray jArray)
         {
-            return jArray.ToObject<List<string?>>();
+            return jArray.ToObject<List<string>>() ?? [];
         }
-        return new List<string?>();
+        return [];
     }
 
     public static void WriteKeyValueToJsonFile(string path, string key, string value)

@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
-        x:Class="Orthographic.Renderer.MainWindow"
+        x:Class="Orthographic.Renderer.Windows.MainWindow"
         MinHeight="400"
         MinWidth="800"
         Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"

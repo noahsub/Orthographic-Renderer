@@ -2,7 +2,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Avalonia.Markup.Xaml;
 
 namespace Orthographic.Renderer.Controls;
 
@@ -89,7 +88,7 @@ public partial class StackGrid : UserControl
         {
             var column = i % NumColumns;
             var stackPanel = (StackPanel)Items.Children[column];
-            yield return (Control)stackPanel.Children[i / NumColumns];
+            yield return stackPanel.Children[i / NumColumns];
         }
     }
 }

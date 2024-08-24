@@ -38,13 +38,8 @@ public partial class ModelPage : UserControl
         DataManager.ModelPath = modelPath;
         UpdateRecentFiles(modelPath);
 
-        var mainWindow = (MainWindow)this.VisualRoot!;
-        var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-
-        if (pageContent != null)
-        {
-            pageContent.Content = new RenderPage();
-        }
+        var mainWindow = (Windows.MainWindow)this.VisualRoot!;
+        NavigationManager.SwitchPage(mainWindow, new RenderPage());
     }
 
     private static bool IsValidModelPath(string modelPath)
