@@ -13,7 +13,7 @@ public partial class RequirementsPage : UserControl
         InitializeComponent();
         LoadPaths();
         PathValid("blender", BlenderPathTextBox);
-        PathValid("python", PythonPathTextBox);
+        // PathValid("python", PythonPathTextBox);
     }
 
     private bool PathValid(string key, BrowsableFileTextBox pathTextBox, bool save = false)
@@ -42,17 +42,17 @@ public partial class RequirementsPage : UserControl
     {
         var paths = FileManager.ReadJsonKeyValue("Data/program_paths.json");
         var blenderPath = paths?.blender;
-        var pythonPath = paths?.python;
+        // var pythonPath = paths?.python;
 
         if (blenderPath != null)
         {
             BlenderPathTextBox.PathTextBox.Text = blenderPath;
         }
 
-        if (pythonPath != null)
-        {
-            PythonPathTextBox.PathTextBox.Text = pythonPath;
-        }
+        // if (pythonPath != null)
+        // {
+        //     PythonPathTextBox.PathTextBox.Text = pythonPath;
+        // }
     }
 
     private string? NormalizePath(BrowsableFileTextBox pathTextBox)
@@ -78,15 +78,20 @@ public partial class RequirementsPage : UserControl
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var blenderValid = PathValid("blender", BlenderPathTextBox, true);
-        var pythonValid = PathValid("python", PythonPathTextBox, true);
+        // var pythonValid = PathValid("python", PythonPathTextBox, true);
 
-        if (!blenderValid || !pythonValid)
+        // if (!blenderValid || !pythonValid)
+        // {
+        //     return;
+        // }
+        
+        if (!blenderValid)
         {
             return;
         }
         
         DataManager.BlenderPath = BlenderPathTextBox.PathTextBox.Text;
-        DataManager.PythonPath = PythonPathTextBox.PathTextBox.Text;
+        // DataManager.PythonPath = PythonPathTextBox.PathTextBox.Text;
 
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new ModelPage());
@@ -97,8 +102,8 @@ public partial class RequirementsPage : UserControl
         WebManager.OpenUrl("https://www.blender.org/download/");
     }
 
-    private void PythonInstallButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        WebManager.OpenUrl("https://www.python.org/downloads/");
-    }
+    // private void PythonInstallButton_OnClick(object? sender, RoutedEventArgs e)
+    // {
+    //     WebManager.OpenUrl("https://www.python.org/downloads/");
+    // }
 }
