@@ -247,10 +247,17 @@ public partial class AdvancedRenderPage : UserControl
         
         UnlockPage();
         
-        
         var renderComplete = new RenderComplete();
         renderComplete.SetValues(timeStarted.ToString(), timeEnded.ToString(), TimerLabel.Content.ToString(), RenderItems.CompletedQueue.Count, 0);
         renderComplete.Show();
+
+        if (sound == true)
+        {
+            Task.Run(() =>
+            {
+                SoundManager.PlaySound("Assets/Sounds/ping.mp3");
+            });
+        }
     }
 
     private async Task Render(RenderQueueItem renderItem, float distance, string modelPath, string scriptPath,
