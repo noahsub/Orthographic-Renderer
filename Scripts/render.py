@@ -102,9 +102,12 @@ def import_model(model_path: str, unit: float) -> None:
     print(directory)
     print(file_name)
     print(name)
-
-    bpy.ops.wm.obj_import(filepath=model_path, directory=directory, files=[{"name": file_name, "name": file_name}],
-                          global_scale=unit, forward_axis='Y', up_axis='Z')
+    
+    if model_path.endswith(".obj"):
+        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, files=[{"name": file_name, "name": file_name}],
+                              global_scale=unit, forward_axis='Y', up_axis='Z')
+    elif model_path.endswith(".stl"):
+        bpy.ops.wm.stl_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
 
     try:
         bpy.data.objects.remove(bpy.data.objects["Cube"], do_unlink=True)
@@ -284,6 +287,24 @@ def compute_triangular_leg(distance: float):
     """
     return math.sqrt(math.pow(distance, 2) / 2)
 
+########################################################################################################################
+# FILE FUNCTIONS
+########################################################################################################################
+
+def save_file(file_path: str) -> None:
+    """
+    If the file is a .blend file do nothing. If it is not, save the file as a .blend file. If it has already been saved
+    as a .blend file ignore the save.
+    :param file_path: The path to save the file
+    :return: None
+    """
+    if file_path.endswith(".blend"):
+        return
+    if os.path.exists(file_path.replace(".obj", ".blend").replace(".stl", ".blend")):
+        return
+    else:
+        bpy.ops.wm.save_as_mainfile(filepath=file_path.replace(".obj", ".blend").replace(".stl", ".blend"))
+    
 
 ########################################################################################################################
 # HELPER FUNCTIONS
@@ -309,6 +330,7 @@ if __name__ == "__main__":
     parser.add_argument("--scale", type=int, help="The scale of the rendered image")
     parser.add_argument("--distance", type=float, help="The distance from the origin to the camera")
     parser.add_argument("--unit", type=float, help="The scale of the model relative to meters")
+    parser.add_argument("--save", type=bool, help="Whether to save the model")
     parser.add_argument("--x", type=float, help="The x position of the camera")
     parser.add_argument("--y", type=float, help="The y position of the camera")
     parser.add_argument("--z", type=float, help="The z position of the camera")
@@ -368,3 +390,6 @@ if __name__ == "__main__":
 
     # Render the view
     render_generic_view(name=args.name, output_folder=output_path, position=position)
+    
+    if (args.save):
+        save_file(args.model)

@@ -269,6 +269,16 @@ public partial class RenderSettings : UserControl
         return (bool)PlaySoundCheckBox.IsChecked;
     }
     
+    public bool GetSave()
+    {
+        if (SaveCheckBox.IsChecked == null)
+        {
+            return false;
+        }
+        
+        return (bool)SaveCheckBox.IsChecked;
+    }
+    
     private void PlayErrorSound()
     {
         Task.Run(() =>

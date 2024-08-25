@@ -56,5 +56,9 @@
             <Label Content="Play Sound: " Grid.Column="0"/>
             <CheckBox x:Name="PlaySoundCheckBox" Grid.Column="1" HorizontalAlignment="Stretch"/>
         </Grid>
+        <Grid ColumnDefinitions="110,*">
+            <Label Content="Save .blend: " Grid.Column="0"/>
+            <CheckBox x:Name="SaveCheckBox" Grid.Column="1" HorizontalAlignment="Stretch"/>
+        </Grid>
     </StackPanel>
 </UserControl>

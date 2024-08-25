@@ -131,6 +131,7 @@ public partial class RenderPage : UserControl
         var height = Settings.GetResolutionHeight();
         var scale = Settings.GetScale();
         var sound = Settings.GetPlaySound();
+        var save = Settings.GetSave();
         
         var selectedViews = GetSelectedViews();
         foreach (var view in selectedViews)
@@ -166,7 +167,7 @@ public partial class RenderPage : UserControl
                 while (RenderItems.PendingQueue.Count > 0)
                 {
                     var renderItem = RenderItems.DequeuePending();
-                    await Render(renderItem, prefix, outputDir, distance, width, height, scale, token);
+                    await Render(renderItem, prefix, outputDir, distance, width, height, scale, save, token);
                 }
                 break;
             case "parallel":
@@ -180,7 +181,7 @@ public partial class RenderPage : UserControl
                         await semaphore.WaitAsync();
                         try
                         {
-                            await Render(renderItem, prefix, outputDir, distance, width, height, scale, token);
+                            await Render(renderItem, prefix, outputDir, distance, width, height, scale, save, token);
                         }
                         finally
                         {
@@ -266,7 +267,7 @@ public partial class RenderPage : UserControl
         });
     }
 
-    private async Task Render(RenderQueueItem renderItem, string prefix, string outputDir, float distance, int width, int height, int scale, CancellationToken token)
+    private async Task Render(RenderQueueItem renderItem, string prefix, string outputDir, float distance, int width, int height, int scale, bool save, CancellationToken token)
     {
         renderItem.SetStatus(RenderStatus.InProgress);
 
@@ -295,6 +296,7 @@ public partial class RenderPage : UserControl
                         $"--scale {scale} " +
                         $"--distance {distance} " +
                         $"--unit {DataManager.UnitScale} " +
+                        $"--save {save} " +
                         $"--x {position.X} " +
                         $"--y {position.Y} " +
                         $"--z {position.Z} " +
