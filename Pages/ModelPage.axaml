@@ -21,7 +21,6 @@
             <Setter Property="Background" Value="#1e1f22"></Setter>
             <Setter Property="Foreground" Value="#61646e"></Setter>
             <Setter Property="BorderBrush" Value="Transparent"></Setter>
-            <Setter Property="Margin" Value="0 20 0 20"></Setter>
             <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
         </Style>
         <Style Selector="ListBox">
@@ -47,15 +46,29 @@
                     <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
                     <StackPanel HorizontalAlignment="Stretch">
                         <Label Content="Model Path"/>
-                        <Label Content="Supported file types are .blend, .obj, .3mf, and .stl" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                        <Label Content="Supported file types are .blend, .obj, and .stl" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel>
+                <StackPanel Margin="0 20 0 0">
                     <controls:BrowsableFileTextBox x:Name="ModelPathTextBox"/>
-                    <ComboBox x:Name="RecentlyOpenedComboBox" HorizontalAlignment="Stretch" SelectionChanged="RecentlyOpenedComboBox_OnSelectionChanged">
+                    <ComboBox x:Name="RecentlyOpenedComboBox" HorizontalAlignment="Stretch" SelectionChanged="RecentlyOpenedComboBox_OnSelectionChanged" Margin="0 5 0 0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                    <Image Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <Label Content="Unit"/>
+                        <Label Content="Millimeters (mm), Centimeters (cm), Meters (m), Inches (in), Feet (ft)" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="0 20 0 0">
+                    <ComboBox x:Name="UnitComboBox" HorizontalAlignment="Stretch" SelectionChanged="UnitComboBox_OnSelectionChanged">
+                        <ComboBoxItem Content="Millimeters" Tag="mm"></ComboBoxItem>
+                        <ComboBoxItem Content="Centimeters" Tag="cm"></ComboBoxItem>
+                        <ComboBoxItem Content="Meters" Tag="m"></ComboBoxItem>
+                        <ComboBoxItem Content="Inches" Tag="in"></ComboBoxItem>
+                        <ComboBoxItem Content="Feet" Tag="ft"></ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
-                    
                 <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
         </ScrollViewer>

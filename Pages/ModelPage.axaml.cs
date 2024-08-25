@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Managers;
 
 namespace Orthographic.Renderer.Pages;
 
 public partial class ModelPage : UserControl
 {
-    private static readonly List<string> ValidTypes = [".blend", ".obj", ".3mf", ".stl"];
+    private static readonly List<string> ValidTypes = [".blend", ".obj", ".stl"];
 
     public ModelPage()
     {
         InitializeComponent();
         LoadRecentFiles();
+        UnitComboBox.SelectedIndex = 0;
     }
 
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
@@ -72,12 +75,36 @@ public partial class ModelPage : UserControl
         }
     }
 
-    private void RecentlyOpenedComboBox_OnSelectionChanged(
-        object? sender,
-        SelectionChangedEventArgs e
-    )
+    private void RecentlyOpenedComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         var selectedText = RecentlyOpenedComboBox.SelectedItem?.ToString();
         ModelPathTextBox.PathTextBox.Text = selectedText;
+    }
+
+    private void UnitComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var comboBoxItem = (ComboBoxItem)UnitComboBox.SelectedItem;
+        var selectedText = comboBoxItem.Content.ToString().ToLower();
+        
+        Debug.WriteLine($"SELECTED TEXT: {selectedText}");
+
+        switch (selectedText)
+        {
+            case "millimeters":
+                DataManager.UnitScale = ModelUnit.Millimeter;
+                break;
+            case "centimeters":
+                DataManager.UnitScale = ModelUnit.Centimeter;
+                break;
+            case "meters":
+                DataManager.UnitScale = ModelUnit.Meter;
+                break;
+            case "inches":
+                DataManager.UnitScale = ModelUnit.Inch;
+                break;
+            case "feet":
+                DataManager.UnitScale = ModelUnit.Foot;
+                break;
+        }
     }
 }

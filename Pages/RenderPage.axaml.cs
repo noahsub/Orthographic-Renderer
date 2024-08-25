@@ -282,6 +282,7 @@ public partial class RenderPage : UserControl
                         $"--resolution {width} {height} " +
                         $"--scale {scale} " +
                         $"--distance {distance} " +
+                        $"--unit {DataManager.UnitScale} " +
                         $"--x {position.X} " +
                         $"--y {position.Y} " +
                         $"--z {position.Z} " +

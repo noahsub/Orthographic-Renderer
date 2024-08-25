@@ -17,7 +17,6 @@ import os
 from enum import Enum
 import sys
 import bpy
-from mathutils import Vector
 
 
 ########################################################################################################################
@@ -95,7 +94,7 @@ class Position:
 # MODEL FUNCTIONS
 ########################################################################################################################
 
-def import_model(model_path: str, unit: Unit) -> None:
+def import_model(model_path: str, unit: float) -> None:
     directory = os.path.dirname(model_path)
     file_name = os.path.basename(model_path)
     name = os.path.splitext(file_name)[0]
@@ -105,7 +104,7 @@ def import_model(model_path: str, unit: Unit) -> None:
     print(name)
 
     bpy.ops.wm.obj_import(filepath=model_path, directory=directory, files=[{"name": file_name, "name": file_name}],
-                          global_scale=unit.value, forward_axis='Y', up_axis='Z')
+                          global_scale=unit, forward_axis='Y', up_axis='Z')
 
     try:
         bpy.data.objects.remove(bpy.data.objects["Cube"], do_unlink=True)
@@ -309,6 +308,7 @@ if __name__ == "__main__":
     parser.add_argument("--resolution", type=int, nargs=2, help="The resolution of the rendered image")
     parser.add_argument("--scale", type=int, help="The scale of the rendered image")
     parser.add_argument("--distance", type=float, help="The distance from the origin to the camera")
+    parser.add_argument("--unit", type=float, help="The scale of the model relative to meters")
     parser.add_argument("--x", type=float, help="The x position of the camera")
     parser.add_argument("--y", type=float, help="The y position of the camera")
     parser.add_argument("--z", type=float, help="The z position of the camera")
@@ -325,6 +325,7 @@ if __name__ == "__main__":
         "resolution": (1920, 1080),
         "scale": 100,
         "distance": 2,
+        "unit": Unit.METERS.value,
         "x": 0,
         "y": 0,
         "z": 2,
@@ -351,7 +352,7 @@ if __name__ == "__main__":
 
     # Import the model if it is not a .blend file
     if not args.model.endswith(".blend"):
-        import_model(args.model, Unit.MILLIMETERS)
+        import_model(args.model, args.unit)
 
     # Detect the rendering device and set the rendering preferences
     set_render_preferences()
