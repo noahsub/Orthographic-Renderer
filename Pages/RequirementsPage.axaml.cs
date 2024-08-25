@@ -88,7 +88,7 @@ public partial class RequirementsPage : UserControl
         
         if (!blenderValid)
         {
-            PlayErrorSound();
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
         }
         
@@ -108,12 +108,4 @@ public partial class RequirementsPage : UserControl
     // {
     //     WebManager.OpenUrl("https://www.python.org/downloads/");
     // }
-    
-    private void PlayErrorSound()
-    {
-        Task.Run(() =>
-        {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-        });
-    }
 }

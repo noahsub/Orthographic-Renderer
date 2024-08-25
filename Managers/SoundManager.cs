@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using NAudio.Wave;
 
 namespace Orthographic.Renderer.Managers;
@@ -7,15 +8,18 @@ public class SoundManager
 {
     public static void PlaySound(string path)
     {
-        using (var audioFile = new AudioFileReader(path))
-        using (var outputDevice = new WaveOutEvent())
+        Task.Run(() =>
         {
-            outputDevice.Init(audioFile);
-            outputDevice.Play();
-            while (outputDevice.PlaybackState == PlaybackState.Playing)
+            using (var audioFile = new AudioFileReader(path))
+            using (var outputDevice = new WaveOutEvent())
             {
-                Thread.Sleep(250);
+                outputDevice.Init(audioFile);
+                outputDevice.Play();
+                while (outputDevice.PlaybackState == PlaybackState.Playing)
+                {
+                    Thread.Sleep(250);
+                }
             }
-        }
+        });
     }
 }

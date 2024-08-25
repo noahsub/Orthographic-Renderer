@@ -28,7 +28,7 @@ public partial class ModelPage : UserControl
         if (modelPath == null)
         {
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-            PlayErrorSound();
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
         }
         
@@ -37,7 +37,7 @@ public partial class ModelPage : UserControl
         if (!IsValidModelPath(modelPath))
         {
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-            PlayErrorSound();
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
         }
 
@@ -115,13 +115,5 @@ public partial class ModelPage : UserControl
     {
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
-    }
-
-    private void PlayErrorSound()
-    {
-        Task.Run(() =>
-        {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-        });
     }
 }

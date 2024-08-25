@@ -20,22 +20,26 @@ namespace Orthographic.Renderer.Controls;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // RENDER QUEUE CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// <summary>
+/// A queue of render items that displays the status of each render.
+/// </summary>
 public partial class RenderQueue : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// The queue of pending items.
     /// </summary>
     public Queue PendingQueue { get; } = new();
-    
+
     /// <summary>
     /// The queue of completed items.
     /// </summary>
     public Queue CompletedQueue { get; } = new();
-    
+
     /// <summary>
     /// The queue of failed items.
     /// </summary>
@@ -48,7 +52,7 @@ public partial class RenderQueue : UserControl
     {
         InitializeComponent();
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // QUEUE OPERATIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +92,7 @@ public partial class RenderQueue : UserControl
     {
         return (RenderQueueItem)CompletedQueue.Dequeue()!;
     }
-    
+
     /// <summary>
     /// Enqueues an item into the failed queue.
     /// </summary>
@@ -97,7 +101,7 @@ public partial class RenderQueue : UserControl
     {
         FailedQueue.Enqueue(item);
     }
-    
+
     /// <summary>
     /// Dequeues an item from the failed queue.
     /// </summary>
@@ -106,7 +110,7 @@ public partial class RenderQueue : UserControl
     {
         return (RenderQueueItem)FailedQueue.Dequeue()!;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ARRAY OPERATIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +132,7 @@ public partial class RenderQueue : UserControl
     {
         return CompletedQueue.ToArray();
     }
-    
+
     /// <summary>
     /// Get all items in the failed queue.
     /// </summary>
@@ -145,13 +149,16 @@ public partial class RenderQueue : UserControl
     public IEnumerable GetItems()
     {
         // Combine the three queues into one
-        return PendingQueue.ToArray().Concat(CompletedQueue.ToArray()).Concat(FailedQueue.ToArray());
+        return PendingQueue
+            .ToArray()
+            .Concat(CompletedQueue.ToArray())
+            .Concat(FailedQueue.ToArray());
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DISPLAY
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Adds an item to the display.
     /// </summary>
@@ -163,7 +170,7 @@ public partial class RenderQueue : UserControl
         {
             EmptyImage.IsVisible = false;
         }
-        
+
         // Add the item to the Items stack panel
         Items.Children.Add(item);
     }
@@ -183,7 +190,7 @@ public partial class RenderQueue : UserControl
         // Remove the item from the Items stack panel
         Items.Children.Remove(item);
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // CLEANUP
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

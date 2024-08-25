@@ -23,7 +23,7 @@ public partial class RenderPage : UserControl
     public RenderPage()
     {
         InitializeComponent();
-        ViewStackGrid.SetColumns(5);
+        ViewStackGrid.SetLayout(5);
         PopulateViews(RenderManager.RenderViews);
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
         CancelButton.IsVisible = false;
@@ -118,7 +118,7 @@ public partial class RenderPage : UserControl
         
         if (!Settings.VerifyRenderSettings())
         {
-            PlayErrorSound();
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
         }
 
@@ -200,18 +200,10 @@ public partial class RenderPage : UserControl
 
         if (sound)
         {
-            PlayCompleteSound();
+            SoundManager.PlaySound("Assets/Sounds/ping.mp3");
         }
         
         UnlockPage();
-    }
-
-    private static void PlayCompleteSound()
-    {
-        Task.Run(() =>
-        {
-            SoundManager.PlaySound("Assets/Sounds/ping.mp3");
-        });
     }
 
     private void DisplayRenderStats(DateTime timeStarted, DateTime timeEnded)
@@ -363,13 +355,5 @@ public partial class RenderPage : UserControl
         }
         
         UnlockPage();
-    }
-    
-    private void PlayErrorSound()
-    {
-        Task.Run(() =>
-        {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-        });
     }
 }
