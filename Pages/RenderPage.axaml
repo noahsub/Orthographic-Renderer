@@ -87,9 +87,20 @@
         
         <!-- BOTTOM GRID -->
         <Grid Grid.Row="2">
-            <Label x:Name="FileLabel" Content="File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button x:Name="RenderButton" Content="Render" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 20 0" Click="RenderButton_OnClick"/>
-            <Button x:Name="BackButton" Content="Model" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0" Click="BackButton_OnClick"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" x:Name="BackButton" Content="Model" VerticalAlignment="Center" Click="BackButton_OnClick"/>
+            <Label Grid.Column="2" x:Name="FileLabel" Content="File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Grid.Column="3" x:Name="CancelButton" Content="Cancel" VerticalAlignment="Center" Click="CancelButton_OnClick"/>
+            <Button Grid.Column="5" x:Name="RenderButton" Content="Render" VerticalAlignment="Center" Click="RenderButton_OnClick"/>
         </Grid>
     </Grid>
     

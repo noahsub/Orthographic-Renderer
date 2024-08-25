@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
+using Orthographic.Renderer.Entities;
 
 namespace Orthographic.Renderer.Controls;
 
@@ -93,5 +95,30 @@ public partial class RenderQueue : UserControl
         FailedQueue.Clear();
         Items.Children.Clear();
         EmptyImage.IsVisible = true;
+    }
+    
+    public void ClearPending()
+    {
+        PendingQueue.Clear();
+    
+        // var itemsToRemove = new List<RenderQueueItem>();
+        //
+        // foreach (var item in Items.Children)
+        // {
+        //     if (item is RenderQueueItem renderQueueItem && renderQueueItem.Status == RenderStatus.Pending)
+        //     {
+        //         itemsToRemove.Add(renderQueueItem);
+        //     }
+        // }
+        //
+        // foreach (var item in itemsToRemove)
+        // {
+        //     Items.Children.Remove(item);
+        // }
+        //
+        // if (Items.Children.Count == 0)
+        // {
+        //     EmptyImage.IsVisible = true;
+        // }
     }
 }

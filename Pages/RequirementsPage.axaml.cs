@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Orthographic.Renderer.Controls;
@@ -87,6 +88,7 @@ public partial class RequirementsPage : UserControl
         
         if (!blenderValid)
         {
+            PlayErrorSound();
             return;
         }
         
@@ -106,4 +108,12 @@ public partial class RequirementsPage : UserControl
     // {
     //     WebManager.OpenUrl("https://www.python.org/downloads/");
     // }
+    
+    private void PlayErrorSound()
+    {
+        Task.Run(() =>
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+        });
+    }
 }

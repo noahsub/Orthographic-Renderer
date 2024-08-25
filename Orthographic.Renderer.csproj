@@ -295,6 +295,10 @@
       <Content Include="Assets\Sounds\ping.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Assets\Sounds\error.mp3" />
+      <Content Include="Assets\Sounds\error.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

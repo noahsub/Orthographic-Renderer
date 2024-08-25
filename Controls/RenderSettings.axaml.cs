@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
@@ -266,5 +267,13 @@ public partial class RenderSettings : UserControl
         }
         
         return (bool)PlaySoundCheckBox.IsChecked;
+    }
+    
+    private void PlayErrorSound()
+    {
+        Task.Run(() =>
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+        });
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -27,6 +28,7 @@ public partial class ModelPage : UserControl
         if (modelPath == null)
         {
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            PlayErrorSound();
             return;
         }
         
@@ -35,6 +37,7 @@ public partial class ModelPage : UserControl
         if (!IsValidModelPath(modelPath))
         {
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            PlayErrorSound();
             return;
         }
 
@@ -112,5 +115,13 @@ public partial class ModelPage : UserControl
     {
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
+    }
+
+    private void PlayErrorSound()
+    {
+        Task.Run(() =>
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+        });
     }
 }

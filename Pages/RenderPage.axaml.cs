@@ -18,12 +18,16 @@ namespace Orthographic.Renderer.Pages;
 
 public partial class RenderPage : UserControl
 {
+    private CancellationTokenSource _cancelToken;
+    
     public RenderPage()
     {
         InitializeComponent();
         ViewStackGrid.SetColumns(5);
         PopulateViews(RenderManager.RenderViews);
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        CancelButton.IsVisible = false;
+        CancelButton.IsEnabled = false;
     }
 
     private void PopulateViews(List<string> views)
@@ -107,10 +111,14 @@ public partial class RenderPage : UserControl
 
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        _cancelToken = new CancellationTokenSource();
+        var token = _cancelToken.Token;
+        
         RenderItems.ClearItems();
         
         if (!Settings.VerifyRenderSettings())
         {
+            PlayErrorSound();
             return;
         }
 
@@ -158,7 +166,7 @@ public partial class RenderPage : UserControl
                 while (RenderItems.PendingQueue.Count > 0)
                 {
                     var renderItem = RenderItems.DequeuePending();
-                    await Render(renderItem, prefix, outputDir, distance, width, height, scale);
+                    await Render(renderItem, prefix, outputDir, distance, width, height, scale, token);
                 }
                 break;
             case "parallel":
@@ -172,7 +180,7 @@ public partial class RenderPage : UserControl
                         await semaphore.WaitAsync();
                         try
                         {
-                            await Render(renderItem, prefix, outputDir, distance, width, height, scale);
+                            await Render(renderItem, prefix, outputDir, distance, width, height, scale, token);
                         }
                         finally
                         {
@@ -213,7 +221,7 @@ public partial class RenderPage : UserControl
             timeEnded.ToString(),
             TimerLabel.Content.ToString(),
             RenderItems.CompletedQueue.Count,
-            0
+            RenderItems.FailedQueue.Count
         );
         renderComplete.Show();
     }
@@ -225,6 +233,8 @@ public partial class RenderPage : UserControl
         ViewSortOptions.IsEnabled = false;
         ViewStackGrid.IsEnabled = false;
         RenderButton.IsEnabled = false;
+        CancelButton.IsVisible = true;
+        CancelButton.IsEnabled = true;
     }
 
     private void UnlockPage()
@@ -234,6 +244,8 @@ public partial class RenderPage : UserControl
         ViewSortOptions.IsEnabled = true;
         ViewStackGrid.IsEnabled = true;
         RenderButton.IsEnabled = true;
+        CancelButton.IsVisible = false;
+        CancelButton.IsEnabled = false;
     }
     
     private Task StartTimer(ref bool timerRunning)
@@ -254,7 +266,7 @@ public partial class RenderPage : UserControl
         });
     }
 
-    private async Task Render(RenderQueueItem renderItem, string prefix, string outputDir, float distance, int width, int height, int scale)
+    private async Task Render(RenderQueueItem renderItem, string prefix, string outputDir, float distance, int width, int height, int scale, CancellationToken token)
     {
         renderItem.SetStatus(RenderStatus.InProgress);
 
@@ -290,10 +302,19 @@ public partial class RenderPage : UserControl
                         $"--ry {position.Ry} " +
                         $"--rz {position.Rz}";
 
-        bool success = await Task.Run(() =>
+        bool success;
+        try
         {
-            return ProcessManager.RunProcessCheck(blenderPath, arguments);
-        });
+            success = await Task.Run(() =>
+            {
+                token.ThrowIfCancellationRequested();
+                return ProcessManager.RunProcessCheck(blenderPath, arguments);
+            }, token);
+        }
+        catch (TaskCanceledException)
+        {
+            success = false;
+        }
 
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
@@ -323,5 +344,30 @@ public partial class RenderPage : UserControl
     {
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new ModelPage());
+    }
+
+    private void CancelButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        _cancelToken.Cancel();
+        
+        // Cancel all queued renders and clear the queue
+        // RenderItems.ClearPending();
+        
+        // Find all running processes and kill them
+        var processes = Process.GetProcessesByName("blender");
+        foreach (var process in processes)
+        {
+            process.Kill();
+        }
+        
+        UnlockPage();
+    }
+    
+    private void PlayErrorSound()
+    {
+        Task.Run(() =>
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+        });
     }
 }
