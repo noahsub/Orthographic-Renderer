@@ -72,5 +72,8 @@
                 <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
         </ScrollViewer>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 20 20 20" Spacing="20">
+            <Button x:Name="BackButton" Content="Back" Background="#1a1b1e" Click="BackButton_OnClick"/>
+        </StackPanel>
     </Grid>
 </UserControl>

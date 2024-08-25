@@ -318,4 +318,10 @@ public partial class RenderPage : UserControl
             RenderItems.EnqueueFailed(renderItem);
         }
     }
+
+    private void BackButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var mainWindow = (MainWindow)this.VisualRoot!;
+        NavigationManager.SwitchPage(mainWindow, new ModelPage());
+    }
 }

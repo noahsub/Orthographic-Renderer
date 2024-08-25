@@ -107,4 +107,10 @@ public partial class ModelPage : UserControl
                 break;
         }
     }
+
+    private void BackButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var mainWindow = (Windows.MainWindow)this.VisualRoot!;
+        NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
+    }
 }
