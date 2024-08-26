@@ -125,7 +125,7 @@ public partial class RenderQueue : UserControl
     }
 
     /// <summary>
-    /// Get all items in the completed queue as an array.
+    /// Get all items in the completed queue.
     /// </summary>
     /// <returns>An enumerable of items in the completed queue.</returns>
     public IEnumerable GetItemsCompleted()

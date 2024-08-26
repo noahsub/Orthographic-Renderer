@@ -6,19 +6,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// NAMESPACE
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-using System;
-
-namespace Orthographic.Renderer.Managers;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using LibreHardwareMonitor.Hardware;
-using Hardware = Entities.Hardware;
+using Hardware = Orthographic.Renderer.Entities.Hardware;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NAMESPACE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+namespace Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // UPDATE VISITOR CLASS
@@ -219,10 +218,13 @@ public class HardwareManager
         RenderHardwareCollected = true;
     }
 
+    /// <summary>
+    /// Gets the hardware components of NVIDIA GPUs using the nvidia-smi command.
+    /// </summary>
+    /// <returns>A list of NVIDIA GPU hardware components.</returns>
     private static List<Hardware> GetNvidiaGpuHardware()
     {
         // excute `nvidia-smi --query-gpu=count --format=csv,noheader` to get the number of NVIDIA GPUs
-
         var gpuCount = int.Parse(
             ProcessManager.RunProcess(
                 "/bin/bash",
@@ -230,8 +232,8 @@ public class HardwareManager
             )
         );
 
-        List<Hardware> gpuHardware = new List<Hardware>();
-        for (int i = 0; i < gpuCount; i++)
+        var gpuHardware = new List<Hardware>();
+        for (var i = 0; i < gpuCount; i++)
         {
             // execute `nvidia-smi -i 0 --query-gpu=name,temperature.gpu,utilization.gpu,memory.used --format=csv,noheader,nounits`
             var gpuInfo = ProcessManager
@@ -290,10 +292,13 @@ public class HardwareManager
     /// <returns>A list of hardware components.</returns>
     private static List<Hardware> MapHardware(Computer computer)
     {
+        // List to store the mapped hardware
         var map = new List<Hardware>();
 
+        // Iterate through all hardware components
         for (var i = 0; i < computer.Hardware.Count; i++)
         {
+            // Map the hardware with sub-hardware and sensors
             for (var j = 0; j < computer.Hardware[i].SubHardware.Length; j++)
             {
                 for (var k = 0; k < computer.Hardware[i].SubHardware[j].Sensors.Length; k++)
@@ -312,6 +317,7 @@ public class HardwareManager
                 }
             }
 
+            // Map the hardware with only sensors
             for (var j = 0; j < computer.Hardware[i].Sensors.Length; j++)
             {
                 var hardware = new Hardware(
@@ -328,6 +334,7 @@ public class HardwareManager
             }
         }
 
+        // Return the mapped hardware
         return map;
     }
 
@@ -384,7 +391,11 @@ public class HardwareManager
         }
     }
 
-    public static void RefreshNvidiaGpuHardware(Hardware hardware)
+    /// <summary>
+    /// Refreshes the NVIDIA GPU hardware components using the nvidia-smi command.
+    /// </summary>
+    /// <param name="hardware"></param>
+    private static void RefreshNvidiaGpuHardware(Hardware hardware)
     {
         // If the hardware is not an Nvidia GPU, return it as is
         if (hardware.Type != HardwareType.GpuNvidia)
@@ -418,6 +429,8 @@ public class HardwareManager
                 );
                 hardware.UpdateValue(float.Parse(memoryUsed));
                 break;
+            default:
+                throw new InvalidEnumArgumentException();
         }
     }
 
@@ -502,7 +515,7 @@ public class HardwareManager
             SensorType.Control => "?",
             SensorType.SmallData => "MB",
             SensorType.Throughput => "KB/s",
-            _ => "NA"
+            _ => "NA",
         };
     }
 }

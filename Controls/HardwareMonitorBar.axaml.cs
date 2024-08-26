@@ -114,8 +114,7 @@ public partial class HardwareMonitorBar : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Continuously updates the hardware monitor and check for changes in window size, position, and scroll to ensure
-    /// that such operations are not affected by the update of the hardware monitor.
+    /// Continuously updates the hardware monitor.
     /// </summary>
     private async Task UpdateMonitor()
     {

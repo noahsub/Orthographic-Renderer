@@ -1,13 +1,37 @@
-﻿using System;
+﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RenderManager.cs
+// This file contains the logic for managing rendering operations within the application.
+//
+// Author(s): https://github.com/noahsub
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IMPORTS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Orthographic.Renderer.Entities;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NAMESPACE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace Orthographic.Renderer.Managers;
 
-public class RenderManager
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RENDER MANAGER CLASS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// <summary>
+/// Manages rendering operations within the application.
+/// </summary>
+public static class RenderManager
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // GLOBALS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /// <summary>
     /// A list of all the views that can be rendered.
     /// </summary>
@@ -41,9 +65,21 @@ public class RenderManager
             "bottom",
         ];
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // POSITION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Gets the position for a given view and distance.
+    /// </summary>
+    /// <param name="view">The view name.</param>
+    /// <param name="distance">The distance of the camera from the origin.</param>
+    /// <returns>The position corresponding to the view and distance.</returns>
     public static Position GetPosition(string view, float distance)
     {
+        // Compute the leg of the right-angled triangle
         var leg = ComputeTriangularLeg(distance);
+        // Mapping of views to positions
         var mapping = new Dictionary<string, Position>
         {
             { "top-front-right", new Position(leg, -leg, distance, 45, 0, 45) },
@@ -76,11 +112,59 @@ public class RenderManager
         return mapping[view];
     }
 
-    private static float ComputeTriangularLeg(float distance)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // VIEWS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Sorts the views based on the given keys.
+    /// </summary>
+    /// <param name="keys">The keys to sort by.</param>
+    /// <returns>The sorted list of views.</returns>
+    public static List<string> SortViews(List<string> keys)
     {
-        return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
+        var exactMatches = new List<string>();
+        var subsets = new List<string>();
+        var supersets = new List<string>();
+        var noMatches = new List<string>();
+
+        foreach (var view in RenderViews)
+        {
+            var viewFaces = view.Split('-');
+
+            // if viewFaces is an equal set to keys
+            if (viewFaces.Length == keys.Count && viewFaces.All(keys.Contains))
+            {
+                exactMatches.Add(view);
+            }
+            // if viewFaces is a subset of keys
+            else if (viewFaces.All(keys.Contains))
+            {
+                subsets.Add(view);
+            }
+            // if viewFaces is a superset of keys
+            else if (keys.All(viewFaces.Contains))
+            {
+                supersets.Add(view);
+            }
+            else
+            {
+                noMatches.Add(view);
+            }
+        }
+
+        // combine the lists in the order of x, y, z, w
+        return exactMatches.Concat(subsets).Concat(supersets).Concat(noMatches).ToList();
     }
-    
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // FORMATTING
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Gets the formatted view name by replacing hyphens with spaces and converting to title case.
+    /// </summary>
+    /// <param name="view">The view name.</param>
+    /// <returns>The formatted view name.</returns>
     public static string GetFormattedViewName(string view)
     {
         var formattedName = view;
@@ -88,48 +172,28 @@ public class RenderManager
         formattedName = ToTitleCase(formattedName);
         return formattedName;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HELPER FUNCTIONS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Computes the leg of a triangle given the hypotenuse.
+    /// </summary>
+    /// <param name="distance">The hypotenuse of the triangle.</param>
+    /// <returns>The leg of the triangle.</returns>
+    private static float ComputeTriangularLeg(float distance)
+    {
+        return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
+    }
     
+    /// <summary>
+    /// Converts a string to title case.
+    /// </summary>
+    /// <param name="str">The string to convert.</param>
+    /// <returns>The string in title case.</returns>
     private static string ToTitleCase(string str)
     {
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
-    }
-    
-    public static List<string> SortViews(List<string> keys)
-    {
-        var x = new List<string>();
-        var y = new List<string>();
-        var z = new List<string>();
-        var w = new List<string>();
-        
-        foreach (var view in RenderViews)
-        {
-            var viewFaces = view.Split('-');
-            
-            // if viewFaces is an equal set to keys
-            if (viewFaces.Length == keys.Count && viewFaces.All(keys.Contains))
-            {
-                x.Add(view);
-            }
-            
-            // if viewFaces is a subset of keys
-            else if (viewFaces.All(keys.Contains))
-            {
-                y.Add(view);
-            }
-            
-            // if viewFaces is a superset of keys
-            else if (keys.All(viewFaces.Contains))
-            {
-                z.Add(view);
-            }
-    
-            else
-            {
-                w.Add(view);
-            }
-        }
-    
-        // combine the lists in the order of x, y, z, w
-        return x.Concat(y).Concat(z).Concat(w).ToList();
     }
 }

@@ -23,7 +23,7 @@ namespace Orthographic.Renderer.Controls;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// A combination of a grid and a stack panel that allows layout of items with a specified number of columns and an
+/// A combination of a grid and stack panels that allow the layout of items with a specified number of columns and an
 /// unlimited number of rows.
 /// </summary>
 public partial class StackGrid : UserControl
@@ -91,7 +91,7 @@ public partial class StackGrid : UserControl
                 Margin = new Thickness(marginSize, 0, 0, 0),
             };
 
-            // If the first column and no end margins, set the margin left margin to 0
+            // If the first column and no end margins, set the left margin to 0
             if (i == 0 && !endMargins)
             {
                 stackPanel.Margin = new Thickness(0, 0, marginSize, 0);
@@ -171,7 +171,7 @@ public partial class StackGrid : UserControl
         // Iterate through each item in the stack grid
         for (var i = 0; i < NumItems; i++)
         {
-            // Determine the column and row of the item
+            // Determine the column of the item
             var column = i % NumColumns;
             // Get the item from the stack panel
             var stackPanel = (StackPanel)Items.Children[column];

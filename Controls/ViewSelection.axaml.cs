@@ -22,7 +22,7 @@ namespace Orthographic.Renderer.Controls;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// The ViewSelection control is used to display a view with an image and a checkbox to select the view. 
+/// The selection of a view to render.
 /// </summary>
 public partial class ViewSelection : UserControl
 {

@@ -22,7 +22,7 @@ namespace Orthographic.Renderer.Controls;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// A control that allowing the selection of faces to sort by.
+/// Selection of faces to sort by.
 /// </summary>
 public partial class ViewSortOptions : UserControl
 {
