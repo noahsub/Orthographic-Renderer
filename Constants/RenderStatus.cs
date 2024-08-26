@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DataManager.cs
-// This file is responsible for managing shared data across the application.
+// RenderStatus.cs
+// This file contains the states a render can be in.
 //
 // Author(s): https://github.com/noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,29 +8,34 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-namespace Orthographic.Renderer.Managers;
+namespace Orthographic.Renderer.Constants;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DATA MANAGER CLASS
+// RENDER STATUS ENUM
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// Manages shared data across the application.
+/// The status values for a render operation.
 /// </summary>
-public static class DataManager
+public enum RenderStatus
 {
     /// <summary>
-    /// The path to the Blender executable.
+    /// The render is pending.
     /// </summary>
-    public static string BlenderPath { get; set; } = "";
+    Pending,
 
     /// <summary>
-    /// The path to the model.
+    /// The render is in progress.
     /// </summary>
-    public static string ModelPath { get; set; } = "";
+    InProgress,
 
     /// <summary>
-    /// The unit scale of the model.
+    /// The render is completed.
     /// </summary>
-    public static float UnitScale { get; set; } = 0.001f;
+    Completed,
+
+    /// <summary>
+    /// The render has failed.
+    /// </summary>
+    Failed,
 }

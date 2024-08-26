@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DataManager.cs
-// This file is responsible for managing shared data across the application.
+// ModelUnit.cs
+// This file contains the constants for different units of measurement.
 //
 // Author(s): https://github.com/noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,29 +8,39 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-namespace Orthographic.Renderer.Managers;
+namespace Orthographic.Renderer.Constants;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DATA MANAGER CLASS
+// MODEL UNIT CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// Manages shared data across the application.
+/// Contains constants for different units of measurement.
 /// </summary>
-public static class DataManager
+public static class ModelUnit
 {
     /// <summary>
-    /// The path to the Blender executable.
+    /// Represents a millimeter in meters.
     /// </summary>
-    public static string BlenderPath { get; set; } = "";
+    public const float Millimeter = 0.001f;
 
     /// <summary>
-    /// The path to the model.
+    /// Represents a centimeter in meters.
     /// </summary>
-    public static string ModelPath { get; set; } = "";
+    public const float Centimeter = 0.01f;
 
     /// <summary>
-    /// The unit scale of the model.
+    /// Represents a meter.
     /// </summary>
-    public static float UnitScale { get; set; } = 0.001f;
+    public const float Meter = 1.0f;
+
+    /// <summary>
+    /// Represents an inch in meters.
+    /// </summary>
+    public const float Inch = 0.0254f;
+
+    /// <summary>
+    /// Represents a foot in meters.
+    /// </summary>
+    public const float Foot = 0.3048f;
 }

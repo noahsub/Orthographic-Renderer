@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SoundManager.cs
-// This file manages sound operations such as playing audio files.
+// WebManager.cs
+// This file manages web operations such as opening URLs.
 //
 // Author(s): https://github.com/noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,9 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-using System.Threading;
-using System.Threading.Tasks;
-using NAudio.Wave;
+using System.Diagnostics;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -18,37 +16,20 @@ using NAudio.Wave;
 namespace Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SOUND MANAGER CLASS
+// WEB MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// Manages sound operations such as playing audio files.
+/// Manages web operations such as opening URLs.
 /// </summary>
-public static class SoundManager
+public static class WebManager
 {
     /// <summary>
-    /// Plays a sound from the specified file path.
+    /// Opens the specified URL in the default web browser.
     /// </summary>
-    /// <param name="path">The path to the audio file.</param>
-    public static void PlaySound(string path)
+    /// <param name="url">The URL to open.</param>
+    public static void OpenUrl(string url)
     {
-        // Run the audio file in a separate thread
-        Task.Run(() =>
-        {
-            // Create a new audio file reader and output device
-            using (var audioFile = new AudioFileReader(path))
-            using (var outputDevice = new WaveOutEvent())
-            {
-                // Initialize the output device and play the audio file
-                outputDevice.Init(audioFile);
-                outputDevice.Play();
-
-                // Wait for the audio file to finish playing
-                while (outputDevice.PlaybackState == PlaybackState.Playing)
-                {
-                    Thread.Sleep(250);
-                }
-            }
-        });
+        Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
     }
 }

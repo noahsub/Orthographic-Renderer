@@ -18,7 +18,7 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var splashScreen = new SplashScreen();
+            var splashScreen = new Windows.SplashScreen();
             splashScreen.Show();
 
             Task.Run(async () =>
@@ -26,11 +26,11 @@ public partial class App : Application
                 // Perform hardware setup and collection asynchronously
                 await Task.Run(() => HardwareManager.SetupComputer());
                 await Task.Run(() => HardwareManager.CollectHardwareToMonitor());
-            
+
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(() =>
                 {
-                    var mainWindow = new MainWindow();
+                    var mainWindow = new Windows.MainWindow();
                     desktop.MainWindow = mainWindow;
                     mainWindow.Show();
                     splashScreen.Close();

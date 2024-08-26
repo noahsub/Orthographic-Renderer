@@ -36,7 +36,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="Sort" VerticalAlignment="Center"/>
-        <StackPanel Grid.Column="2" x:Name="Faces" Spacing="10" Orientation="Horizontal">
+        <StackPanel Grid.Column="2" x:Name="FacesStackPanel" Spacing="10" Orientation="Horizontal">
             <ToggleButton Height="30" Content="Front"/>
             <ToggleButton Height="30" Content="Right"/>
             <ToggleButton Height="30" Content="Back"/>

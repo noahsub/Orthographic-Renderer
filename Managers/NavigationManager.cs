@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SoundManager.cs
-// This file manages sound operations such as playing audio files.
+// NavigationManager.cs
+// This file contains the logic for managing navigation operations within the application.
 //
 // Author(s): https://github.com/noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,9 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-using System.Threading;
-using System.Threading.Tasks;
-using NAudio.Wave;
+using Avalonia.Controls;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -18,37 +16,26 @@ using NAudio.Wave;
 namespace Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SOUND MANAGER CLASS
+// NAVIGATION MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// Manages sound operations such as playing audio files.
+/// Manages navigation operations within the application.
 /// </summary>
-public static class SoundManager
+public class NavigationManager
 {
     /// <summary>
-    /// Plays a sound from the specified file path.
+    /// Switches the current page displayed in the main window.
     /// </summary>
-    /// <param name="path">The path to the audio file.</param>
-    public static void PlaySound(string path)
+    /// <param name="mainWindow">The main window of the application.</param>
+    /// <param name="page">The new page to be displayed.</param>
+    public static void SwitchPage(Windows.MainWindow mainWindow, UserControl page)
     {
-        // Run the audio file in a separate thread
-        Task.Run(() =>
-        {
-            // Create a new audio file reader and output device
-            using (var audioFile = new AudioFileReader(path))
-            using (var outputDevice = new WaveOutEvent())
-            {
-                // Initialize the output device and play the audio file
-                outputDevice.Init(audioFile);
-                outputDevice.Play();
+        var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
 
-                // Wait for the audio file to finish playing
-                while (outputDevice.PlaybackState == PlaybackState.Playing)
-                {
-                    Thread.Sleep(250);
-                }
-            }
-        });
+        if (pageContent != null)
+        {
+            pageContent.Content = page;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// BrowsableDirectoryTextBox.axaml.cs
-// This file contains the logic for the BrowsableDirectoryTextBox control.
+// ViewSelectOptions.axaml.cs
+// This file contains the logic for the ViewSelectOptions control.
 //
 // Author(s): https://github.com/noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,8 +9,6 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Platform.Storage;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -18,53 +16,37 @@ using Avalonia.Platform.Storage;
 namespace Orthographic.Renderer.Controls;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// BROWSABLE DIRECTORY TEXT BOX CLASS
+// VIEW SELECT OPTIONS CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// A text box that allows the user to browse for a directory.
+/// A control that allows the user to select all, none, or invert the selection of a list of items.
 /// </summary>
-public partial class BrowsableDirectoryTextBox : UserControl
+public partial class ViewSelectOptions : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BrowsableDirectoryTextBox"/> class.
+    /// Initializes a new instance of the <see cref="ViewSelectOptions"/> class.
     /// </summary>
-    public BrowsableDirectoryTextBox()
+    public ViewSelectOptions()
     {
         InitializeComponent();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // EVENTS
+    // CLEANUP
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Allows the user to browse for a directory when the browse button is clicked.
+    /// Clears the selection of the buttons.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void BrowseButton_OnClick(object? sender, RoutedEventArgs e)
+    public void ClearSelection()
     {
-        // Get the top level window
-        var topLevel = TopLevel.GetTopLevel(this);
-
-        // Open the folder picker
-        var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(
-            new FolderPickerOpenOptions { Title = "Select a Directory" }
-        );
-
-        // If no directory was selected, return
-        if (directory.Count < 1)
-        {
-            return;
-        }
-
-        // Set the path text box to the selected directory
-        var path = directory[0].Path.AbsolutePath;
-        PathTextBox.Text = path;
+        AllButton.IsChecked = false;
+        NoneButton.IsChecked = false;
+        InvertButton.IsChecked = false;
     }
 }

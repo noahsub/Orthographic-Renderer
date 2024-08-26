@@ -295,6 +295,10 @@
       <Content Include="Assets\Sounds\ping.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Assets\Sounds\error.mp3" />
+      <Content Include="Assets\Sounds\error.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -304,6 +308,14 @@
     <ItemGroup>
       <Compile Update="Controls\BrowsableDirectoryTextBox.axaml.cs">
         <DependentUpon>BrowsableDirectoryTextBox.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Windows\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Windows\SplashScreen.axaml.cs">
+        <DependentUpon>SplashScreen.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

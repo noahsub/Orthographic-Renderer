@@ -6,6 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="Orthographic.Renderer.Pages.RenderPage">
     
+    <!-- STYLE -->
     <UserControl.Styles>
         <Style Selector="ToggleButton">
             <Setter Property="Background" Value="#1a1b1e"></Setter>
@@ -44,117 +45,63 @@
         </Style>
     </UserControl.Styles>
     
-    <Grid x:Name="MainGrid" Background="#202124" >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="75"/>
-        </Grid.RowDefinitions>
-        
+    <!-- MAIN GRID -->
+    <Grid Background="#202124" RowDefinitions="150,*,75">
         <Rectangle Grid.Row="0" Fill="#1a1b1e"/>
         <Rectangle Grid.Row="2" Fill="#1a1b1e"/>
-        
-        <Grid x:Name="HardwareStatusGrid" Grid.Row="0" >
-        </Grid>
-        
-        <Grid Grid.Row="1" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            
-            <Grid Grid.Column="1" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*" MinHeight="250"/>
-                </Grid.RowDefinitions>
-                
-                <Grid Grid.Row="0" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="70"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Queue" FontSize="20" VerticalAlignment="Center" Margin="20 0 0 0"/>
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image Source="avares://Orthographic.Renderer/Assets/Images/grey_cube.png" MaxWidth="200" MaxHeight="200" Opacity="0.25"/>
-                        <Label HorizontalAlignment="Center" VerticalAlignment="Top" Content="No Renders In Progress" Margin="0 20 0 0" Foreground="#4d4f54" FontStyle="Italic"/>
-                    </StackPanel>
-                </Grid>
-                
-                <Grid Grid.Row="1" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="70"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Row="0" Content="Settings" FontSize="20" VerticalAlignment="Center" Margin="20 0 0 0"/>
-                    <StackPanel Grid.Row="1" Margin="20 0 0 0" Spacing="10">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <Label Content="Render Type:" VerticalAlignment="Center"/>
-                            <ComboBox HorizontalAlignment="Stretch">
-                                <ComboBoxItem Content="Sequential"/>
-                                <ComboBoxItem Content="Concurrent"/>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <Label Content="Max Concurrent Renders:" VerticalAlignment="Center"/>
-                            <TextBox Text="1" Height="10" HorizontalAlignment="Stretch"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <Label Content="Output Directory:" VerticalAlignment="Center"/>
-                            <TextBox Text="C:\Output" HorizontalAlignment="Stretch"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <Label Content="Camera Distance:" VerticalAlignment="Center"/>
-                            <TextBox Text="1920" HorizontalAlignment="Stretch"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <Label Content="Resolution:" VerticalAlignment="Center"/>
-                            <TextBox Text="1920" HorizontalAlignment="Stretch"/>
-                            <TextBox Text="1080" HorizontalAlignment="Stretch"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <Label Content="Scale:" VerticalAlignment="Center"/>
-                            <TextBox Text="100" HorizontalAlignment="Stretch"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </Grid>
-            
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <controls:HardwareMonitorBar Grid.Row="0"/>
+        <!-- CONTENT GRID -->
+        <Grid Grid.Row="1" ColumnDefinitions="3*,1*">
+            <!-- VIEW GRID -->
+            <Grid Grid.Column="0" RowDefinitions="70,*">
                 <Label Grid.Row="0" Content="Views" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
-                
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="50" HorizontalAlignment="Right" Margin="0 0 20 0 ">
-                    <controls:SelectOptions x:Name="ViewSelect" Tapped="ViewSelect_OnTapped"/>
-                    <controls:ViewSortOptions x:Name="ViewSort" Tapped="ViewSort_OnTapped"/>
+                    <controls:ViewSelectOptions x:Name="ViewSelectOptions" Tapped="ViewSelect_OnTapped"/>
+                    <controls:ViewSortOptions x:Name="ViewSortOptions" Tapped="ViewSort_OnTapped"/>
                 </StackPanel>
-                
-                
-                
-                <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="ViewSelectionScrollViewer" Margin="0 0 0 20">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-        
-                        <StackPanel x:Name="ViewSelectionStackPanel0" Grid.Column="0" Spacing="20" Margin="20 0 0 0">
-                        </StackPanel>
-                        <StackPanel x:Name="ViewSelectionStackPanel1" Grid.Column="1" Spacing="20" Margin="20 0 0 0">
-                        </StackPanel>
-                        <StackPanel x:Name="ViewSelectionStackPanel2" Grid.Column="2" Spacing="20" Margin="20 0 0 0">
-                        </StackPanel>
-                        <StackPanel x:Name="ViewSelectionStackPanel3" Grid.Column="3" Spacing="20" Margin="20 0 20 0">
-                        </StackPanel>
-                    </Grid>
+                <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
+                    <controls:StackGrid x:Name="ViewStackGrid"/>
                 </ScrollViewer>
             </Grid>
+            
+            <!-- QUEUE AND SETTINGS GRID -->
+            <Grid Grid.Column="1" RowDefinitions="2*,1.5*">
+                <!-- QUEUE GRID -->
+                <Grid Grid.Row="0" RowDefinitions="70,*">
+                    <Label Grid.Row="0" Content="Render Queue" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
+                    <Label Grid.Row="0" x:Name="TimerLabel" Content="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 20 0"/>
+                    <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
+                        <controls:RenderQueue x:Name="RenderItems" Margin="20 0 20 0"/>
+                    </ScrollViewer>
+                </Grid>
+                
+                <!-- SETTINGS GRID -->
+                <Grid Grid.Row="1" RowDefinitions="70,*">
+                    <Label Grid.Row="0" Content="Render Settings" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0"/>
+                    <ScrollViewer Grid.Row="1" Margin="0 0 0 20">
+                        <controls:RenderSettings x:Name="Settings" Margin="20 0 20 0"/>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </Grid>
+        
+        <!-- BOTTOM GRID -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" x:Name="BackButton" Content="Model" VerticalAlignment="Center" Click="BackButton_OnClick"/>
+            <Label Grid.Column="2" x:Name="FileLabel" Content="File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Grid.Column="3" x:Name="CancelButton" Content="Cancel" VerticalAlignment="Center" Click="CancelButton_OnClick"/>
+            <Button Grid.Column="5" x:Name="RenderButton" Content="Render" VerticalAlignment="Center" Click="RenderButton_OnClick"/>
         </Grid>
     </Grid>
+    
 </UserControl>

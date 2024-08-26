@@ -6,19 +6,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// NAMESPACE
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-using System;
-
-namespace Orthographic.Renderer.Managers;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using LibreHardwareMonitor.Hardware;
-using Hardware = Entities.Hardware;
+using Hardware = Orthographic.Renderer.Entities.Hardware;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NAMESPACE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+namespace Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // UPDATE VISITOR CLASS
@@ -80,17 +79,12 @@ public class HardwareManager
     /// <summary>
     /// This computer.
     /// </summary>
-    public static Computer? Computer { get; set; }
-
-    /// <summary>
-    /// Flag indicating whether hardware monitoring is ready.
-    /// </summary>
-    public static bool HardwareMonitoringReady { get; set; }
+    public static Computer Computer { get; set; } = new();
 
     /// <summary>
     /// List of hardware to monitor.
     /// </summary>
-    public static List<Hardware>? HardwareToMonitor { get; set; }
+    public static List<Hardware> HardwareToMonitor { get; set; } = [];
 
     /// <summary>
     /// Flag indicating whether render hardware has been collected.
@@ -120,7 +114,6 @@ public class HardwareManager
 
         Computer.Open();
         Computer.Accept(new UpdateVisitor());
-        HardwareMonitoringReady = true;
     }
 
     /// <summary>
@@ -128,7 +121,7 @@ public class HardwareManager
     /// </summary>
     public static void CloseComputer()
     {
-        Computer?.Close();
+        Computer.Close();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,14 +196,13 @@ public class HardwareManager
                 memoryHardware.Add(hardware);
             }
         }
-        
+
         if (gpuHardware.Count == 0)
         {
             try
             {
                 gpuHardware = GetNvidiaGpuHardware();
             }
-            
             catch (Exception e)
             {
                 Console.WriteLine(e);
@@ -225,28 +217,69 @@ public class HardwareManager
         // Set the flag to indicate that render hardware has been collected to true
         RenderHardwareCollected = true;
     }
-    
+
+    /// <summary>
+    /// Gets the hardware components of NVIDIA GPUs using the nvidia-smi command.
+    /// </summary>
+    /// <returns>A list of NVIDIA GPU hardware components.</returns>
     private static List<Hardware> GetNvidiaGpuHardware()
     {
         // excute `nvidia-smi --query-gpu=count --format=csv,noheader` to get the number of NVIDIA GPUs
-        
-        var gpuCount = int.Parse(ProcessManager.RunProcess("/bin/bash", "-c \"nvidia-smi --query-gpu=count --format=csv,noheader\""));
-        
-        List<Hardware> gpuHardware = new List<Hardware>();
-        for (int i = 0; i < gpuCount; i++)
+        var gpuCount = int.Parse(
+            ProcessManager.RunProcess(
+                "/bin/bash",
+                "-c \"nvidia-smi --query-gpu=count --format=csv,noheader\""
+            )
+        );
+
+        var gpuHardware = new List<Hardware>();
+        for (var i = 0; i < gpuCount; i++)
         {
             // execute `nvidia-smi -i 0 --query-gpu=name,temperature.gpu,utilization.gpu,memory.used --format=csv,noheader,nounits`
-            var gpuInfo = ProcessManager.RunProcess("/bin/bash",
-                    $"-c \"nvidia-smi -i {i} --query-gpu=name,temperature.gpu,utilization.gpu,memory.used --format=csv,noheader,nounits\"")
+            var gpuInfo = ProcessManager
+                .RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {i} --query-gpu=name,temperature.gpu,utilization.gpu,memory.used --format=csv,noheader,nounits\""
+                )
                 .Split(", ");
             var gpuName = gpuInfo[0];
             var gpuTemperature = float.Parse(gpuInfo[1]);
             var gpuLoad = float.Parse(gpuInfo[2]);
             var gpuMemoryUsed = float.Parse(gpuInfo[3]);
-            
-            gpuHardware.Add(new Hardware(gpuName, HardwareType.GpuNvidia, "Temperature", SensorType.Temperature, gpuTemperature, FindUnit(SensorType.Temperature), [i]));
-            gpuHardware.Add(new Hardware(gpuName, HardwareType.GpuNvidia, "GPU Core", SensorType.Load, gpuLoad, FindUnit(SensorType.Load), [i]));
-            gpuHardware.Add(new Hardware(gpuName, HardwareType.GpuNvidia, "GPU Memory Used", SensorType.SmallData, gpuMemoryUsed, FindUnit(SensorType.SmallData), [i]));
+
+            gpuHardware.Add(
+                new Hardware(
+                    gpuName,
+                    HardwareType.GpuNvidia,
+                    "Temperature",
+                    SensorType.Temperature,
+                    gpuTemperature,
+                    FindUnit(SensorType.Temperature),
+                    [i]
+                )
+            );
+            gpuHardware.Add(
+                new Hardware(
+                    gpuName,
+                    HardwareType.GpuNvidia,
+                    "GPU Core",
+                    SensorType.Load,
+                    gpuLoad,
+                    FindUnit(SensorType.Load),
+                    [i]
+                )
+            );
+            gpuHardware.Add(
+                new Hardware(
+                    gpuName,
+                    HardwareType.GpuNvidia,
+                    "GPU Memory Used",
+                    SensorType.SmallData,
+                    gpuMemoryUsed,
+                    FindUnit(SensorType.SmallData),
+                    [i]
+                )
+            );
         }
 
         return gpuHardware;
@@ -257,47 +290,51 @@ public class HardwareManager
     /// </summary>
     /// <param name="computer">This computer.</param>
     /// <returns>A list of hardware components.</returns>
-    private static List<Hardware> MapHardware(Computer? computer)
+    private static List<Hardware> MapHardware(Computer computer)
     {
+        // List to store the mapped hardware
         var map = new List<Hardware>();
 
-        if (computer != null)
-            for (var i = 0; i < computer.Hardware.Count; i++)
+        // Iterate through all hardware components
+        for (var i = 0; i < computer.Hardware.Count; i++)
+        {
+            // Map the hardware with sub-hardware and sensors
+            for (var j = 0; j < computer.Hardware[i].SubHardware.Length; j++)
             {
-                for (var j = 0; j < computer.Hardware[i].SubHardware.Length; j++)
-                {
-                    for (var k = 0; k < computer.Hardware[i].SubHardware[j].Sensors.Length; k++)
-                    {
-                        var hardware = new Hardware(
-                            computer.Hardware[i].SubHardware[j].Name,
-                            computer.Hardware[i].SubHardware[j].HardwareType,
-                            computer.Hardware[i].SubHardware[j].Sensors[k].Name,
-                            computer.Hardware[i].SubHardware[j].Sensors[k].SensorType,
-                            computer.Hardware[i].SubHardware[j].Sensors[k].Value,
-                            FindUnit(computer.Hardware[i].SubHardware[j].Sensors[k].SensorType),
-                            new List<int> { i, j, k }
-                        );
-
-                        map.Add(hardware);
-                    }
-                }
-
-                for (var j = 0; j < computer.Hardware[i].Sensors.Length; j++)
+                for (var k = 0; k < computer.Hardware[i].SubHardware[j].Sensors.Length; k++)
                 {
                     var hardware = new Hardware(
-                        computer.Hardware[i].Name,
-                        computer.Hardware[i].HardwareType,
-                        computer.Hardware[i].Sensors[j].Name,
-                        computer.Hardware[i].Sensors[j].SensorType,
-                        computer.Hardware[i].Sensors[j].Value,
-                        FindUnit(computer.Hardware[i].Sensors[j].SensorType),
-                        new List<int> { i, j }
+                        computer.Hardware[i].SubHardware[j].Name,
+                        computer.Hardware[i].SubHardware[j].HardwareType,
+                        computer.Hardware[i].SubHardware[j].Sensors[k].Name,
+                        computer.Hardware[i].SubHardware[j].Sensors[k].SensorType,
+                        computer.Hardware[i].SubHardware[j].Sensors[k].Value ?? 0,
+                        FindUnit(computer.Hardware[i].SubHardware[j].Sensors[k].SensorType),
+                        [i, j, k]
                     );
 
                     map.Add(hardware);
                 }
             }
 
+            // Map the hardware with only sensors
+            for (var j = 0; j < computer.Hardware[i].Sensors.Length; j++)
+            {
+                var hardware = new Hardware(
+                    computer.Hardware[i].Name,
+                    computer.Hardware[i].HardwareType,
+                    computer.Hardware[i].Sensors[j].Name,
+                    computer.Hardware[i].Sensors[j].SensorType,
+                    computer.Hardware[i].Sensors[j].Value ?? 0,
+                    FindUnit(computer.Hardware[i].Sensors[j].SensorType),
+                    [i, j]
+                );
+
+                map.Add(hardware);
+            }
+        }
+
+        // Return the mapped hardware
         return map;
     }
 
@@ -306,7 +343,7 @@ public class HardwareManager
     /// </summary>
     /// <param name="computer">This computer.</param>
     /// <param name="hardware">The hardware to refresh.</param>
-    public static void RefreshHardware(Computer? computer, Hardware hardware)
+    public static void RefreshHardware(Computer computer, Hardware hardware)
     {
         var path = hardware.Path;
 
@@ -318,52 +355,82 @@ public class HardwareManager
             case 1:
                 RefreshNvidiaGpuHardware(hardware);
                 break;
-            
+
             // A path length of two indicates that the hardware has a sensor attached to it directly.
             case 2:
             {
                 // Update the value.
-                computer?.Hardware[path[0]].Update();
-                hardware.UpdateValue(computer?.Hardware[path[0]].Sensors[path[1]].Value);
+                computer.Hardware[path[0]].Update();
+                var value = computer.Hardware[path[0]].Sensors[path[1]].Value;
+                if (value != null)
+                {
+                    hardware.UpdateValue((float)value);
+                }
+                else
+                {
+                    hardware.UpdateValue(0);
+                }
                 break;
             }
             // A path length of three indicates that the hardware has a sub-hardware with a sensor attached to it.
             case 3:
             {
                 // Update the value.
-                computer?.Hardware[path[0]].Update();
-                hardware.UpdateValue(computer?.Hardware[path[0]].SubHardware[path[1]].Sensors[path[2]].Value
-                );
+                computer.Hardware[path[0]].Update();
+                var value = computer.Hardware[path[0]].SubHardware[path[1]].Sensors[path[2]].Value;
+                if (value != null)
+                {
+                    hardware.UpdateValue((float)value);
+                }
+                else
+                {
+                    hardware.UpdateValue(0);
+                }
                 break;
             }
         }
     }
 
-    public static void RefreshNvidiaGpuHardware(Hardware hardware)
+    /// <summary>
+    /// Refreshes the NVIDIA GPU hardware components using the nvidia-smi command.
+    /// </summary>
+    /// <param name="hardware"></param>
+    private static void RefreshNvidiaGpuHardware(Hardware hardware)
     {
         // If the hardware is not an Nvidia GPU, return it as is
         if (hardware.Type != HardwareType.GpuNvidia)
         {
             return;
         }
-        
+
         switch (hardware.SensorType)
         {
             case SensorType.Temperature:
                 // execute `nvidia-smi -i 0 --query-gpu=temperature.gpu --format=csv,noheader,nounits`
-                var temperature = ProcessManager.RunProcess("/bin/bash", $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=temperature.gpu --format=csv,noheader,nounits\"");
+                var temperature = ProcessManager.RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=temperature.gpu --format=csv,noheader,nounits\""
+                );
                 hardware.UpdateValue(float.Parse(temperature));
                 break;
             case SensorType.Load:
                 // execute `nvidia-smi -i 0 --query-gpu=utilization.gpu --format=csv,noheader,nounits`
-                var load = ProcessManager.RunProcess("/bin/bash", $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=utilization.gpu --format=csv,noheader,nounits\"");
+                var load = ProcessManager.RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=utilization.gpu --format=csv,noheader,nounits\""
+                );
                 hardware.UpdateValue(float.Parse(load));
                 break;
             case SensorType.SmallData:
                 // execute `nvidia-smi -i 0 --query-gpu=memory.used --format=csv,noheader,nounits`
-                var memoryUsed = ProcessManager.RunProcess("/bin/bash", $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=memory.used --format=csv,noheader,nounits\"");
+                var memoryUsed = ProcessManager.RunProcess(
+                    "/bin/bash",
+                    $"-c \"nvidia-smi -i {hardware.Path[0]} --query-gpu=memory.used --format=csv,noheader,nounits\""
+                );
                 hardware.UpdateValue(float.Parse(memoryUsed));
                 break;
+            default:
+                throw new InvalidEnumArgumentException();
         }
     }
 
@@ -382,7 +449,15 @@ public class HardwareManager
         var newName = hardware.Name;
 
         // Remove certain words from the name to reduce length in the UI
-        var redundantWords = new List<string> { "Generic ", "NVIDIA", "Intel", "AMD", "GeForce", "Laptop" };
+        var redundantWords = new List<string>
+        {
+            "Generic ",
+            "NVIDIA",
+            "Intel",
+            "AMD",
+            "GeForce",
+            "Laptop",
+        };
         foreach (var word in redundantWords)
         {
             newName = newName.Replace(word, "");
@@ -425,7 +500,7 @@ public class HardwareManager
     /// </summary>
     /// <param name="sensorType">The sensor type.</param>
     /// <returns>The unit as a string.</returns>
-    private static string? FindUnit(SensorType sensorType)
+    private static string FindUnit(SensorType sensorType)
     {
         return sensorType switch
         {
@@ -440,7 +515,7 @@ public class HardwareManager
             SensorType.Control => "?",
             SensorType.SmallData => "MB",
             SensorType.Throughput => "KB/s",
-            _ => null,
+            _ => "NA",
         };
     }
 }

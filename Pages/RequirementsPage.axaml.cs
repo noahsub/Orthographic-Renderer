@@ -1,162 +1,177 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RequirementsPage.axaml.cs
+// This file contains the logic for the RequirementsPage.
+//
+// Author(s): https://github.com/noahsub
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IMPORTS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Newtonsoft.Json;
+using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NAMESPACE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace Orthographic.Renderer.Pages;
 
+/// <summary>
+/// Represents the requirements page of the application.
+/// </summary>
 public partial class RequirementsPage : UserControl
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RequirementsPage"/> class.
+    /// </summary>
     public RequirementsPage()
     {
         InitializeComponent();
-        CheckSavedPaths();
+
+        // Load serialized paths
+        LoadPaths();
+
+        // Check if the blender path is valid
+        PathValid("blender", BlenderPathTextBox);
     }
 
-    private bool CheckPathValid(string key, string path)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // PATH
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Loads the paths from the configuration file.
+    /// </summary>
+    private void LoadPaths()
     {
-        // Ensure that the file exists
-        if (!File.Exists(path))
-        {
-            return false;
-        }
-        
-        // Ensure that the key matches the file
-        // for example if the key is "blender" then the path should be "blender" in its last segment
-        var lastSegment = Path.GetFileNameWithoutExtension(path).ToLower();
-        if (!lastSegment.Contains(key.ToLower()))
-        {
-            return false;
-        }
-        
-        // Check that the --version argument of the executable is able to be run
-        var process = new System.Diagnostics.Process
-        {
-            StartInfo = new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = path,
-                Arguments = "--version",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            }
-        };
-        
-        process.Start();
-        var output = process.StandardOutput.ReadToEnd();
-        process.WaitForExit();
-        
-        return !string.IsNullOrEmpty(output);
-    }
-    
-    private void CheckSavedPaths()
-    {
+        // Get the paths from the file
         var paths = FileManager.ReadJsonKeyValue("Data/program_paths.json");
-        var blenderPathValid = CheckPathValid("blender", paths["blender"].ToString());
-        var pythonPathValid = CheckPathValid("python", paths["python"].ToString());
-        
-        if (blenderPathValid)
-        {
-            BlenderPathTextBox.PathTextBox.Text = paths["blender"];
-            BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
-        }
+        // Get the blender path
+        var blenderPath = paths.blender;
 
-        else
-        {
-            BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
-        }
-        
-        if (pythonPathValid)
-        {
-            PythonPathTextBox.PathTextBox.Text = paths["python"];
-            PythonPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
-        }
-
-        else
-        {
-            PythonPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
-        }
-    }
-
-    private void NextButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        var blenderValid = false;
-        var pythonValid = false;
-        
-        if (BlenderPathTextBox.PathTextBox.Text != null)
-        {
-            BlenderPathTextBox.PathTextBox.Text = FileManager.ReformatPath(BlenderPathTextBox.PathTextBox.Text);
-        }
-
-        if (PythonPathTextBox.PathTextBox.Text != null)
-        {
-            PythonPathTextBox.PathTextBox.Text = FileManager.ReformatPath(PythonPathTextBox.PathTextBox.Text);
-        }
-        
-        var blenderPath = BlenderPathTextBox.PathTextBox.Text;
-        var pythonPath = PythonPathTextBox.PathTextBox.Text;
-
+        // If the blender path is not null, set the text box to the path
         if (blenderPath != null)
         {
-            if (CheckPathValid("blender", blenderPath))
-            {
-                FileManager.WriteToJsonFile(path: "Data/program_paths.json", key: "blender", value: blenderPath);
-                BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
-                blenderValid = true;
-            }
-
-            else
-            {
-                BlenderPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
-            }
-        }
-
-        if (pythonPath != null)
-        {
-            if (CheckPathValid("python", pythonPath))
-            {
-                FileManager.WriteToJsonFile(path: "Data/program_paths.json", key: "python", value: pythonPath);
-                PythonPathTextBox.PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
-                pythonValid = true;
-            }
-
-            else
-            {
-                PythonPathTextBox.PathTextBox.BorderBrush = Brushes.Red;
-            }
-        }
-        
-        if (blenderValid && pythonValid)
-        {
-            // Get the ContentControl called "PageContent" from the MainWindow
-            var mainWindow = (MainWindow) this.VisualRoot;
-            var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-            DataManager.BlenderPath = blenderPath;
-            DataManager.PythonPath = pythonPath;
-            pageContent.Content = new ModelPage();
+            BlenderPathTextBox.PathTextBox.Text = blenderPath;
         }
     }
 
+    /// <summary>
+    /// Normalizes the specified path.
+    /// </summary>
+    /// <param name="pathTextBox">The text box containing the path.</param>
+    /// <returns>The normalized path, or <c>null</c> if the path is invalid.</returns>
+    private string? NormalizePath(BrowsableFileTextBox pathTextBox)
+    {
+        // Get the path from the text box
+        var path = pathTextBox.PathTextBox.Text;
+
+        // If the path is null, return null
+        if (path == null)
+        {
+            return null;
+        }
+
+        // Reformat the path
+        path = FileManager.ReformatPath(path);
+
+        // Set the text box to the reformatted path
+        pathTextBox.PathTextBox.Text = path;
+
+        return path;
+    }
+
+    /// <summary>
+    /// Validates the specified path.
+    /// </summary>
+    /// <param name="key">The key associated with the path.</param>
+    /// <param name="pathTextBox">The text box containing the path.</param>
+    /// <param name="save">Whether to save the path if valid.</param>
+    /// <returns><c>true</c> if the path is valid; otherwise, <c>false</c>.</returns>
+    private bool PathValid(string key, BrowsableFileTextBox pathTextBox, bool save = false)
+    {
+        // Normalize the path
+        var path = NormalizePath(pathTextBox);
+
+        // If the path is null, return false
+        if (path == null)
+        {
+            return false;
+        }
+
+        // Verify the program path
+        if (FileManager.VerifyProgramPath(key, path))
+        {
+            // Set the border color to green
+            SetBorder(pathTextBox, true);
+
+            // Save the path if specified
+            if (save)
+            {
+                FileManager.WriteKeyValueToJsonFile("Data/program_paths.json", key, path);
+            }
+
+            return true;
+        }
+
+        // Set the border color to red
+        SetBorder(pathTextBox, false);
+        return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HELPER FUNCTIONS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Sets the border color of the specified text box based on its validity.
+    /// </summary>
+    /// <param name="pathTextBox">The text box to update.</param>
+    /// <param name="isValid">Whether the path is valid.</param>
+    private void SetBorder(BrowsableFileTextBox pathTextBox, bool isValid)
+    {
+        // Set the border color based on the validity of the path (green if valid, red if invalid)
+        pathTextBox.PathTextBox.BorderBrush = isValid
+            ? Brushes.MediumSpringGreen
+            : Brushes.IndianRed;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // EVENTS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Handles the click event of the Next button.
+    /// </summary>
+    private void NextButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        // Check if the blender path is valid
+        var blenderValid = PathValid("blender", BlenderPathTextBox, true);
+
+        // If the blender path is not valid, play an error sound and return
+        if (!blenderValid)
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+            return;
+        }
+
+        // Set the blender path
+        DataManager.BlenderPath = BlenderPathTextBox.PathTextBox.Text ?? string.Empty;
+
+        // Switch to the ModelPage
+        var mainWindow = (Windows.MainWindow)this.VisualRoot!;
+        NavigationManager.SwitchPage(mainWindow, new ModelPage());
+    }
+
+    /// <summary>
+    /// Handles the click event of the Blender Install button.
+    /// </summary>
     private void BlenderInstallButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var url = "https://www.blender.org/download/";
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = url,
-            UseShellExecute = true
-        });
-    }
-
-    private void PythonInstallButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        var url = "https://www.python.org/downloads/";
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = url,
-            UseShellExecute = true
-        });
+        // Open the Blender download page
+        WebManager.OpenUrl("https://www.blender.org/download/");
     }
 }
