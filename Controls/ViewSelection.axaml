@@ -4,23 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="300"
              x:Class="Orthographic.Renderer.Controls.ViewSelection">
-    <UserControl.Styles>
-        <Style Selector="Label">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-        <Style Selector="CheckBox:pointerover /template/ Border#NormalRectangle">
-            <Setter Property="BorderBrush" Value="#38b178" />
-        </Style>
-        <Style Selector="CheckBox:pressed /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="#38b178" />
-        </Style>
-        <Style Selector="CheckBox:checked /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="#38b178" />
-        </Style>
-    </UserControl.Styles>
-    
-    <Grid x:Name="MainGrid" Background="#1a1b1e" Height="300">
+    <Grid x:Name="MainGrid" Height="300">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="75"/>

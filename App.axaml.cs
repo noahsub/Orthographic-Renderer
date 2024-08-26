@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -26,7 +27,8 @@ public partial class App : Application
                 // Perform hardware setup and collection asynchronously
                 await Task.Run(() => HardwareManager.SetupComputer());
                 await Task.Run(() => HardwareManager.CollectHardwareToMonitor());
-
+                Thread.Sleep(20000);
+                
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(() =>
                 {

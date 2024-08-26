@@ -5,13 +5,6 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150"
              x:Class="Orthographic.Renderer.Controls.HardwareStatus">
     
-    <UserControl.Styles>
-        <Style Selector="Label">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-    </UserControl.Styles>
-    
     <Grid Background="Transparent" ShowGridLines="False">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">

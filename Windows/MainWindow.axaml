@@ -7,20 +7,21 @@
         MinHeight="400"
         MinWidth="800"
         Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
-        Title="Orthographic Renderer">
+        Title="Orthographic Renderer"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True">
     
-    <Window.Styles>
-        <Style Selector="Button">
-            <Setter Property="Background" Value="#1e1f22"></Setter>
-            <Setter Property="CornerRadius" Value="5"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="Width" Value="100"></Setter>
-        </Style>
-    </Window.Styles>
-    
-    <Grid Background="#161517">
-        <ContentControl x:Name="PageContent"/>
-    </Grid>
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" CornerRadius="15">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    TintColor="Black"
+                    TintOpacity="1"
+                    MaterialOpacity="1.0" />
+            </ExperimentalAcrylicBorder.Material>
+            <ContentControl x:Name="PageContent"/>
+        </ExperimentalAcrylicBorder>
+    </Panel>
 </Window>

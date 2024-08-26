@@ -5,39 +5,7 @@
              xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Orthographic.Renderer.Pages.ModelPage">
-    <UserControl.Styles>
-        <Style Selector="Button">
-            <Setter Property="Background" Value="#3f8463"></Setter>
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="CornerRadius" Value="0"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="Width" Value="100"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-        <Style Selector="TextBox">
-            <Setter Property="Background" Value="#1e1f22"></Setter>
-            <Setter Property="Foreground" Value="#61646e"></Setter>
-            <Setter Property="BorderBrush" Value="Transparent"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-        <Style Selector="ListBox">
-            <Setter Property="Background" Value="Transparent"></Setter>
-        </Style>
-        <Style Selector="Label">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-        <Style Selector="ComboBox">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="Background" Value="#1e1f22"></Setter>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-        </Style>
-    </UserControl.Styles>
-    
-    <Grid Background="#202124">
+    <Grid>
         <ScrollViewer>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
                 <!-- <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/> -->
@@ -73,7 +41,7 @@
             </StackPanel>
         </ScrollViewer>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 20 20 20" Spacing="20">
-            <Button x:Name="BackButton" Content="Back" Background="#1a1b1e" Click="BackButton_OnClick"/>
+            <Button x:Name="BackButton" Content="Back" Click="BackButton_OnClick"/>
         </StackPanel>
     </Grid>
 </UserControl>

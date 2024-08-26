@@ -10,30 +10,42 @@
         WindowStartupLocation="CenterOwner"
         SystemDecorations="None"
         Topmost="True"
-        Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico">
-    <Window.Styles>
-        <Style Selector="Label">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-    </Window.Styles>
-    
-    <Grid Background="#202124"> 
-        <Rectangle Opacity="0.8">
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                    <GradientStop Color="#38b178" Offset="0"/>
-                    <GradientStop Color="#1c3e35" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <StackPanel Margin="10 10 10 10" Spacing="30" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="200" Height="200"/>
-            <StackPanel>
-                <Label Content="Orthographic" FontWeight="Bold" FontSize="40" HorizontalAlignment="Center"/>
-                <Label Content="Renderer" FontWeight="Bold" FontSize="40" HorizontalAlignment="Center"/>
-            </StackPanel>
-            <Label Content="Loading" FontStyle="Italic" FontSize="20" HorizontalAlignment="Center"/>
-        </StackPanel>
-    </Grid>
+        Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True">
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" CornerRadius="15">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    TintColor="{StaticResource PrimaryGrey}"
+                    TintOpacity="1"
+                    MaterialOpacity="0.2" />
+            </ExperimentalAcrylicBorder.Material>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="30">
+                    <Image Source="/Assets/Images/green_cube.png" Margin="0 0 0 20" Width="100" Height="100"/>
+                    <Label Content="Orthographic" FontSize="22" HorizontalAlignment="Center"/>
+                    <Label Content="Renderer" FontSize="22" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30">
+                    <Label Content="Loading" FontSize="12"/>
+                </StackPanel>
+                <ExperimentalAcrylicBorder Grid.Column="1" IsHitTestVisible="False" CornerRadius="15" Margin="30">
+                    <ExperimentalAcrylicBorder.Material>
+                        <ExperimentalAcrylicMaterial
+                            BackgroundSource="Digger"
+                            TintColor="{StaticResource PrimaryGrey}"
+                            TintOpacity="1"
+                            MaterialOpacity="0.6" />
+                    </ExperimentalAcrylicBorder.Material>
+                </ExperimentalAcrylicBorder>
+            </Grid>
+        </ExperimentalAcrylicBorder>
+    </Panel>
 </Window>
