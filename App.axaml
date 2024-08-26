@@ -11,9 +11,10 @@
          <FontFamily x:Key="JetBrainsMono">avares://Orthographic.Renderer/Assets/Fonts#JetBrains Mono </FontFamily>
          <Color x:Key="PrimaryGrey">#121214</Color>
          <Color x:Key="SecondaryGrey">#1a1b1e</Color>
-         <ExperimentalAcrylicMaterial x:Key="AcrylicMaterial">
-             
+         <CornerRadius x:Key="Radius">15</CornerRadius>
+         <ExperimentalAcrylicMaterial x:Key="AcrylicMaterial" BackgroundSource="Digger" TintColor="#000000" TintOpacity="0" MaterialOpacity="0">
          </ExperimentalAcrylicMaterial>
+         <x:Double x:Key="GlobalOpacity">0.65</x:Double>
      </Application.Resources>
      <Application.Styles>
          <Style Selector="Label">

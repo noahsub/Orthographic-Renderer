@@ -17,17 +17,14 @@
     <Panel>
         <ExperimentalAcrylicBorder IsHitTestVisible="False" CornerRadius="15">
             <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial
-                    BackgroundSource="Digger"
-                    TintColor="{StaticResource PrimaryGrey}"
-                    TintOpacity="1"
-                    MaterialOpacity="0.2" />
+                <StaticResource ResourceKey="AcrylicMaterial"/>
             </ExperimentalAcrylicBorder.Material>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
+                <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="{StaticResource PrimaryGrey}" Opacity="{StaticResource GlobalOpacity}"/>
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="30">
                     <Image Source="/Assets/Images/green_cube.png" Margin="0 0 0 20" Width="100" Height="100"/>
                     <Label Content="Orthographic" FontSize="22" HorizontalAlignment="Center"/>
@@ -36,15 +33,9 @@
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30">
                     <Label Content="Loading" FontSize="12"/>
                 </StackPanel>
-                <ExperimentalAcrylicBorder Grid.Column="1" IsHitTestVisible="False" CornerRadius="15" Margin="30">
-                    <ExperimentalAcrylicBorder.Material>
-                        <ExperimentalAcrylicMaterial
-                            BackgroundSource="Digger"
-                            TintColor="{StaticResource PrimaryGrey}"
-                            TintOpacity="1"
-                            MaterialOpacity="0.6" />
-                    </ExperimentalAcrylicBorder.Material>
-                </ExperimentalAcrylicBorder>
+                <Border Grid.Column="1" CornerRadius="{StaticResource Radius}" Margin="30" ClipToBounds="True">
+                    <Image Source="/Assets/Images/Backgrounds/cubes.png" Stretch="Fill" Opacity="0.75"/>
+                </Border>
             </Grid>
         </ExperimentalAcrylicBorder>
     </Panel>
