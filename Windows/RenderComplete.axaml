@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
         x:Class="Orthographic.Renderer.Windows.RenderComplete"
         Title="Render Complete"
         Width="400"
@@ -10,17 +10,24 @@
         CanResize="True"
         WindowStartupLocation="CenterOwner"
         WindowState="Minimized"
-        Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico">
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True">
     
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <StackPanel HorizontalAlignment="Center" Spacing="20" VerticalAlignment="Center">
-            <Label Content="Render Complete" FontSize="20" HorizontalAlignment="Center"/>
-            <Label x:Name="StartTimeLabel" Content="Start: 0:00:00" HorizontalAlignment="Center"/>
-            <Label x:Name="EndTimeLabel" Content="End: 0:00:00" HorizontalAlignment="Center"/>
-            <Label x:Name="RenderTimeLabel" Content="Total: 0:00:00" HorizontalAlignment="Center"/>
-            <Label x:Name="RendersCompleted" Content="Renders Completed: 0" HorizontalAlignment="Center"/>
-            <Label x:Name="RendersFailed" Content="Renders Failed: 0" HorizontalAlignment="Center"/>
-            <Button x:Name="CloseButton" Content="Close" Click="CloseButton_OnClick" HorizontalAlignment="Center"/>
-        </StackPanel>
-    </Grid>
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" ClipToBounds="True">
+            <ExperimentalAcrylicBorder.Material>
+                <StaticResource ResourceKey="AcrylicMaterial"/>
+            </ExperimentalAcrylicBorder.Material>
+            <StackPanel HorizontalAlignment="Center" Spacing="20" VerticalAlignment="Center">
+                <Label Content="Render Complete" FontSize="20" HorizontalAlignment="Center"/>
+                <Label x:Name="StartTimeLabel" Content="Start: 0:00:00" HorizontalAlignment="Center"/>
+                <Label x:Name="EndTimeLabel" Content="End: 0:00:00" HorizontalAlignment="Center"/>
+                <Label x:Name="RenderTimeLabel" Content="Total: 0:00:00" HorizontalAlignment="Center"/>
+                <Label x:Name="RendersCompleted" Content="Renders Completed: 0" HorizontalAlignment="Center"/>
+                <Label x:Name="RendersFailed" Content="Renders Failed: 0" HorizontalAlignment="Center"/>
+                <Button x:Name="CloseButton" Content="Close" Click="CloseButton_OnClick" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </ExperimentalAcrylicBorder>
+    </Panel>
 </Window>

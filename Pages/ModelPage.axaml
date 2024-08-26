@@ -6,9 +6,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Orthographic.Renderer.Pages.ModelPage">
     <Grid>
+        <Rectangle Fill="{StaticResource PrimaryGrey}"/>
         <ScrollViewer>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
-                <!-- <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="100" Height="100"/> -->
                 <Label Content="Select Model" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
@@ -37,7 +37,7 @@
                         <ComboBoxItem Content="Feet" Tag="ft"></ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
-                <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
+                <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
         </ScrollViewer>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 20 20 20" Spacing="20">

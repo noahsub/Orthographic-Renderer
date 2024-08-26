@@ -23,10 +23,8 @@
          </Style>
          <Style Selector="TextBox">
              <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-         </Style>
-         <Style Selector="Rectangle">
-             <Setter Property="RadiusX" Value="15"/>
-             <Setter Property="RadiusY" Value="15"/>
+             <Setter Property="Background" Value="{StaticResource SecondaryGrey}"></Setter>
+             <Setter Property="BorderBrush" Value="Transparent"></Setter>
          </Style>
      </Application.Styles>
 </Application>

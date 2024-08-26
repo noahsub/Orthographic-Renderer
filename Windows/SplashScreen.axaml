@@ -15,7 +15,7 @@
         Background="Transparent"
         ExtendClientAreaToDecorationsHint="True">
     <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="False" CornerRadius="15">
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" ClipToBounds="True">
             <ExperimentalAcrylicBorder.Material>
                 <StaticResource ResourceKey="AcrylicMaterial"/>
             </ExperimentalAcrylicBorder.Material>
@@ -29,9 +29,10 @@
                     <Image Source="/Assets/Images/green_cube.png" Margin="0 0 0 20" Width="100" Height="100"/>
                     <Label Content="Orthographic" FontSize="22" HorizontalAlignment="Center"/>
                     <Label Content="Renderer" FontSize="22" HorizontalAlignment="Center"/>
+                    <Label Content="BETA" FontSize="14" HorizontalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30">
-                    <Label Content="Loading" FontSize="12"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30">
+                    <Label Content="Loading" FontSize="14"/>
                 </StackPanel>
                 <Border Grid.Column="1" CornerRadius="{StaticResource Radius}" Margin="30" ClipToBounds="True">
                     <Image Source="/Assets/Images/Backgrounds/cubes.png" Stretch="Fill" Opacity="0.75"/>

@@ -3,9 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
-             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Orthographic.Renderer.Pages.RequirementsPage">
     <Grid>
+        <Rectangle Fill="{StaticResource PrimaryGrey}"/>
         <ScrollViewer>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
                 <Label Content="Program Paths" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
@@ -17,7 +18,7 @@
                     </StackPanel>
                 </StackPanel>
                 <controls:BrowsableFileTextBox x:Name="BlenderPathTextBox"/>
-                <Button x:Name="NextButton" Content="Next" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
+                <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
         </ScrollViewer>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 20 20 20" Spacing="20">

@@ -13,13 +13,9 @@
         ExtendClientAreaToDecorationsHint="True">
     
     <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="False" CornerRadius="15">
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" CornerRadius="{StaticResource Radius}" ClipToBounds="True">
             <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial
-                    BackgroundSource="Digger"
-                    TintColor="Black"
-                    TintOpacity="1"
-                    MaterialOpacity="1.0" />
+                <StaticResource ResourceKey="AcrylicMaterial"/>
             </ExperimentalAcrylicBorder.Material>
             <ContentControl x:Name="PageContent"/>
         </ExperimentalAcrylicBorder>
