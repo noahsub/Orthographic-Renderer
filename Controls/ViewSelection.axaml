@@ -9,7 +9,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
-        
+        <Rectangle Grid.Row="0" Grid.RowSpan="2" Fill="{StaticResource PrimaryBackground}" RadiusX="{StaticResource RadiusRectangle}" RadiusY="{StaticResource RadiusRectangle}"/>
         <Image Grid.Row="0" x:Name="ViewImage" Margin="20 20 20 20" MaxHeight="150" MaxWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Grid.Row="1" x:Name="NameLabel" Content="Top Front Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <CheckBox x:Name="SelectCheckBox" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 10 10 10"/>

@@ -69,22 +69,22 @@ public partial class RenderQueueItem : UserControl
         {
             case RenderStatus.Pending:
                 StatusLabel.Content = "PENDING";
-                ContentGrid.Background = Brushes.Goldenrod;
+                StatusColor.Fill = Brushes.Goldenrod;
                 Status = RenderStatus.Pending;
                 break;
             case RenderStatus.InProgress:
                 StatusLabel.Content = "IN PROGRESS";
-                ContentGrid.Background = Brushes.MediumPurple;
+                StatusColor.Fill = Brushes.MediumPurple;
                 Status = RenderStatus.InProgress;
                 break;
             case RenderStatus.Completed:
                 StatusLabel.Content = "COMPLETED";
-                ContentGrid.Background = Brushes.MediumSeaGreen;
+                StatusColor.Fill = Brushes.MediumSeaGreen;
                 Status = RenderStatus.Completed;
                 break;
             case RenderStatus.Failed:
                 StatusLabel.Content = "FAILED";
-                ContentGrid.Background = Brushes.IndianRed;
+                StatusColor.Fill = Brushes.IndianRed;
                 Status = RenderStatus.Failed;
                 break;
             default:

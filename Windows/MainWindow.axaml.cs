@@ -9,6 +9,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using Avalonia.Controls;
+using Avalonia.Input;
 using Orthographic.Renderer.Pages;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,5 +38,14 @@ public partial class MainWindow : Window
         InitializeComponent();
         // Set the content to the requirements page
         PageContent.Content = new RequirementsPage();
+    }
+
+    private void InputElement_OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        // if cursor is on within the first 30 pixels of the window, move the window
+        if (e.GetCurrentPoint(this).Position.Y < 30)
+        {
+            BeginMoveDrag(e);
+        }
     }
 }

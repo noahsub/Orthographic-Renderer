@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="60"
              x:Class="Orthographic.Renderer.Controls.RenderQueueItem">
     <Grid ColumnDefinitions="*,*" Height="60" x:Name="ContentGrid">
+        <Rectangle Grid.Column="0" Grid.ColumnSpan="2" x:Name="StatusColor" RadiusX="{StaticResource RadiusRectangle}" RadiusY="{StaticResource RadiusRectangle}"/>
         <Label x:Name="Name" Grid.Column="0" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0"/>
         <Label x:Name="StatusLabel" Grid.Column="1" Content="Status" HorizontalAlignment="Right" VerticalContentAlignment="Center" Margin="0 0 10 0"/>
     </Grid>

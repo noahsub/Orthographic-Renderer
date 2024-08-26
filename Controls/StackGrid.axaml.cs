@@ -94,7 +94,7 @@ public partial class StackGrid : UserControl
             // If the first column and no end margins, set the left margin to 0
             if (i == 0 && !endMargins)
             {
-                stackPanel.Margin = new Thickness(0, 0, marginSize, 0);
+                stackPanel.Margin = new Thickness(0, 0, 0, 0);
             }
 
             // If the last column

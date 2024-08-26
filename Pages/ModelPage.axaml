@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Orthographic.Renderer.Pages.ModelPage">
     <Grid>
-        <Rectangle Fill="{StaticResource PrimaryGrey}"/>
+        <Rectangle Fill="{StaticResource PrimaryBackground}"/>
         <ScrollViewer>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
                 <Label Content="Select Model" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>

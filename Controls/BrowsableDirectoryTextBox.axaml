@@ -9,7 +9,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="100"/>        
+            <ColumnDefinition Width="Auto"/>        
         </Grid.ColumnDefinitions>
         <TextBox Grid.Column="0" x:Name="PathTextBox" Watermark="Directory path"/>
         <Button x:Name="BrowseButton" Grid.Column="2" Content="Browse" Click="BrowseButton_OnClick"/>

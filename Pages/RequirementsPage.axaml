@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Orthographic.Renderer.Pages.RequirementsPage">
     <Grid>
-        <Rectangle Fill="{StaticResource PrimaryGrey}"/>
+        <Rectangle Fill="{StaticResource PrimaryBackground}"/>
         <ScrollViewer>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
                 <Label Content="Program Paths" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
@@ -17,7 +17,7 @@
                         <Label Content="Version 4.2.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
                     </StackPanel>
                 </StackPanel>
-                <controls:BrowsableFileTextBox x:Name="BlenderPathTextBox"/>
+                <controls:BrowsableFileTextBox x:Name="BlenderPathTextBox" Margin="0 20 0 0"/>
                 <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
             </StackPanel>
         </ScrollViewer>

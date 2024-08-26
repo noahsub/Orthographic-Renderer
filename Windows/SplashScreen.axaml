@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="{StaticResource PrimaryGrey}" Opacity="{StaticResource GlobalOpacity}"/>
+                <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="{StaticResource PrimaryBackground}"/>
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="30">
                     <Image Source="/Assets/Images/green_cube.png" Margin="0 0 0 20" Width="100" Height="100"/>
                     <Label Content="Orthographic" FontSize="22" HorizontalAlignment="Center"/>

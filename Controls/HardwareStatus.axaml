@@ -8,7 +8,7 @@
     <Grid Background="Transparent" ShowGridLines="False">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label x:Name="ValueLabel" Content="0.0" FontSize="40" Foreground="MediumSeaGreen"/>
+                <Label x:Name="ValueLabel" Content="0.0" FontSize="40" Foreground="{StaticResource PrimaryAccent}"/>
                 <Label Content=" " FontSize="10"/>
                 <Label x:Name="UnitLabel" Content="%" FontSize="25" VerticalAlignment="Center"/>
             </StackPanel>
