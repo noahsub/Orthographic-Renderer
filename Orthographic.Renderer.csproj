@@ -322,6 +322,10 @@
         <DependentUpon>SplashScreen.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Windows\Warning.axaml.cs">
+        <DependentUpon>Warning.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
     
     

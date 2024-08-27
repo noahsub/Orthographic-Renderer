@@ -8,6 +8,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -193,5 +195,26 @@ public class FileManager
 
         // Return true if the output is not empty
         return !string.IsNullOrEmpty(output);
+    }
+
+    /// <summary>
+    /// Checks if the path requires elevated permissions to access.
+    /// </summary>
+    /// <returns>True, if the path requires elevated permissions, otherwise false.</returns>
+    public static bool ElevatedPath(string path)
+    {
+        try
+        {
+            using (File.Open(path, FileMode.Open, FileAccess.Read))
+            {
+                // If we can open the file, it does not require elevated permissions
+                return false;
+            }
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // If an UnauthorizedAccessException is caught, it requires elevated permissions
+            return true;
+        }
     }
 }

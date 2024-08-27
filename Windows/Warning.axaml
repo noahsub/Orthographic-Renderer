@@ -1,0 +1,48 @@
+﻿<Window
+    Background="Transparent"
+    CanResize="True"
+    ExtendClientAreaToDecorationsHint="True"
+    Height="400"
+    Title="Render Complete"
+    TransparencyLevelHint="AcrylicBlur"
+    Width="400"
+    WindowStartupLocation="CenterOwner"
+    WindowState="Normal"
+    d:DesignHeight="400"
+    d:DesignWidth="400"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Windows.Warning"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Panel>
+        <ExperimentalAcrylicBorder
+            ClipToBounds="True"
+            IsHitTestVisible="True"
+            PointerPressed="InputElement_OnPointerPressed">
+            <ExperimentalAcrylicBorder.Material>
+                <StaticResource ResourceKey="AcrylicMaterial" />
+            </ExperimentalAcrylicBorder.Material>
+            <Grid>
+                <Rectangle Fill="{StaticResource PrimaryBackground}" />
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Spacing="20"
+                    VerticalAlignment="Center">
+                    <Label
+                        Content="Warning Message"
+                        FontSize="15"
+                        HorizontalAlignment="Center"
+                        x:Name="WarningLabel" />
+                    <Button
+                        Click="CloseButton_OnClick"
+                        Content="Close"
+                        HorizontalAlignment="Center"
+                        x:Name="CloseButton" />
+                </StackPanel>
+            </Grid>
+        </ExperimentalAcrylicBorder>
+    </Panel>
+</Window>

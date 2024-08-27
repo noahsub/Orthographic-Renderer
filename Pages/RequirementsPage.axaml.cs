@@ -121,6 +121,13 @@ public partial class RequirementsPage : UserControl
         SetBorder(pathTextBox, false);
         return false;
     }
+    
+    private void DisplayWarning(string message)
+    {
+        var warning = new Windows.Warning();
+        warning.SetWarning(message);
+        warning.Show();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPER FUNCTIONS
@@ -148,18 +155,37 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        var blenderPath = FileManager.ReformatPath(BlenderPathTextBox.PathTextBox.Text ?? string.Empty);
+        
+        if (blenderPath == string.Empty)
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+            SetBorder(BlenderPathTextBox, false);
+            return;
+        }
+
+        if (FileManager.ElevatedPath(blenderPath))
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+            SetBorder(BlenderPathTextBox, false);
+            return;
+        }
+        
         // Check if the blender path is valid
         var blenderValid = PathValid("blender", BlenderPathTextBox, true);
-
+        
         // If the blender path is not valid, play an error sound and return
         if (!blenderValid)
         {
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
+            SetBorder(BlenderPathTextBox, false);
             return;
         }
+        
+        SetBorder(BlenderPathTextBox, true);
 
         // Set the blender path
-        DataManager.BlenderPath = BlenderPathTextBox.PathTextBox.Text ?? string.Empty;
+        DataManager.BlenderPath = blenderPath;
 
         // Switch to the ModelPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;

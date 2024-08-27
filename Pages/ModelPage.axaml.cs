@@ -132,6 +132,14 @@ public partial class ModelPage : UserControl
 
         // Reformat the model path
         modelPath = FileManager.ReformatPath(modelPath);
+        
+        if (FileManager.ElevatedPath(modelPath))
+        {
+            DisplayWarning("The path to the model file must not be in a directory that requires elevated permissions unless you are running the application as an administrator.");
+            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+            return;
+        }
 
         // If the model path is not valid, set the border color to red and play an error sound
         if (!IsValidModelPath(modelPath))
@@ -192,5 +200,12 @@ public partial class ModelPage : UserControl
         // Switch to the RequirementsPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
+    }
+    
+    private void DisplayWarning(string message)
+    {
+        var warning = new Windows.Warning();
+        warning.SetWarning(message);
+        warning.Show();
     }
 }
