@@ -1,17 +1,22 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="100"
-             x:Class="Orthographic.Renderer.Controls.BrowsableFileTextBox">
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="Auto"/>        
-        </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="0" x:Name="PathTextBox" Watermark="File path"/>
-        <Button x:Name="BrowseButton" Grid.Column="2" Content="Browse" Click="BrowseButton_OnClick"/>
+﻿<UserControl
+    d:DesignHeight="100"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.BrowsableFileTextBox"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid ColumnDefinitions="*,10,Auto">
+        <TextBox
+            Grid.Column="0"
+            Watermark="File path"
+            x:Name="PathTextBox" />
+        <Button
+            Click="BrowseButton_OnClick"
+            Content="Browse"
+            Grid.Column="2"
+            x:Name="BrowseButton" />
     </Grid>
 </UserControl>

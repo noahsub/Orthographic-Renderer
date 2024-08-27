@@ -1,28 +1,60 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Orthographic.Renderer.Pages.RequirementsPage">
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Pages.RequirementsPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <Rectangle Fill="{StaticResource PrimaryBackground}"/>
+        <Rectangle Fill="{StaticResource PrimaryBackground}" />
         <ScrollViewer>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
-                <Label Content="Program Paths" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
+            <StackPanel
+                HorizontalAlignment="Center"
+                MinWidth="700"
+                VerticalAlignment="Center">
+                <Label
+                    Content="Program Paths"
+                    FontSize="30"
+                    HorizontalAlignment="Center"
+                    Padding="0,20,0,50" />
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="avares://Orthographic.Renderer/Assets/Images/orange_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                    <Image
+                        Height="25"
+                        Margin="0,0,10,0"
+                        Source="avares://Orthographic.Renderer/Assets/Images/orange_cube.png"
+                        Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="Blender Path"/>
-                        <Label Content="Version 4.2.X recommended" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                        <Label Content="Blender Path" />
+                        <Label
+                            Content="Version 4.2.X recommended"
+                            FontFamily="{StaticResource JetBrainsMono}"
+                            FontSize="10"
+                            FontStyle="Italic" />
                     </StackPanel>
                 </StackPanel>
-                <controls:BrowsableFileTextBox x:Name="BlenderPathTextBox" Margin="0 20 0 0"/>
-                <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
+                <controls:BrowsableFileTextBox Margin="0,20,0,0" x:Name="BlenderPathTextBox" />
+                <Button
+                    Click="NextButton_OnClick"
+                    Content="Next"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0"
+                    x:Name="NextButton" />
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 20 20 20" Spacing="20">
-            <Button x:Name="BlenderInstallButton" Content="Install Blender" Width="150" Click="BlenderInstallButton_OnClick"/>
+        <StackPanel
+            HorizontalAlignment="Left"
+            Margin="20,20,20,20"
+            Orientation="Horizontal"
+            Spacing="20"
+            VerticalAlignment="Bottom">
+            <Button
+                Click="BlenderInstallButton_OnClick"
+                Content="Install Blender"
+                Width="150"
+                x:Name="BlenderInstallButton" />
         </StackPanel>
     </Grid>
 </UserControl>

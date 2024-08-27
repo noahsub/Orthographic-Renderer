@@ -1,54 +1,99 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Orthographic.Renderer.Controls.RenderSettings">
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.RenderSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <StackPanel VerticalAlignment="Top" Orientation="Vertical" Spacing="10">
+    <StackPanel
+        Orientation="Vertical"
+        Spacing="10"
+        VerticalAlignment="Top">
         <Grid ColumnDefinitions="110,*">
             <Label Content="Mode: " Grid.Column="0" />
-            <ComboBox x:Name="RenderModeComboBox" Grid.Column="1" HorizontalAlignment="Stretch" SelectionChanged="RenderModeComboBox_OnSelectionChanged">
+            <ComboBox
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                SelectionChanged="RenderModeComboBox_OnSelectionChanged"
+                x:Name="RenderModeComboBox">
                 <ComboBoxItem Content="Sequential" />
                 <ComboBoxItem Content="Parallel" />
             </ComboBox>
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Threads: " Grid.Column="0" />
-            <NumericUpDown x:Name="ThreadsNumeric" Text="1" Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <NumericUpDown
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Text="1"
+                x:Name="ThreadsNumeric" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Prefix: " Grid.Column="0" />
-            <TextBox x:Name="PrefixTextBox" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <TextBox
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                x:Name="PrefixTextBox" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Output Dir: " Grid.Column="0" />
-            <controls:BrowsableDirectoryTextBox x:Name="OutputDirTextBox" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <controls:BrowsableDirectoryTextBox
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                x:Name="OutputDirTextBox" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Distance: " Grid.Column="0" />
-            <NumericUpDown x:Name="DistanceNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <NumericUpDown
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Text="1920"
+                x:Name="DistanceNumeric" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
-            <Label Content="Resolution: " Grid.Column="0" VerticalAlignment="Top"/>
-            <controls:StackGrid Grid.Column="1" x:Name="PresetResolutions"/>
+            <Label
+                Content="Resolution: "
+                Grid.Column="0"
+                VerticalAlignment="Top" />
+            <controls:StackGrid Grid.Column="1" x:Name="PresetResolutions" />
         </Grid>
         <Grid ColumnDefinitions="110,*,*">
-            <NumericUpDown x:Name="ResolutionWidthNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch"/>
-            <NumericUpDown x:Name="ResolutionHeightNumeric" Text="1080" Grid.Column="2" HorizontalAlignment="Stretch"/>
+            <NumericUpDown
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Text="1920"
+                x:Name="ResolutionWidthNumeric" />
+            <NumericUpDown
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                Text="1080"
+                x:Name="ResolutionHeightNumeric" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label Content="Scale: " Grid.Column="0" />
-            <NumericUpDown x:Name="ScaleNumeric" Text="1920" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <NumericUpDown
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Text="1920"
+                x:Name="ScaleNumeric" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
-            <Label Content="Play Sound: " Grid.Column="0"/>
-            <CheckBox x:Name="PlaySoundCheckBox" Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <Label Content="Play Sound: " Grid.Column="0" />
+            <CheckBox
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                x:Name="PlaySoundCheckBox" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
-            <Label Content="Save .blend: " Grid.Column="0"/>
-            <CheckBox x:Name="SaveCheckBox" Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <Label Content="Save .blend: " Grid.Column="0" />
+            <CheckBox
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                x:Name="SaveCheckBox" />
         </Grid>
     </StackPanel>
 </UserControl>

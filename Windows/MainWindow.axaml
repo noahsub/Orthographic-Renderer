@@ -1,23 +1,29 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
-        x:Class="Orthographic.Renderer.Windows.MainWindow"
-        MinHeight="400"
-        MinWidth="800"
-        Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
-        Title="Orthographic Renderer"
-        TransparencyLevelHint="AcrylicBlur"
-        Background="Transparent"
-        ExtendClientAreaToDecorationsHint="True">
-    
+<Window
+    Background="Transparent"
+    ExtendClientAreaToDecorationsHint="True"
+    Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
+    MinHeight="400"
+    MinWidth="800"
+    Title="Orthographic Renderer"
+    TransparencyLevelHint="AcrylicBlur"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Windows.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="{StaticResource Radius}" PointerPressed="InputElement_OnPointerPressed">
+        <ExperimentalAcrylicBorder
+            CornerRadius="{StaticResource Radius}"
+            IsHitTestVisible="True"
+            PointerPressed="InputElement_OnPointerPressed">
             <ExperimentalAcrylicBorder.Material>
-                <StaticResource ResourceKey="AcrylicMaterial"/>
+                <StaticResource ResourceKey="AcrylicMaterial" />
             </ExperimentalAcrylicBorder.Material>
-            <ContentControl x:Name="PageContent" IsHitTestVisible="True"/>
+            <ContentControl IsHitTestVisible="True" x:Name="PageContent" />
         </ExperimentalAcrylicBorder>
     </Panel>
 </Window>

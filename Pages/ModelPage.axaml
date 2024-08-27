@@ -1,47 +1,93 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Orthographic.Renderer.Pages.ModelPage">
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Pages.ModelPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <Rectangle Fill="{StaticResource PrimaryBackground}"/>
+        <Rectangle Fill="{StaticResource PrimaryBackground}" />
         <ScrollViewer>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="700">
-                <Label Content="Select Model" FontSize="30" HorizontalAlignment="Center" Padding="0 20 0 50 "/>
+            <StackPanel
+                HorizontalAlignment="Center"
+                MinWidth="700"
+                VerticalAlignment="Center">
+                <Label
+                    Content="Select Model"
+                    FontSize="30"
+                    HorizontalAlignment="Center"
+                    Padding="0,20,0,50" />
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                    <Image
+                        Height="25"
+                        Margin="0,0,10,0"
+                        Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png"
+                        Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="Model Path"/>
-                        <Label Content="Supported file types are .blend, .obj, and .stl" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                        <Label Content="Model Path" />
+                        <Label
+                            Content="Supported file types are .blend, .obj, and .stl"
+                            FontFamily="{StaticResource JetBrainsMono}"
+                            FontSize="10"
+                            FontStyle="Italic" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Margin="0 20 0 0">
-                    <controls:BrowsableFileTextBox x:Name="ModelPathTextBox"/>
-                    <ComboBox x:Name="RecentlyOpenedComboBox" HorizontalAlignment="Stretch" SelectionChanged="RecentlyOpenedComboBox_OnSelectionChanged" Margin="0 5 0 0"/>
+                <StackPanel Margin="0,20,0,0">
+                    <controls:BrowsableFileTextBox x:Name="ModelPathTextBox" />
+                    <ComboBox
+                        HorizontalAlignment="Stretch"
+                        Margin="0,5,0,0"
+                        SelectionChanged="RecentlyOpenedComboBox_OnSelectionChanged"
+                        x:Name="RecentlyOpenedComboBox" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                    <Image Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png" Width="25" Height="25" Margin="0 0 10 0"/>
+                <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                    <Image
+                        Height="25"
+                        Margin="0,0,10,0"
+                        Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png"
+                        Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="Unit"/>
-                        <Label Content="Millimeters (mm), Centimeters (cm), Meters (m), Inches (in), Feet (ft)" FontFamily="{StaticResource JetBrainsMono}" FontStyle="Italic" FontSize="10"/>
+                        <Label Content="Unit" />
+                        <Label
+                            Content="Millimeters (mm), Centimeters (cm), Meters (m), Inches (in), Feet (ft)"
+                            FontFamily="{StaticResource JetBrainsMono}"
+                            FontSize="10"
+                            FontStyle="Italic" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Margin="0 20 0 0">
-                    <ComboBox x:Name="UnitComboBox" HorizontalAlignment="Stretch" SelectionChanged="UnitComboBox_OnSelectionChanged">
-                        <ComboBoxItem Content="Millimeters" Tag="mm"></ComboBoxItem>
-                        <ComboBoxItem Content="Centimeters" Tag="cm"></ComboBoxItem>
-                        <ComboBoxItem Content="Meters" Tag="m"></ComboBoxItem>
-                        <ComboBoxItem Content="Inches" Tag="in"></ComboBoxItem>
-                        <ComboBoxItem Content="Feet" Tag="ft"></ComboBoxItem>
+                <StackPanel Margin="0,20,0,0">
+                    <ComboBox
+                        HorizontalAlignment="Stretch"
+                        SelectionChanged="UnitComboBox_OnSelectionChanged"
+                        x:Name="UnitComboBox">
+                        <ComboBoxItem Content="Millimeters" Tag="mm" />
+                        <ComboBoxItem Content="Centimeters" Tag="cm" />
+                        <ComboBoxItem Content="Meters" Tag="m" />
+                        <ComboBoxItem Content="Inches" Tag="in" />
+                        <ComboBoxItem Content="Feet" Tag="ft" />
                     </ComboBox>
                 </StackPanel>
-                <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Margin="0 20 0 0" Click="NextButton_OnClick"></Button>
+                <Button
+                    Click="NextButton_OnClick"
+                    Content="Next"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0"
+                    x:Name="NextButton" />
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 20 20 20" Spacing="20">
-            <Button x:Name="BackButton" Content="Back" Click="BackButton_OnClick"/>
+        <StackPanel
+            HorizontalAlignment="Left"
+            Margin="20,20,20,20"
+            Orientation="Horizontal"
+            Spacing="20"
+            VerticalAlignment="Bottom">
+            <Button
+                Click="BackButton_OnClick"
+                Content="Back"
+                x:Name="BackButton" />
         </StackPanel>
     </Grid>
 </UserControl>

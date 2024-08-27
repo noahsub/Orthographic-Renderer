@@ -1,18 +1,37 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150"
-             x:Class="Orthographic.Renderer.Controls.HardwareStatus">
-    
+﻿<UserControl
+    d:DesignHeight="150"
+    d:DesignWidth="400"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.HardwareStatus"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <Grid Background="Transparent" ShowGridLines="False">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label x:Name="ValueLabel" Content="0.0" FontSize="40" Foreground="{StaticResource PrimaryAccent}"/>
-                <Label Content=" " FontSize="10"/>
-                <Label x:Name="UnitLabel" Content="%" FontSize="25" VerticalAlignment="Center"/>
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                VerticalAlignment="Center">
+                <Label
+                    Content="0.0"
+                    FontSize="40"
+                    Foreground="{StaticResource PrimaryAccent}"
+                    x:Name="ValueLabel" />
+                <Label Content=" " FontSize="10" />
+                <Label
+                    Content="%"
+                    FontSize="25"
+                    VerticalAlignment="Center"
+                    x:Name="UnitLabel" />
             </StackPanel>
-            <Label x:Name="TypeLabel" Content="Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+            <Label
+                Content="Name"
+                FontSize="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                x:Name="TypeLabel" />
         </StackPanel>
     </Grid>
 </UserControl>

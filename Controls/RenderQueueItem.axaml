@@ -1,12 +1,35 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="60"
-             x:Class="Orthographic.Renderer.Controls.RenderQueueItem">
-    <Grid ColumnDefinitions="*,*" Height="60" x:Name="ContentGrid">
-        <Rectangle Grid.Column="0" Grid.ColumnSpan="2" x:Name="StatusColor" RadiusX="{StaticResource RadiusRectangle}" RadiusY="{StaticResource RadiusRectangle}"/>
-        <Label x:Name="Name" Grid.Column="0" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0"/>
-        <Label x:Name="StatusLabel" Grid.Column="1" Content="Status" HorizontalAlignment="Right" VerticalContentAlignment="Center" Margin="0 0 10 0"/>
+﻿<UserControl
+    d:DesignHeight="60"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.RenderQueueItem"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid
+        ColumnDefinitions="*,*"
+        Height="60"
+        x:Name="ContentGrid">
+        <Rectangle
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            RadiusX="{StaticResource RadiusRectangle}"
+            RadiusY="{StaticResource RadiusRectangle}"
+            x:Name="StatusColor" />
+        <Label
+            Content="Name"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            Margin="10,0,0,0"
+            VerticalAlignment="Center"
+            x:Name="Name" />
+        <Label
+            Content="Status"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            Margin="0,0,10,0"
+            VerticalContentAlignment="Center"
+            x:Name="StatusLabel" />
     </Grid>
 </UserControl>

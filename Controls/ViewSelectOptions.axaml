@@ -1,20 +1,39 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Orthographic.Renderer.Controls.ViewSelectOptions">
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.ViewSelectOptions"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="Select" VerticalAlignment="Center"/>
-        <StackPanel Grid.Column="2" x:Name="ViewStackPanel" Spacing="10" Orientation="Horizontal">
-            <ToggleButton x:Name="AllButton" Height="30" Content="All"/>
-            <ToggleButton x:Name="NoneButton" Height="30" Content="None"/>
-            <ToggleButton x:Name="InvertButton" Height="30" Content="Invert"/>
+        <Label
+            Content="Select"
+            Grid.Column="0"
+            VerticalAlignment="Center" />
+        <StackPanel
+            Grid.Column="2"
+            Orientation="Horizontal"
+            Spacing="10"
+            x:Name="ViewStackPanel">
+            <ToggleButton
+                Content="All"
+                Height="30"
+                x:Name="AllButton" />
+            <ToggleButton
+                Content="None"
+                Height="30"
+                x:Name="NoneButton" />
+            <ToggleButton
+                Content="Invert"
+                Height="30"
+                x:Name="InvertButton" />
         </StackPanel>
     </Grid>
 </UserControl>

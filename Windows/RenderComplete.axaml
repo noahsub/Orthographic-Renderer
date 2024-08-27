@@ -1,34 +1,65 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
-        x:Class="Orthographic.Renderer.Windows.RenderComplete"
-        Title="Render Complete"
-        Width="400"
-        Height="400"
-        CanResize="True"
-        WindowStartupLocation="CenterOwner"
-        WindowState="Minimized"
-        Background="Transparent"
-        TransparencyLevelHint="AcrylicBlur"
-        ExtendClientAreaToDecorationsHint="True">
-    
+﻿<Window
+    Background="Transparent"
+    CanResize="True"
+    ExtendClientAreaToDecorationsHint="True"
+    Height="400"
+    Title="Render Complete"
+    TransparencyLevelHint="AcrylicBlur"
+    Width="400"
+    WindowStartupLocation="CenterOwner"
+    WindowState="Minimized"
+    d:DesignHeight="400"
+    d:DesignWidth="400"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Windows.RenderComplete"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="True" ClipToBounds="True" PointerPressed="InputElement_OnPointerPressed">
+        <ExperimentalAcrylicBorder
+            ClipToBounds="True"
+            IsHitTestVisible="True"
+            PointerPressed="InputElement_OnPointerPressed">
             <ExperimentalAcrylicBorder.Material>
-                <StaticResource ResourceKey="AcrylicMaterial"/>
+                <StaticResource ResourceKey="AcrylicMaterial" />
             </ExperimentalAcrylicBorder.Material>
             <Grid>
-                <Rectangle Fill="{StaticResource PrimaryBackground}"/>
-                <StackPanel HorizontalAlignment="Center" Spacing="20" VerticalAlignment="Center">
-                    <Label Content="Render Complete" FontSize="20" HorizontalAlignment="Center"/>
-                    <Label x:Name="StartTimeLabel" Content="Start: 0:00:00" HorizontalAlignment="Center"/>
-                    <Label x:Name="EndTimeLabel" Content="End: 0:00:00" HorizontalAlignment="Center"/>
-                    <Label x:Name="RenderTimeLabel" Content="Total: 0:00:00" HorizontalAlignment="Center"/>
-                    <Label x:Name="RendersCompleted" Content="Renders Completed: 0" HorizontalAlignment="Center"/>
-                    <Label x:Name="RendersFailed" Content="Renders Failed: 0" HorizontalAlignment="Center"/>
-                    <Button x:Name="CloseButton" Content="Close" Click="CloseButton_OnClick" HorizontalAlignment="Center"/>
+                <Rectangle Fill="{StaticResource PrimaryBackground}" />
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Spacing="20"
+                    VerticalAlignment="Center">
+                    <Label
+                        Content="Render Complete"
+                        FontSize="20"
+                        HorizontalAlignment="Center" />
+                    <Label
+                        Content="Start: 0:00:00"
+                        HorizontalAlignment="Center"
+                        x:Name="StartTimeLabel" />
+                    <Label
+                        Content="End: 0:00:00"
+                        HorizontalAlignment="Center"
+                        x:Name="EndTimeLabel" />
+                    <Label
+                        Content="Total: 0:00:00"
+                        HorizontalAlignment="Center"
+                        x:Name="RenderTimeLabel" />
+                    <Label
+                        Content="Renders Completed: 0"
+                        HorizontalAlignment="Center"
+                        x:Name="RendersCompleted" />
+                    <Label
+                        Content="Renders Failed: 0"
+                        HorizontalAlignment="Center"
+                        x:Name="RendersFailed" />
+                    <Button
+                        Click="CloseButton_OnClick"
+                        Content="Close"
+                        HorizontalAlignment="Center"
+                        x:Name="CloseButton" />
                 </StackPanel>
             </Grid>
         </ExperimentalAcrylicBorder>

@@ -1,17 +1,42 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="300"
-             x:Class="Orthographic.Renderer.Controls.ViewSelection">
-    <Grid x:Name="MainGrid" Height="300">
+﻿<UserControl
+    d:DesignHeight="300"
+    d:DesignWidth="200"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.ViewSelection"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Height="300" x:Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="75"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="75" />
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0" Grid.RowSpan="2" Fill="{StaticResource PrimaryBackground}" RadiusX="{StaticResource RadiusRectangle}" RadiusY="{StaticResource RadiusRectangle}"/>
-        <Image Grid.Row="0" x:Name="ViewImage" Margin="20 20 20 20" MaxHeight="150" MaxWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Grid.Row="1" x:Name="NameLabel" Content="Top Front Right" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <CheckBox x:Name="SelectCheckBox" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 10 10 10"/>
+        <Rectangle
+            Fill="{StaticResource PrimaryBackground}"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            RadiusX="{StaticResource RadiusRectangle}"
+            RadiusY="{StaticResource RadiusRectangle}" />
+        <Image
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            Margin="20,20,20,20"
+            MaxHeight="150"
+            MaxWidth="150"
+            VerticalAlignment="Center"
+            x:Name="ViewImage" />
+        <Label
+            Content="Top Front Right"
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            x:Name="NameLabel" />
+        <CheckBox
+            Grid.Row="0"
+            HorizontalAlignment="Right"
+            Margin="10,10,10,10"
+            VerticalAlignment="Top"
+            x:Name="SelectCheckBox" />
     </Grid>
 </UserControl>
