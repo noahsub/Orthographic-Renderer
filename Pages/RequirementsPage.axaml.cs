@@ -163,11 +163,12 @@ public partial class RequirementsPage : UserControl
             SetBorder(BlenderPathTextBox, false);
             return;
         }
-
+        
         if (FileManager.ElevatedPath(blenderPath))
         {
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             SetBorder(BlenderPathTextBox, false);
+            DisplayWarning("Blender is installed in a protected directory. Please run this application as an administrator or install the portable version of Blender.");
             return;
         }
         

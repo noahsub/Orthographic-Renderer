@@ -135,7 +135,7 @@ public partial class ModelPage : UserControl
         
         if (FileManager.ElevatedPath(modelPath))
         {
-            DisplayWarning("The path to the model file must not be in a directory that requires elevated permissions unless you are running the application as an administrator.");
+            DisplayWarning("The model file is located in a protected directory. Please run the application as an administrator or move the file to a different location.");
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;

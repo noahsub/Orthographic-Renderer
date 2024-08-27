@@ -303,6 +303,10 @@
       <AvaloniaResource Include="Assets\Images\Backgrounds\cubes.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
+      <None Remove="Assets\Images\Symbols\warning.png" />
+      <AvaloniaResource Include="Assets\Images\Symbols\warning.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
     </ItemGroup>
 
     <ItemGroup>

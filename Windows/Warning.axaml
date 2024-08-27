@@ -31,11 +31,19 @@
                     HorizontalAlignment="Center"
                     Spacing="20"
                     VerticalAlignment="Center">
-                    <Label
-                        Content="Warning Message"
+                    <Image
+                        Source="/Assets/Images/Symbols/warning.png"
+                        Width="50"
+                        Height="50"/>
+                    <TextBox
+                        Text="Warning Message"
                         FontSize="15"
                         HorizontalAlignment="Center"
-                        x:Name="WarningLabel" />
+                        HorizontalContentAlignment="Center"
+                        IsReadOnly="True"
+                        TextWrapping="WrapWithOverflow"
+                        x:Name="WarningLabel"
+                        Background="Transparent"/>
                     <Button
                         Click="CloseButton_OnClick"
                         Content="Close"

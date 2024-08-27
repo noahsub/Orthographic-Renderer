@@ -48,7 +48,7 @@ public partial class Warning : Window
     /// <param name="message">The warning message to display.</param>
     public void SetWarning(string message)
     {
-        WarningLabel.Content = message;
+        WarningLabel.Text = message;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
