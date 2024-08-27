@@ -7,8 +7,8 @@
              x:Class="Orthographic.Renderer.Pages.RenderPage">
     <!-- MAIN GRID -->
     <Grid RowDefinitions="150,*,75">
+        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{StaticResource SecondaryBackground}"/>
         <Rectangle Grid.Row="0" Fill="{StaticResource PrimaryBackground}"/>
-        <Rectangle Grid.Row="1" Fill="{StaticResource SecondaryBackground}"/>
         <Rectangle Grid.Row="2" Fill="{StaticResource PrimaryBackground}"/>
         <controls:HardwareMonitorBar Grid.Row="0"/>
         <!-- CONTENT GRID -->
@@ -58,10 +58,10 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="1" x:Name="BackButton" Content="Model" VerticalAlignment="Center" Click="BackButton_OnClick"/>
+            <Button Grid.Column="1" x:Name="BackButton" Width="100" HorizontalContentAlignment="Center" Content="Model" VerticalAlignment="Center" Click="BackButton_OnClick"/>
             <Label Grid.Column="2" x:Name="FileLabel" Content="File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button Grid.Column="3" x:Name="CancelButton" Content="Cancel" VerticalAlignment="Center" Click="CancelButton_OnClick"/>
-            <Button Grid.Column="5" x:Name="RenderButton" Content="Render" VerticalAlignment="Center" Click="RenderButton_OnClick"/>
+            <Button Grid.Column="3" x:Name="CancelButton" Width="100" HorizontalContentAlignment="Center" Content="Cancel" VerticalAlignment="Center" Click="CancelButton_OnClick"/>
+            <Button Grid.Column="5" x:Name="RenderButton" Width="100" Background="{StaticResource PrimaryAccent}" HorizontalContentAlignment="Center" Content="Render" VerticalAlignment="Center" Click="RenderButton_OnClick"/>
         </Grid>
     </Grid>
     

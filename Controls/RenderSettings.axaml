@@ -5,21 +5,6 @@
              xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Orthographic.Renderer.Controls.RenderSettings">
-    
-    <UserControl.Styles>
-        <Style Selector="Button">
-            <Setter Property="Background" Value="{StaticResource PrimaryBackground}"></Setter>
-        </Style>
-        <Style Selector="ComboBox">
-            <Setter Property="Background" Value="{StaticResource PrimaryBackground}"></Setter>
-        </Style>
-        <Style Selector="NumericUpDown">
-            <Setter Property="Background" Value="{StaticResource PrimaryBackground}"></Setter>
-        </Style>
-        <Style Selector="TextBox">
-            <Setter Property="Background" Value="{StaticResource PrimaryBackground}"></Setter>
-        </Style>
-    </UserControl.Styles>
 
     <StackPanel VerticalAlignment="Top" Orientation="Vertical" Spacing="10">
         <Grid ColumnDefinitions="110,*">
