@@ -299,6 +299,10 @@
       <Content Include="Assets\Sounds\error.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Assets\Images\Backgrounds\cubes.png" />
+      <AvaloniaResource Include="Assets\Images\Backgrounds\cubes.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
     </ItemGroup>
 
     <ItemGroup>

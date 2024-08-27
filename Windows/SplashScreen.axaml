@@ -1,39 +1,74 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
-        x:Class="Orthographic.Renderer.Windows.SplashScreen"
-        Title="Orthographic Renderer"
-        Width="700"
-        Height="500"
-        WindowStartupLocation="CenterOwner"
-        SystemDecorations="None"
-        Topmost="True"
-        Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico">
-    <Window.Styles>
-        <Style Selector="Label">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-    </Window.Styles>
-    
-    <Grid Background="#202124"> 
-        <Rectangle Opacity="0.8">
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                    <GradientStop Color="#38b178" Offset="0"/>
-                    <GradientStop Color="#1c3e35" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <StackPanel Margin="10 10 10 10" Spacing="30" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Image Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png" Width="200" Height="200"/>
-            <StackPanel>
-                <Label Content="Orthographic" FontWeight="Bold" FontSize="40" HorizontalAlignment="Center"/>
-                <Label Content="Renderer" FontWeight="Bold" FontSize="40" HorizontalAlignment="Center"/>
-            </StackPanel>
-            <Label Content="Loading" FontStyle="Italic" FontSize="20" HorizontalAlignment="Center"/>
-        </StackPanel>
-    </Grid>
+﻿<Window
+    Background="Transparent"
+    ExtendClientAreaToDecorationsHint="True"
+    Height="500"
+    Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
+    SystemDecorations="None"
+    Title="Orthographic Renderer"
+    Topmost="True"
+    TransparencyLevelHint="AcrylicBlur"
+    Width="700"
+    WindowStartupLocation="CenterOwner"
+    d:DesignHeight="500"
+    d:DesignWidth="700"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Windows.SplashScreen"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Panel>
+        <ExperimentalAcrylicBorder ClipToBounds="True" IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <StaticResource ResourceKey="AcrylicMaterial" />
+            </ExperimentalAcrylicBorder.Material>
+            <Grid ColumnDefinitions="1*,2*">
+                <Rectangle
+                    Fill="{StaticResource PrimaryBackground}"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2" />
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    Margin="30"
+                    VerticalAlignment="Top">
+                    <Image
+                        Height="100"
+                        Margin="0,0,0,20"
+                        Source="/Assets/Images/green_cube.png"
+                        Width="100" />
+                    <Label
+                        Content="Orthographic"
+                        FontSize="22"
+                        HorizontalAlignment="Center" />
+                    <Label
+                        Content="Renderer"
+                        FontSize="22"
+                        HorizontalAlignment="Center" />
+                    <Label
+                        Content="BETA"
+                        FontSize="14"
+                        HorizontalAlignment="Center" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    Margin="30"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Bottom">
+                    <Label Content="Loading" FontSize="14" />
+                </StackPanel>
+                <Border
+                    ClipToBounds="True"
+                    CornerRadius="{StaticResource Radius}"
+                    Grid.Column="1"
+                    Margin="30">
+                    <Image
+                        Opacity="0.75"
+                        Source="/Assets/Images/Backgrounds/cubes.png"
+                        Stretch="Fill" />
+                </Border>
+            </Grid>
+        </ExperimentalAcrylicBorder>
+    </Panel>
 </Window>

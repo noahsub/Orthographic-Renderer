@@ -9,6 +9,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,5 +75,14 @@ public partial class RenderComplete : Window
     private void CloseButton_OnClick(object? sender, RoutedEventArgs e)
     {
         Close();
+    }
+
+    private void InputElement_OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        // if cursor is on within the first 30 pixels of the window, move the window
+        if (e.GetCurrentPoint(this).Position.Y < 30)
+        {
+            BeginMoveDrag(e);
+        }
     }
 }

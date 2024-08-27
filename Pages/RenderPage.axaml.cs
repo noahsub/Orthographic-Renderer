@@ -365,6 +365,12 @@ public partial class RenderPage : UserControl
 
         // Get the selected views.
         var selectedViews = GetSelectedViews();
+        
+        if (selectedViews.Count == 0)
+        {
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+            return;
+        }
 
         // Iterate through the selected views.
         foreach (var view in selectedViews)

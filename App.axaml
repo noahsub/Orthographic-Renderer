@@ -1,13 +1,116 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Orthographic.Renderer.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+<Application
+    RequestedThemeVariant="Dark"
+    x:Class="Orthographic.Renderer.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
 
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
-     <Application.Resources>
-         <FontFamily x:Key="JetBrainsMono">avares://Orthographic.Renderer/Assets/Fonts#JetBrains Mono </FontFamily>
-     </Application.Resources>
+    <Application.Resources>
+        <FontFamily x:Key="JetBrainsMono">avares://Orthographic.Renderer/Assets/Fonts#JetBrains Mono</FontFamily>
+        <Color x:Key="PrimaryBackground">#121214</Color>
+        <Color x:Key="SecondaryBackground">#17171a</Color>
+        <!-- <Color x:Key="ControlsBackground">#29292f</Color> -->
+        <Color x:Key="ControlsBackground">#222227</Color>
+        <Color x:Key="DisabledBackground">Black</Color>
+        <Color x:Key="PrimaryText">GhostWhite</Color>
+        <Color x:Key="SecondaryText">#9e9e9e</Color>
+        <Color x:Key="InvertedText">#1a1b1e</Color>
+        <Color x:Key="DisabledText">DimGray</Color>
+        <Color x:Key="PrimaryAccent">#32ab72</Color>
+        <CornerRadius x:Key="Radius">10</CornerRadius>
+        <x:Double x:Key="RadiusRectangle">10</x:Double>
+        <ExperimentalAcrylicMaterial
+            BackgroundSource="Digger"
+            MaterialOpacity="0"
+            TintColor="#000000"
+            TintOpacity="0"
+            x:Key="AcrylicMaterial" />
+        <x:Double x:Key="GlobalOpacity">0.85</x:Double>
+    </Application.Resources>
+    <Application.Styles>
+        <!--  Label Styles  -->
+        <Style Selector="Label">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}" />
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />
+        </Style>
+
+        <!--  TextBox Styles  -->
+        <Style Selector="TextBox">
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />
+            <Setter Property="Background" Value="{StaticResource ControlsBackground}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource SecondaryText}" />
+            <Setter Property="CornerRadius" Value="{StaticResource Radius}" />
+        </Style>
+
+        <!--  Button Styles  -->
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />
+            <Setter Property="Background" Value="{StaticResource ControlsBackground}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}" />
+            <Setter Property="CornerRadius" Value="{StaticResource Radius}" />
+        </Style>
+        <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource PrimaryAccent}" />
+        </Style>
+
+        <!--  ToggleButton Styles  -->
+        <Style Selector="ToggleButton">
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />
+            <Setter Property="Background" Value="{StaticResource PrimaryBackground}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}" />
+            <Setter Property="Width" Value="70" />
+            <Setter Property="CornerRadius" Value="{StaticResource Radius}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource PrimaryAccent}" />
+            <Setter Property="Foreground" Value="{StaticResource InvertedText}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <!--  ComboBox Styles  -->
+        <Style Selector="ComboBox">
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />
+            <Setter Property="Background" Value="{StaticResource ControlsBackground}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource SecondaryText}" />
+            <Setter Property="CornerRadius" Value="{StaticResource Radius}" />
+        </Style>
+
+        <!--  NumericUpDown Styles  -->
+        <Style Selector="NumericUpDown">
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />
+            <Setter Property="Background" Value="{StaticResource ControlsBackground}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource SecondaryText}" />
+        </Style>
+
+        <!--  CheckBox Styles  -->
+        <Style Selector="CheckBox:pointerover /template/ Border#NormalRectangle">
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccent}" />
+        </Style>
+        <Style Selector="CheckBox:pressed /template/ Border#NormalRectangle">
+            <Setter Property="Background" Value="{StaticResource PrimaryAccent}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="CheckBox:checked /template/ Border#NormalRectangle">
+            <Setter Property="Background" Value="{StaticResource PrimaryAccent}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+
+        <!--  Rectangle Styles  -->
+        <Style Selector="Rectangle">
+            <Setter Property="Opacity" Value="{StaticResource GlobalOpacity}" />
+        </Style>
+    </Application.Styles>
 </Application>

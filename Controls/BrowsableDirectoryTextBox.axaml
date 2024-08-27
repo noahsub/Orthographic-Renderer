@@ -1,35 +1,22 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="100"
-             x:Class="Orthographic.Renderer.Controls.BrowsableDirectoryTextBox">
-    
-    <UserControl.Styles>
-        <Style Selector="Button">
-            <Setter Property="Background" Value="#1a1b1e"></Setter>
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="CornerRadius" Value="0"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="Width" Value="100"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-        <Style Selector="Label">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-    </UserControl.Styles>
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="100"/>        
-        </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="0" x:Name="PathTextBox" Watermark="Directory path"/>
-        <Button x:Name="BrowseButton" Grid.Column="2" Content="Browse" Click="BrowseButton_OnClick"/>
+﻿<UserControl
+    d:DesignHeight="100"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.BrowsableDirectoryTextBox"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid ColumnDefinitions="*,10,Auto">
+        <TextBox
+            Grid.Column="0"
+            Watermark="Directory path"
+            x:Name="PathTextBox" />
+        <Button
+            Click="BrowseButton_OnClick"
+            Content="Browse"
+            Grid.Column="2"
+            x:Name="BrowseButton" />
     </Grid>
 </UserControl>

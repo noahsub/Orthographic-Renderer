@@ -1,48 +1,33 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="100"
-             x:Class="Orthographic.Renderer.Controls.ViewSortOptions">
-    <UserControl.Styles>
-        <Style Selector="ToggleButton">
-            <Setter Property="Background" Value="#1a1b1e"></Setter>
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="CornerRadius" Value="0"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-        <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="MediumSeaGreen"/>
-            <Setter Property="Foreground" Value="#1a1b1e"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <Style Selector="Label">
-            <Setter Property="Foreground" Value="GhostWhite"></Setter>
-            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}"></Setter>
-        </Style>
-    </UserControl.Styles>
-    
+﻿<UserControl
+    d:DesignHeight="100"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.ViewSortOptions"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="Sort" VerticalAlignment="Center"/>
-        <StackPanel Grid.Column="2" x:Name="FacesStackPanel" Spacing="10" Orientation="Horizontal">
-            <ToggleButton Height="30" Content="Front"/>
-            <ToggleButton Height="30" Content="Right"/>
-            <ToggleButton Height="30" Content="Back"/>
-            <ToggleButton Height="30" Content="Left"/>
-            <ToggleButton Height="30" Content="Top"/>
-            <ToggleButton Height="30" Content="Bottom"/>
+        <Label
+            Content="Sort"
+            Grid.Column="0"
+            VerticalAlignment="Center" />
+        <StackPanel
+            Grid.Column="2"
+            Orientation="Horizontal"
+            Spacing="10"
+            x:Name="FacesStackPanel">
+            <ToggleButton Content="Front" Height="30" />
+            <ToggleButton Content="Right" Height="30" />
+            <ToggleButton Content="Back" Height="30" />
+            <ToggleButton Content="Left" Height="30" />
+            <ToggleButton Content="Top" Height="30" />
+            <ToggleButton Content="Bottom" Height="30" />
         </StackPanel>
     </Grid>
 </UserControl>
