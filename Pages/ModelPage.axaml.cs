@@ -90,6 +90,12 @@ public partial class ModelPage : UserControl
         paths.Remove(modelPath);
         // Add the model path to the front of the list
         paths.Insert(0, modelPath);
+        
+        // If the list of paths is greater than 10, remove the last path
+        if (paths.Count > 10)
+        {
+            paths.RemoveAt(-1);
+        }
 
         // Write the updated paths to the file
         FileManager.WriteArrayToJsonFile("Data/recent_models.json", "paths", paths);
