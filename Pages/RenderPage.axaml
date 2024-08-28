@@ -82,7 +82,7 @@
         </Grid>
 
         <!--  BOTTOM GRID  -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="100" />
@@ -100,7 +100,7 @@
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
                 Width="100"
-                x:Name="BackButton" />
+                x:Name="BackButton"/>
             <Label
                 Content="File"
                 Grid.Column="2"

@@ -1,6 +1,4 @@
-﻿<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
-
-<p align="center">
+﻿<p align="center">
   <img src="Assets/Images/green_cube.png" alt="Icon" WIDTH="256" height="256">
 </p>
 
@@ -17,10 +15,14 @@
     <a href="https://github.com/Xavalon/XamlStyler"><img src="https://img.shields.io/badge/code_style-xaml styler-38b178.svg?style=for-the-badge" alt="xamlstyler" style="width: auto; height: 20px;"></a>
 </p>
 
-<h1 align="center" style="font-family: 'JetBrains Mono'">
+<h1 align="center">
 Orthographic Renderer
 </h1>
 
-<p style="font-family: 'JetBrains Mono'">
+<p>
 An tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
+</p>
+
+<p align="center">
+  <img src="Assets/Images/Screenshots/render_page.png" alt="Icon">
 </p>
