@@ -6,6 +6,8 @@
     MinWidth="800"
     Title="Orthographic Renderer"
     TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterOwner"
+    WindowState="Normal"
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d"
