@@ -104,8 +104,7 @@ def import_model(model_path: str, unit: float) -> None:
     print(name)
     
     if model_path.endswith(".obj"):
-        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, files=[{"name": file_name, "name": file_name}],
-                              global_scale=unit, forward_axis='Y', up_axis='Z')
+        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
     elif model_path.endswith(".stl"):
         bpy.ops.wm.stl_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
 
@@ -118,9 +117,6 @@ def import_model(model_path: str, unit: float) -> None:
     bpy.data.objects[name].select_set(True)
     bpy.ops.object.origin_set(type='ORIGIN_CENTER_OF_VOLUME', center='MEDIAN')
     bpy.data.objects[name].location = (0, 0, 0)
-
-    # save the blend file
-    bpy.ops.wm.save_as_mainfile(filepath="C:/Users/noahs/Downloads/model.blend")
 
 
 ########################################################################################################################
@@ -266,6 +262,50 @@ def set_camera_pos_and_rot(pos: Position) -> None:
     bpy.data.objects["Camera"].rotation_euler[1] = degrees_to_radians(pos.ry)
     bpy.data.objects["Camera"].rotation_euler[2] = degrees_to_radians(pos.rz)
 
+########################################################################################################################
+# LIGHTING FUNCTIONS
+########################################################################################################################
+
+def create_area_light(power, size, position):
+    # Create a new area light
+    bpy.ops.object.light_add(type='AREA', align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+
+    # Get the newly created light
+    light = bpy.context.object
+
+    # Set the light's power
+    light.data.energy = power
+
+    # Set the light's size
+    light.data.size = size
+
+    # Set the light's position
+    light.location[0] = position.x
+    light.location[1] = position.y
+    light.location[2] = position.z
+
+    # Set the light's rotation
+    light.rotation_euler[0] = degrees_to_radians(position.rx)
+    light.rotation_euler[1] = degrees_to_radians(position.ry)
+    light.rotation_euler[2] = degrees_to_radians(position.rz)    
+
+def setup_lighting(distance: float):
+    # delete all existing lights
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.object.select_by_type(type='LIGHT')
+    bpy.ops.object.delete()
+    
+    leg = compute_triangular_leg(distance)
+    
+    # Create top front left light
+    create_area_light(1000, 3, Position(-leg, -leg, distance, 45, 0, 315))
+    # Create top front right light
+    create_area_light(800, 3, Position(leg, -leg, distance, 45, 0, 45))
+    # Create top back left light
+    create_area_light(200, 3, Position(-leg, leg, distance, 45, 0, 225))
+    
+    
+
 
 ########################################################################################################################
 # COMPUTATION FUNCTIONS
@@ -329,6 +369,7 @@ if __name__ == "__main__":
     parser.add_argument("--resolution", type=int, nargs=2, help="The resolution of the rendered image")
     parser.add_argument("--scale", type=int, help="The scale of the rendered image")
     parser.add_argument("--distance", type=float, help="The distance from the origin to the camera")
+    parser.add_argument("--light_distance", type=float, help="The distance from the origin to the lights")
     parser.add_argument("--unit", type=float, help="The scale of the model relative to meters")
     parser.add_argument("--save", type=bool, help="Whether to save the model")
     parser.add_argument("--x", type=float, help="The x position of the camera")
@@ -347,6 +388,7 @@ if __name__ == "__main__":
         "resolution": (1920, 1080),
         "scale": 100,
         "distance": 2,
+        "light_distance": 2,
         "unit": Unit.METERS.value,
         "x": 0,
         "y": 0,
@@ -371,6 +413,9 @@ if __name__ == "__main__":
 
     # Create the camera
     create_camera()
+    
+    # Setup lighting
+    setup_lighting(args.light_distance)
 
     # Import the model if it is not a .blend file
     if not args.model.endswith(".blend"):

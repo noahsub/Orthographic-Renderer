@@ -60,6 +60,7 @@ public partial class RenderSettings : UserControl
         ThreadsNumeric.Value = RenderValues.DefaultThreads;
         PrefixTextBox.Text = RenderValues.DefaultPrefix;
         DistanceNumeric.Value = RenderValues.DefaultDistance;
+        LightDistanceNumeric.Value = RenderValues.DefaultLightDistance;
         ResolutionWidthNumeric.Value = RenderValues.DefaultResolutionWidth;
         ResolutionHeightNumeric.Value = RenderValues.DefaultResolutionHeight;
         ScaleNumeric.Value = RenderValues.DefaultScale;
@@ -134,6 +135,17 @@ public partial class RenderSettings : UserControl
         else
         {
             DistanceNumeric.BorderBrush = Brushes.Transparent;
+        }
+        
+        // ensure that the light distance is not null
+        if (DistanceNumeric.Value == null)
+        {
+            LightDistanceNumeric.BorderBrush = Brushes.IndianRed;
+            valid = false;
+        }
+        else
+        {
+            LightDistanceNumeric.BorderBrush = Brushes.Transparent;
         }
 
         // ensure that the resolution width and height are not null and are not less than 1, and are rounded to the nearest integer
@@ -232,6 +244,20 @@ public partial class RenderSettings : UserControl
         }
 
         return (float)DistanceNumeric.Value;
+    }
+    
+    /// <summary>
+    /// Get the distance between the lights and the scene origin.
+    /// </summary>
+    /// <returns>The distance between the camera and the scene origin.</returns>
+    public float GetLightDistance()
+    {
+        if (LightDistanceNumeric.Value == null)
+        {
+            return 0;
+        }
+
+        return (float)LightDistanceNumeric.Value;
     }
 
     /// <summary>
