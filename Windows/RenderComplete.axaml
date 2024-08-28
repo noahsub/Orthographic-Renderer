@@ -12,6 +12,7 @@
     d:DesignWidth="400"
     mc:Ignorable="d"
     x:Class="Orthographic.Renderer.Windows.RenderComplete"
+    Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
     xmlns="https://github.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

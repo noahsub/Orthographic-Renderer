@@ -8,6 +8,7 @@
     Width="400"
     WindowStartupLocation="CenterOwner"
     WindowState="Normal"
+    Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
     d:DesignHeight="400"
     d:DesignWidth="400"
     mc:Ignorable="d"
