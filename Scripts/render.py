@@ -262,6 +262,50 @@ def set_camera_pos_and_rot(pos: Position) -> None:
     bpy.data.objects["Camera"].rotation_euler[1] = degrees_to_radians(pos.ry)
     bpy.data.objects["Camera"].rotation_euler[2] = degrees_to_radians(pos.rz)
 
+########################################################################################################################
+# LIGHTING FUNCTIONS
+########################################################################################################################
+
+def create_area_light(power, size, position):
+    # Create a new area light
+    bpy.ops.object.light_add(type='AREA', align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+
+    # Get the newly created light
+    light = bpy.context.object
+
+    # Set the light's power
+    light.data.energy = power
+
+    # Set the light's size
+    light.data.size = size
+
+    # Set the light's position
+    light.location[0] = position.x
+    light.location[1] = position.y
+    light.location[2] = position.z
+
+    # Set the light's rotation
+    light.rotation_euler[0] = degrees_to_radians(position.rx)
+    light.rotation_euler[1] = degrees_to_radians(position.ry)
+    light.rotation_euler[2] = degrees_to_radians(position.rz)    
+
+def setup_lighting(distance: float):
+    # delete all existing lights
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.object.select_by_type(type='LIGHT')
+    bpy.ops.object.delete()
+    
+    leg = compute_triangular_leg(distance)
+    
+    # Create top front left light
+    create_area_light(1000, 3, Position(-leg, -leg, distance, 45, 0, 315))
+    # Create top front right light
+    create_area_light(800, 3, Position(leg, -leg, distance, 45, 0, 45))
+    # Create top back left light
+    create_area_light(200, 3, Position(-leg, leg, distance, 45, 0, 225))
+    
+    
+
 
 ########################################################################################################################
 # COMPUTATION FUNCTIONS
@@ -367,6 +411,9 @@ if __name__ == "__main__":
 
     # Create the camera
     create_camera()
+    
+    # Setup lighting
+    setup_lighting(args.distance + 3)
 
     # Import the model if it is not a .blend file
     if not args.model.endswith(".blend"):
