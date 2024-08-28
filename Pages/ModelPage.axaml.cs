@@ -94,7 +94,7 @@ public partial class ModelPage : UserControl
         // If the list of paths is greater than 10, remove the last path
         if (paths.Count > 10)
         {
-            paths.RemoveAt(-1);
+            paths.RemoveAt(10);
         }
 
         // Write the updated paths to the file

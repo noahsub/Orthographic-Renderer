@@ -46,13 +46,21 @@
                 HorizontalAlignment="Stretch"
                 x:Name="OutputDirTextBox" />
         </Grid>
-        <Grid ColumnDefinitions="110,*">
-            <Label Content="Distance: " Grid.Column="0" />
+        <Grid ColumnDefinitions="175,*">
+            <Label Content="Camera Distance (m): " Grid.Column="0" />
             <NumericUpDown
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 Text="1920"
                 x:Name="DistanceNumeric" />
+        </Grid>
+        <Grid ColumnDefinitions="175,*">
+            <Label Content="Light Distance (m): " Grid.Column="0" />
+            <NumericUpDown
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Text="1920"
+                x:Name="LightDistanceNumeric" />
         </Grid>
         <Grid ColumnDefinitions="110,*">
             <Label

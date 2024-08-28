@@ -369,6 +369,7 @@ if __name__ == "__main__":
     parser.add_argument("--resolution", type=int, nargs=2, help="The resolution of the rendered image")
     parser.add_argument("--scale", type=int, help="The scale of the rendered image")
     parser.add_argument("--distance", type=float, help="The distance from the origin to the camera")
+    parser.add_argument("--light_distance", type=float, help="The distance from the origin to the lights")
     parser.add_argument("--unit", type=float, help="The scale of the model relative to meters")
     parser.add_argument("--save", type=bool, help="Whether to save the model")
     parser.add_argument("--x", type=float, help="The x position of the camera")
@@ -387,6 +388,7 @@ if __name__ == "__main__":
         "resolution": (1920, 1080),
         "scale": 100,
         "distance": 2,
+        "light_distance": 2,
         "unit": Unit.METERS.value,
         "x": 0,
         "y": 0,
@@ -413,7 +415,7 @@ if __name__ == "__main__":
     create_camera()
     
     # Setup lighting
-    setup_lighting(args.distance + 3)
+    setup_lighting(args.light_distance)
 
     # Import the model if it is not a .blend file
     if not args.model.endswith(".blend"):

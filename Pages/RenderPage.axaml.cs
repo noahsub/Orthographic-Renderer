@@ -180,6 +180,7 @@ public partial class RenderPage : UserControl
         RenderButton.IsEnabled = false;
         CancelButton.IsVisible = true;
         CancelButton.IsEnabled = true;
+        BackButton.IsEnabled = false;
     }
 
     /// <summary>
@@ -194,6 +195,7 @@ public partial class RenderPage : UserControl
         RenderButton.IsEnabled = true;
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
+        BackButton.IsEnabled = true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +208,8 @@ public partial class RenderPage : UserControl
     /// <param name="renderItem">The render item to process.</param>
     /// <param name="prefix">The prefix for the output files.</param>
     /// <param name="outputDir">The output directory.</param>
-    /// <param name="distance">The distance for the render.</param>
+    /// <param name="distance">The distance of the camera.</param>
+    /// <param name="lightDistance">The distance of the light source.</param>
     /// <param name="width">The width of the render.</param>
     /// <param name="height">The height of the render.</param>
     /// <param name="scale">The scale of the render.</param>
@@ -217,6 +220,7 @@ public partial class RenderPage : UserControl
         string prefix,
         string outputDir,
         float distance,
+        float lightDistance,
         int width,
         int height,
         int scale,
@@ -255,6 +259,7 @@ public partial class RenderPage : UserControl
             + $"--resolution {width} {height} "
             + $"--scale {scale} "
             + $"--distance {distance} "
+            + $"--light_distance {lightDistance} "
             + $"--unit {DataManager.UnitScale} "
             + $"--save {save} "
             + $"--x {position.X} "
@@ -357,6 +362,7 @@ public partial class RenderPage : UserControl
         var prefix = Settings.GetPrefix();
         var outputDir = Settings.GetOutputDir();
         var distance = Settings.GetDistance();
+        var lightDistance = Settings.GetLightDistance();
         var width = Settings.GetResolutionWidth();
         var height = Settings.GetResolutionHeight();
         var scale = Settings.GetScale();
@@ -423,6 +429,7 @@ public partial class RenderPage : UserControl
                         prefix,
                         outputDir,
                         distance,
+                        lightDistance,
                         width,
                         height,
                         scale,
@@ -451,6 +458,7 @@ public partial class RenderPage : UserControl
                                 prefix,
                                 outputDir,
                                 distance,
+                                lightDistance,
                                 width,
                                 height,
                                 scale,
