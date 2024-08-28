@@ -104,8 +104,7 @@ def import_model(model_path: str, unit: float) -> None:
     print(name)
     
     if model_path.endswith(".obj"):
-        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, files=[{"name": file_name, "name": file_name}],
-                              global_scale=unit, forward_axis='Y', up_axis='Z')
+        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
     elif model_path.endswith(".stl"):
         bpy.ops.wm.stl_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
 
@@ -118,9 +117,6 @@ def import_model(model_path: str, unit: float) -> None:
     bpy.data.objects[name].select_set(True)
     bpy.ops.object.origin_set(type='ORIGIN_CENTER_OF_VOLUME', center='MEDIAN')
     bpy.data.objects[name].location = (0, 0, 0)
-
-    # save the blend file
-    bpy.ops.wm.save_as_mainfile(filepath="C:/Users/noahs/Downloads/model.blend")
 
 
 ########################################################################################################################
