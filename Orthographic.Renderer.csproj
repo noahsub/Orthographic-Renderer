@@ -303,6 +303,10 @@
       <AvaloniaResource Include="Assets\Images\Backgrounds\cubes.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
+      <None Remove="Assets\Images\Symbols\warning.png" />
+      <AvaloniaResource Include="Assets\Images\Symbols\warning.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -320,6 +324,10 @@
       </Compile>
       <Compile Update="Windows\SplashScreen.axaml.cs">
         <DependentUpon>SplashScreen.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Windows\Warning.axaml.cs">
+        <DependentUpon>Warning.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

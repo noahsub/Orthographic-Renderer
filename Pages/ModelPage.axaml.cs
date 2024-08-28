@@ -90,6 +90,12 @@ public partial class ModelPage : UserControl
         paths.Remove(modelPath);
         // Add the model path to the front of the list
         paths.Insert(0, modelPath);
+        
+        // If the list of paths is greater than 10, remove the last path
+        if (paths.Count > 10)
+        {
+            paths.RemoveAt(-1);
+        }
 
         // Write the updated paths to the file
         FileManager.WriteArrayToJsonFile("Data/recent_models.json", "paths", paths);
@@ -132,6 +138,14 @@ public partial class ModelPage : UserControl
 
         // Reformat the model path
         modelPath = FileManager.ReformatPath(modelPath);
+        
+        if (FileManager.ElevatedPath(modelPath))
+        {
+            DisplayWarning("The model file is located in a protected directory. Please run the application as an administrator or move the file to a different location.");
+            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            SoundManager.PlaySound("Assets/Sounds/error.mp3");
+            return;
+        }
 
         // If the model path is not valid, set the border color to red and play an error sound
         if (!IsValidModelPath(modelPath))
@@ -192,5 +206,12 @@ public partial class ModelPage : UserControl
         // Switch to the RequirementsPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
+    }
+    
+    private void DisplayWarning(string message)
+    {
+        var warning = new Windows.Warning();
+        warning.SetWarning(message);
+        warning.Show();
     }
 }
