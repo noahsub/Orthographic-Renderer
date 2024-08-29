@@ -23,6 +23,10 @@ Orthographic Renderer
 An tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
 </p>
 
+<h2>
+Gallery
+</h2>
+
 <p align="center">
   <img src="Assets/Images/Screenshots/render_page.png" alt="Icon">
 </p>
@@ -31,80 +35,85 @@ An tool for rendering orthographic views of 3D models, designed to replace tradi
 Sample Renders
 </h2>
 
-[//]: # (<table>)
-
-[//]: # (  <tr>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example16.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example17.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example18.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example19.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example20.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (  </tr>)
-
-[//]: # (  <tr>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example23.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example22.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example21.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example2.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example8.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (  </tr>)
-
-[//]: # (  <tr>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example3.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example9.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example4.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example10.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example5.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (  </tr>)
-
-[//]: # (  <tr>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example11.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example12.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example13.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example14.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example15.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (  </tr>)
-
-[//]: # (  <tr>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example6.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example24.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example7.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example25.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (    <td><img src="Assets/Images/Examples/Example.png" alt="Example 1" width="100" height="100"></td>)
-
-[//]: # (  </tr>)
-
-[//]: # (</table>)
-
 <p align="center">
   <img src="Assets/Images/Examples/grid.png" alt="Icon">
+</p>
+
+<h2>
+Installation
+</h2>
+<p>
+You can download the latest release from the releases page. The application is available for Windows. Linux and MacOS support is planned for the near future.
+</p>
+
+<h2>
+Requirements
+</h2>
+<p>
+You must have Blender installed on your system to use this tool. You can download it from <a href="https://www.blender.org/download/">here</a>.
+If you install Blender in a protected directory, Orthographic Renderer may not be able to access it. To resolve this, you
+can either run Orthographic Renderer as an administrator or install the portable version of Blender to a non-protected directory.
+</p>
+
+<h2>
+Usage
+</h2>
+
+<h3>
+Importing a Model 📂
+</h3>
+<p>
+Orthographic Renderer supports .blend, .obj, and .stl files. For .obj and .stl files you must set the unit appropriately,
+so that the model is imported with the correct scale.
+</p>
+
+<h3>
+Rendering ⚡
+</h3>
+<h4>
+Views
+</h4>
+<p>
+There are 26 orthographic views to choose from. You can select the views you want to render by clicking on the checkboxes.
+</p>
+
+<h4>
+Render Mode 🚀
+</h4>
+<p>
+There are two types of render modes to choose from. Sequential mode renders each view one by one, while parallel mode 
+renders all views at the same time. It is important to note that parallel mode is only faster if you have hardware with 
+enough overhead to run more than one render at a time. If you are reaching the limits of your hardware, you may want to
+lower the number of threads or use sequential mode.
+</p>
+
+<h4>
+Camera 📷
+</h4>
+<p>
+The distance of the camera from the model can be adjusted. The unit of measurement for distance is meters.
+</p>
+
+<h4>
+Lighting ☀️
+</h4>
+<p>
+Orthographic Renderer uses a three point lighting system. The distance of the lights from the model can be adjusted.
+The unit of measurement for distance is meters.
+</p>
+
+<h4>
+Saving 💾
+</h4>
+<p>
+You can choose to save a .blend file while rendering so that .obj, and .stl files can be adjusted in Blender if needed.
+This may be useful if you need to make changes to the materials of the model.
+</p>
+
+<h4>
+Start Rendering ⚡
+</h4>
+<p>
+Once your views have been selected and all settings have been adjusted, you can start rendering by clicking the "Render"
+button. You will be notified when the rendering is complete with both a sound (optional) and a popup message with statistics.
 </p>
