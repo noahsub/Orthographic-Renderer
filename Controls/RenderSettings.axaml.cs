@@ -136,7 +136,7 @@ public partial class RenderSettings : UserControl
         {
             DistanceNumeric.BorderBrush = Brushes.Transparent;
         }
-        
+
         // ensure that the light distance is not null
         if (DistanceNumeric.Value == null)
         {
@@ -245,7 +245,7 @@ public partial class RenderSettings : UserControl
 
         return (float)DistanceNumeric.Value;
     }
-    
+
     /// <summary>
     /// Get the distance between the lights and the scene origin.
     /// </summary>

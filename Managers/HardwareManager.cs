@@ -109,7 +109,7 @@ public static class HardwareManager
             IsMotherboardEnabled = false,
             IsControllerEnabled = false,
             IsNetworkEnabled = false,
-            IsStorageEnabled = false
+            IsStorageEnabled = false,
         };
 
         Computer.Open();
@@ -154,7 +154,7 @@ public static class HardwareManager
         {
             SensorType.Load,
             SensorType.Temperature,
-            SensorType.SmallData
+            SensorType.SmallData,
         };
         var requiredGpuSensorNames = new List<string> { "GPU Core", "GPU Memory Used" };
 
@@ -515,7 +515,7 @@ public static class HardwareManager
             SensorType.Control => "?",
             SensorType.SmallData => "MB",
             SensorType.Throughput => "KB/s",
-            _ => "NA"
+            _ => "NA",
         };
     }
 }

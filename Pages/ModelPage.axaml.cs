@@ -91,7 +91,7 @@ public partial class ModelPage : UserControl
         paths.Remove(modelPath);
         // Add the model path to the front of the list
         paths.Insert(0, modelPath);
-        
+
         // If the list of paths is greater than 10, remove the last path
         if (paths.Count > 10)
         {
@@ -139,7 +139,7 @@ public partial class ModelPage : UserControl
 
         // Reformat the model path
         modelPath = FileManager.ReformatPath(modelPath);
-        
+
         // If the model path is not valid, set the border color to red and play an error sound
         if (!IsValidModelPath(modelPath))
         {
@@ -147,11 +147,13 @@ public partial class ModelPage : UserControl
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
         }
-        
+
         // Check if the path requires elevated permissions
         if (FileManager.ElevatedPath(modelPath))
         {
-            DisplayWarning("The model file is located in a protected directory. Please run the application as an administrator or move the file to a different location.");
+            DisplayWarning(
+                "The model file is located in a protected directory. Please run the application as an administrator or move the file to a different location."
+            );
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
@@ -187,7 +189,7 @@ public partial class ModelPage : UserControl
     {
         // Set the unit scale based on the selected item in the UnitComboBox
         var comboBoxItem = (ComboBoxItem)UnitComboBox.SelectedItem!;
-        var selectedText = comboBoxItem?.Content?.ToString()?.ToLower();
+        var selectedText = comboBoxItem.Content?.ToString()?.ToLower();
 
         DataManager.UnitScale = selectedText switch
         {
@@ -209,7 +211,7 @@ public partial class ModelPage : UserControl
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
     }
-    
+
     private static void DisplayWarning(string message)
     {
         var warning = new Windows.Warning();

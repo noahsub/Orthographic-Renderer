@@ -91,7 +91,7 @@ public partial class RequirementsPage : UserControl
     /// <param name="pathTextBox">The text box containing the path.</param>
     /// <param name="save">Whether to save the path if valid.</param>
     /// <returns><c>true</c> if the path is valid; otherwise, <c>false</c>.</returns>
-    private bool PathValid(string key, BrowsableFileTextBox pathTextBox, bool save = false)
+    private static bool PathValid(string key, BrowsableFileTextBox pathTextBox, bool save = false)
     {
         // Normalize the path
         var path = NormalizePath(pathTextBox);
@@ -121,7 +121,7 @@ public partial class RequirementsPage : UserControl
         SetBorder(pathTextBox, false);
         return false;
     }
-    
+
     private static void DisplayWarning(string message)
     {
         var warning = new Windows.Warning();
@@ -155,26 +155,30 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var blenderPath = FileManager.ReformatPath(BlenderPathTextBox.PathTextBox.Text ?? string.Empty);
-        
+        var blenderPath = FileManager.ReformatPath(
+            BlenderPathTextBox.PathTextBox.Text ?? string.Empty
+        );
+
         if (blenderPath == string.Empty)
         {
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             SetBorder(BlenderPathTextBox, false);
             return;
         }
-        
+
         if (FileManager.ElevatedPath(blenderPath))
         {
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             SetBorder(BlenderPathTextBox, false);
-            DisplayWarning("Blender is installed in a protected directory. Please run this application as an administrator or install the portable version of Blender.");
+            DisplayWarning(
+                "Blender is installed in a protected directory. Please run this application as an administrator or install the portable version of Blender."
+            );
             return;
         }
-        
+
         // Check if the blender path is valid
         var blenderValid = PathValid("blender", BlenderPathTextBox, true);
-        
+
         // If the blender path is not valid, play an error sound and return
         if (!blenderValid)
         {
@@ -182,7 +186,7 @@ public partial class RequirementsPage : UserControl
             SetBorder(BlenderPathTextBox, false);
             return;
         }
-        
+
         SetBorder(BlenderPathTextBox, true);
 
         // Set the blender path

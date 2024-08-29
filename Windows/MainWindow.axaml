@@ -1,5 +1,6 @@
 <Window
     Background="Transparent"
+    Closed="TopLevel_OnClosed"
     ExtendClientAreaToDecorationsHint="True"
     Icon="avares://Orthographic Renderer/Assets/Icons/green_cube.ico"
     MinHeight="400"
@@ -15,8 +16,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Closed="TopLevel_OnClosed">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Panel>
         <ExperimentalAcrylicBorder

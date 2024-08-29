@@ -98,7 +98,7 @@ public static class FileManager
     /// <param name="path">The path to the JSON file.</param>
     /// <param name="key">The key under which the array is to be mapped.</param>
     /// <param name="value">The array to be written.</param>
-    public static void WriteArrayToJsonFile(string path, string key, List<string?> value)
+    public static void WriteArrayToJsonFile(string path, string key, List<string> value)
     {
         // Dictionary to store the key-value pair
         var json = new Dictionary<string, object> { { key, value } };

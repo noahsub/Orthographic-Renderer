@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // WindowManager.cs
-// 
+//
 // This file is responsible for managing the windows in the application.
 // Author(s): https://github.com/noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,6 @@ using Avalonia.Controls;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace Orthographic.Renderer.Managers;
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // WINDOW MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +29,7 @@ public static class WindowManager
     /// The list of currently open windows in the application.
     /// </summary>
     private static List<Window> Windows { get; } = [];
-    
+
     /// <summary>
     /// Adds a window to the list of open windows.
     /// </summary>
@@ -39,7 +38,7 @@ public static class WindowManager
     {
         Windows.Add(window);
     }
-    
+
     /// <summary>
     /// Removes a window from the list of open windows.
     /// </summary>
@@ -48,7 +47,7 @@ public static class WindowManager
     {
         Windows.Remove(window);
     }
-    
+
     /// <summary>
     /// Closes all Render Complete windows.
     /// </summary>
@@ -66,7 +65,7 @@ public static class WindowManager
             {
                 continue;
             }
-            
+
             window.Close();
             RemoveWindow(window);
         }
