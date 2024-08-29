@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Orthographic.Renderer.Constants;
@@ -196,6 +197,7 @@ public partial class ModelPage : UserControl
         // Set the model path to the selected item in the RecentlyOpenedComboBox
         var selectedText = RecentlyOpenedComboBox.SelectedItem?.ToString();
         ModelPathTextBox.PathTextBox.Text = selectedText;
+        SizeLabel.Content = "unknown";
     }
 
     /// <summary>
@@ -243,6 +245,7 @@ public partial class ModelPage : UserControl
             || FileManager.ElevatedPath(modelPath)
         )
         {
+            SizeLabel.Content = "unknown";
             return;
         }
 
@@ -252,6 +255,7 @@ public partial class ModelPage : UserControl
         // if the model is a valid type and not a .blend file
         if (!ValidTypes.Contains(extension))
         {
+            SizeLabel.Content = "unknown";
             return;
         }
 
@@ -273,5 +277,19 @@ public partial class ModelPage : UserControl
                 SizeLabel.Content = "Cannot calculate dimensions for this file type.";
                 break;
         }
+    }
+
+    /// <summary>
+    /// Deselects the selected item in the RecentlyOpenedComboBox when tapped.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void RecentlyOpenedComboBox_OnTapped(object? sender, TappedEventArgs e)
+    {
+        var text = ModelPathTextBox.PathTextBox.Text;
+        // Deselect any selected items
+        RecentlyOpenedComboBox.SelectedIndex = -1;
+        // Set the model path to the original text
+        ModelPathTextBox.PathTextBox.Text = text;
     }
 }

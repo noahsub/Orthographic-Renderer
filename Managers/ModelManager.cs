@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -73,14 +74,15 @@ public class ModelManager
     /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
     public static Vector3 GetStlDimensions(string path)
     {
-        // check if the file is binary, if it is, use the binary method
-        if (File.ReadAllBytes(path).Skip(80).Take(4).All(b => b < 128))
+        var text = File.ReadAllText(path);
+        if (text.Contains("solid") && text.Contains("endsolid"))
+        {
+            return GetStlAsciiDimensions(path);
+        }
+        else
         {
             return GetStlBinaryDimensions(path);
         }
-
-        // otherwise, use the ascii method
-        return GetStlAsciiDimensions(path);
     }
 
     /// <summary>
@@ -101,7 +103,7 @@ public class ModelManager
             var formattedLine = RemoveWhitespace(line);
             if (formattedLine.StartsWith("vertex"))
             {
-                var values = line.Split(' ');
+                var values = formattedLine.Split(' ');
                 var x = float.Parse(values[1]);
                 var y = float.Parse(values[2]);
                 var z = float.Parse(values[3]);

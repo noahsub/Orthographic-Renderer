@@ -98,10 +98,6 @@ def import_model(model_path: str, unit: float) -> None:
     directory = os.path.dirname(model_path)
     file_name = os.path.basename(model_path)
     name = os.path.splitext(file_name)[0]
-    print(model_path)
-    print(directory)
-    print(file_name)
-    print(name)
     
     if model_path.endswith(".obj"):
         bpy.ops.wm.obj_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
@@ -333,17 +329,11 @@ def compute_triangular_leg(distance: float):
 
 def save_file(file_path: str) -> None:
     """
-    If the file is a .blend file do nothing. If it is not, save the file as a .blend file. If it has already been saved
-    as a .blend file ignore the save.
+    Save the file as a .blend file.
     :param file_path: The path to save the file
     :return: None
     """
-    if file_path.endswith(".blend"):
-        return
-    if os.path.exists(file_path.replace(".obj", ".blend").replace(".stl", ".blend")):
-        return
-    else:
-        bpy.ops.wm.save_as_mainfile(filepath=file_path.replace(".obj", ".blend").replace(".stl", ".blend"))
+    bpy.ops.wm.save_as_mainfile(filepath=file_path.replace(".obj", ".blend").replace(".stl", ".blend"))
     
 
 ########################################################################################################################
