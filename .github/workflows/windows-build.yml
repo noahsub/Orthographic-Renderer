@@ -24,7 +24,7 @@ jobs:
 
     - name: Compile Installer Script
       shell: pwsh
-      run: .\Install\Orthographic Renderer Inno Setup.iss
+      run: iscc ".\Install\Orthographic Renderer Inno Setup.iss"
 
     - name: Upload Output
       uses: actions/upload-artifact@v2
