@@ -82,17 +82,10 @@
         </Grid>
 
         <!--  BOTTOM GRID  -->
-        <Grid Grid.Row="2" VerticalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="20" />
-            </Grid.ColumnDefinitions>
-
+        <Grid
+            ColumnDefinitions="20,100,*,100,20,100,20"
+            Grid.Row="2"
+            VerticalAlignment="Center">
             <Button
                 Click="BackButton_OnClick"
                 Content="Model"
@@ -100,7 +93,7 @@
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
                 Width="100"
-                x:Name="BackButton"/>
+                x:Name="BackButton" />
             <Label
                 Content="File"
                 Grid.Column="2"

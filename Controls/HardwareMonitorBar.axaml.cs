@@ -125,10 +125,7 @@ public partial class HardwareMonitorBar : UserControl
             await Task.Delay(PollingInterval);
 
             // Perform the update on a background thread
-            var updatedValues = await Task.Run(() =>
-            {
-                return UpdateHardwareMonitorControl();
-            });
+            var updatedValues = await Task.Run(UpdateHardwareMonitorControl);
 
             // Update the UI on the main thread
             Dispatcher.UIThread.Post(() =>

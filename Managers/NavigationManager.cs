@@ -22,7 +22,7 @@ namespace Orthographic.Renderer.Managers;
 /// <summary>
 /// Manages navigation operations within the application.
 /// </summary>
-public class NavigationManager
+public static class NavigationManager
 {
     /// <summary>
     /// Switches the current page displayed in the main window.

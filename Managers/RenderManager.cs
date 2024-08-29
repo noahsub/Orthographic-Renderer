@@ -35,7 +35,7 @@ public static class RenderManager
     /// <summary>
     /// A list of all the views that can be rendered.
     /// </summary>
-    public static List<string> RenderViews { get; set; } =
+    public static List<string> RenderViews { get; } =
         [
             "top-front-right",
             "top-right-back",
@@ -186,7 +186,7 @@ public static class RenderManager
     {
         return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
     }
-    
+
     /// <summary>
     /// Converts a string to title case.
     /// </summary>

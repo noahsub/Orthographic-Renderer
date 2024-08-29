@@ -38,7 +38,7 @@ public static class RenderValues
     /// The default distance between the camera and origin.
     /// </summary>
     public const decimal DefaultDistance = 8.0m;
-    
+
     /// <summary>
     /// The default distance between the lights and origin.
     /// </summary>

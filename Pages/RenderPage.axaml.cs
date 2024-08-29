@@ -15,9 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -43,7 +41,7 @@ public partial class RenderPage : UserControl
     /// <summary>
     /// Token to cancel renders.
     /// </summary>
-    private CancellationTokenSource _cancelToken;
+    private CancellationTokenSource _cancelToken = new();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -107,7 +105,7 @@ public partial class RenderPage : UserControl
     /// <summary>
     /// Sorts the views based on the selected faces.
     /// </summary>
-    public void SortViews()
+    private void SortViews()
     {
         var selectedViews = GetSelectedViews();
         ViewStackGrid.ClearItems();
@@ -346,7 +344,7 @@ public partial class RenderPage : UserControl
     {
         // Close all Render Complete windows.
         WindowManager.CloseAllRenderCompleteWindows();
-        
+
         // Create a new cancellation token.
         _cancelToken = new CancellationTokenSource();
         var token = _cancelToken.Token;
@@ -376,7 +374,7 @@ public partial class RenderPage : UserControl
 
         // Get the selected views.
         var selectedViews = GetSelectedViews();
-        
+
         if (selectedViews.Count == 0)
         {
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
@@ -402,7 +400,7 @@ public partial class RenderPage : UserControl
         // Start the timer.
         var timeStarted = DateTime.Now;
         var timerRunning = true;
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             var stopwatch = Stopwatch.StartNew();
             // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
@@ -412,9 +410,9 @@ public partial class RenderPage : UserControl
                 {
                     TimerLabel.Content = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
                 });
-                await Task.Delay(100);
+                await Task.Delay(100, token);
             }
-        });
+        }, token);
 
         // Lock the page controls.
         LockPage();

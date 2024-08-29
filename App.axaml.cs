@@ -1,4 +1,13 @@
-using System.Threading;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// App.axaml.cs
+// This file is responsible for initializing the application
+//
+// Author(s): https://github.com/noahsub
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IMPORTS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -7,15 +16,35 @@ using Avalonia.Threading;
 using LibreHardwareMonitor.Software;
 using Orthographic.Renderer.Managers;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NAMESPACE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace Orthographic.Renderer;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// APP CLASS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// <summary>
+/// Initializes the application.
+/// </summary>
 public partial class App : Application
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // INITIALIZATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Loads the application.
+    /// </summary>
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
     }
 
+    /// <summary>
+    /// Startup logic for the application.
+    /// </summary>
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -24,20 +53,23 @@ public partial class App : Application
             if (OperatingSystem.IsUnix)
             {
                 // get existing resource dictionary
-                var resources = Application.Current.Resources;
+                var resources = Current?.Resources;
                 // set the global opacity to 1.0
-                resources["GlobalOpacity"] = 1.0;
+                if (resources != null)
+                {
+                    resources["GlobalOpacity"] = 1.0;
+                }
             }
-            
+
             var splashScreen = new Windows.SplashScreen();
             splashScreen.Show();
 
             Task.Run(async () =>
             {
                 // Perform hardware setup and collection asynchronously
-                await Task.Run(() => HardwareManager.SetupComputer());
-                await Task.Run(() => HardwareManager.CollectHardwareToMonitor());
-                
+                await Task.Run(HardwareManager.SetupComputer);
+                await Task.Run(HardwareManager.CollectHardwareToMonitor);
+
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(() =>
                 {

@@ -36,18 +36,16 @@ public static class SoundManager
         Task.Run(() =>
         {
             // Create a new audio file reader and output device
-            using (var audioFile = new AudioFileReader(path))
-            using (var outputDevice = new WaveOutEvent())
-            {
-                // Initialize the output device and play the audio file
-                outputDevice.Init(audioFile);
-                outputDevice.Play();
+            using var audioFile = new AudioFileReader(path);
+            using var outputDevice = new WaveOutEvent();
+            // Initialize the output device and play the audio file
+            outputDevice.Init(audioFile);
+            outputDevice.Play();
 
-                // Wait for the audio file to finish playing
-                while (outputDevice.PlaybackState == PlaybackState.Playing)
-                {
-                    Thread.Sleep(250);
-                }
+            // Wait for the audio file to finish playing
+            while (outputDevice.PlaybackState == PlaybackState.Playing)
+            {
+                Thread.Sleep(250);
             }
         });
     }

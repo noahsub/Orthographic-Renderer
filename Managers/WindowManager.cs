@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // WindowManager.cs
-// 
+//
 // This file is responsible for managing the windows in the application.
 // Author(s): https://github.com/noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,6 @@ using Avalonia.Controls;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace Orthographic.Renderer.Managers;
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // WINDOW MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,13 +23,13 @@ namespace Orthographic.Renderer.Managers;
 /// <summary>
 /// Manages the windows in the application.
 /// </summary>
-public class WindowManager
+public static class WindowManager
 {
     /// <summary>
     /// The list of currently open windows in the application.
     /// </summary>
-    public static List<Window> Windows { get; private set; } = new List<Window>();
-    
+    private static List<Window> Windows { get; } = [];
+
     /// <summary>
     /// Adds a window to the list of open windows.
     /// </summary>
@@ -39,7 +38,7 @@ public class WindowManager
     {
         Windows.Add(window);
     }
-    
+
     /// <summary>
     /// Removes a window from the list of open windows.
     /// </summary>
@@ -48,7 +47,7 @@ public class WindowManager
     {
         Windows.Remove(window);
     }
-    
+
     /// <summary>
     /// Closes all Render Complete windows.
     /// </summary>
@@ -62,11 +61,13 @@ public class WindowManager
         foreach (var window in currentWindows)
         {
             // If the window's title contains "Render Complete", close the window.
-            if (window.Title != null && window.Title.Contains("Render Complete"))
+            if (window.Title == null || !window.Title.Contains("Render Complete"))
             {
-                window.Close();
-                RemoveWindow(window);
+                continue;
             }
+
+            window.Close();
+            RemoveWindow(window);
         }
     }
 }
