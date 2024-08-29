@@ -31,42 +31,40 @@ An tool for rendering orthographic views of 3D models, designed to replace tradi
 Sample Renders
 </h2>
 
-this needs to take available width
-
-<table>
+<table style="border-collapse: collapse; border: none;">
   <tr>
-    <td><img src="Assets/Images/Examples/Example.png" alt="Example 1"></td>
-    <td><img src="Assets/Images/Examples/Example2.png" alt="Example 2"></td>
-    <td><img src="Assets/Images/Examples/Example3.png" alt="Example 3"></td>
-    <td><img src="Assets/Images/Examples/Example4.png" alt="Example 4"></td>
-    <td><img src="Assets/Images/Examples/Example5.png" alt="Example 5"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example.png" alt="Example 1"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example2.png" alt="Example 2"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example3.png" alt="Example 3"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example4.png" alt="Example 4"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example5.png" alt="Example 5"></td>
   </tr>
   <tr>
-    <td><img src="Assets/Images/Examples/Example6.png" alt="Example 6"></td>
-    <td><img src="Assets/Images/Examples/Example7.png" alt="Example 7"></td>
-    <td><img src="Assets/Images/Examples/Example8.png" alt="Example 8"></td>
-    <td><img src="Assets/Images/Examples/Example9.png" alt="Example 9"></td>
-    <td><img src="Assets/Images/Examples/Example10.png" alt="Example 10"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example6.png" alt="Example 6"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example7.png" alt="Example 7"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example8.png" alt="Example 8"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example9.png" alt="Example 9"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example10.png" alt="Example 10"></td>
   </tr>
   <tr>
-    <td><img src="Assets/Images/Examples/Example11.png" alt="Example 11"></td>
-    <td><img src="Assets/Images/Examples/Example12.png" alt="Example 12"></td>
-    <td><img src="Assets/Images/Examples/Example13.png" alt="Example 13"></td>
-    <td><img src="Assets/Images/Examples/Example14.png" alt="Example 14"></td>
-    <td><img src="Assets/Images/Examples/Example15.png" alt="Example 15"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example11.png" alt="Example 11"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example12.png" alt="Example 12"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example13.png" alt="Example 13"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example14.png" alt="Example 14"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example15.png" alt="Example 15"></td>
   </tr>
   <tr>
-    <td><img src="Assets/Images/Examples/Example16.png" alt="Example 16"></td>
-    <td><img src="Assets/Images/Examples/Example17.png" alt="Example 17"></td>
-    <td><img src="Assets/Images/Examples/Example18.png" alt="Example 18"></td>
-    <td><img src="Assets/Images/Examples/Example19.png" alt="Example 19"></td>
-    <td><img src="Assets/Images/Examples/Example20.png" alt="Example 20"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example16.png" alt="Example 16"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example17.png" alt="Example 17"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example18.png" alt="Example 18"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example19.png" alt="Example 19"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example20.png" alt="Example 20"></td>
   </tr>
   <tr>
-    <td><img src="Assets/Images/Examples/Example21.png" alt="Example 21"></td>
-    <td><img src="Assets/Images/Examples/Example22.png" alt="Example 22"></td>
-    <td><img src="Assets/Images/Examples/Example23.png" alt="Example 23"></td>
-    <td><img src="Assets/Images/Examples/Example24.png" alt="Example 24"></td>
-    <td><img src="Assets/Images/Examples/Example25.png" alt="Example 25"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example21.png" alt="Example 21"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example22.png" alt="Example 22"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example23.png" alt="Example 23"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example24.png" alt="Example 24"></td>
+    <td style="border: none;"><img src="Assets/Images/Examples/Example25.png" alt="Example 25"></td>
   </tr>
 </table>
