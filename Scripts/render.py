@@ -371,7 +371,7 @@ if __name__ == "__main__":
     parser.add_argument("--distance", type=float, help="The distance from the origin to the camera")
     parser.add_argument("--light_distance", type=float, help="The distance from the origin to the lights")
     parser.add_argument("--unit", type=float, help="The scale of the model relative to meters")
-    parser.add_argument("--save", type=bool, help="Whether to save the model")
+    parser.add_argument("--save", type=str, help="Whether to save the model")
     parser.add_argument("--x", type=float, help="The x position of the camera")
     parser.add_argument("--y", type=float, help="The y position of the camera")
     parser.add_argument("--z", type=float, help="The z position of the camera")
@@ -390,6 +390,7 @@ if __name__ == "__main__":
         "distance": 2,
         "light_distance": 2,
         "unit": Unit.METERS.value,
+        "save": "false",
         "x": 0,
         "y": 0,
         "z": 2,
@@ -440,6 +441,14 @@ if __name__ == "__main__":
 
     # Render the view
     render_generic_view(name=args.name, output_folder=output_path, position=position)
-    
-    if (args.save):
+
+    save = None
+    if args.save.lower() == "true" or args.save.lower() == "yes":
+        save = True
+    elif args.save.lower() == "false" or args.save.lower() == "no":
+        save = False
+    else:
+        raise Exception("Invalid save argument")
+
+    if save:
         save_file(args.model)
