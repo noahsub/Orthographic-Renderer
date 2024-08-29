@@ -48,7 +48,7 @@
                         FontSize="22"
                         HorizontalAlignment="Center" />
                     <Label
-                        Content="BETA"
+                        Content="v1.0.0"
                         FontSize="14"
                         HorizontalAlignment="Center" />
                 </StackPanel>
