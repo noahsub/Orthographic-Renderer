@@ -1,4 +1,4 @@
-name: Build Installer
+name: Windows Build
 
 on:
   workflow_dispatch:
