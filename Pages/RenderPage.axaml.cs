@@ -400,19 +400,22 @@ public partial class RenderPage : UserControl
         // Start the timer.
         var timeStarted = DateTime.Now;
         var timerRunning = true;
-        _ = Task.Run(async () =>
-        {
-            var stopwatch = Stopwatch.StartNew();
-            // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
-            while (timerRunning)
+        _ = Task.Run(
+            async () =>
             {
-                await Dispatcher.UIThread.InvokeAsync(() =>
+                var stopwatch = Stopwatch.StartNew();
+                // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
+                while (timerRunning)
                 {
-                    TimerLabel.Content = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
-                });
-                await Task.Delay(100, token);
-            }
-        }, token);
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        TimerLabel.Content = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+                    });
+                    await Task.Delay(100, token);
+                }
+            },
+            token
+        );
 
         // Lock the page controls.
         LockPage();

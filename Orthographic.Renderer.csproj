@@ -321,6 +321,10 @@
       <Content Include="NOTICE">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Assets\Images\red_cube.png" />
+      <AvaloniaResource Include="Assets\Images\red_cube.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
     </ItemGroup>
 
     <ItemGroup>

@@ -11,6 +11,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -118,6 +119,21 @@ public partial class ModelPage : UserControl
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // WARNING
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Display a warning message to the user.
+    /// </summary>
+    /// <param name="message"></param>
+    private static void DisplayWarning(string message)
+    {
+        var warning = new Windows.Warning();
+        warning.SetWarning(message);
+        warning.Show();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -212,10 +228,50 @@ public partial class ModelPage : UserControl
         NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
     }
 
-    private static void DisplayWarning(string message)
+    /// <summary>
+    /// Measures the dimensions of the model.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void MeasureButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var warning = new Windows.Warning();
-        warning.SetWarning(message);
-        warning.Show();
+        // Get the model path
+        var modelPath = ModelPathTextBox.PathTextBox.Text;
+        if (
+            modelPath == null
+            || !IsValidModelPath(modelPath)
+            || FileManager.ElevatedPath(modelPath)
+        )
+        {
+            return;
+        }
+
+        // Get the extension of the file
+        var extension = Path.GetExtension(modelPath);
+
+        // if the model is a valid type and not a .blend file
+        if (!ValidTypes.Contains(extension))
+        {
+            return;
+        }
+
+        // Get the dimensions of the model
+        Vector3 dimensions;
+        switch (extension)
+        {
+            case ".obj":
+                dimensions = ModelManager.GetObjDimensions(modelPath);
+                SizeLabel.Content =
+                    $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
+                break;
+            case ".stl":
+                dimensions = ModelManager.GetStlDimensions(modelPath);
+                SizeLabel.Content =
+                    $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
+                break;
+            default:
+                SizeLabel.Content = "Cannot calculate dimensions for this file type.";
+                break;
+        }
     }
 }

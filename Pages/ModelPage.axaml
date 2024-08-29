@@ -47,6 +47,29 @@
                     <Image
                         Height="25"
                         Margin="0,0,10,0"
+                        Source="avares://Orthographic Renderer/Assets/Images/red_cube.png"
+                        Width="25" />
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <Label Content="Dimensions" />
+                        <Label
+                            Content="unknown"
+                            FontFamily="{StaticResource JetBrainsMono}"
+                            FontSize="10"
+                            FontStyle="Italic"
+                            x:Name="SizeLabel" />
+                    </StackPanel>
+                </StackPanel>
+                <Button
+                    Click="MeasureButton_OnClick"
+                    Content="Measure"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Margin="0,20,0,0"
+                    x:Name="MeasureButton" />
+                <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                    <Image
+                        Height="25"
+                        Margin="0,0,10,0"
                         Source="avares://Orthographic Renderer/Assets/Images/blue_cube.png"
                         Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
