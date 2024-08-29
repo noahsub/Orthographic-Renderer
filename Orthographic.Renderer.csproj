@@ -6,6 +6,8 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <ApplicationIcon>Assets/Icons/green_cube.ico</ApplicationIcon>
+        <AssemblyName>Orthographic Renderer</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -307,6 +309,18 @@
       <AvaloniaResource Include="Assets\Images\Symbols\warning.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
+      <None Remove="DISCLAIMER" />
+      <Content Include="DISCLAIMER">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="LICENSE" />
+      <Content Include="LICENSE">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="NOTICE" />
+      <Content Include="NOTICE">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
