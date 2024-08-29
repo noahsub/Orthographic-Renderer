@@ -35,7 +35,7 @@ DisableProgramGroupPage=yes
 LicenseFile=..\publish\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=Orthographic Renderer Inno Setup
+OutputBaseFilename=Orthographic Renderer Installer
 SetupIconFile=..\Assets\Icons\green_cube.ico
 Compression=lzma
 SolidCompression=yes
