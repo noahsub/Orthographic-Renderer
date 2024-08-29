@@ -112,7 +112,11 @@ public partial class ModelPage : UserControl
         // Add each path to the RecentlyOpenedComboBox
         foreach (var path in paths)
         {
-            RecentlyOpenedComboBox.Items.Add(path);
+            // If the path is valid, add it to the RecentlyOpenedComboBox
+            if (IsValidModelPath(path))
+            {
+                RecentlyOpenedComboBox.Items.Add(path);
+            }
         }
     }
 
@@ -139,17 +143,18 @@ public partial class ModelPage : UserControl
         // Reformat the model path
         modelPath = FileManager.ReformatPath(modelPath);
         
-        if (FileManager.ElevatedPath(modelPath))
+        // If the model path is not valid, set the border color to red and play an error sound
+        if (!IsValidModelPath(modelPath))
         {
-            DisplayWarning("The model file is located in a protected directory. Please run the application as an administrator or move the file to a different location.");
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
         }
-
-        // If the model path is not valid, set the border color to red and play an error sound
-        if (!IsValidModelPath(modelPath))
+        
+        // Check if the path requires elevated permissions
+        if (FileManager.ElevatedPath(modelPath))
         {
+            DisplayWarning("The model file is located in a protected directory. Please run the application as an administrator or move the file to a different location.");
             ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
             SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;

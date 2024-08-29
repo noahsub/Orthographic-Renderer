@@ -15,12 +15,10 @@
     <a href="https://github.com/Xavalon/XamlStyler"><img src="https://img.shields.io/badge/code_style-xaml styler-38b178.svg?style=for-the-badge" alt="xamlstyler" style="width: auto; height: 20px;"></a>
 </p>
 
-<h1 align="center">
-Orthographic Renderer
-</h1>
+<h1 align="center">Orthographic Renderer</h1>
 
 <p>
-An tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
+A tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
 </p>
 
 <h2>

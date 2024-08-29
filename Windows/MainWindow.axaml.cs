@@ -8,8 +8,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Pages;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +39,8 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        // Add the window to the list of open windows
+        WindowManager.AddWindow(this);
         // Set the content to the requirements page
         PageContent.Content = new RequirementsPage();
     }
@@ -47,5 +52,16 @@ public partial class MainWindow : Window
         {
             BeginMoveDrag(e);
         }
+    }
+
+    /// <summary>
+    /// Removes the window from the list of open windows when it is closed.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void TopLevel_OnClosed(object? sender, EventArgs e)
+    {
+        // Remove the window from the list of open windows
+        WindowManager.RemoveWindow(this);
     }
 }
