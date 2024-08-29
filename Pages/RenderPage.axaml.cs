@@ -15,7 +15,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -342,6 +344,9 @@ public partial class RenderPage : UserControl
     /// </summary>
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        // Close all Render Complete windows.
+        WindowManager.CloseAllRenderCompleteWindows();
+        
         // Create a new cancellation token.
         _cancelToken = new CancellationTokenSource();
         var token = _cancelToken.Token;

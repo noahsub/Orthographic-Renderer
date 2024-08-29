@@ -8,9 +8,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -36,6 +39,8 @@ public partial class RenderComplete : Window
     public RenderComplete()
     {
         InitializeComponent();
+        // Add the window to the list of open windows
+        WindowManager.AddWindow(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,5 +89,16 @@ public partial class RenderComplete : Window
         {
             BeginMoveDrag(e);
         }
+    }
+
+    /// <summary>
+    /// Removes the window from the list of open windows when it is closed.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void TopLevel_OnClosed(object? sender, EventArgs e)
+    {
+        // Remove the window from the list of open windows
+        WindowManager.RemoveWindow(this);
     }
 }

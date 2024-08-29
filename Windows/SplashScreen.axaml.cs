@@ -9,8 +9,10 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System;
 using Avalonia;
 using Avalonia.Controls;
+using Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -36,5 +38,22 @@ public partial class SplashScreen : Window
     public SplashScreen()
     {
         InitializeComponent();
+        // Add the window to the list of open windows
+        WindowManager.AddWindow(this);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // EVENTS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Removes the window from the list of open windows when it is closed.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void TopLevel_OnClosed(object? sender, EventArgs e)
+    {
+        // Remove the window from the list of open windows
+        WindowManager.RemoveWindow(this);
     }
 }
