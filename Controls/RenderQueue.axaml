@@ -12,7 +12,7 @@
             Height="150"
             Margin="0,0,10,0"
             Opacity="0.2"
-            Source="avares://Orthographic.Renderer/Assets/Images/grey_cube.png"
+            Source="avares://Orthographic Renderer/Assets/Images/grey_cube.png"
             Width="150"
             x:Name="EmptyImage" />
         <StackPanel

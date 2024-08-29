@@ -24,7 +24,7 @@
                     <Image
                         Height="25"
                         Margin="0,0,10,0"
-                        Source="avares://Orthographic.Renderer/Assets/Images/green_cube.png"
+                        Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
                         Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
                         <Label Content="Model Path" />
@@ -47,7 +47,7 @@
                     <Image
                         Height="25"
                         Margin="0,0,10,0"
-                        Source="avares://Orthographic.Renderer/Assets/Images/blue_cube.png"
+                        Source="avares://Orthographic Renderer/Assets/Images/blue_cube.png"
                         Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
                         <Label Content="Unit" />
