@@ -1,0 +1,33 @@
+name: Build Installer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Chocolatey
+      shell: pwsh
+      run: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+        iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+        
+    - name: Install Inno Setup
+      shell: pwsh
+      run: choco install innosetup -y --force
+
+    - name: Compile Installer Script
+      shell: pwsh
+      run: .\Install\Orthographic Renderer Inno Setup.iss
+
+    - name: Upload Output
+      uses: actions/upload-artifact@v2
+      with:
+        name: orthographic-renderer-windows-build
+        path: .\Install\Output\*.exe
