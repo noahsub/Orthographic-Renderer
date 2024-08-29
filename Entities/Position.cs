@@ -26,32 +26,32 @@ public class Position
     /// <summary>
     /// The X coordinate.
     /// </summary>
-    public float X { get; set; }
+    public float X { get; }
 
     /// <summary>
     /// The Y coordinate.
     /// </summary>
-    public float Y { get; set; }
+    public float Y { get; }
 
     /// <summary>
     /// The Z coordinate.
     /// </summary>
-    public float Z { get; set; }
+    public float Z { get; }
 
     /// <summary>
     /// The rotation around the X axis.
     /// </summary>
-    public float Rx { get; set; }
+    public float Rx { get; }
 
     /// <summary>
     /// The rotation around the Y axis.
     /// </summary>
-    public float Ry { get; set; }
+    public float Ry { get; }
 
     /// <summary>
     /// The rotation around the Z axis.
     /// </summary>
-    public float Rz { get; set; }
+    public float Rz { get; }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION

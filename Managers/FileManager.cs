@@ -27,7 +27,7 @@ namespace Orthographic.Renderer.Managers;
 /// <summary>
 /// Manages file operations such as reading and writing JSON files, and verifying paths.
 /// </summary>
-public class FileManager
+public static class FileManager
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // JSON OPERATIONS
@@ -65,10 +65,10 @@ public class FileManager
             && value is Newtonsoft.Json.Linq.JArray jArray
         )
         {
-            return jArray.ToObject<List<string>>() ?? new List<string>();
+            return jArray.ToObject<List<string>>() ?? [];
         }
         // Otherwise, return an empty list
-        return new List<string>();
+        return [];
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public class FileManager
         // Ensure that the key matches the file
         // for example if the key is "blender" then the path should be "blender" in its last segment
         var lastSegment = Path.GetFileNameWithoutExtension(path);
-        if (!lastSegment.Contains(key, System.StringComparison.CurrentCultureIgnoreCase))
+        if (!lastSegment.Contains(key, StringComparison.CurrentCultureIgnoreCase))
         {
             return false;
         }

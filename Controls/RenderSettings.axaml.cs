@@ -90,7 +90,7 @@ public partial class RenderSettings : UserControl
         }
 
         // ensure that threads is not null and is between [0, 100] and rounded to the nearest integer
-        if (ThreadsNumeric.Value == null || ThreadsNumeric.Value < 1 || ThreadsNumeric.Value > 100)
+        if (ThreadsNumeric.Value is null or < 1 or > 100)
         {
             ThreadsNumeric.BorderBrush = Brushes.IndianRed;
             valid = false;
@@ -149,7 +149,7 @@ public partial class RenderSettings : UserControl
         }
 
         // ensure that the resolution width and height are not null and are not less than 1, and are rounded to the nearest integer
-        if (ResolutionWidthNumeric.Value == null || ResolutionWidthNumeric.Value < 1)
+        if (ResolutionWidthNumeric.Value is null or < 1)
         {
             ResolutionWidthNumeric.BorderBrush = Brushes.IndianRed;
             valid = false;
@@ -161,7 +161,7 @@ public partial class RenderSettings : UserControl
         }
 
         // ensure that the resolution width and height are not null and are not less than 1, and are rounded to the nearest integer
-        if (ResolutionHeightNumeric.Value == null || ResolutionHeightNumeric.Value < 1)
+        if (ResolutionHeightNumeric.Value is null or < 1)
         {
             ResolutionHeightNumeric.BorderBrush = Brushes.IndianRed;
             valid = false;
@@ -173,7 +173,7 @@ public partial class RenderSettings : UserControl
         }
 
         // ensure that the scale is not null and is between [1, 100] and rounded to the nearest integer
-        if (ScaleNumeric.Value == null || ScaleNumeric.Value < 1 || ScaleNumeric.Value > 100)
+        if (ScaleNumeric.Value is null or < 1 or > 100)
         {
             ScaleNumeric.BorderBrush = Brushes.IndianRed;
             valid = false;
@@ -197,7 +197,7 @@ public partial class RenderSettings : UserControl
     /// <returns>The render mode.</returns>
     public string GetMode()
     {
-        return RenderModeComboBox.SelectionBoxItem?.ToString()?.ToLower() ?? String.Empty;
+        return RenderModeComboBox.SelectionBoxItem?.ToString()?.ToLower() ?? string.Empty;
     }
 
     /// <summary>

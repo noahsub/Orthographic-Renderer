@@ -70,7 +70,7 @@ public class UpdateVisitor : IVisitor
 /// <summary>
 /// Manages hardware monitoring and data collection.
 /// </summary>
-public class HardwareManager
+public static class HardwareManager
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBAL VARIABLES
@@ -79,17 +79,17 @@ public class HardwareManager
     /// <summary>
     /// This computer.
     /// </summary>
-    public static Computer Computer { get; set; } = new();
+    public static Computer Computer { get; private set; } = new();
 
     /// <summary>
     /// List of hardware to monitor.
     /// </summary>
-    public static List<Hardware> HardwareToMonitor { get; set; } = [];
+    public static List<Hardware> HardwareToMonitor { get; private set; } = [];
 
     /// <summary>
     /// Flag indicating whether render hardware has been collected.
     /// </summary>
-    public static bool RenderHardwareCollected { get; set; }
+    public static bool RenderHardwareCollected { get; private set; }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // COMPUTER
@@ -109,7 +109,7 @@ public class HardwareManager
             IsMotherboardEnabled = false,
             IsControllerEnabled = false,
             IsNetworkEnabled = false,
-            IsStorageEnabled = false,
+            IsStorageEnabled = false
         };
 
         Computer.Open();
@@ -134,7 +134,7 @@ public class HardwareManager
     public static void CollectHardwareToMonitor()
     {
         // Initialize the list of hardware to monitor
-        HardwareToMonitor = new List<Hardware>();
+        HardwareToMonitor = [];
 
         // Get all hardware
         var hardwareMap = MapHardware(Computer);
@@ -154,7 +154,7 @@ public class HardwareManager
         {
             SensorType.Load,
             SensorType.Temperature,
-            SensorType.SmallData,
+            SensorType.SmallData
         };
         var requiredGpuSensorNames = new List<string> { "GPU Core", "GPU Memory Used" };
 
@@ -515,7 +515,7 @@ public class HardwareManager
             SensorType.Control => "?",
             SensorType.SmallData => "MB",
             SensorType.Throughput => "KB/s",
-            _ => "NA",
+            _ => "NA"
         };
     }
 }

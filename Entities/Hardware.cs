@@ -37,17 +37,17 @@ public class Hardware
     /// <summary>
     /// The type of the hardware component.
     /// </summary>
-    public HardwareType Type { get; set; }
+    public HardwareType Type { get; }
 
     /// <summary>
     /// The name of the sensor associated with the hardware component.
     /// </summary>
-    public string SensorName { get; set; }
+    public string SensorName { get; }
 
     /// <summary>
     /// The type of the sensor associated with the hardware component.
     /// </summary>
-    public SensorType SensorType { get; set; }
+    public SensorType SensorType { get; }
 
     /// <summary>
     /// The value of the sensor reading.
@@ -57,12 +57,12 @@ public class Hardware
     /// <summary>
     /// The unit of the sensor reading.
     /// </summary>
-    public string Unit { get; set; }
+    public string Unit { get; }
 
     /// <summary>
     /// The path to the hardware component.
     /// </summary>
-    public List<int> Path { get; set; }
+    public List<int> Path { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Hardware"/> class.

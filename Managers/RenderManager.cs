@@ -35,7 +35,7 @@ public static class RenderManager
     /// <summary>
     /// A list of all the views that can be rendered.
     /// </summary>
-    public static List<string> RenderViews { get; set; } =
+    public static List<string> RenderViews { get; } =
         [
             "top-front-right",
             "top-right-back",
@@ -62,7 +62,7 @@ public static class RenderManager
             "back",
             "left",
             "top",
-            "bottom",
+            "bottom"
         ];
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ public static class RenderManager
             { "back", new Position(0, distance, 0, 90, 0, 180) },
             { "left", new Position(-distance, 0, 0, 90, 0, 270) },
             { "top", new Position(0, 0, distance, 0, 0, 0) },
-            { "bottom", new Position(0, 0, -distance, 180, 0, 180) },
+            { "bottom", new Position(0, 0, -distance, 180, 0, 180) }
         };
         return mapping[view];
     }

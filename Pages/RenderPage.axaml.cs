@@ -15,9 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -107,7 +105,7 @@ public partial class RenderPage : UserControl
     /// <summary>
     /// Sorts the views based on the selected faces.
     /// </summary>
-    public void SortViews()
+    private void SortViews()
     {
         var selectedViews = GetSelectedViews();
         ViewStackGrid.ClearItems();

@@ -1,4 +1,3 @@
-using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -24,9 +23,12 @@ public partial class App : Application
             if (OperatingSystem.IsUnix)
             {
                 // get existing resource dictionary
-                var resources = Application.Current.Resources;
+                var resources = Current?.Resources;
                 // set the global opacity to 1.0
-                resources["GlobalOpacity"] = 1.0;
+                if (resources != null)
+                {
+                    resources["GlobalOpacity"] = 1.0;
+                }
             }
             
             var splashScreen = new Windows.SplashScreen();
@@ -35,8 +37,8 @@ public partial class App : Application
             Task.Run(async () =>
             {
                 // Perform hardware setup and collection asynchronously
-                await Task.Run(() => HardwareManager.SetupComputer());
-                await Task.Run(() => HardwareManager.CollectHardwareToMonitor());
+                await Task.Run(HardwareManager.SetupComputer);
+                await Task.Run(HardwareManager.CollectHardwareToMonitor);
                 
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(() =>

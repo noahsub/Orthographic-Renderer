@@ -13,7 +13,6 @@ using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Orthographic.Renderer.Constants;
-using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +36,7 @@ public partial class RenderQueueItem : UserControl
     /// <summary>
     /// The key for the associated view, see <see cref="RenderManager.RenderViews"/> for assignable values.
     /// </summary>
-    public string Key { get; set; }
+    public string Key { get; set; } = "";
 
     /// <summary>
     /// The status of the render.

@@ -64,7 +64,7 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     /// <param name="pathTextBox">The text box containing the path.</param>
     /// <returns>The normalized path, or <c>null</c> if the path is invalid.</returns>
-    private string? NormalizePath(BrowsableFileTextBox pathTextBox)
+    private static string? NormalizePath(BrowsableFileTextBox pathTextBox)
     {
         // Get the path from the text box
         var path = pathTextBox.PathTextBox.Text;
@@ -122,7 +122,7 @@ public partial class RequirementsPage : UserControl
         return false;
     }
     
-    private void DisplayWarning(string message)
+    private static void DisplayWarning(string message)
     {
         var warning = new Windows.Warning();
         warning.SetWarning(message);
@@ -138,7 +138,7 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     /// <param name="pathTextBox">The text box to update.</param>
     /// <param name="isValid">Whether the path is valid.</param>
-    private void SetBorder(BrowsableFileTextBox pathTextBox, bool isValid)
+    private static void SetBorder(BrowsableFileTextBox pathTextBox, bool isValid)
     {
         // Set the border color based on the validity of the path (green if valid, red if invalid)
         pathTextBox.PathTextBox.BorderBrush = isValid

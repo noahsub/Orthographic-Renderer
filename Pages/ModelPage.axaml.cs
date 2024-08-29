@@ -10,6 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -110,13 +111,9 @@ public partial class ModelPage : UserControl
         var paths = FileManager.ReadJsonArray("Data/recent_models.json", "paths");
 
         // Add each path to the RecentlyOpenedComboBox
-        foreach (var path in paths)
+        foreach (var path in paths.Where(path => IsValidModelPath(path)))
         {
-            // If the path is valid, add it to the RecentlyOpenedComboBox
-            if (IsValidModelPath(path))
-            {
-                RecentlyOpenedComboBox.Items.Add(path);
-            }
+            RecentlyOpenedComboBox.Items.Add(path);
         }
     }
 
@@ -189,8 +186,8 @@ public partial class ModelPage : UserControl
     private void UnitComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         // Set the unit scale based on the selected item in the UnitComboBox
-        var comboBoxItem = (ComboBoxItem)UnitComboBox.SelectedItem;
-        var selectedText = comboBoxItem.Content.ToString().ToLower();
+        var comboBoxItem = (ComboBoxItem)UnitComboBox.SelectedItem!;
+        var selectedText = comboBoxItem?.Content?.ToString()?.ToLower();
 
         DataManager.UnitScale = selectedText switch
         {
@@ -213,7 +210,7 @@ public partial class ModelPage : UserControl
         NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
     }
     
-    private void DisplayWarning(string message)
+    private static void DisplayWarning(string message)
     {
         var warning = new Windows.Warning();
         warning.SetWarning(message);

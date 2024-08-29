@@ -41,8 +41,8 @@ public static class ProcessManager
                 Arguments = arguments,
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
-                CreateNoWindow = true,
-            },
+                CreateNoWindow = true
+            }
         };
 
         // Start the process
@@ -73,7 +73,7 @@ public static class ProcessManager
                 RedirectStandardOutput = false,
                 UseShellExecute = false,
                 CreateNoWindow = true,
-            },
+            }
         };
 
         // Start the process
