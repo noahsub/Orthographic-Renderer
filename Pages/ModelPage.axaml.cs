@@ -238,7 +238,7 @@ public partial class ModelPage : UserControl
     private void MeasureButton_OnClick(object? sender, RoutedEventArgs e)
     {
         // Get the model path
-        var modelPath = ModelPathTextBox.PathTextBox.Text;
+        var modelPath = FileManager.ReformatPath(ModelPathTextBox.PathTextBox.Text);
         if (
             modelPath == null
             || !IsValidModelPath(modelPath)
@@ -248,6 +248,8 @@ public partial class ModelPage : UserControl
             SizeLabel.Content = "unknown";
             return;
         }
+
+        ModelPathTextBox.PathTextBox.Text = modelPath;
 
         // Get the extension of the file
         var extension = Path.GetExtension(modelPath);
