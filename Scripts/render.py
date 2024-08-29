@@ -411,6 +411,11 @@ if __name__ == "__main__":
     if not output_path.endswith("/"):
         output_path += "/"
 
+    # Set the default unit settings
+    bpy.context.scene.unit_settings.system = 'METRIC'
+    bpy.context.scene.unit_settings.scale_length = 1
+    bpy.context.scene.unit_settings.system_rotation = 'DEGREES'
+
     # Create the camera
     create_camera()
     
