@@ -9,23 +9,38 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    # Publish Application
+    - name: Publish Application
+      shell: pwsh
+      run: dotnet publish -c Release -r win-x64 --self-contained -o ./publish
+
+    # Install Chocolatey
     - name: Install Chocolatey
       shell: pwsh
       run: |
         Set-ExecutionPolicy Bypass -Scope Process -Force
         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
         iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-        
+
+    # Install Inno Setup
     - name: Install Inno Setup
       shell: pwsh
       run: choco install innosetup -y --force
 
+    # Run Inno Setup Script
     - name: Compile Installer Script
       shell: pwsh
       run: iscc ".\Install\Orthographic Renderer Inno Setup.iss"
 
+    # Output
     - name: Upload Output
       uses: actions/upload-artifact@v2
       with:
