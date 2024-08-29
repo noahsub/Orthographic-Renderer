@@ -32,14 +32,6 @@ Gallery
 </p>
 
 <h2>
-Sample Renders
-</h2>
-
-<p align="center">
-  <img src="Assets/Images/Examples/grid.png" alt="Icon">
-</p>
-
-<h2>
 Installation
 </h2>
 <p>
@@ -117,3 +109,13 @@ Start Rendering ⚡
 Once your views have been selected and all settings have been adjusted, you can start rendering by clicking the "Render"
 button. You will be notified when the rendering is complete with both a sound (optional) and a popup message with statistics.
 </p>
+
+
+<h2>
+Sample Renders
+</h2>
+
+<p align="center">
+  <img src="Assets/Images/Examples/grid.png" alt="Icon">
+</p>
+
