@@ -194,7 +194,7 @@ public partial class RequirementsPage : UserControl
 
         // Switch to the ModelPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, new ModelPage());
+        NavigationManager.SwitchPage(mainWindow, "ModelPage");
     }
 
     /// <summary>

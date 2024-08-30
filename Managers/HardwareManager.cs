@@ -482,10 +482,10 @@ public static class HardwareManager
             HardwareType.GpuAmd,
             HardwareType.GpuIntel,
         };
-        
+
         // replace spaces greater than 1 with a single space
         newName = System.Text.RegularExpressions.Regex.Replace(newName, @"\s+", " ");
-        
+
         if (gpuTypes.Contains(hardware.Type) && hardware.SensorType == SensorType.SmallData)
         {
             newName = $"{newName} VRAM";

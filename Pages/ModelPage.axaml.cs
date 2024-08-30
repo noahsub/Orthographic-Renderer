@@ -135,6 +135,14 @@ public partial class ModelPage : UserControl
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // SETTERS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void SetDimensionsUnknown()
+    {
+        SizeLabel.Content = "unknown";
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -183,7 +191,7 @@ public partial class ModelPage : UserControl
 
         // Switch to the RenderPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, new RenderPage());
+        NavigationManager.SwitchPage(mainWindow, "RenderPage");
     }
 
     /// <summary>
@@ -227,7 +235,7 @@ public partial class ModelPage : UserControl
     {
         // Switch to the RequirementsPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, new RequirementsPage());
+        NavigationManager.SwitchPage(mainWindow, "RequirementsPage");
     }
 
     /// <summary>
