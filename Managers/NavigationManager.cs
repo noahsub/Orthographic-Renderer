@@ -47,6 +47,11 @@ public static class NavigationManager
     private static RequirementsPage? _requirementsPage = null;
 
     /// <summary>
+    /// A reference to the update page.
+    /// </summary>
+    private static UpdatePage? _updatePage = null;
+
+    /// <summary>
     /// The current page displayed in the main window.
     /// </summary>
     private static UserControl? _currentPage = null;
@@ -101,6 +106,13 @@ public static class NavigationManager
                 }
                 pageContent.Content = _requirementsPage;
                 _currentPage = _requirementsPage;
+                break;
+            case "UpdatePage":
+                if (_updatePage == null)
+                {
+                    _updatePage = new UpdatePage();
+                }
+                pageContent.Content = _updatePage;
                 break;
             default:
                 return;
