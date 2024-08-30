@@ -217,4 +217,64 @@ public static class FileManager
             return true;
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // USER FILES
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    ///  Copies the user files from the data directory to the user directory.
+    /// </summary>
+    public static void CopyUserFiles()
+    {
+        var userDirectory = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            "Documents/Orthographic Renderer"
+        );
+        Debug.WriteLine($"USER DIR: {userDirectory}");
+
+        if (!Directory.Exists(userDirectory))
+        {
+            Directory.CreateDirectory(userDirectory);
+        }
+
+        // foreach file in the data directory, if it doesn't exist in the user directory or the user directory file is older, copy it
+        var dataFiles = Directory.GetFiles("Data");
+        foreach (var file in dataFiles)
+        {
+            var fileName = Path.GetFileName(file);
+            var userFilePath = Path.Combine(userDirectory, fileName);
+            if (
+                !File.Exists(userFilePath)
+                || File.GetLastWriteTime(file) > File.GetLastWriteTime(userFilePath)
+            )
+            {
+                File.Copy(file, userFilePath, true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the path to the program paths file.
+    /// </summary>
+    /// <returns>The path to the program paths file.</returns>
+    public static string GetProgramPathsFile()
+    {
+        return Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            "Documents/Orthographic Renderer/program_paths.json"
+        );
+    }
+
+    /// <summary>
+    /// Gets the path to the recent models file.
+    /// </summary>
+    /// <returns>The path to the recent models file.</returns>
+    public static string GetRecentModelsFile()
+    {
+        return Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            "Documents/Orthographic Renderer/recent_models.json"
+        );
+    }
 }

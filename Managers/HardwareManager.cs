@@ -457,6 +457,7 @@ public static class HardwareManager
             "AMD",
             "GeForce",
             "Laptop",
+            "(TM)",
         };
         foreach (var word in redundantWords)
         {
@@ -481,6 +482,10 @@ public static class HardwareManager
             HardwareType.GpuAmd,
             HardwareType.GpuIntel,
         };
+        
+        // replace spaces greater than 1 with a single space
+        newName = System.Text.RegularExpressions.Regex.Replace(newName, @"\s+", " ");
+        
         if (gpuTypes.Contains(hardware.Type) && hardware.SensorType == SensorType.SmallData)
         {
             newName = $"{newName} VRAM";
@@ -490,6 +495,12 @@ public static class HardwareManager
         if (hardware.SensorType == SensorType.Temperature)
         {
             newName = $"{newName} Temp";
+        }
+
+        // If the name is longer than 18 characters, truncate it and add "..."
+        if (newName.Length > 18)
+        {
+            newName = newName[..18] + "...";
         }
 
         return newName;

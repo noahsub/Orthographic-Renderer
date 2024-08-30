@@ -48,7 +48,7 @@ public partial class RequirementsPage : UserControl
     private void LoadPaths()
     {
         // Get the paths from the file
-        var paths = FileManager.ReadJsonKeyValue("Data/program_paths.json");
+        var paths = FileManager.ReadJsonKeyValue(FileManager.GetProgramPathsFile());
         // Get the blender path
         var blenderPath = paths.blender;
 
@@ -111,7 +111,7 @@ public partial class RequirementsPage : UserControl
             // Save the path if specified
             if (save)
             {
-                FileManager.WriteKeyValueToJsonFile("Data/program_paths.json", key, path);
+                FileManager.WriteKeyValueToJsonFile(FileManager.GetProgramPathsFile(), key, path);
             }
 
             return true;
