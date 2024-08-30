@@ -33,4 +33,14 @@ public static class DataManager
     /// The unit scale of the model.
     /// </summary>
     public static float UnitScale { get; set; } = 0.001f;
+    
+    /// <summary>
+    /// The current version of the application.
+    /// </summary>
+    public static string CurrentVersion { get; set; } = "1.0.3";
+    
+    /// <summary>
+    /// The latest version of the application.
+    /// </summary>
+    public static string LatestVersion { get; set; } = CurrentVersion;
 }

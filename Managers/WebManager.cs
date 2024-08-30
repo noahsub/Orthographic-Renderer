@@ -8,7 +8,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -24,6 +29,10 @@ namespace Orthographic.Renderer.Managers;
 /// </summary>
 public static class WebManager
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // OPEN URL
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     /// <summary>
     /// Opens the specified URL in the default web browser.
     /// </summary>
@@ -31,5 +40,28 @@ public static class WebManager
     public static void OpenUrl(string url)
     {
         Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // API CALLS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Get the latest version of the application from the GitHub API.
+    /// </summary>
+    /// <returns>The latest version of the application.</returns>
+    public static async Task<string> GetLatestVersion()
+    {
+        const string url = "https://api.github.com/repos/noahsub/Orthographic-Renderer/releases/latest";
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
+        var response = await client.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var latestRelease = JObject.Parse(responseBody);
+        // Get the tag name of the latest release
+        var tagName = latestRelease["tag_name"]?.ToString();
+        // Remove the 'v' from the tag name
+        return tagName?[1..] ?? string.Empty;
     }
 }

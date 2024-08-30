@@ -71,6 +71,8 @@ public partial class App : Application
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
                 // Copy user files asynchronously
                 await Task.Run(FileManager.CopyUserFiles);
+                // Check for updates asynchronously
+                DataManager.LatestVersion = await WebManager.GetLatestVersion();
 
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(() =>
