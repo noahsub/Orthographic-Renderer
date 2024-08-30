@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using Orthographic.Renderer.Managers;
+using Orthographic.Renderer.Pages;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -81,5 +83,12 @@ public partial class BrowsableFileTextBox : UserControl
         // Set the path text box to the selected file
         var path = file[0].Path.AbsolutePath;
         PathTextBox.Text = path;
+
+        // If the current page is the model page
+        if (NavigationManager.GetCurrentPage() is ModelPage modelPage)
+        {
+            // Set the dimensions of the model to unknown
+            modelPage.SetDimensionsUnknown();
+        }
     }
 }

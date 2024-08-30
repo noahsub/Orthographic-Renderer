@@ -45,6 +45,15 @@ public partial class MainWindow : Window
         PageContent.Content = new RequirementsPage();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // EVENTS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// If the user clicks on the top of the window, move the window.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void InputElement_OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         // if cursor is on within the first 30 pixels of the window, move the window
