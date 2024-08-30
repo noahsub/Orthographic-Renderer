@@ -69,6 +69,8 @@ public partial class App : Application
                 // Perform hardware setup and collection asynchronously
                 await Task.Run(HardwareManager.SetupComputer);
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
+                // Copy user files asynchronously
+                await Task.Run(FileManager.CopyUserFiles);
 
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(() =>

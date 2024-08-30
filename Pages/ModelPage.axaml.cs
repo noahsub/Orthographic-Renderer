@@ -87,7 +87,7 @@ public partial class ModelPage : UserControl
     private static void UpdateRecentFiles(string modelPath)
     {
         // Read all paths
-        var paths = FileManager.ReadJsonArray("Data/recent_models.json", "paths");
+        var paths = FileManager.ReadJsonArray(FileManager.GetRecentModelsFile(), "paths");
 
         // Remove the model path if it already exists
         paths.Remove(modelPath);
@@ -101,7 +101,7 @@ public partial class ModelPage : UserControl
         }
 
         // Write the updated paths to the file
-        FileManager.WriteArrayToJsonFile("Data/recent_models.json", "paths", paths);
+        FileManager.WriteArrayToJsonFile(FileManager.GetRecentModelsFile(), "paths", paths);
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ public partial class ModelPage : UserControl
     private void LoadRecentFiles()
     {
         // Read all paths
-        var paths = FileManager.ReadJsonArray("Data/recent_models.json", "paths");
+        var paths = FileManager.ReadJsonArray(FileManager.GetRecentModelsFile(), "paths");
 
         // Add each path to the RecentlyOpenedComboBox
         foreach (var path in paths.Where(path => IsValidModelPath(path)))
