@@ -4,7 +4,7 @@
 # This script is used to render a view of the scene with the specified parameters. It supports rendering with both
 # Cycles and Eevee render engines. It takes GPU preference over CPU if both are available.
 #
-# Author: https://github.com/noahsub
+# Copyright (C) 2024 noahsub
 ########################################################################################################################
 
 ########################################################################################################################

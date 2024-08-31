@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--  Copyright (C) 2024 noahsub  -->
+<UserControl
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d"

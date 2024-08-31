@@ -1,3 +1,4 @@
+<!--  Copyright (C) 2024 noahsub  -->
 <Application
     RequestedThemeVariant="Dark"
     x:Class="Orthographic.Renderer.App"
