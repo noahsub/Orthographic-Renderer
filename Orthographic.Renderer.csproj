@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <Folder Include="Assets\Fonts\" />
-      <Folder Include="Assets\Icons\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -157,6 +156,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AvaloniaResource>
       <None Remove="Assets\Images\blue_cube.png" />
+      <AvaloniaResource Include="Assets\Icons\green_cube.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
       <AvaloniaResource Include="Assets\Images\blue_cube.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
