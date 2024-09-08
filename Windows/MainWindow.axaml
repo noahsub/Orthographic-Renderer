@@ -3,7 +3,7 @@
     Background="Transparent"
     Closed="TopLevel_OnClosed"
     ExtendClientAreaToDecorationsHint="True"
-    Icon="avares://Orthographic Renderer/Assets/Icons/green_cube.ico"
+    Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
     MinHeight="400"
     MinWidth="800"
     Title="Orthographic Renderer"
