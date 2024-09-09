@@ -20,7 +20,7 @@ jobs:
     # Run install script
     - name: Compile Installer Script
       shell: bash
-      run: iscc "chmod +x Install/Linux/Debian/installer.sh && ./Install/Linux/Debian/installer.sh"
+      run: chmod +x Install/Linux/Debian/installer.sh && ./Install/Linux/Debian/installer.sh
 
     # Output
     - name: Upload Output
