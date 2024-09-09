@@ -42,6 +42,7 @@ echo "[Desktop Entry]" > tmp/usr/share/applications/orthographic-renderer.deskto
 echo "Version=$version" >> tmp/usr/share/applications/orthographic-renderer.desktop
 echo "Name=Orthographic Renderer" >> tmp/usr/share/applications/orthographic-renderer.desktop
 echo "Exec=/usr/local/bin/orthographic-renderer/Orthographic\ Renderer" >> tmp/usr/share/applications/orthographic-renderer.desktop
+echo "Path=/usr/local/bin/orthographic-renderer" >> tmp/usr/share/applications/orthographic-renderer.desktop
 echo "Icon=/usr/local/bin/orthographic-renderer/Assets/Icons/green_cube.png" >> tmp/usr/share/applications/orthographic-renderer.desktop
 echo "Type=Application" >> tmp/usr/share/applications/orthographic-renderer.desktop
 echo "Categories=Graphics;3DGraphics;" >> tmp/usr/share/applications/orthographic-renderer.desktop

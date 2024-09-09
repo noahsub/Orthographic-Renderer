@@ -7,6 +7,7 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <ApplicationIcon>Assets/Icons/green_cube.ico</ApplicationIcon>
+        <AssemblyName>Orthographic Renderer</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

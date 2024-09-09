@@ -231,13 +231,12 @@ public static class FileManager
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             "Documents/Orthographic Renderer"
         );
-        Debug.WriteLine($"USER DIR: {userDirectory}");
 
         if (!Directory.Exists(userDirectory))
         {
             Directory.CreateDirectory(userDirectory);
         }
-
+        
         // foreach file in the data directory, if it doesn't exist in the user directory or the user directory file is older, copy it
         var dataFiles = Directory.GetFiles("Data");
         foreach (var file in dataFiles)

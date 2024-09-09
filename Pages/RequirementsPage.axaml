@@ -25,7 +25,7 @@
                     <Image
                         Height="25"
                         Margin="0,0,10,0"
-                        Source="avares://Orthographic.Renderer/Assets/Images/orange_cube.png"
+                        Source="avares://Orthographic Renderer/Assets/Images/orange_cube.png"
                         Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
                         <Label Content="Blender Path" />

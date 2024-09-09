@@ -5,7 +5,7 @@
     Closed="TopLevel_OnClosed"
     ExtendClientAreaToDecorationsHint="True"
     Height="400"
-    Icon="avares://Orthographic.Renderer/Assets/Icons/green_cube.ico"
+    Icon="avares://Orthographic Renderer/Assets/Icons/green_cube.ico"
     Title="Render Complete"
     TransparencyLevelHint="AcrylicBlur"
     Width="400"

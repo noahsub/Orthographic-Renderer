@@ -10,7 +10,7 @@
         <FluentTheme />
     </Application.Styles>
     <Application.Resources>
-        <FontFamily x:Key="JetBrainsMono">avares://Orthographic.Renderer/Assets/Fonts#JetBrains Mono</FontFamily>
+        <FontFamily x:Key="JetBrainsMono">avares://Orthographic Renderer/Assets/Fonts#JetBrains Mono</FontFamily>
         <Color x:Key="PrimaryBackground">#121214</Color>
         <Color x:Key="SecondaryBackground">#17171a</Color>
         <!-- <Color x:Key="ControlsBackground">#29292f</Color> -->
