@@ -45,4 +45,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: orthographic-renderer-windows-build
-        path: .\Install\Output\*.exe
+        path: .\Install\Windows\Output\*.exe
