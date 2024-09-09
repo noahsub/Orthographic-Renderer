@@ -156,9 +156,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AvaloniaResource>
       <None Remove="Assets\Images\blue_cube.png" />
-      <AvaloniaResource Include="Assets\Icons\green_cube.png">
+      <Content Include="Assets\Icons\green_cube.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </AvaloniaResource>
+      </Content>
       <AvaloniaResource Include="Assets\Images\blue_cube.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
