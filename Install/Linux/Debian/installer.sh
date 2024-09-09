@@ -1,5 +1,6 @@
 # version number variable
-version="1.0.3"
+# read the version number from the version file
+version=$(<VERSION)
 # package name variable
 name="orthographic-renderer_$version"
 

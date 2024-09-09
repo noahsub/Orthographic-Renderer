@@ -327,6 +327,10 @@
       <AvaloniaResource Include="Assets\Images\red_cube.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaResource>
+      <None Remove="VERSION" />
+      <Content Include="VERSION">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
