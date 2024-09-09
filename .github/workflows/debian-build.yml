@@ -28,5 +28,5 @@ jobs:
     - name: Upload Output
       uses: actions/upload-artifact@v2
       with:
-        name: orthographic-renderer-windows-build
+        name: orthographic-renderer-debian-build
         path: Install/Linux/Debian/*.deb
