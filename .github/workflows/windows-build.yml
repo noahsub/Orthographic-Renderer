@@ -38,7 +38,7 @@ jobs:
     # Run Inno Setup Script
     - name: Compile Installer Script
       shell: pwsh
-      run: iscc ".\Install\Orthographic Renderer Inno Setup.iss"
+      run: iscc ".\Install\Windows\Orthographic Renderer Inno Setup.iss"
 
     # Output
     - name: Upload Output
