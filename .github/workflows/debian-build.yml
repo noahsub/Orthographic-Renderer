@@ -18,9 +18,11 @@ jobs:
         dotnet-version: 8.0.x
 
     # Run install script
-    - name: Compile Installer Script
-      shell: bash
-      run: chmod +x Install/Linux/Debian/installer.sh && ./Install/Linux/Debian/installer.sh
+    - name: Run Install Script
+      run: |
+        cd Install/Linux/Debian
+        chmod +x installer.sh
+        ./installer.sh
 
     # Output
     - name: Upload Output
