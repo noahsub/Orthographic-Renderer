@@ -1,0 +1,32 @@
+name: Debian Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    # Run install script
+    - name: Run Install Script
+      run: |
+        cd Install/Linux/Debian
+        chmod +x installer.sh
+        ./installer.sh
+
+    # Output
+    - name: Upload Output
+      uses: actions/upload-artifact@v2
+      with:
+        name: orthographic-renderer-windows-build
+        path: Install/Linux/Debian/*.deb
