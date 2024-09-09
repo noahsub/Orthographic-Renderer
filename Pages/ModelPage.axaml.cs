@@ -245,8 +245,17 @@ public partial class ModelPage : UserControl
     /// <param name="e"></param>
     private void MeasureButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        var modelPath = ModelPathTextBox.PathTextBox.Text;
+        
+        // if the model path is null or empty
+        if (string.IsNullOrEmpty(modelPath))
+        {
+            SizeLabel.Content = "unknown";
+            return;
+        }
+        
         // Get the model path
-        var modelPath = FileManager.ReformatPath(ModelPathTextBox.PathTextBox.Text);
+        modelPath = FileManager.ReformatPath(modelPath);
         if (
             modelPath == null
             || !IsValidModelPath(modelPath)

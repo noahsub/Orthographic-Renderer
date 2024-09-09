@@ -143,7 +143,7 @@ def set_render_preferences() -> RenderDevice:
             device.use = True
         render_device = RenderDevice.CUDA
     elif cpu_devices:
-        bpy.context.scene.render.engine = 'BLENDER_EEVEE'
+        bpy.context.scene.render.engine = 'BLENDER_EEVEE_NEXT'
         for device in cpu_devices:
             device.use = True
         render_device = RenderDevice.EEVEE

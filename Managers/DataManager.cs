@@ -8,6 +8,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System.IO;
+using HarfBuzzSharp;
+
 namespace Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,11 +37,11 @@ public static class DataManager
     /// The unit scale of the model.
     /// </summary>
     public static float UnitScale { get; set; } = 0.001f;
-    
+
     /// <summary>
     /// The current version of the application.
     /// </summary>
-    public static string CurrentVersion { get; set; } = "1.0.3";
+    public static string CurrentVersion { get; set; } = File.ReadAllText("VERSION");
     
     /// <summary>
     /// The latest version of the application.
