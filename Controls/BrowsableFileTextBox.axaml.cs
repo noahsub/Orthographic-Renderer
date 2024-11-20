@@ -66,10 +66,10 @@ public partial class BrowsableFileTextBox : UserControl
                 FileTypeFilter = new List<FilePickerFileType>
                 {
                     new("All Files") { Patterns = new[] { "*" } },
-                    new("Model Files") { Patterns = new[] { "*.blend", "*.obj", "*.stl" } },
-                    new("Blender Files") { Patterns = new[] { "*.blend" } },
-                    new("OBJ Files") { Patterns = new[] { "*.obj" } },
-                    new("STL Files") { Patterns = new[] { "*.stl" } },
+                    new("Model Files") { Patterns = new[] { "*.blend", "*.obj", "*.stl", "*.BLEND", "*.OBJ", "*.STL" } },
+                    new("Blender Files") { Patterns = new[] { "*.blend", "*.BLEND" } },
+                    new("OBJ Files") { Patterns = new[] { "*.obj", "*.OBJ" } },
+                    new("STL Files") { Patterns = new[] { "*.stl", "*.STL" } },
                 },
             }
         );
