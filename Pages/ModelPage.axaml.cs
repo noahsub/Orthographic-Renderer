@@ -40,7 +40,7 @@ public partial class ModelPage : UserControl
     /// <summary>
     /// List of valid file types for models.
     /// </summary>
-    private static readonly List<string> ValidTypes = [".blend", ".obj", ".stl"];
+    private static readonly List<string> ValidTypes = [".blend", ".obj", ".stl", ".BLEND", ".OBJ", ".STL"];
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -280,7 +280,7 @@ public partial class ModelPage : UserControl
 
         // Get the dimensions of the model
         Vector3 dimensions;
-        switch (extension)
+        switch (extension.ToLower())
         {
             case ".obj":
                 dimensions = ModelManager.GetObjDimensions(modelPath);
