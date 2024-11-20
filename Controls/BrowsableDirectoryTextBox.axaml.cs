@@ -64,7 +64,7 @@ public partial class BrowsableDirectoryTextBox : UserControl
         }
 
         // Set the path text box to the selected directory
-        var path = directory[0].Path.AbsolutePath;
+        var path = directory[0].Path.AbsolutePath.Replace("%20", " ");
         PathTextBox.Text = path;
     }
 }
