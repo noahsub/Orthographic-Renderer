@@ -81,7 +81,7 @@ public partial class BrowsableFileTextBox : UserControl
         }
 
         // Set the path text box to the selected file
-        var path = file[0].Path.AbsolutePath;
+        var path = file[0].Path.AbsolutePath.Replace("%20", " ");
         PathTextBox.Text = path;
 
         // If the current page is the model page
