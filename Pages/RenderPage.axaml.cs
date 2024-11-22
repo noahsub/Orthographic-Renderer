@@ -173,7 +173,7 @@ public partial class RenderPage : UserControl
     /// </summary>
     private void LockPage()
     {
-        Settings.IsEnabled = false;
+        // Settings.IsEnabled = false;
         ViewSelectOptions.IsEnabled = false;
         ViewSortOptions.IsEnabled = false;
         ViewStackGrid.IsEnabled = false;
@@ -188,7 +188,7 @@ public partial class RenderPage : UserControl
     /// </summary>
     private void UnlockPage()
     {
-        Settings.IsEnabled = true;
+        // Settings.IsEnabled = true;
         ViewSelectOptions.IsEnabled = true;
         ViewSortOptions.IsEnabled = true;
         ViewStackGrid.IsEnabled = true;
@@ -350,163 +350,163 @@ public partial class RenderPage : UserControl
     /// </summary>
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // Close all Render Complete windows.
-        WindowManager.CloseAllRenderCompleteWindows();
-
-        // Create a new cancellation token.
-        _cancelToken = new CancellationTokenSource();
-        var token = _cancelToken.Token;
-
-        // Clear the render items.
-        RenderItems.ClearItems();
-
-        // Verify the render settings.
-        if (!Settings.VerifyRenderSettings())
-        {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-            return;
-        }
-
-        // Collect the render settings.
-        var mode = Settings.GetMode();
-        var threads = Settings.GetThreads();
-        var prefix = Settings.GetPrefix();
-        var outputDir = Settings.GetOutputDir();
-        var distance = Settings.GetDistance();
-        var lightDistance = Settings.GetLightDistance();
-        var width = Settings.GetResolutionWidth();
-        var height = Settings.GetResolutionHeight();
-        var scale = Settings.GetScale();
-        var sound = Settings.GetPlaySound();
-        var save = Settings.GetSave();
-
-        // Get the selected views.
-        var selectedViews = GetSelectedViews();
-
-        if (selectedViews.Count == 0)
-        {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-            return;
-        }
-
-        // Iterate through the selected views.
-        foreach (var view in selectedViews)
-        {
-            // Create a new render item.
-            var renderItem = new RenderQueueItem();
-            // Set the properties of the render item.
-            renderItem.Name.Content = RenderManager.GetFormattedViewName(view);
-            renderItem.Key = view;
-
-            // Enqueue the render item.
-            RenderItems.EnqueuePending(renderItem);
-
-            // Add the render item to the display.
-            RenderItems.AddToDisplay(renderItem);
-        }
-
-        // Start the timer.
-        var timeStarted = DateTime.Now;
-        var timerRunning = true;
-        _ = Task.Run(
-            async () =>
-            {
-                var stopwatch = Stopwatch.StartNew();
-                // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
-                while (timerRunning)
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        TimerLabel.Content = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
-                    });
-                    await Task.Delay(100, token);
-                }
-            },
-            token
-        );
-
-        // Lock the page controls.
-        LockPage();
-
-        // Render the items based on the mode.
-        switch (mode)
-        {
-            case "sequential":
-                // Iterate through the pending queue one item at a time.
-                while (RenderItems.PendingQueue.Count > 0)
-                {
-                    // Dequeue the next item.
-                    var renderItem = RenderItems.DequeuePending();
-                    // Render the item.
-                    await Render(
-                        renderItem,
-                        prefix,
-                        outputDir,
-                        distance,
-                        lightDistance,
-                        width,
-                        height,
-                        scale,
-                        save,
-                        token
-                    );
-                }
-                break;
-            case "parallel":
-                // Use a semaphore to limit the number of concurrent threads.
-                var semaphore = new SemaphoreSlim(threads);
-
-                // Create a list of tasks to render the items.
-                var tasks = RenderItems
-                    .GetItemsPending()
-                    .Cast<RenderQueueItem>()
-                    .Select(async renderItem =>
-                    {
-                        // Wait for the semaphore to be released.
-                        await semaphore.WaitAsync();
-                        try
-                        {
-                            // Render the item.
-                            await Render(
-                                renderItem,
-                                prefix,
-                                outputDir,
-                                distance,
-                                lightDistance,
-                                width,
-                                height,
-                                scale,
-                                save,
-                                token
-                            );
-                        }
-                        finally
-                        {
-                            // Release the semaphore.
-                            semaphore.Release();
-                        }
-                    });
-
-                // Wait for all tasks to complete.
-                await Task.WhenAll(tasks);
-                break;
-        }
-
-        // Stop the timer.
-        var timeEnded = DateTime.Now;
-        timerRunning = false;
-
-        // Display the render statistics in a new window.
-        DisplayRenderStats(timeStarted, timeEnded);
-
-        // Play a sound if the setting is enabled.
-        if (sound)
-        {
-            SoundManager.PlaySound("Assets/Sounds/ping.mp3");
-        }
-
-        // Unlock the page controls.
-        UnlockPage();
+        // // Close all Render Complete windows.
+        // WindowManager.CloseAllRenderCompleteWindows();
+        //
+        // // Create a new cancellation token.
+        // _cancelToken = new CancellationTokenSource();
+        // var token = _cancelToken.Token;
+        //
+        // // Clear the render items.
+        // RenderItems.ClearItems();
+        //
+        // // Verify the render settings.
+        // if (!Settings.VerifyRenderSettings())
+        // {
+        //     SoundManager.PlaySound("Assets/Sounds/error.mp3");
+        //     return;
+        // }
+        //
+        // // Collect the render settings.
+        // var mode = Settings.GetMode();
+        // var threads = Settings.GetThreads();
+        // var prefix = Settings.GetPrefix();
+        // var outputDir = Settings.GetOutputDir();
+        // var distance = Settings.GetDistance();
+        // var lightDistance = Settings.GetLightDistance();
+        // var width = Settings.GetResolutionWidth();
+        // var height = Settings.GetResolutionHeight();
+        // var scale = Settings.GetScale();
+        // var sound = Settings.GetPlaySound();
+        // var save = Settings.GetSave();
+        //
+        // // Get the selected views.
+        // var selectedViews = GetSelectedViews();
+        //
+        // if (selectedViews.Count == 0)
+        // {
+        //     SoundManager.PlaySound("Assets/Sounds/error.mp3");
+        //     return;
+        // }
+        //
+        // // Iterate through the selected views.
+        // foreach (var view in selectedViews)
+        // {
+        //     // Create a new render item.
+        //     var renderItem = new RenderQueueItem();
+        //     // Set the properties of the render item.
+        //     renderItem.Name.Content = RenderManager.GetFormattedViewName(view);
+        //     renderItem.Key = view;
+        //
+        //     // Enqueue the render item.
+        //     RenderItems.EnqueuePending(renderItem);
+        //
+        //     // Add the render item to the display.
+        //     RenderItems.AddToDisplay(renderItem);
+        // }
+        //
+        // // Start the timer.
+        // var timeStarted = DateTime.Now;
+        // var timerRunning = true;
+        // _ = Task.Run(
+        //     async () =>
+        //     {
+        //         var stopwatch = Stopwatch.StartNew();
+        //         // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
+        //         while (timerRunning)
+        //         {
+        //             await Dispatcher.UIThread.InvokeAsync(() =>
+        //             {
+        //                 TimerLabel.Content = stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+        //             });
+        //             await Task.Delay(100, token);
+        //         }
+        //     },
+        //     token
+        // );
+        //
+        // // Lock the page controls.
+        // LockPage();
+        //
+        // // Render the items based on the mode.
+        // switch (mode)
+        // {
+        //     case "sequential":
+        //         // Iterate through the pending queue one item at a time.
+        //         while (RenderItems.PendingQueue.Count > 0)
+        //         {
+        //             // Dequeue the next item.
+        //             var renderItem = RenderItems.DequeuePending();
+        //             // Render the item.
+        //             await Render(
+        //                 renderItem,
+        //                 prefix,
+        //                 outputDir,
+        //                 distance,
+        //                 lightDistance,
+        //                 width,
+        //                 height,
+        //                 scale,
+        //                 save,
+        //                 token
+        //             );
+        //         }
+        //         break;
+        //     case "parallel":
+        //         // Use a semaphore to limit the number of concurrent threads.
+        //         var semaphore = new SemaphoreSlim(threads);
+        //
+        //         // Create a list of tasks to render the items.
+        //         var tasks = RenderItems
+        //             .GetItemsPending()
+        //             .Cast<RenderQueueItem>()
+        //             .Select(async renderItem =>
+        //             {
+        //                 // Wait for the semaphore to be released.
+        //                 await semaphore.WaitAsync();
+        //                 try
+        //                 {
+        //                     // Render the item.
+        //                     await Render(
+        //                         renderItem,
+        //                         prefix,
+        //                         outputDir,
+        //                         distance,
+        //                         lightDistance,
+        //                         width,
+        //                         height,
+        //                         scale,
+        //                         save,
+        //                         token
+        //                     );
+        //                 }
+        //                 finally
+        //                 {
+        //                     // Release the semaphore.
+        //                     semaphore.Release();
+        //                 }
+        //             });
+        //
+        //         // Wait for all tasks to complete.
+        //         await Task.WhenAll(tasks);
+        //         break;
+        // }
+        //
+        // // Stop the timer.
+        // var timeEnded = DateTime.Now;
+        // timerRunning = false;
+        //
+        // // Display the render statistics in a new window.
+        // DisplayRenderStats(timeStarted, timeEnded);
+        //
+        // // Play a sound if the setting is enabled.
+        // if (sound)
+        // {
+        //     SoundManager.PlaySound("Assets/Sounds/ping.mp3");
+        // }
+        //
+        // // Unlock the page controls.
+        // UnlockPage();
     }
 
     /// <summary>
@@ -539,7 +539,7 @@ public partial class RenderPage : UserControl
     {
         // Switch to the ModelPage
         var mainWindow = (MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, "ModelPage");
+        NavigationManager.SwitchPage(mainWindow, "LightingPage");
     }
 
     /// <summary>

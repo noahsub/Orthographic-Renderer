@@ -191,7 +191,7 @@ public partial class ModelPage : UserControl
 
         // Switch to the RenderPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, "RenderPage");
+        NavigationManager.SwitchPage(mainWindow, "LightingPage");
     }
 
     /// <summary>

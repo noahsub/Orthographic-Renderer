@@ -45,7 +45,7 @@
             </Grid>
 
             <!--  QUEUE AND SETTINGS GRID  -->
-            <Grid Grid.Column="1" RowDefinitions="2*,1.5*">
+            <Grid Grid.Column="1" RowDefinitions="*">
                 <!--  QUEUE GRID  -->
                 <Grid Grid.Row="0" RowDefinitions="70,*">
                     <Label
@@ -66,20 +66,6 @@
                         <controls:RenderQueue Margin="20,0,20,0" x:Name="RenderItems" />
                     </ScrollViewer>
                 </Grid>
-
-                <!--  SETTINGS GRID  -->
-                <Grid Grid.Row="1" RowDefinitions="70,*">
-                    <Label
-                        Content="Render Settings"
-                        FontSize="20"
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        Margin="20,0,0,0"
-                        VerticalAlignment="Center" />
-                    <ScrollViewer Grid.Row="1" Margin="0,0,0,20">
-                        <controls:RenderSettings Margin="20,0,20,0" x:Name="Settings" />
-                    </ScrollViewer>
-                </Grid>
             </Grid>
         </Grid>
 
@@ -90,7 +76,7 @@
             VerticalAlignment="Center">
             <Button
                 Click="BackButton_OnClick"
-                Content="Model"
+                Content="Lighting"
                 Grid.Column="1"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"

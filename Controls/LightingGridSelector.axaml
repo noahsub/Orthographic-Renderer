@@ -1,0 +1,133 @@
+﻿<UserControl
+    d:DesignHeight="800"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.LightingGridSelector"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label
+            Content="Test"
+            Grid.Column="0"
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            x:Name="TitleLabel" />
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="0"
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button00" />
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="1"
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button01" />
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="2"
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button02" />
+
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="0"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button10" />
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="1"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button11" />
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="2"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button12" />
+
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="0"
+                Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button20" />
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="1"
+                Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button21" />
+            <Button
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0"
+                Grid.Column="2"
+                Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                Margin="20"
+                VerticalAlignment="Stretch"
+                x:Name="Button22" />
+        </Grid>
+    </Grid>
+
+
+</UserControl>

@@ -50,6 +50,11 @@ public static class NavigationManager
     /// A reference to the update page.
     /// </summary>
     private static UpdatePage? _updatePage = null;
+    
+    /// <summary>
+    /// A reference to the lighting page.
+    /// </summary>
+    private static LightingPage? _lightingPage = null;
 
     /// <summary>
     /// The current page displayed in the main window.
@@ -113,6 +118,13 @@ public static class NavigationManager
                     _updatePage = new UpdatePage();
                 }
                 pageContent.Content = _updatePage;
+                break;
+            case "LightingPage":
+                if (_lightingPage == null)
+                {
+                    _lightingPage = new LightingPage();
+                }
+                pageContent.Content = _lightingPage;
                 break;
             default:
                 return;
