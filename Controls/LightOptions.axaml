@@ -1,0 +1,58 @@
+﻿<UserControl
+    d:DesignHeight="150"
+    d:DesignWidth="1200"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.LightOptions"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Rectangle
+            Fill="{StaticResource PrimaryBackground}"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            RadiusX="{StaticResource RadiusRectangle}"
+            RadiusY="{StaticResource RadiusRectangle}" />
+
+        <!--  POSITION GRID  -->
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Content="Position"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                Margin="0,20,0,0"
+                Orientation="Horizontal"
+                VerticalAlignment="Center">
+                <Button Content="&lt;" />
+                <Image
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Margin="20,0,20,0"
+                    MaxHeight="150"
+                    MaxWidth="150"
+                    Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
+                    VerticalAlignment="Center"
+                    x:Name="PositionImage" />
+                <Button Content="&gt;" />
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</UserControl>

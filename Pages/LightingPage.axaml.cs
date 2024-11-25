@@ -12,12 +12,6 @@ public partial class LightingPage : UserControl
     public LightingPage()
     {
         InitializeComponent();
-        TopLightingGridSelector.SetTitle("Top");
-        BottomLightingGridSelector.SetTitle("Bottom");
-        FrontLightingGridSelector.SetTitle("Front");
-        BackLightingGridSelector.SetTitle("Back");
-        LeftLightingGridSelector.SetTitle("Left");
-        RightLightingGridSelector.SetTitle("Right");
     }
 
     private void BackButton_OnClick(object? sender, RoutedEventArgs e)
