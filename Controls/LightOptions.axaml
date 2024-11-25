@@ -1,58 +1,172 @@
 ﻿<UserControl
-    d:DesignHeight="150"
+    d:DesignHeight="200"
     d:DesignWidth="1200"
     mc:Ignorable="d"
     x:Class="Orthographic.Renderer.Controls.LightOptions"
     xmlns="https://github.com/avaloniaui"
+    xmlns:avaloniaColorPicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
+    xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
         <Rectangle
             Fill="{StaticResource PrimaryBackground}"
             Grid.Column="0"
-            Grid.ColumnSpan="5"
+            Grid.ColumnSpan="6"
             RadiusX="{StaticResource RadiusRectangle}"
             RadiusY="{StaticResource RadiusRectangle}" />
 
         <!--  POSITION GRID  -->
-        <Grid Margin="20">
+        <Grid Grid.Column="0" Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label
                 Content="Position"
+                FontSize="16"
+                FontWeight="Bold"
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-            <StackPanel
+            <controls:OrientationSelector Grid.Row="1" Margin="0,20,0,0" />
+        </Grid>
+
+        <!--  COLOUR GRID  -->
+        <Grid Grid.Column="1" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Content="Colour"
+                FontSize="16"
+                FontWeight="Bold"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+            <Grid
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 Margin="0,20,0,0"
-                Orientation="Horizontal"
                 VerticalAlignment="Center">
-                <Button Content="&lt;" />
-                <Image
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Rectangle
+                    Fill="White"
+                    Grid.Column="0"
                     Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    Margin="20,0,20,0"
-                    MaxHeight="150"
-                    MaxWidth="150"
-                    Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
-                    VerticalAlignment="Center"
-                    x:Name="PositionImage" />
-                <Button Content="&gt;" />
-            </StackPanel>
+                    Grid.RowSpan="2"
+                    Height="75"
+                    Margin="0,0,10,0"
+                    Width="75"
+                    x:Name="ColourRectangle" />
+                <Label
+                    Content="#FFFFFF"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,10"
+                    VerticalAlignment="Bottom"
+                    x:Name="ColourLabel" />
+                <avaloniaColorPicker:ColorButton
+                    Color="White"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    Margin="10,10,0,0"
+                    PropertyChanged="LightColourPicker_OnPropertyChanged"
+                    VerticalAlignment="Top"
+                    x:Name="LightColourPicker" />
+            </Grid>
         </Grid>
 
+        <!--  POWER GRID  -->
+        <Grid Grid.Column="2" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Content="Power"
+                FontSize="16"
+                FontWeight="Bold"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+            <controls:ValueSelector
+                Grid.Row="1"
+                Margin="0,35,0,0"
+                VerticalAlignment="Center"
+                x:Name="PowerValueSelector" />
+        </Grid>
+
+        <!--  SIZE GRID  -->
+        <Grid Grid.Column="3" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Content="Size"
+                FontSize="16"
+                FontWeight="Bold"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+            <controls:ValueSelector
+                Grid.Row="1"
+                Margin="0,35,0,0"
+                VerticalAlignment="Center"
+                x:Name="SizeValueSelector" />
+        </Grid>
+
+        <!--  DISTANCE GRID  -->
+        <Grid Grid.Column="4" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Content="Distance"
+                FontSize="16"
+                FontWeight="Bold"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+            <controls:ValueSelector
+                Grid.Row="1"
+                Margin="0,35,0,0"
+                VerticalAlignment="Center"
+                x:Name="DistanceValueSelector" />
+        </Grid>
+        <Button
+            Background="{StaticResource ControlsBackground}"
+            Click="RemoveButton_OnClick"
+            Content="X"
+            Grid.Column="5"
+            Height="30"
+            HorizontalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center"
+            Width="30"
+            x:Name="RemoveButton" />
     </Grid>
 </UserControl>

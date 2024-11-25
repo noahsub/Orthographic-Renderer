@@ -24,12 +24,12 @@
             </StackPanel>
             <Image
                 Grid.Row="0"
+                Height="75"
                 HorizontalAlignment="Center"
                 Margin="20,0,20,0"
-                MaxHeight="100"
-                MaxWidth="100"
                 Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
                 VerticalAlignment="Center"
+                Width="75"
                 x:Name="OrientationImage" />
             <StackPanel Spacing="20">
                 <Button

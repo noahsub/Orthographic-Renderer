@@ -23,11 +23,48 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
-            <controls:OrientationSelector />
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label
+                    Content="Lighting"
+                    Grid.Row="0"
+                    Margin="20,20,0,0" />
+
+                <ScrollViewer
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Padding="20"
+                    VerticalAlignment="Stretch">
+                    <StackPanel Spacing="10">
+                        <controls:LightOptions />
+                        <controls:LightOptions />
+                        <controls:LightOptions />
+                        <controls:LightOptions />
+                        <controls:LightOptions />
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <Button Content="3 Point Lighting" />
+                    <Button Content="5 Point Lighting" />
+                </StackPanel>
+            </Grid>
+
+
         </Grid>
 
 

@@ -30,9 +30,36 @@ namespace Orthographic.Renderer.Managers;
 public class ModelManager
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // TYPES
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public static readonly List<string> ValidTypes = [".blend", ".obj", ".stl", ".BLEND", ".OBJ", ".STL"];
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // MEASUREMENTS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// Gets the dimensions of a 3D model.
+    /// </summary>
+    /// <param name="path">The path to the 3D model.</param>
+    /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
+    /// <exception cref="ArgumentException">Thrown when the file type is invalid.</exception>
+    public static Vector3 GetDimensions(string path)
+    {
+        // Get the extension of the file and convert it to lowercase
+        var extension = Path.GetExtension(path).ToLower();
+
+        // Check the extension and return the appropriate dimensions
+        return extension switch
+        {
+            // If the extension is .blend, return a vector of 0, 0, 0
+            ".blend" => new Vector3(0, 0, 0),
+            ".obj" => GetObjDimensions(path),
+            ".stl" => GetStlDimensions(path),
+            _ => throw new ArgumentException("Invalid file type.")
+        };
+    }
+    
     /// <summary>
     /// Gets the dimensions of a .obj file.
     /// </summary>

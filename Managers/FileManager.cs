@@ -196,6 +196,17 @@ public static class FileManager
         // Return true if the output is not empty
         return !string.IsNullOrEmpty(output);
     }
+    
+    /// <summary>
+    /// Verifies if a model path is valid by checking if the file exists and if the file extension is valid.
+    /// </summary>
+    /// <param name="path">The path to the model file.</param>
+    /// <returns>True or false depending on whether the model path is valid.</returns>
+    public static bool VerifyModelPath(string path)
+    {
+        // Check if the file exists and if the file extension is valid
+        return File.Exists(path) && ModelManager.ValidTypes.Contains(Path.GetExtension(path));
+    }
 
     /// <summary>
     /// Checks if the path requires elevated permissions to access.

@@ -34,15 +34,6 @@ namespace Orthographic.Renderer.Pages;
 public partial class ModelPage : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // CONSTANTS
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// List of valid file types for models.
-    /// </summary>
-    private static readonly List<string> ValidTypes = [".blend", ".obj", ".stl", ".BLEND", ".OBJ", ".STL"];
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,7 +68,7 @@ public partial class ModelPage : UserControl
         }
 
         // Check if the model path exists and is a valid file type
-        return File.Exists(modelPath) && ValidTypes.Contains(Path.GetExtension(modelPath));
+        return File.Exists(modelPath) && ModelManager.ValidTypes.Contains(Path.GetExtension(modelPath));
     }
 
     /// <summary>
@@ -272,7 +263,7 @@ public partial class ModelPage : UserControl
         var extension = Path.GetExtension(modelPath);
 
         // if the model is a valid type and not a .blend file
-        if (!ValidTypes.Contains(extension))
+        if (!ModelManager.ValidTypes.Contains(extension))
         {
             SizeLabel.Content = "unknown";
             return;

@@ -21,6 +21,7 @@
         <Color x:Key="InvertedText">#1a1b1e</Color>
         <Color x:Key="DisabledText">DimGray</Color>
         <Color x:Key="PrimaryAccent">#32ab72</Color>
+        <Color x:Key="SecondaryAccent">#b0202c</Color>
         <CornerRadius x:Key="Radius">10</CornerRadius>
         <x:Double x:Key="RadiusRectangle">10</x:Double>
         <ExperimentalAcrylicMaterial
