@@ -15,7 +15,6 @@ public partial class LightOptions : UserControl
     public LightOptions()
     {
         InitializeComponent();
-        ColourLabel.Content = LightColourPicker.Color.ToString();
         ComputeSliderBounds();
     }
 
@@ -40,16 +39,6 @@ public partial class LightOptions : UserControl
             {
                 DistanceValueSelector.SetSliderBounds(0, (Math.Floor(maxDimension) * 5) * DataManager.UnitScale, 0.2);
             }
-        }
-    }
-
-
-    private void LightColourPicker_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-    {
-        if (e.Property == ColorButton.ColorProperty)
-        {
-            ColourLabel.Content = LightColourPicker.Color.ToString().ToUpper();
-            ColourRectangle.Fill = new SolidColorBrush(LightColourPicker.Color);
         }
     }
 

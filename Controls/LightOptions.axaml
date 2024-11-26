@@ -55,46 +55,7 @@
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-            <Grid
-                Grid.Row="1"
-                HorizontalAlignment="Center"
-                Margin="0,20,0,0"
-                VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Rectangle
-                    Fill="White"
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    Height="75"
-                    Margin="0,0,10,0"
-                    Width="75"
-                    x:Name="ColourRectangle" />
-                <Label
-                    Content="#FFFFFF"
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    HorizontalAlignment="Left"
-                    Margin="10,0,0,10"
-                    VerticalAlignment="Bottom"
-                    x:Name="ColourLabel" />
-                <avaloniaColorPicker:ColorButton
-                    Color="White"
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    HorizontalAlignment="Left"
-                    Margin="10,10,0,0"
-                    PropertyChanged="LightColourPicker_OnPropertyChanged"
-                    VerticalAlignment="Top"
-                    x:Name="LightColourPicker" />
-            </Grid>
+            <controls:ColourSelector Grid.Row="1" Margin="0,20,0,0" />
         </Grid>
 
         <!--  POWER GRID  -->

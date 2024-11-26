@@ -2,6 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
+using AvaloniaColorPicker;
+using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
 
@@ -26,5 +29,13 @@ public partial class LightingPage : UserControl
         // Switch to the RenderPage
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "RenderPage");
+    }
+
+    private void BackgroundColourSelector_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        // if (e.Property == ColourSelector.)
+        // {
+        //     BackgroundRectangle.Fill = new SolidColorBrush(BackgroundColourSelector.ColourPicker.Color);
+        // }
     }
 }
