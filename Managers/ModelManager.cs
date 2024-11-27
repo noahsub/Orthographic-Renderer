@@ -60,6 +60,7 @@ public class ModelManager
         };
     }
     
+    
     /// <summary>
     /// Gets the dimensions of a .obj file.
     /// </summary>

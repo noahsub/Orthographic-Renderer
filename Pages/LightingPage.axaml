@@ -223,9 +223,21 @@
                     Margin="20,0,20,0"
                     Orientation="Horizontal"
                     Spacing="20">
-                    <Button Content="1 Point Lighting" />
-                    <Button Content="3 Point Lighting" />
-                    <Button Content="Overhead Lighting" />
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="OnePointLightingButton_OnClick"
+                        Content="1 Point Lighting"
+                        x:Name="OnePointLightingButton" />
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="ThreePointLightingButton_OnClick"
+                        Content="3 Point Lighting"
+                        x:Name="ThreePointLightingButton" />
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="OverheadLightingButton_OnClick"
+                        Content="Overhead Lighting"
+                        x:Name="OverheadLightingButton" />
                 </StackPanel>
 
                 <StackPanel
@@ -243,13 +255,7 @@
                     HorizontalAlignment="Stretch"
                     Padding="20"
                     VerticalAlignment="Stretch">
-                    <StackPanel Spacing="10">
-                        <controls:LightOptions />
-                        <controls:LightOptions />
-                        <controls:LightOptions />
-                        <controls:LightOptions />
-                        <controls:LightOptions />
-                    </StackPanel>
+                    <StackPanel Spacing="10" x:Name="LightOptionsStackPanel" />
                 </ScrollViewer>
             </Grid>
         </Grid>

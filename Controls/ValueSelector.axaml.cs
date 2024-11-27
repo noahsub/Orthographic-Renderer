@@ -42,4 +42,10 @@ public partial class ValueSelector : UserControl
         ValueSlider.Maximum = max;
         ValueSlider.SmallChange = increment;
     }
+    
+    public void SetValue(double value)
+    {
+        ValueSlider.Value = value;
+        ValueTextBox.Text = value.ToString();
+    }
 }

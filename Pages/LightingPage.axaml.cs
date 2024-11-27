@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -17,6 +19,8 @@ public partial class LightingPage : UserControl
     public LightingPage()
     {
         InitializeComponent();
+        
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
 
         BackgroundColourSelector.ColourPicker.Color = Colors.Black;
         BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
@@ -136,5 +140,72 @@ public partial class LightingPage : UserControl
             Button resolutionButton = (Button)ResolutionGrid.Children[i + 6];
             resolutionButton.Content = Resolution.AspectRatio21X9[i];
         }
+    }
+
+    private void OnePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        LightOptionsStackPanel.Children.Clear();
+        
+        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
+        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
+        
+        var light = new LightOptions();
+        light.SetOrientation("front");
+        light.SetColour(Colors.White);
+        light.SetPower(1000);
+        light.SetSize(3);
+        light.SetDistance(maxDimension * 5);
+        
+        LightOptionsStackPanel.Children.Add(light);
+    }
+
+    private void ThreePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        LightOptionsStackPanel.Children.Clear();
+        
+        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
+        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
+
+        LightOptions light1 = new LightOptions();
+        light1.SetOrientation("top-right-back");
+        light1.SetColour(Colors.White);
+        light1.SetPower(200);
+        light1.SetSize(3);
+        light1.SetDistance(maxDimension * 5);
+        
+        LightOptions light2 = new LightOptions();
+        light2.SetOrientation("top-back-left");
+        light2.SetColour(Colors.White);
+        light2.SetPower(1000);
+        light2.SetSize(3);
+        light2.SetDistance(maxDimension * 5);
+        
+        LightOptions light3 = new LightOptions();
+        light3.SetOrientation("top-left-front");
+        light3.SetColour(Colors.White);
+        light3.SetPower(800);
+        light3.SetSize(3);
+        light3.SetDistance(maxDimension * 5);
+        
+        LightOptionsStackPanel.Children.Add(light1);
+        LightOptionsStackPanel.Children.Add(light2);
+        LightOptionsStackPanel.Children.Add(light3);
+    }
+
+    private void OverheadLightingButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        LightOptionsStackPanel.Children.Clear();
+        
+        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
+        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
+
+        LightOptions light = new LightOptions();
+        light.SetOrientation("top");
+        light.SetColour(Colors.White);
+        light.SetPower(1000);
+        light.SetSize(3);
+        light.SetDistance(maxDimension * 5);
+        
+        LightOptionsStackPanel.Children.Add(light);
     }
 }

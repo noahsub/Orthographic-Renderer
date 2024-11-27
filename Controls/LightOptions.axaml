@@ -39,7 +39,10 @@
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-            <controls:OrientationSelector Grid.Row="1" Margin="0,20,0,0" />
+            <controls:OrientationSelector
+                Grid.Row="1"
+                Margin="0,20,0,0"
+                x:Name="LightOrientationSelector" />
         </Grid>
 
         <!--  COLOUR GRID  -->
@@ -55,7 +58,10 @@
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-            <controls:ColourSelector Grid.Row="1" Margin="0,20,0,0" />
+            <controls:ColourSelector
+                Grid.Row="1"
+                Margin="0,20,0,0"
+                x:Name="LightColourSelector" />
         </Grid>
 
         <!--  POWER GRID  -->

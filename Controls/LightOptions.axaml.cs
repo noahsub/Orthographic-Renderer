@@ -17,6 +17,31 @@ public partial class LightOptions : UserControl
         InitializeComponent();
         ComputeSliderBounds();
     }
+    
+    public void SetOrientation(string orientation)
+    {
+        LightOrientationSelector.SetOrientation(orientation);
+    }
+    
+    public void SetColour(Color colour)
+    {
+        LightColourSelector.ColourPicker.Color = colour;
+    }
+    
+    public void SetPower(double power)
+    {
+        PowerValueSelector.SetValue(power);
+    }
+    
+    public void SetSize(double size)
+    {
+        SizeValueSelector.SetValue(size);
+    }
+    
+    public void SetDistance(double distance)
+    {
+        DistanceValueSelector.SetValue(distance);
+    }
 
     private void ComputeSliderBounds()
     {
