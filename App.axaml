@@ -66,7 +66,7 @@
             <Setter Property="Background" Value="{StaticResource PrimaryBackground}" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}" />
-            <Setter Property="Width" Value="70" />
+            <!-- <Setter Property="Width" Value="70" /> -->
             <Setter Property="CornerRadius" Value="{StaticResource Radius}" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />

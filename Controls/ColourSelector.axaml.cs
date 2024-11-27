@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
@@ -8,6 +9,8 @@ namespace Orthographic.Renderer.Controls;
 
 public partial class ColourSelector : UserControl
 {
+    public event EventHandler ColourChanged;
+    
     public ColourSelector()
     {
         InitializeComponent();
@@ -18,6 +21,7 @@ public partial class ColourSelector : UserControl
     {
         if (e.Property == ColorButton.ColorProperty)
         {
+            ColourChanged?.Invoke(this, e);
             ColourLabel.Content = ColourPicker.Color.ToString().ToUpper();
             ColourRectangle.Fill = new SolidColorBrush(ColourPicker.Color);
         }

@@ -339,43 +339,43 @@ public partial class RenderSettings : UserControl
     /// </summary>
     private void PopulatePresetResolutions()
     {
-        // Common resolutions and their dimensions
-        var commonResolutions = new Dictionary<string, Tuple<int, int>>
-        {
-            ["480p"] = Resolution._480p,
-            ["720p"] = Resolution._720p,
-            ["1080p"] = Resolution._1080p,
-            ["1440p"] = Resolution._1440p,
-            ["4K"] = Resolution._4K,
-            ["5K"] = Resolution._5K,
-            ["8K"] = Resolution._8K,
-            ["10K"] = Resolution._10K,
-            ["12K"] = Resolution._12K,
-            ["16K"] = Resolution._16K,
-        };
+        // // Common resolutions and their dimensions
+        // var commonResolutions = new Dictionary<string, Tuple<int, int>>
+        // {
+        //     ["480p"] = Resolution._480p,
+        //     ["720p"] = Resolution._720p,
+        //     ["1080p"] = Resolution._1080p,
+        //     ["1440p"] = Resolution._1440p,
+        //     ["4K"] = Resolution._4K,
+        //     ["5K"] = Resolution._5K,
+        //     ["8K"] = Resolution._8K,
+        //     ["10K"] = Resolution._10K,
+        //     ["12K"] = Resolution._12K,
+        //     ["16K"] = Resolution._16K,
+        // };
 
         // Populate preset resolutions
-        foreach (var resolution in commonResolutions)
-        {
-            // Create a button for each resolution
-            var button = new Button
-            {
-                Content = resolution.Key,
-                Margin = new Thickness(0, 0, 0, 0),
-                Width = double.NaN,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-            };
-
-            // If the button is clicked, set the resolution width and height to the corresponding values
-            button.Click += (sender, e) =>
-            {
-                ResolutionWidthNumeric.Value = resolution.Value.Item1;
-                ResolutionHeightNumeric.Value = resolution.Value.Item2;
-            };
-
-            // Add the button to the preset resolutions
-            PresetResolutions.AddItem(button);
-        }
+        // foreach (var resolution in commonResolutions)
+        // {
+        //     // Create a button for each resolution
+        //     var button = new Button
+        //     {
+        //         Content = resolution.Key,
+        //         Margin = new Thickness(0, 0, 0, 0),
+        //         Width = double.NaN,
+        //         HorizontalAlignment = HorizontalAlignment.Stretch,
+        //     };
+        //
+        //     // If the button is clicked, set the resolution width and height to the corresponding values
+        //     button.Click += (sender, e) =>
+        //     {
+        //         ResolutionWidthNumeric.Value = resolution.Value.Item1;
+        //         ResolutionHeightNumeric.Value = resolution.Value.Item2;
+        //     };
+        //
+        //     // Add the button to the preset resolutions
+        //     PresetResolutions.AddItem(button);
+        // }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

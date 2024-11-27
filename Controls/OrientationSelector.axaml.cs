@@ -172,8 +172,8 @@ public partial class OrientationSelector : UserControl
         frontRightBottomNode.AddUp(frontRightNode);
         frontRightBottomNode.AddDown(bottomNode);
 
-        CurrentOrientation = frontNode;
-        OrientationImage.Source = new Bitmap(frontNode.Icon);
+        CurrentOrientation = topFrontRightNode;
+        OrientationImage.Source = new Bitmap(CurrentOrientation.Icon);
     }
 
     private void LeftButton_OnClick(object? sender, RoutedEventArgs e)
