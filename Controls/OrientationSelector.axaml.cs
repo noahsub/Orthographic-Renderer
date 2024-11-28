@@ -150,7 +150,7 @@ public partial class OrientationSelector : UserControl
         TopLeftNode.AddDown(LeftNode);
         
         TopLeftFrontNode.AddLeft(TopLeftNode);
-        TopLeftFrontNode.AddRight(TopFrontRightNode);
+        TopLeftFrontNode.AddRight(TopFrontNode);
         TopLeftFrontNode.AddUp(TopNode);
         TopLeftFrontNode.AddDown(LeftFrontNode);
         

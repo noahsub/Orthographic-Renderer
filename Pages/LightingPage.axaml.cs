@@ -208,4 +208,15 @@ public partial class LightingPage : UserControl
         
         LightOptionsStackPanel.Children.Add(light);
     }
+
+    private void AddLightButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var light = new LightOptions();
+        LightOptionsStackPanel.Children.Add(light);
+    }
+
+    private void ClearButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        LightOptionsStackPanel.Children.Clear();
+    }
 }
