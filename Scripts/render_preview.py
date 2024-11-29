@@ -122,7 +122,7 @@ def import_model(model_path: str, unit: float) -> None:
 # RENDERING FUNCTIONS
 ########################################################################################################################
 
-def set_render_preferences() -> RenderDevice:
+def set_preview_render_preferences() -> RenderDevice:
     render_device = None
     preferences = bpy.context.preferences
     cycles_preferences = preferences.addons["cycles"].preferences
@@ -153,7 +153,8 @@ def set_render_preferences() -> RenderDevice:
     else:
         render_device = RenderDevice.UNSUPPORTED
 
-    bpy.context.scene.cycles.preview_samples = 500
+    bpy.context.scene.cycles.samples = 10
+    bpy.context.scene.cycles.preview_samples = 10
     bpy.context.scene.cycles.use_denoising = True
     bpy.context.scene.render.use_persistent_data = True
 
@@ -161,8 +162,8 @@ def set_render_preferences() -> RenderDevice:
         bpy.context.scene.cycles.denoiser = 'OPTIX'
 
     bpy.context.scene.render.use_simplify = True
-    bpy.context.scene.render.simplify_subdivision = 2
-    bpy.context.scene.cycles.texture_limit_render = '2048'
+    bpy.context.scene.render.simplify_subdivision = 0
+    bpy.context.scene.cycles.texture_limit_render = '512'
 
     bpy.context.scene.cycles.use_camera_cull = True
     bpy.context.scene.cycles.use_distance_cull = True
@@ -170,18 +171,14 @@ def set_render_preferences() -> RenderDevice:
     bpy.context.scene.cycles.use_fast_gi = True
     bpy.context.scene.cycles.use_animated_seed = True
 
-    # might need to turn this off
-    bpy.context.scene.cycles.auto_scrambling_distance = True
+    bpy.context.scene.cycles.auto_scrambling_distance = False
 
-    bpy.context.scene.cycles.max_bounces = 5
+    bpy.context.scene.cycles.max_bounces = 1
 
-    # bpy.context.scene.render.image_settings.file_format = 'OPEN_EXR'
     bpy.context.scene.render.image_settings.file_format = 'PNG'
     bpy.context.scene.render.image_settings.color_mode = 'RGBA'
-    bpy.context.scene.render.image_settings.color_depth = '16'
-    bpy.context.scene.render.image_settings.exr_codec = 'DWAA'
+    bpy.context.scene.render.image_settings.color_depth = '8'
 
-    # Enable transparent background
     bpy.context.scene.render.film_transparent = True
 
     return render_device

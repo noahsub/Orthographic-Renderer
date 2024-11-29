@@ -202,7 +202,15 @@ public static class RenderManager
     {
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
         Debug.WriteLine(jsonRenderOptions);
-        var scriptPath = FileManager.GetAbsolutePath("Scripts/render2.py");
+        var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
+        return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
+    }
+    
+    public static bool RenderPreview(RenderOptions renderOptions)
+    {
+        var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
+        Debug.WriteLine(jsonRenderOptions);
+        var scriptPath = FileManager.GetAbsolutePath("Scripts/render_preview.py");
         return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
     }
 }

@@ -243,7 +243,7 @@ public partial class LightingPage : UserControl
     {
         DataManager.PreviewRenderOptions = new RenderOptions();
         
-        var resolution = new Entities.Resolution(Int32.Parse(WidthTextBox.Text ?? "0") , Int32.Parse(HeightTextBox.Text ?? "0"), 100);
+        var resolution = new Entities.Resolution(Int32.Parse(WidthTextBox.Text ?? "0") , Int32.Parse(HeightTextBox.Text ?? "0"), 75);
         var cameraView = CameraOrientation.CurrentOrientation.Name; 
         var cameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
         

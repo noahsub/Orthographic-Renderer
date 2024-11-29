@@ -11,6 +11,7 @@
 # IMPORTS
 ########################################################################################################################
 import datetime
+import json
 import math
 import argparse
 import os
@@ -98,11 +99,13 @@ def import_model(model_path: str, unit: float) -> None:
     directory = os.path.dirname(model_path)
     file_name = os.path.basename(model_path)
     name = os.path.splitext(file_name)[0]
-    
+
     if model_path.endswith(".obj"):
-        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
+        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y',
+                              up_axis='Z')
     elif model_path.endswith(".stl"):
-        bpy.ops.wm.stl_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y', up_axis='Z')
+        bpy.ops.wm.stl_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y',
+                              up_axis='Z')
 
     try:
         bpy.data.objects.remove(bpy.data.objects["Cube"], do_unlink=True)
@@ -206,7 +209,7 @@ def render_generic_view(name: str, output_folder: str, position: Position):
     :return: None
     """
     set_camera_pos_and_rot(position)
-    bpy.context.scene.render.filepath = (output_folder + f"{name}_{str(position)}_{get_formatted_date()}")
+    bpy.context.scene.render.filepath = (output_folder + f"{name}")
     try:
         bpy.ops.render.render(write_still=True)
     except Exception as e:
@@ -258,6 +261,7 @@ def set_camera_pos_and_rot(pos: Position) -> None:
     bpy.data.objects["Camera"].rotation_euler[1] = degrees_to_radians(pos.ry)
     bpy.data.objects["Camera"].rotation_euler[2] = degrees_to_radians(pos.rz)
 
+
 ########################################################################################################################
 # LIGHTING FUNCTIONS
 ########################################################################################################################
@@ -283,24 +287,23 @@ def create_area_light(power, size, position):
     # Set the light's rotation
     light.rotation_euler[0] = degrees_to_radians(position.rx)
     light.rotation_euler[1] = degrees_to_radians(position.ry)
-    light.rotation_euler[2] = degrees_to_radians(position.rz)    
+    light.rotation_euler[2] = degrees_to_radians(position.rz)
+
 
 def setup_lighting(distance: float):
     # delete all existing lights
     bpy.ops.object.select_all(action='DESELECT')
     bpy.ops.object.select_by_type(type='LIGHT')
     bpy.ops.object.delete()
-    
+
     leg = compute_triangular_leg(distance)
-    
+
     # Create top front left light
     create_area_light(1000, 3, Position(-leg, -leg, distance, 45, 0, 315))
     # Create top front right light
     create_area_light(800, 3, Position(leg, -leg, distance, 45, 0, 45))
     # Create top back left light
     create_area_light(200, 3, Position(-leg, leg, distance, 45, 0, 225))
-    
-    
 
 
 ########################################################################################################################
@@ -323,6 +326,7 @@ def compute_triangular_leg(distance: float):
     """
     return math.sqrt(math.pow(distance, 2) / 2)
 
+
 ########################################################################################################################
 # FILE FUNCTIONS
 ########################################################################################################################
@@ -334,7 +338,7 @@ def save_file(file_path: str) -> None:
     :return: None
     """
     bpy.ops.wm.save_as_mainfile(filepath=file_path.replace(".obj", ".blend").replace(".stl", ".blend"))
-    
+
 
 ########################################################################################################################
 # HELPER FUNCTIONS
@@ -353,52 +357,13 @@ def get_formatted_date():
 if __name__ == "__main__":
     # Parse the command line arguments
     parser = BlenderArgparse(description="Script to render a view of the scene with the specified parameters")
-    parser.add_argument("--model", type=str, help="The path to the model")
-    parser.add_argument("--name", type=str, help="The name of the rendered image")
-    parser.add_argument("--output_path", type=str, help="The output path for the rendered images")
-    parser.add_argument("--resolution", type=int, nargs=2, help="The resolution of the rendered image")
-    parser.add_argument("--scale", type=int, help="The scale of the rendered image")
-    parser.add_argument("--distance", type=float, help="The distance from the origin to the camera")
-    parser.add_argument("--light_distance", type=float, help="The distance from the origin to the lights")
-    parser.add_argument("--unit", type=float, help="The scale of the model relative to meters")
-    parser.add_argument("--save", type=str, help="Whether to save the model")
-    parser.add_argument("--x", type=float, help="The x position of the camera")
-    parser.add_argument("--y", type=float, help="The y position of the camera")
-    parser.add_argument("--z", type=float, help="The z position of the camera")
-    parser.add_argument("--rx", type=float, help="The x rotation of the camera")
-    parser.add_argument("--ry", type=float, help="The y rotation of the camera")
-    parser.add_argument("--rz", type=float, help="The z rotation of the camera")
+    parser.add_argument("--options", type=str, help="Options for rendering")
     args = parser.parse_args()
 
-    # Check that each argument is present, if any are not, set them to default values
-    defaults = {
-        "model": None,
-        "name": "render",
-        "output_path": None,
-        "resolution": (1920, 1080),
-        "scale": 100,
-        "distance": 2,
-        "light_distance": 2,
-        "unit": Unit.METERS.value,
-        "save": "false",
-        "x": 0,
-        "y": 0,
-        "z": 2,
-        "rx": 0,
-        "ry": 0,
-        "rz": 0,
-    }
-
-    for key, value in defaults.items():
-        if getattr(args, key) is None:
-            if key == "output_path":
-                raise Exception("Output path not specified")
-            if key == "model":
-                raise Exception("Model path not specified")
-            setattr(args, key, value)
+    data = json.loads(args.options)
 
     # If the output path does not end with a "/", add one
-    output_path = args.output_path
+    output_path = data["OutputDirectory"]
     if not output_path.endswith("/"):
         output_path += "/"
 
@@ -409,36 +374,41 @@ if __name__ == "__main__":
 
     # Create the camera
     create_camera()
-    
-    # Setup lighting
-    setup_lighting(args.light_distance)
+
+    # # Setup lighting
+    # setup_lighting(args.light_distance)
+
+    # delete all existing lights
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.object.select_by_type(type='LIGHT')
+    bpy.ops.object.delete()
+
+    for light in data["Lights"]:
+        create_area_light(light["Power"], light["Size"], Position(light["Position"]["X"], light["Position"]["Y"], light["Position"]["Z"], light["Position"]["Rx"], light["Position"]["Ry"], light["Position"]["Rz"]))
 
     # Import the model if it is not a .blend file
-    if not args.model.endswith(".blend"):
-        import_model(args.model, args.unit)
+
+    if not data["Model"].endswith(".blend"):
+        import_model(data["Model"], data["Unit"])
 
     # Detect the rendering device and set the rendering preferences
     set_render_preferences()
 
     # Set the rendering resolution
-    set_render_resolution(width=args.resolution[0], height=args.resolution[1], scale=args.scale)
+    set_render_resolution(width=data["Resolution"]["Width"], height=data["Resolution"]["Height"], scale=data["Resolution"]["Scale"])
 
     # Set the camera position
-    dist = args.distance
+    dist = data["Camera"]["Distance"]
     leg = compute_triangular_leg(dist)
-    position = Position(x=args.x, y=args.y, z=args.z, rx=args.rx, ry=args.ry, rz=args.rz)
+    position = Position(x=data["Camera"]["Position"]["X"], y=data["Camera"]["Position"]["Y"], z=data["Camera"]["Position"]["Z"],
+                        rx=data["Camera"]["Position"]["Rx"], ry=data["Camera"]["Position"]["Ry"], rz=data["Camera"]["Position"]["Rz"])
+
     set_camera_start_pos(dist)
 
     # Render the view
-    render_generic_view(name=args.name, output_folder=output_path, position=position)
+    render_generic_view(name=data["Name"], output_folder=output_path, position=position)
 
-    save = None
-    if args.save.lower() == "true" or args.save.lower() == "yes":
-        save = True
-    elif args.save.lower() == "false" or args.save.lower() == "no":
-        save = False
-    else:
-        raise Exception("Invalid save argument")
+    save = data["SaveBlenderFile"]
 
     if save:
-        save_file(args.model)
+        save_file(output_path + data["Name"] + ".blend")
