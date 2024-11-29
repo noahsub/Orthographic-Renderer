@@ -11,6 +11,7 @@
 
 using System.IO;
 using HarfBuzzSharp;
+using Orthographic.Renderer.Entities;
 
 namespace Orthographic.Renderer.Managers;
 
@@ -47,4 +48,6 @@ public static class DataManager
     /// The latest version of the application.
     /// </summary>
     public static string LatestVersion { get; set; } = CurrentVersion;
+
+    public static RenderOptions PreviewRenderOptions { get; set; } = new RenderOptions();
 }

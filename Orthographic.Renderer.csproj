@@ -333,6 +333,14 @@
       <Content Include="VERSION">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Scripts\blender_render.py" />
+      <Content Include="Scripts\blender_render.py">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Scripts\render2.py" />
+      <Content Include="Scripts\render2.py">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

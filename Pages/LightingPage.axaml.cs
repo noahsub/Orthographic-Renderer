@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using AvaloniaColorPicker;
-using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
+using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
+using RenderOptions = Orthographic.Renderer.Entities.RenderOptions;
+using Resolution = Orthographic.Renderer.Constants.Resolution;
 
 namespace Orthographic.Renderer.Pages;
 
@@ -146,6 +153,9 @@ public partial class LightingPage : UserControl
     {
         LightOptionsStackPanel.Children.Clear();
         
+        // Verify that the StackPanel is empty
+        Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
+        
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
         var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
         
@@ -162,6 +172,9 @@ public partial class LightingPage : UserControl
     private void ThreePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
         LightOptionsStackPanel.Children.Clear();
+        
+        // Verify that the StackPanel is empty
+        Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
         
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
         var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
@@ -196,6 +209,9 @@ public partial class LightingPage : UserControl
     {
         LightOptionsStackPanel.Children.Clear();
         
+        // Verify that the StackPanel is empty
+        Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
+        
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
         var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
 
@@ -218,5 +234,56 @@ public partial class LightingPage : UserControl
     private void ClearButton_OnClick(object? sender, RoutedEventArgs e)
     {
         LightOptionsStackPanel.Children.Clear();
+        
+        // Verify that the StackPanel is empty
+        Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
+    }
+
+    private void PreviewButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        DataManager.PreviewRenderOptions = new RenderOptions();
+        
+        var resolution = new Entities.Resolution(Int32.Parse(WidthTextBox.Text ?? "0") , Int32.Parse(HeightTextBox.Text ?? "0"), 100);
+        var cameraView = CameraOrientation.CurrentOrientation.Name; 
+        var cameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
+        
+        Debug.WriteLine("Camera Distance: " + cameraDistance);
+        
+        var cameraPosition = RenderManager.GetPosition(cameraView, cameraDistance);
+        
+        Debug.WriteLine($"Camera Position: X: {cameraPosition.X} Y: {cameraPosition.Y} Z: {cameraPosition.Z} RX: {cameraPosition.Rx} RY: {cameraPosition.Ry} RZ: {cameraPosition.Rz}");
+        
+        var camera = new Camera(cameraDistance, cameraPosition);
+        
+        DataManager.PreviewRenderOptions.SetName("render");
+        DataManager.PreviewRenderOptions.SetModel(DataManager.ModelPath);
+        DataManager.PreviewRenderOptions.SetUnit(DataManager.UnitScale);
+        DataManager.PreviewRenderOptions.SetOutputDirectory("C:/Users/noahs/Downloads");
+        DataManager.PreviewRenderOptions.SetResolution(resolution);
+        DataManager.PreviewRenderOptions.SetCamera(camera);
+        DataManager.PreviewRenderOptions.SetSaveBlenderFile(true);
+        
+        for (int i = 0; i < LightOptionsStackPanel.Children.Count; i++)
+        {
+            var lightOptions = (LightOptions)LightOptionsStackPanel.Children[i];
+            var lightOrientation = lightOptions.LightOrientationSelector.CurrentOrientation.Name;
+            var lightColour = lightOptions.LightColourSelector.ColourPicker.Color.ToString();
+            var lightPower = float.Parse(lightOptions.PowerValueSelector.ValueTextBox.Text ?? "0" ?? "0");
+            var lightSize = float.Parse(lightOptions.SizeValueSelector.ValueTextBox.Text ?? "0" ?? "0");
+            var lightDistance = float.Parse(lightOptions.DistanceValueSelector.ValueTextBox.Text ?? "0" ?? "0");
+            var lightPosition = RenderManager.GetPosition(lightOrientation, lightDistance);
+            var light = new Light(lightPosition, lightColour, lightPower, lightSize, lightDistance);
+            DataManager.PreviewRenderOptions.AddLight(light);
+        }
+
+        Task.Run(async () =>
+        {
+            RenderManager.Render(DataManager.PreviewRenderOptions);
+            
+            Dispatcher.UIThread.Post(() =>
+            {
+                PreviewImage.Source = new Bitmap("C:/Users/noahs/Downloads/" + DataManager.PreviewRenderOptions.Name + ".png");
+            });
+        });
     }
 }

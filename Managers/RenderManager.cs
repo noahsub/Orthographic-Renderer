@@ -10,6 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using Orthographic.Renderer.Entities;
@@ -195,5 +196,13 @@ public static class RenderManager
     private static string ToTitleCase(string str)
     {
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+    }
+
+    public static bool Render(RenderOptions renderOptions)
+    {
+        var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
+        Debug.WriteLine(jsonRenderOptions);
+        var scriptPath = FileManager.GetAbsolutePath("Scripts/render2.py");
+        return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
     }
 }

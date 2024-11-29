@@ -45,7 +45,8 @@
                 <Image
                     Grid.Row="0"
                     Margin="20,20,0,20"
-                    Source="avares://Orthographic Renderer/Assets/Images/green_cube.png" />
+                    Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
+                    x:Name="PreviewImage" />
 
                 <!--  PREVIEW SETTINGS GRID  -->
                 <ScrollViewer Grid.Row="1">
@@ -87,7 +88,10 @@
                                     Content="Orientation"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center" />
-                                <controls:OrientationSelector Margin="10,0,0,0" VerticalAlignment="Center" />
+                                <controls:OrientationSelector
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    x:Name="CameraOrientation" />
                             </StackPanel>
 
                             <StackPanel
@@ -95,10 +99,13 @@
                                 HorizontalAlignment="Center"
                                 Spacing="20">
                                 <Label
-                                    Content="Distance"
+                                    Content="Camera Distance"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center" />
-                                <controls:ValueSelector Margin="10,0,0,0" VerticalAlignment="Center" />
+                                <controls:ValueSelector
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    x:Name="CameraDistance" />
                             </StackPanel>
                         </Grid>
 
@@ -197,6 +204,7 @@
 
                 <Button
                     Background="{StaticResource PrimaryAccent}"
+                    Click="PreviewButton_OnClick"
                     Content="Preview"
                     Foreground="{StaticResource PrimaryBackground}"
                     Grid.Row="2"
@@ -204,7 +212,8 @@
                     HorizontalContentAlignment="Center"
                     Margin="20,20,0,20"
                     VerticalAlignment="Stretch"
-                    VerticalContentAlignment="Center" />
+                    VerticalContentAlignment="Center"
+                    x:Name="PreviewButton" />
             </Grid>
 
             <!--  LIGHTING GRID  -->
