@@ -255,10 +255,14 @@ public partial class LightingPage : UserControl
         
         var camera = new Camera(cameraDistance, cameraPosition);
         
-        DataManager.PreviewRenderOptions.SetName("render");
+        var uuid = Guid.NewGuid().ToString().Replace("-", "");
+        var tempDirectory = Path.GetTempPath().Replace("\\", "/");
+        Debug.WriteLine(tempDirectory);
+        
+        DataManager.PreviewRenderOptions.SetName(uuid);
         DataManager.PreviewRenderOptions.SetModel(DataManager.ModelPath);
         DataManager.PreviewRenderOptions.SetUnit(DataManager.UnitScale);
-        DataManager.PreviewRenderOptions.SetOutputDirectory("C:/Users/noahs/Downloads");
+        DataManager.PreviewRenderOptions.SetOutputDirectory(tempDirectory);
         DataManager.PreviewRenderOptions.SetResolution(resolution);
         DataManager.PreviewRenderOptions.SetCamera(camera);
         DataManager.PreviewRenderOptions.SetSaveBlenderFile(true);
@@ -282,7 +286,7 @@ public partial class LightingPage : UserControl
             
             Dispatcher.UIThread.Post(() =>
             {
-                PreviewImage.Source = new Bitmap("C:/Users/noahs/Downloads/" + DataManager.PreviewRenderOptions.Name + ".png");
+                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
             });
         });
     }
