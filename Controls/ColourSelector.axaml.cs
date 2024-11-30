@@ -11,14 +11,17 @@ namespace Orthographic.Renderer.Controls;
 public partial class ColourSelector : UserControl
 {
     public event EventHandler ColourChanged;
-    
+
     public ColourSelector()
     {
         InitializeComponent();
         ColourLabel.Content = ColourPicker.Color.ToString();
     }
 
-    private void LightColourPicker_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    private void LightColourPicker_OnPropertyChanged(
+        object? sender,
+        AvaloniaPropertyChangedEventArgs e
+    )
     {
         if (e.Property == ColorButton.ColorProperty)
         {

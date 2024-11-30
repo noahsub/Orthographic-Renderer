@@ -10,7 +10,7 @@ public partial class LightingGridSelector : UserControl
     {
         InitializeComponent();
     }
-    
+
     public void SetTitle(string title)
     {
         // Set the title of the grid

@@ -44,17 +44,17 @@ public static class DataManager
     /// The current version of the application.
     /// </summary>
     public static string CurrentVersion { get; set; } = File.ReadAllText("VERSION");
-    
+
     /// <summary>
     /// The latest version of the application.
     /// </summary>
     public static string LatestVersion { get; set; } = CurrentVersion;
 
     public static float CameraDistance { get; set; } = 0.0f;
-    
+
     public static Resolution Resolution { get; set; } = new Resolution(0, 0);
-    
+
     public static List<Light> Lights { get; set; } = new List<Light>();
-    
+
     public static List<string> SelectedViews { get; set; } = new List<string>();
 }

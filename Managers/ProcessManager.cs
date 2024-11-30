@@ -75,7 +75,7 @@ public static class ProcessManager
                 CreateNoWindow = true,
             },
         };
-        
+
         Debug.WriteLine($"{path} {arguments}");
 
         // Start the process

@@ -214,7 +214,7 @@ public partial class ViewsPage : UserControl
         }
 
         DataManager.SelectedViews = selectedViews;
-        
+
         // Switch to the ModelPage
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "RenderPage");

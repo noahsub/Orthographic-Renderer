@@ -11,7 +11,7 @@ public partial class ValueSelector : UserControl
     {
         InitializeComponent();
     }
-    
+
     public void SetUnit(string unit)
     {
         UnitLabel.Content = unit;
@@ -28,21 +28,20 @@ public partial class ValueSelector : UserControl
         {
             ValueSlider.Value = value;
         }
-
         else
         {
             ValueSlider.Value = 0;
             ValueTextBox.Text = "0";
         }
     }
-    
+
     public void SetSliderBounds(double min, double max, double increment)
     {
         ValueSlider.Minimum = min;
         ValueSlider.Maximum = max;
         ValueSlider.SmallChange = increment;
     }
-    
+
     public void SetValue(double value)
     {
         ValueSlider.Value = value;

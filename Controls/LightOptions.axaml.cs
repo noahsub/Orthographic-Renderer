@@ -18,27 +18,27 @@ public partial class LightOptions : UserControl
         InitializeComponent();
         ComputeSliderBounds();
     }
-    
+
     public void SetOrientation(string orientation)
     {
         LightOrientationSelector.SetOrientation(orientation);
     }
-    
+
     public void SetColour(Color colour)
     {
         LightColourSelector.ColourPicker.Color = colour;
     }
-    
+
     public void SetPower(double power)
     {
         PowerValueSelector.SetValue(power);
     }
-    
+
     public void SetSize(double size)
     {
         SizeValueSelector.SetValue(size);
     }
-    
+
     public void SetDistance(double distance)
     {
         DistanceValueSelector.SetValue(distance);
@@ -52,7 +52,7 @@ public partial class LightOptions : UserControl
         if (FileManager.VerifyModelPath(DataManager.ModelPath))
         {
             var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-            
+
             // Get the biggest dimension
             var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max();
 
@@ -60,10 +60,13 @@ public partial class LightOptions : UserControl
             {
                 DistanceValueSelector.SetSliderBounds(0, 100, 0.2);
             }
-
             else
             {
-                DistanceValueSelector.SetSliderBounds(0, (Math.Floor(maxDimension) * 200) * DataManager.UnitScale, 0.2);
+                DistanceValueSelector.SetSliderBounds(
+                    0,
+                    (Math.Floor(maxDimension) * 200) * DataManager.UnitScale,
+                    0.2
+                );
             }
         }
     }
@@ -79,17 +82,26 @@ public partial class LightOptions : UserControl
 
     public void VerifyOptions()
     {
-        if (string.IsNullOrEmpty(PowerValueSelector.ValueTextBox.Text) || float.TryParse(PowerValueSelector.ValueTextBox.Text, out _) == false)
+        if (
+            string.IsNullOrEmpty(PowerValueSelector.ValueTextBox.Text)
+            || float.TryParse(PowerValueSelector.ValueTextBox.Text, out _) == false
+        )
         {
             PowerValueSelector.SetValue(0);
         }
-        
-        if (string.IsNullOrEmpty(SizeValueSelector.ValueTextBox.Text) || float.TryParse(SizeValueSelector.ValueTextBox.Text, out _) == false)
+
+        if (
+            string.IsNullOrEmpty(SizeValueSelector.ValueTextBox.Text)
+            || float.TryParse(SizeValueSelector.ValueTextBox.Text, out _) == false
+        )
         {
             SizeValueSelector.SetValue(0);
         }
-        
-        if (string.IsNullOrEmpty(DistanceValueSelector.ValueTextBox.Text) || float.TryParse(DistanceValueSelector.ValueTextBox.Text, out _) == false)
+
+        if (
+            string.IsNullOrEmpty(DistanceValueSelector.ValueTextBox.Text)
+            || float.TryParse(DistanceValueSelector.ValueTextBox.Text, out _) == false
+        )
         {
             DistanceValueSelector.SetValue(0);
         }

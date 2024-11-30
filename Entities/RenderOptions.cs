@@ -26,47 +26,47 @@ public class RenderOptions
         Lights = new List<Light>();
         SaveBlenderFile = false;
     }
-    
+
     public void SetName(string name)
     {
         Name = name;
     }
-    
+
     public void SetModel(string model)
     {
         Model = model;
     }
-    
+
     public void SetUnit(float unit)
     {
         Unit = unit;
     }
-    
+
     public void SetOutputDirectory(string outputDirectory)
     {
         OutputDirectory = outputDirectory;
     }
-    
+
     public void SetResolution(Resolution resolution)
     {
         Resolution = resolution;
     }
-    
+
     public void SetCamera(Camera camera)
     {
         Camera = camera;
     }
-    
+
     public void AddLight(Light light)
     {
         Lights.Add(light);
     }
-    
+
     public void AddLights(List<Light> lights)
     {
         Lights.AddRange(lights);
     }
-    
+
     public void SetSaveBlenderFile(bool saveBlenderFile)
     {
         SaveBlenderFile = saveBlenderFile;

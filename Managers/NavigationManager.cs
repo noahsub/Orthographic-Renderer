@@ -41,7 +41,7 @@ public static class NavigationManager
     /// A reference to the views page.
     /// </summary>
     private static ViewsPage? _viewsPage = null;
-    
+
     /// <summary>
     /// A reference to the render page.
     /// </summary>
@@ -56,7 +56,7 @@ public static class NavigationManager
     /// A reference to the update page.
     /// </summary>
     private static UpdatePage? _updatePage = null;
-    
+
     /// <summary>
     /// A reference to the lighting page.
     /// </summary>

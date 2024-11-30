@@ -196,7 +196,7 @@ public static class FileManager
         // Return true if the output is not empty
         return !string.IsNullOrEmpty(output);
     }
-    
+
     /// <summary>
     /// Verifies if a model path is valid by checking if the file exists and if the file extension is valid.
     /// </summary>
@@ -247,7 +247,7 @@ public static class FileManager
         {
             Directory.CreateDirectory(userDirectory);
         }
-        
+
         // foreach file in the data directory, if it doesn't exist in the user directory or the user directory file is older, copy it
         var dataFiles = Directory.GetFiles("Data");
         foreach (var file in dataFiles)

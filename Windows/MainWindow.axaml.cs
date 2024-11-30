@@ -41,14 +41,17 @@ public partial class MainWindow : Window
         InitializeComponent();
         // Add the window to the list of open windows
         WindowManager.AddWindow(this);
-        
+
         // If an update is available, show the update page
-        if (new Version(DataManager.LatestVersion).CompareTo(new Version(DataManager.CurrentVersion)) > 0)
+        if (
+            new Version(DataManager.LatestVersion).CompareTo(
+                new Version(DataManager.CurrentVersion)
+            ) > 0
+        )
         {
             // Set the content to the update page
             PageContent.Content = new UpdatePage();
         }
-        
         // Otherwise, show the requirements page
         else
         {

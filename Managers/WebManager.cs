@@ -32,7 +32,7 @@ public static class WebManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // OPEN URL
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Opens the specified URL in the default web browser.
     /// </summary>
@@ -41,18 +41,19 @@ public static class WebManager
     {
         Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // API CALLS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Get the latest version of the application from the GitHub API.
     /// </summary>
     /// <returns>The latest version of the application.</returns>
     public static async Task<string> GetLatestVersion()
     {
-        const string url = "https://api.github.com/repos/noahsub/Orthographic-Renderer/releases/latest";
+        const string url =
+            "https://api.github.com/repos/noahsub/Orthographic-Renderer/releases/latest";
         using var client = new HttpClient();
         client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
         var response = await client.GetAsync(url);

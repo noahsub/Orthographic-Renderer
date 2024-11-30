@@ -32,8 +32,16 @@ public class ModelManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TYPES
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static readonly List<string> ValidTypes = [".blend", ".obj", ".stl", ".BLEND", ".OBJ", ".STL"];
-    
+    public static readonly List<string> ValidTypes =
+    [
+        ".blend",
+        ".obj",
+        ".stl",
+        ".BLEND",
+        ".OBJ",
+        ".STL",
+    ];
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // MEASUREMENTS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,11 +64,10 @@ public class ModelManager
             ".blend" => new Vector3(0, 0, 0),
             ".obj" => GetObjDimensions(path),
             ".stl" => GetStlDimensions(path),
-            _ => throw new ArgumentException("Invalid file type.")
+            _ => throw new ArgumentException("Invalid file type."),
         };
     }
-    
-    
+
     /// <summary>
     /// Gets the dimensions of a .obj file.
     /// </summary>

@@ -68,7 +68,8 @@ public partial class ModelPage : UserControl
         }
 
         // Check if the model path exists and is a valid file type
-        return File.Exists(modelPath) && ModelManager.ValidTypes.Contains(Path.GetExtension(modelPath));
+        return File.Exists(modelPath)
+            && ModelManager.ValidTypes.Contains(Path.GetExtension(modelPath));
     }
 
     /// <summary>
@@ -237,14 +238,14 @@ public partial class ModelPage : UserControl
     private void MeasureButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var modelPath = ModelPathTextBox.PathTextBox.Text;
-        
+
         // if the model path is null or empty
         if (string.IsNullOrEmpty(modelPath))
         {
             SizeLabel.Content = "unknown";
             return;
         }
-        
+
         // Get the model path
         modelPath = FileManager.ReformatPath(modelPath);
         if (

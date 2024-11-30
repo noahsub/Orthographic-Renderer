@@ -200,7 +200,10 @@ public static class RenderManager
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
     }
 
-    public static async Task<bool> Render(RenderOptions renderOptions, CancellationToken cancellationToken)
+    public static async Task<bool> Render(
+        RenderOptions renderOptions,
+        CancellationToken cancellationToken
+    )
     {
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
         Debug.WriteLine(jsonRenderOptions);
@@ -208,28 +211,36 @@ public static class RenderManager
 
         try
         {
-            return await Task.Run(() =>
-            {
-                if (cancellationToken.IsCancellationRequested)
+            return await Task.Run(
+                () =>
                 {
-                    return false;
-                }
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return false;
+                    }
 
-                return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
-            }, cancellationToken);
+                    return ProcessManager.RunProcessCheck(
+                        DataManager.BlenderPath,
+                        $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
+                    );
+                },
+                cancellationToken
+            );
         }
-        
         catch (OperationCanceledException)
         {
             return false;
         }
     }
-    
+
     public static bool RenderPreview(RenderOptions renderOptions)
     {
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
         Debug.WriteLine(jsonRenderOptions);
         var scriptPath = FileManager.GetAbsolutePath("Scripts/render_preview.py");
-        return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
+        return ProcessManager.RunProcessCheck(
+            DataManager.BlenderPath,
+            $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
+        );
     }
 }

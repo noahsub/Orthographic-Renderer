@@ -23,7 +23,7 @@ namespace Orthographic.Renderer.Pages;
 public partial class RenderPage : UserControl
 {
     private CancellationTokenSource _cancelToken = new();
-    
+
     public RenderPage()
     {
         InitializeComponent();
@@ -32,10 +32,10 @@ public partial class RenderPage : UserControl
         ThreadsNumericUpDown.Maximum = 100;
         ThreadsNumericUpDown.Value = 1;
         ThreadsNumericUpDown.IsEnabled = false;
-        
+
         SequentialToggleButton.IsChecked = true;
         ParallelToggleButton.IsChecked = false;
-        
+
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
     }
@@ -59,10 +59,10 @@ public partial class RenderPage : UserControl
             // Set the properties of the render item.
             renderItem.Name.Content = RenderManager.GetFormattedViewName(view);
             renderItem.Key = view;
-        
+
             // Enqueue the render item.
             RenderItems.EnqueuePending(renderItem);
-        
+
             // Add the render item to the display.
             RenderItems.AddToDisplay(renderItem);
         }
@@ -86,7 +86,7 @@ public partial class RenderPage : UserControl
         {
             process.Kill();
         }
-        
+
         RenderButton.IsEnabled = true;
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
@@ -95,25 +95,24 @@ public partial class RenderPage : UserControl
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
         PopulateRenderQueue();
-        
+
         var outputDirectory = OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty;
         if (string.IsNullOrWhiteSpace(outputDirectory))
         {
             OutputBrowsableDirectoryTextBox.PathTextBox.BorderBrush = Brushes.Red;
             return;
         }
-
         else
         {
             OutputBrowsableDirectoryTextBox.PathTextBox.BorderBrush = Brushes.Transparent;
         }
-        
+
         RenderButton.IsEnabled = false;
         CancelButton.IsEnabled = true;
         CancelButton.IsVisible = true;
-        
+
         WindowManager.CloseAllRenderCompleteWindows();
-        
+
         _cancelToken = new CancellationTokenSource();
         var token = _cancelToken.Token;
 
@@ -136,7 +135,7 @@ public partial class RenderPage : UserControl
             },
             token
         );
-        
+
         var mode = "sequential";
         if (ParallelToggleButton.IsChecked == true)
         {
@@ -179,7 +178,7 @@ public partial class RenderPage : UserControl
                 await Task.WhenAll(tasks);
                 break;
         }
-        
+
         // Stop the timer.
         var timeEnded = DateTime.Now;
         timerRunning = false;
@@ -189,13 +188,13 @@ public partial class RenderPage : UserControl
 
         // Play a sound if the setting is enabled.
         SoundManager.PlaySound("Assets/Sounds/ping.mp3");
-        
+
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
-        
+
         RenderButton.IsEnabled = true;
     }
-    
+
     /// <summary>
     /// Displays the render statistics.
     /// </summary>
@@ -225,20 +224,22 @@ public partial class RenderPage : UserControl
         renderOptions.SetName(Guid.NewGuid().ToString().Replace("-", ""));
         renderOptions.SetModel(DataManager.ModelPath);
         renderOptions.SetUnit(DataManager.UnitScale);
-        renderOptions.SetOutputDirectory(OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty);
+        renderOptions.SetOutputDirectory(
+            OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty
+        );
         renderOptions.SetResolution(DataManager.Resolution);
-                    
+
         var cameraDistance = DataManager.CameraDistance;
         var cameraPosition = RenderManager.GetPosition(renderItem.Key, cameraDistance);
         var camera = new Camera(cameraDistance, cameraPosition);
         renderOptions.SetCamera(camera);
-                    
+
         renderOptions.AddLights(DataManager.Lights);
         renderOptions.SetSaveBlenderFile(false);
 
         renderItem.SetStatus(RenderStatus.InProgress);
         var success = await RenderManager.Render(renderOptions, token);
-                    
+
         // Update the status of the render item.
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
@@ -285,7 +286,7 @@ public partial class RenderPage : UserControl
             {
                 ParallelToggleButton.IsChecked = true;
                 SequentialToggleButton.IsChecked = false;
-                
+
                 ThreadsNumericUpDown.IsEnabled = true;
             }
         }
