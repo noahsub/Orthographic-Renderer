@@ -1,5 +1,4 @@
-﻿<!--  Copyright (C) 2024 noahsub  -->
-<UserControl
+﻿<UserControl
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d"
@@ -10,42 +9,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--  MAIN GRID  -->
-    <Grid RowDefinitions="150,*,75">
+    <Grid RowDefinitions="150,*,100,75">
         <Rectangle
             Fill="{StaticResource SecondaryBackground}"
             Grid.Row="0"
             Grid.RowSpan="3"
             Opacity="{StaticResource GlobalOpacity}" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="0" />
-        <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="2" />
+        <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="3" />
         <controls:HardwareMonitorBar Grid.Row="0" />
         <!--  CONTENT GRID  -->
-        <Grid ColumnDefinitions="3*,1*" Grid.Row="1">
-            <!--  VIEW GRID  -->
-            <Grid Grid.Column="0" RowDefinitions="70,*">
-                <Label
-                    Content="Views"
-                    FontSize="20"
-                    Grid.Row="0"
-                    HorizontalAlignment="Left"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center" />
-                <StackPanel
-                    Grid.Row="0"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,20,0"
-                    Orientation="Horizontal"
-                    Spacing="50">
-                    <controls:ViewSelectOptions Tapped="ViewSelect_OnTapped" x:Name="ViewSelectOptions" />
-                    <controls:ViewSortOptions Tapped="ViewSort_OnTapped" x:Name="ViewSortOptions" />
-                </StackPanel>
-                <ScrollViewer Grid.Row="1" Margin="0,0,0,20">
-                    <controls:StackGrid x:Name="ViewStackGrid" />
-                </ScrollViewer>
-            </Grid>
-
+        <Grid ColumnDefinitions="*" Grid.Row="1">
             <!--  QUEUE AND SETTINGS GRID  -->
-            <Grid Grid.Column="1" RowDefinitions="*">
+            <Grid Grid.Column="0" RowDefinitions="*">
                 <!--  QUEUE GRID  -->
                 <Grid Grid.Row="0" RowDefinitions="70,*">
                     <Label
@@ -69,14 +45,57 @@
             </Grid>
         </Grid>
 
+        <!--  SETTINGS GRID  -->
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="100"
+            VerticalAlignment="Center">
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="20"
+                VerticalAlignment="Center">
+                <Label Content="Processing Mode" VerticalAlignment="Center" />
+                <ToggleButton
+                    Click="ToggleButton_OnClick"
+                    Content="Sequential"
+                    VerticalAlignment="Center"
+                    x:Name="SequentialToggleButton" />
+                <ToggleButton
+                    Click="ToggleButton_OnClick"
+                    Content="Parallel"
+                    VerticalAlignment="Center"
+                    x:Name="ParallelToggleButton" />
+            </StackPanel>
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="20"
+                VerticalAlignment="Center">
+                <Label Content="Threads" VerticalAlignment="Center" />
+                <NumericUpDown
+                    Text="1"
+                    Width="150"
+                    x:Name="ThreadsNumericUpDown" />
+            </StackPanel>
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="20"
+                VerticalAlignment="Center">
+                <Label Content="Output Directory" VerticalAlignment="Center" />
+                <controls:BrowsableDirectoryTextBox x:Name="OutputBrowsableDirectoryTextBox" />
+            </StackPanel>
+
+        </StackPanel>
+
         <!--  BOTTOM GRID  -->
         <Grid
             ColumnDefinitions="20,100,*,100,20,100,20"
-            Grid.Row="2"
+            Grid.Row="3"
             VerticalAlignment="Center">
             <Button
                 Click="BackButton_OnClick"
-                Content="Lighting"
+                Content="Views"
                 Grid.Column="1"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
@@ -107,5 +126,4 @@
                 x:Name="RenderButton" />
         </Grid>
     </Grid>
-
 </UserControl>

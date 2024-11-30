@@ -55,4 +55,6 @@ public static class DataManager
     public static Resolution Resolution { get; set; } = new Resolution(0, 0);
     
     public static List<Light> Lights { get; set; } = new List<Light>();
+    
+    public static List<string> SelectedViews { get; set; } = new List<string>();
 }

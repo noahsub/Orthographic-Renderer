@@ -80,9 +80,12 @@ public partial class LightingPage : UserControl
 
     private void ViewsButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        // Save the current render options
+        SaveOptions();
+        
         // Switch to the RenderPage
         var mainWindow = (MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, "RenderPage");
+        NavigationManager.SwitchPage(mainWindow, "ViewsPage");
     }
 
     private void BackgroundColourChanged_Event(object? sender, EventArgs e)
@@ -210,9 +213,33 @@ public partial class LightingPage : UserControl
 
         return lights;
     }
+
+    private void VerifyOptions()
+    {
+        if (string.IsNullOrEmpty(WidthTextBox.Text) || int.TryParse(WidthTextBox.Text, out _) == false)
+        {
+            WidthTextBox.Text = "0";
+        }
+        
+        if (string.IsNullOrEmpty(HeightTextBox.Text) || int.TryParse(HeightTextBox.Text, out _) == false)
+        {
+            HeightTextBox.Text = "0";
+        }
+        
+        if (string.IsNullOrEmpty(CameraDistance.ValueTextBox.Text) || float.TryParse(CameraDistance.ValueTextBox.Text, out _) == false)
+        {
+            CameraDistance.SetValue(0);
+        }
+        
+        foreach (var lightOptions in LightOptionsStackPanel.Children.Cast<LightOptions?>())
+        {
+            lightOptions?.VerifyOptions();
+        }
+    }
     
     private void SaveOptions()
     {
+        VerifyOptions();
         DataManager.CameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
         DataManager.Resolution = new Entities.Resolution(int.Parse(WidthTextBox.Text ?? "0") , int.Parse(HeightTextBox.Text ?? "0"));
         DataManager.Lights = GetLights();

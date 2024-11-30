@@ -76,4 +76,22 @@ public partial class LightOptions : UserControl
             parentPanel.Children.Remove(this);
         }
     }
+
+    public void VerifyOptions()
+    {
+        if (string.IsNullOrEmpty(PowerValueSelector.ValueTextBox.Text) || float.TryParse(PowerValueSelector.ValueTextBox.Text, out _) == false)
+        {
+            PowerValueSelector.SetValue(0);
+        }
+        
+        if (string.IsNullOrEmpty(SizeValueSelector.ValueTextBox.Text) || float.TryParse(SizeValueSelector.ValueTextBox.Text, out _) == false)
+        {
+            SizeValueSelector.SetValue(0);
+        }
+        
+        if (string.IsNullOrEmpty(DistanceValueSelector.ValueTextBox.Text) || float.TryParse(DistanceValueSelector.ValueTextBox.Text, out _) == false)
+        {
+            DistanceValueSelector.SetValue(0);
+        }
+    }
 }

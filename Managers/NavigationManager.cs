@@ -37,6 +37,11 @@ public static class NavigationManager
     private static ModelPage? _modelPage = null;
 
     /// <summary>
+    /// A reference to the views page.
+    /// </summary>
+    private static ViewsPage? _viewsPage = null;
+    
+    /// <summary>
     /// A reference to the render page.
     /// </summary>
     private static RenderPage? _renderPage = null;
@@ -95,12 +100,20 @@ public static class NavigationManager
                 pageContent.Content = _modelPage;
                 _currentPage = _modelPage;
                 break;
+            case "ViewsPage":
+                if (_viewsPage == null)
+                {
+                    _viewsPage = new ViewsPage();
+                }
+                _viewsPage.SetFileName();
+                pageContent.Content = _viewsPage;
+                _currentPage = _viewsPage;
+                break;
             case "RenderPage":
                 if (_renderPage == null)
                 {
                     _renderPage = new RenderPage();
                 }
-                _renderPage.SetFileName();
                 pageContent.Content = _renderPage;
                 _currentPage = _renderPage;
                 break;
