@@ -9,12 +9,14 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Threading;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
+using RenderOptions = Orthographic.Renderer.Entities.RenderOptions;
 
 namespace Orthographic.Renderer.Pages;
 
@@ -40,6 +42,13 @@ public partial class RenderPage : UserControl
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
 
+        PopulateRenderQueue();
+    }
+
+    private void PopulateRenderQueue()
+    {
+        RenderItems.ClearItems();
+
         // Populate the render items.
         foreach (var view in DataManager.SelectedViews)
         {
@@ -59,16 +68,44 @@ public partial class RenderPage : UserControl
 
     private void BackButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        // Switch to the ModelPage
+        var mainWindow = (MainWindow)this.VisualRoot!;
+        NavigationManager.SwitchPage(mainWindow, "ViewsPage");
     }
 
     private void CancelButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        // Cancel all running render tasks
+        _cancelToken.Cancel();
+
+        // Find all running processes and kill them
+        var processes = Process.GetProcessesByName("blender");
+        foreach (var process in processes)
+        {
+            process.Kill();
+        }
+        
+        RenderButton.IsEnabled = true;
+        CancelButton.IsVisible = false;
+        CancelButton.IsEnabled = false;
     }
 
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        PopulateRenderQueue();
+        
+        var outputDirectory = OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(outputDirectory))
+        {
+            OutputBrowsableDirectoryTextBox.PathTextBox.BorderBrush = Brushes.Red;
+            return;
+        }
+
+        else
+        {
+            OutputBrowsableDirectoryTextBox.PathTextBox.BorderBrush = Brushes.Transparent;
+        }
+        
         RenderButton.IsEnabled = false;
         CancelButton.IsEnabled = true;
         CancelButton.IsVisible = true;

@@ -206,15 +206,23 @@ public static class RenderManager
         Debug.WriteLine(jsonRenderOptions);
         var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
 
-        return await Task.Run(() =>
+        try
         {
-            if (cancellationToken.IsCancellationRequested)
+            return await Task.Run(() =>
             {
-                return false;
-            }
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return false;
+                }
 
-            return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
-        }, cancellationToken);
+                return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
+            }, cancellationToken);
+        }
+        
+        catch (OperationCanceledException)
+        {
+            return false;
+        }
     }
     
     public static bool RenderPreview(RenderOptions renderOptions)
