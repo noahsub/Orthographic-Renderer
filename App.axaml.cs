@@ -8,6 +8,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -67,18 +69,44 @@ public partial class App : Application
             Task.Run(async () =>
             {
                 // Perform hardware setup and collection asynchronously
+                splashScreen.SetLoadingTextUiThread("Setting up Computer");
                 await Task.Run(HardwareManager.SetupComputer);
+                splashScreen.SetLoadingTextUiThread("Collecting Hardware");
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
                 // Copy user files asynchronously
+                splashScreen.SetLoadingTextUiThread("Copying User Files");
                 await Task.Run(FileManager.CopyUserFiles);
                 // Check for updates asynchronously
+                splashScreen.SetLoadingTextUiThread("Checking for Updates");
                 DataManager.LatestVersion = await WebManager.GetLatestVersion();
+                
+                splashScreen.SetLoadingTextUiThread("Creating Pages");
+                
 
                 // Switch to the UI thread to update the UI
-                Dispatcher.UIThread.Post(() =>
+                Dispatcher.UIThread.Post(async () =>
                 {
                     var mainWindow = new Windows.MainWindow();
                     desktop.MainWindow = mainWindow;
+                    
+                    // Create update page
+                    await NavigationManager.CreatePage("UpdatePage");
+                    
+                    // Create requirements page
+                    await NavigationManager.CreatePage("RequirementsPage");
+                    
+                    // Create model page
+                    await NavigationManager.CreatePage("ModelPage");
+                    
+                    // Create lighting page
+                    await NavigationManager.CreatePage("LightingPage");
+                    
+                    // Create views page
+                    await NavigationManager.CreatePage("ViewsPage");
+                    
+                    // Create render page
+                    await NavigationManager.CreatePage("RenderPage");
+                    
                     mainWindow.Show();
                     splashScreen.Close();
                 });

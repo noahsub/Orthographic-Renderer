@@ -9,6 +9,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Orthographic.Renderer.Pages;
 using Orthographic.Renderer.Windows;
@@ -105,9 +106,10 @@ public static class NavigationManager
                 {
                     _viewsPage = new ViewsPage();
                 }
-                _viewsPage.SetFileName();
                 pageContent.Content = _viewsPage;
                 _currentPage = _viewsPage;
+                _viewsPage.SetFileName();
+                _viewsPage.Load();
                 break;
             case "RenderPage":
                 if (_renderPage == null)
@@ -116,6 +118,7 @@ public static class NavigationManager
                 }
                 pageContent.Content = _renderPage;
                 _currentPage = _renderPage;
+                _renderPage.Load();
                 break;
             case "RequirementsPage":
                 if (_requirementsPage == null)
@@ -124,6 +127,7 @@ public static class NavigationManager
                 }
                 pageContent.Content = _requirementsPage;
                 _currentPage = _requirementsPage;
+                _requirementsPage.Load();
                 break;
             case "UpdatePage":
                 if (_updatePage == null)
@@ -131,6 +135,7 @@ public static class NavigationManager
                     _updatePage = new UpdatePage();
                 }
                 pageContent.Content = _updatePage;
+                _currentPage = _updatePage;
                 break;
             case "LightingPage":
                 if (_lightingPage == null)
@@ -138,6 +143,35 @@ public static class NavigationManager
                     _lightingPage = new LightingPage();
                 }
                 pageContent.Content = _lightingPage;
+                _currentPage = _lightingPage;
+                _lightingPage.Load();
+                break;
+            default:
+                return;
+        }
+    }
+
+    public static async Task CreatePage(string name)
+    {
+        switch (name)
+        {
+            case "ModelPage":
+                _modelPage = new ModelPage();
+                break;
+            case "ViewsPage":
+                _viewsPage = new ViewsPage();
+                break;
+            case "RenderPage":
+                _renderPage = new RenderPage();
+                break;
+            case "RequirementsPage":
+                _requirementsPage = new RequirementsPage();
+                break;
+            case "UpdatePage":
+                _updatePage = new UpdatePage();
+                break;
+            case "LightingPage":
+                _lightingPage = new LightingPage();
                 break;
             default:
                 return;

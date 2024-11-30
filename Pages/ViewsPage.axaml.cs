@@ -50,7 +50,10 @@ public partial class ViewsPage : UserControl
 
         // Populate the views.
         PopulateViews(RenderManager.RenderViews);
+    }
 
+    public void Load()
+    {
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
     }

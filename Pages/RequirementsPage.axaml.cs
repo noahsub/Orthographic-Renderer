@@ -34,7 +34,10 @@ public partial class RequirementsPage : UserControl
     public RequirementsPage()
     {
         InitializeComponent();
+    }
 
+    public void Load()
+    {
         // Load serialized paths
         LoadPaths();
 

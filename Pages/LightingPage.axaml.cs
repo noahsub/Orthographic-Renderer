@@ -24,9 +24,30 @@ namespace Orthographic.Renderer.Pages;
 
 public partial class LightingPage : UserControl
 {
+    private readonly List<LightOptions> OnePointLighting = new List<LightOptions>();
+    private List<LightOptions> ThreePointLighting = new List<LightOptions>();
+    private List<LightOptions> OverheadLighting = new List<LightOptions>();
+    private float maxDimension;
+    
     public LightingPage()
     {
         InitializeComponent();
+        OnePointLighting = new List<LightOptions>
+        {
+            new LightOptions(),
+        };
+        
+        ThreePointLighting = new List<LightOptions>
+        {
+            new LightOptions(),
+            new LightOptions(),
+            new LightOptions(),
+        };
+        
+        OverheadLighting = new List<LightOptions>
+        {
+            new LightOptions(),
+        };
         
         Dispatcher.UIThread.Post(() =>
         {
@@ -52,9 +73,12 @@ public partial class LightingPage : UserControl
                 ResolutionGrid.Children.Add(resolutionButton);
             }
         });
-        
+    }
+
+    public void Load()
+    {
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
+        maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
         CameraDistance.SetValue(maxDimension * 2);
     }
 
@@ -134,46 +158,63 @@ public partial class LightingPage : UserControl
 
     private void OnePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        SetupLighting(new List<(string orientation, int power)>
+        LightOptionsStackPanel.Children.Clear();
+        
+        var settings = new List<(string orientation, int power)>
         {
             ("front", 1000)
-        });
+        };
+        
+        for (var i = 0; i < OnePointLighting.Count; i++)
+        {
+            var light = OnePointLighting[i];
+            light.SetOrientation(settings[i].orientation);
+            light.SetColour(Colors.White);
+            light.SetPower(settings[i].power);
+            light.SetSize(3);
+            light.SetDistance(maxDimension * 80);
+            LightOptionsStackPanel.Children.Add(light);
+        }
     }
 
     private void ThreePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        SetupLighting(new List<(string orientation, int power)>
+        LightOptionsStackPanel.Children.Clear();
+        
+        var settings = new List<(string orientation, int power)>
         {
             ("top-right-back", 200),
             ("top-back-left", 1000),
             ("top-left-front", 800)
-        });
+        };
+        
+        for (var i = 0; i < ThreePointLighting.Count; i++)
+        {
+            var light = ThreePointLighting[i];
+            light.SetOrientation(settings[i].orientation);
+            light.SetColour(Colors.White);
+            light.SetPower(settings[i].power);
+            light.SetSize(3);
+            light.SetDistance(maxDimension * 80);
+            LightOptionsStackPanel.Children.Add(light);
+        }
     }
 
     private void OverheadLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        SetupLighting(new List<(string orientation, int power)>
-        {
-            ("top", 1000)
-        });
-    }
-
-    private void SetupLighting(List<(string orientation, int power)> lights)
-    {
-        // Get the maximum dimension of the model
-        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
-
-        // Clear the current lights
         LightOptionsStackPanel.Children.Clear();
         
-        // Add the lights to the UI
-        foreach (var (orientation, power) in lights)
+        var settings = new List<(string orientation, int power)>
         {
-            var light = new LightOptions();
-            light.SetOrientation(orientation);
+            ("top", 1000)
+        };
+        
+        for (var i = 0; i < OverheadLighting.Count; i++)
+        {
+            var light = OverheadLighting[i];
+            light.SetOrientation(settings[i].orientation);
             light.SetColour(Colors.White);
-            light.SetPower(power);
+            light.SetPower(settings[i].power);
             light.SetSize(3);
             light.SetDistance(maxDimension * 80);
             LightOptionsStackPanel.Children.Add(light);

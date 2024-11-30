@@ -38,10 +38,12 @@ public partial class RenderPage : UserControl
         
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
-        
+    }
+
+    public void Load()
+    {
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
-
         PopulateRenderQueue();
     }
 
