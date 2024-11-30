@@ -9,6 +9,7 @@
 // NAMESPACE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System.Collections.Generic;
 using System.IO;
 using HarfBuzzSharp;
 using Orthographic.Renderer.Entities;
@@ -49,5 +50,9 @@ public static class DataManager
     /// </summary>
     public static string LatestVersion { get; set; } = CurrentVersion;
 
-    public static RenderOptions PreviewRenderOptions { get; set; } = new RenderOptions();
+    public static float CameraDistance { get; set; } = 0.0f;
+    
+    public static Resolution Resolution { get; set; } = new Resolution(0, 0);
+    
+    public static List<Light> Lights { get; set; } = new List<Light>();
 }

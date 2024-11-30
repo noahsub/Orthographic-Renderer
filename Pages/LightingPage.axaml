@@ -152,7 +152,7 @@
 
                             <ToggleButton
                                 Background="{StaticResource ControlsBackground}"
-                                Click="AspectRatio1X1ToggleButton_OnClick"
+                                Click="AspectRatioToggleButton_OnClick"
                                 Content="1:1"
                                 Grid.Column="2"
                                 Grid.Row="0"
@@ -166,7 +166,7 @@
 
                             <ToggleButton
                                 Background="{StaticResource ControlsBackground}"
-                                Click="AspectRatio4X3ToggleButton_OnClick"
+                                Click="AspectRatioToggleButton_OnClick"
                                 Content="4:3"
                                 Grid.Column="3"
                                 Grid.Row="0"
@@ -180,7 +180,7 @@
 
                             <ToggleButton
                                 Background="{StaticResource ControlsBackground}"
-                                Click="AspectRatio16X9ToggleButton_OnClick"
+                                Click="AspectRatioToggleButton_OnClick"
                                 Content="16:9"
                                 Grid.Column="4"
                                 Grid.Row="0"
@@ -194,7 +194,7 @@
 
                             <ToggleButton
                                 Background="{StaticResource ControlsBackground}"
-                                Click="AspectRatio21X9ToggleButton_OnClick"
+                                Click="AspectRatioToggleButton_OnClick"
                                 Content="21:9"
                                 Grid.Column="5"
                                 Grid.Row="0"

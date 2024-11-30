@@ -62,6 +62,11 @@ public class RenderOptions
         Lights.Add(light);
     }
     
+    public void AddLights(List<Light> lights)
+    {
+        Lights.AddRange(lights);
+    }
+    
     public void SetSaveBlenderFile(bool saveBlenderFile)
     {
         SaveBlenderFile = saveBlenderFile;

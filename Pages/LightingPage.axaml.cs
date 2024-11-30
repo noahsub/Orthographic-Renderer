@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
@@ -27,31 +28,34 @@ public partial class LightingPage : UserControl
     {
         InitializeComponent();
         
-        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        Dispatcher.UIThread.Post(() =>
+        {
+            FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        
+            BackgroundColourSelector.ColourPicker.Color = Colors.Black;
+            BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
+        
+            AspectRatio16X9ToggleButton.IsChecked = true;
+
+            for (int i = 0; i < 12; i++)
+            {
+                Button resolutionButton = new Button();
+                resolutionButton.Content = Resolution.AspectRatio16X9[i];
+                resolutionButton.Click += ResolutionButton_OnClick;
+                resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+                resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+                resolutionButton.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+                resolutionButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+                resolutionButton.Margin = new Thickness(5);
+                Grid.SetRow(resolutionButton, (i / 6) + 1);
+                Grid.SetColumn(resolutionButton, i % 6);
+                ResolutionGrid.Children.Add(resolutionButton);
+            }
+        });
         
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
         var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
         CameraDistance.SetValue(maxDimension * 2);
-
-        BackgroundColourSelector.ColourPicker.Color = Colors.Black;
-        BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
-        
-        AspectRatio16X9ToggleButton.IsChecked = true;
-
-        for (int i = 0; i < 12; i++)
-        {
-            Button resolutionButton = new Button();
-            resolutionButton.Content = Resolution.AspectRatio16X9[i];
-            resolutionButton.Click += ResolutionButton_OnClick;
-            resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-            resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
-            resolutionButton.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-            resolutionButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
-            resolutionButton.Margin = new Thickness(5);
-            Grid.SetRow(resolutionButton, (i / 6) + 1);
-            Grid.SetColumn(resolutionButton, i % 6);
-            ResolutionGrid.Children.Add(resolutionButton);
-        }
     }
 
     private void ResolutionButton_OnClick(object? sender, RoutedEventArgs e)
@@ -96,137 +100,81 @@ public partial class LightingPage : UserControl
         // otherwise we set the background to the selected colour
         BackgroundRectangle.Fill = new SolidColorBrush(colour);
     }
-
-    private void AspectRatio1X1ToggleButton_OnClick(object? sender, RoutedEventArgs e)
+    
+    private void AspectRatioToggleButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        // Uncheck all aspect ratio toggle buttons
         AspectRatio16X9ToggleButton.IsChecked = false;
         AspectRatio21X9ToggleButton.IsChecked = false;
         AspectRatio4X3ToggleButton.IsChecked = false;
-
-        for (int i = 0; i < 12; i++)
-        {
-            // get button from ResolutionGrid starting from the 7th element
-            Button resolutionButton = (Button)ResolutionGrid.Children[i + 6];
-            resolutionButton.Content = Resolution.AspectRatio1X1[i];
-        }
-    }
-
-    private void AspectRatio4X3ToggleButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        AspectRatio16X9ToggleButton.IsChecked = false;
-        AspectRatio21X9ToggleButton.IsChecked = false;
         AspectRatio1X1ToggleButton.IsChecked = false;
 
-        for (int i = 0; i < 12; i++)
+        // Determine the clicked button and set the corresponding aspect ratio
+        var clickedButton = (ToggleButton)sender!;
+        clickedButton.IsChecked = true;
+
+        var aspectRatios = clickedButton switch
         {
-            // get button from ResolutionGrid starting from the 7th element
-            Button resolutionButton = (Button)ResolutionGrid.Children[i + 6];
-            resolutionButton.Content = Resolution.AspectRatio4X3[i];
-        }
-    }
+            _ when clickedButton == AspectRatio1X1ToggleButton => Resolution.AspectRatio1X1.ToArray(),
+            _ when clickedButton == AspectRatio4X3ToggleButton => Resolution.AspectRatio4X3.ToArray(),
+            _ when clickedButton == AspectRatio16X9ToggleButton => Resolution.AspectRatio16X9.ToArray(),
+            _ => Resolution.AspectRatio21X9.ToArray()
+        };
 
-    private void AspectRatio16X9ToggleButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        AspectRatio4X3ToggleButton.IsChecked = false;
-        AspectRatio21X9ToggleButton.IsChecked = false;
-        AspectRatio1X1ToggleButton.IsChecked = false;
-
-        for (int i = 0; i < 12; i++)
+        for (var i = 0; i < 12; i++)
         {
-            // get button from ResolutionGrid starting from the 7th element
-            Button resolutionButton = (Button)ResolutionGrid.Children[i + 6];
-            resolutionButton.Content = Resolution.AspectRatio16X9[i];
-        }
-    }
-
-    private void AspectRatio21X9ToggleButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        AspectRatio4X3ToggleButton.IsChecked = false;
-        AspectRatio16X9ToggleButton.IsChecked = false;
-        AspectRatio1X1ToggleButton.IsChecked = false;
-
-        for (int i = 0; i < 12; i++)
-        {
-            // get button from ResolutionGrid starting from the 7th element
-            Button resolutionButton = (Button)ResolutionGrid.Children[i + 6];
-            resolutionButton.Content = Resolution.AspectRatio21X9[i];
+            // Get button from ResolutionGrid starting from the 7th element
+            var resolutionButton = (Button)ResolutionGrid.Children[i + 6];
+            resolutionButton.Content = aspectRatios[i];
         }
     }
 
     private void OnePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        LightOptionsStackPanel.Children.Clear();
-        
-        // Verify that the StackPanel is empty
-        Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
-        
-        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
-        
-        var light = new LightOptions();
-        light.SetOrientation("front");
-        light.SetColour(Colors.White);
-        light.SetPower(1000);
-        light.SetSize(3);
-        light.SetDistance(maxDimension * 80);
-        
-        LightOptionsStackPanel.Children.Add(light);
+        SetupLighting(new List<(string orientation, int power)>
+        {
+            ("front", 1000)
+        });
     }
 
     private void ThreePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        LightOptionsStackPanel.Children.Clear();
-        
-        // Verify that the StackPanel is empty
-        Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
-        
-        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
-
-        LightOptions light1 = new LightOptions();
-        light1.SetOrientation("top-right-back");
-        light1.SetColour(Colors.White);
-        light1.SetPower(200);
-        light1.SetSize(3);
-        light1.SetDistance(maxDimension * 80);
-        
-        LightOptions light2 = new LightOptions();
-        light2.SetOrientation("top-back-left");
-        light2.SetColour(Colors.White);
-        light2.SetPower(1000);
-        light2.SetSize(3);
-        light2.SetDistance(maxDimension * 80);
-        
-        LightOptions light3 = new LightOptions();
-        light3.SetOrientation("top-left-front");
-        light3.SetColour(Colors.White);
-        light3.SetPower(800);
-        light3.SetSize(3);
-        light3.SetDistance(maxDimension * 80);
-        
-        LightOptionsStackPanel.Children.Add(light1);
-        LightOptionsStackPanel.Children.Add(light2);
-        LightOptionsStackPanel.Children.Add(light3);
+        SetupLighting(new List<(string orientation, int power)>
+        {
+            ("top-right-back", 200),
+            ("top-back-left", 1000),
+            ("top-left-front", 800)
+        });
     }
 
     private void OverheadLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        LightOptionsStackPanel.Children.Clear();
-        
-        // Verify that the StackPanel is empty
-        Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
-        
+        SetupLighting(new List<(string orientation, int power)>
+        {
+            ("top", 1000)
+        });
+    }
+
+    private void SetupLighting(List<(string orientation, int power)> lights)
+    {
+        // Get the maximum dimension of the model
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
         var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
 
-        LightOptions light = new LightOptions();
-        light.SetOrientation("top");
-        light.SetColour(Colors.White);
-        light.SetPower(1000);
-        light.SetSize(3);
-        light.SetDistance(maxDimension * 80);
+        // Clear the current lights
+        LightOptionsStackPanel.Children.Clear();
         
-        LightOptionsStackPanel.Children.Add(light);
+        // Add the lights to the UI
+        foreach (var (orientation, power) in lights)
+        {
+            var light = new LightOptions();
+            light.SetOrientation(orientation);
+            light.SetColour(Colors.White);
+            light.SetPower(power);
+            light.SetSize(3);
+            light.SetDistance(maxDimension * 80);
+            LightOptionsStackPanel.Children.Add(light);
+        }
     }
 
     private void AddLightButton_OnClick(object? sender, RoutedEventArgs e)
@@ -243,57 +191,80 @@ public partial class LightingPage : UserControl
         Debug.Assert(LightOptionsStackPanel.Children.Count == 0, "StackPanel is not empty after clearing.");
     }
 
-    private void PreviewButton_OnClick(object? sender, RoutedEventArgs e)
+    private List<Light> GetLights()
     {
-        PreviewButton.Content = "Rendering";
-        PreviewButton.IsEnabled = false;
-        PreviewImage.IsVisible = false;
-        LoadingImage.IsVisible = true;
-        
-        DataManager.PreviewRenderOptions = new RenderOptions();
-        
-        var resolution = new Entities.Resolution(Int32.Parse(WidthTextBox.Text ?? "0") , Int32.Parse(HeightTextBox.Text ?? "0"), 75);
-        var cameraView = CameraOrientation.CurrentOrientation.Name; 
-        var cameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
-        
-        Debug.WriteLine("Camera Distance: " + cameraDistance);
-        
-        var cameraPosition = RenderManager.GetPosition(cameraView, cameraDistance);
-        
-        Debug.WriteLine($"Camera Position: X: {cameraPosition.X} Y: {cameraPosition.Y} Z: {cameraPosition.Z} RX: {cameraPosition.Rx} RY: {cameraPosition.Ry} RZ: {cameraPosition.Rz}");
-        
-        var camera = new Camera(cameraDistance, cameraPosition);
-        
-        var uuid = Guid.NewGuid().ToString().Replace("-", "");
-        var tempDirectory = Path.GetTempPath().Replace("\\", "/");
-        Debug.WriteLine(tempDirectory);
-        
-        DataManager.PreviewRenderOptions.SetName(uuid);
-        DataManager.PreviewRenderOptions.SetModel(DataManager.ModelPath);
-        DataManager.PreviewRenderOptions.SetUnit(DataManager.UnitScale);
-        DataManager.PreviewRenderOptions.SetOutputDirectory(tempDirectory);
-        DataManager.PreviewRenderOptions.SetResolution(resolution);
-        DataManager.PreviewRenderOptions.SetCamera(camera);
-        DataManager.PreviewRenderOptions.SetSaveBlenderFile(true);
-        
-        for (int i = 0; i < LightOptionsStackPanel.Children.Count; i++)
+        var lights = new List<Light>();
+
+        foreach (var lightOption in LightOptionsStackPanel.Children)
         {
-            var lightOptions = (LightOptions)LightOptionsStackPanel.Children[i];
+            var lightOptions = (LightOptions)lightOption;
             var lightOrientation = lightOptions.LightOrientationSelector.CurrentOrientation.Name;
-            var lightColour = lightOptions.LightColourSelector.GetHexColour().Substring(0, 7);
-            Debug.WriteLine($"Colour: {lightColour}");
-            var lightPower = float.Parse(lightOptions.PowerValueSelector.ValueTextBox.Text ?? "0" ?? "0");
-            var lightSize = float.Parse(lightOptions.SizeValueSelector.ValueTextBox.Text ?? "0" ?? "0");
-            var lightDistance = float.Parse(lightOptions.DistanceValueSelector.ValueTextBox.Text ?? "0" ?? "0");
+            var lightColour = lightOptions.LightColourSelector.GetHexColour()[..7];
+            var lightPower = float.Parse(lightOptions.PowerValueSelector.ValueTextBox.Text ?? "0");
+            var lightSize = float.Parse(lightOptions.SizeValueSelector.ValueTextBox.Text ?? "0");
+            var lightDistance = float.Parse(lightOptions.DistanceValueSelector.ValueTextBox.Text ?? "0");
             var lightPosition = RenderManager.GetPosition(lightOrientation, lightDistance);
             var light = new Light(lightPosition, lightColour, lightPower, lightSize, lightDistance);
-            DataManager.PreviewRenderOptions.AddLight(light);
+            lights.Add(light);
         }
+
+        return lights;
+    }
+    
+    private void SaveOptions()
+    {
+        DataManager.CameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
+        DataManager.Resolution = new Entities.Resolution(int.Parse(WidthTextBox.Text ?? "0") , int.Parse(HeightTextBox.Text ?? "0"));
+        DataManager.Lights = GetLights();
+    }
+
+    private void PreviewButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        // Update the UI to indicate that rendering is in progress.
+        Dispatcher.UIThread.Post(() =>
+        {
+            PreviewButton.Content = "Rendering";
+            PreviewButton.IsEnabled = false;
+            PreviewImage.IsVisible = false;
+            LoadingImage.IsVisible = true;
+        });
+
+        // Create the render options
+        var previewRenderOptions = new RenderOptions();
+        
+        // Store and retrieve the current options
+        SaveOptions();
+        var resolution = DataManager.Resolution;
+        var cameraDistance = DataManager.CameraDistance;
+        var lights = DataManager.Lights;
+
+        // Setup the preview camera
+        var cameraView = CameraOrientation.CurrentOrientation.Name; 
+        var cameraPosition = RenderManager.GetPosition(cameraView, cameraDistance);
+        var camera = new Camera(cameraDistance, cameraPosition);
+        
+        // Get the uuid for the render
+        var uuid = Guid.NewGuid().ToString().Replace("-", "");
+        
+        // Get the temp directory
+        var tempDirectory = Path.GetTempPath().Replace("\\", "/");
+        
+        // Set the render options
+        previewRenderOptions.SetName(uuid);
+        previewRenderOptions.SetModel(DataManager.ModelPath);
+        previewRenderOptions.SetUnit(DataManager.UnitScale);
+        previewRenderOptions.SetOutputDirectory(tempDirectory);
+        previewRenderOptions.SetResolution(resolution);
+        previewRenderOptions.SetCamera(camera);
+        previewRenderOptions.SetSaveBlenderFile(true);
+        previewRenderOptions.AddLights(lights);
 
         Task.Run(async () =>
         {
-            RenderManager.Render(DataManager.PreviewRenderOptions);
+            // Render the preview image
+            RenderManager.Render(previewRenderOptions);
             
+            // Update the UI to display the preview image
             Dispatcher.UIThread.Post(() =>
             {
                 PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
