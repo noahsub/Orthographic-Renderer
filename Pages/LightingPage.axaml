@@ -59,7 +59,7 @@
                     <Grid Margin="20,0,0,0">
                         <!--  Define ColumnDefinitions for the outer Grid if needed  -->
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
@@ -116,7 +116,10 @@
                         </Grid>
 
                         <!--  RESOLUTION GRID  -->
-                        <Grid Grid.Row="1" x:Name="ResolutionGrid">
+                        <Grid
+                            Grid.Row="1"
+                            Margin="0,20,0,0"
+                            x:Name="ResolutionGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
