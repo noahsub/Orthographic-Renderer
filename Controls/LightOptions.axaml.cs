@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using AvaloniaColorPicker;
 using Orthographic.Renderer.Managers;
+using ColorPicker = Avalonia.Controls.ColorPicker;
 
 namespace Orthographic.Renderer.Controls;
 
@@ -62,7 +63,7 @@ public partial class LightOptions : UserControl
 
             else
             {
-                DistanceValueSelector.SetSliderBounds(0, (Math.Floor(maxDimension) * 5) * DataManager.UnitScale, 0.2);
+                DistanceValueSelector.SetSliderBounds(0, (Math.Floor(maxDimension) * 200) * DataManager.UnitScale, 0.2);
             }
         }
     }

@@ -28,6 +28,10 @@ public partial class LightingPage : UserControl
         InitializeComponent();
         
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        
+        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
+        var maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
+        CameraDistance.SetValue(maxDimension * 2);
 
         BackgroundColourSelector.ColourPicker.Color = Colors.Black;
         BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
@@ -164,7 +168,7 @@ public partial class LightingPage : UserControl
         light.SetColour(Colors.White);
         light.SetPower(1000);
         light.SetSize(3);
-        light.SetDistance(maxDimension * 5);
+        light.SetDistance(maxDimension * 80);
         
         LightOptionsStackPanel.Children.Add(light);
     }
@@ -184,21 +188,21 @@ public partial class LightingPage : UserControl
         light1.SetColour(Colors.White);
         light1.SetPower(200);
         light1.SetSize(3);
-        light1.SetDistance(maxDimension * 5);
+        light1.SetDistance(maxDimension * 80);
         
         LightOptions light2 = new LightOptions();
         light2.SetOrientation("top-back-left");
         light2.SetColour(Colors.White);
         light2.SetPower(1000);
         light2.SetSize(3);
-        light2.SetDistance(maxDimension * 5);
+        light2.SetDistance(maxDimension * 80);
         
         LightOptions light3 = new LightOptions();
         light3.SetOrientation("top-left-front");
         light3.SetColour(Colors.White);
         light3.SetPower(800);
         light3.SetSize(3);
-        light3.SetDistance(maxDimension * 5);
+        light3.SetDistance(maxDimension * 80);
         
         LightOptionsStackPanel.Children.Add(light1);
         LightOptionsStackPanel.Children.Add(light2);
@@ -220,7 +224,7 @@ public partial class LightingPage : UserControl
         light.SetColour(Colors.White);
         light.SetPower(1000);
         light.SetSize(3);
-        light.SetDistance(maxDimension * 5);
+        light.SetDistance(maxDimension * 80);
         
         LightOptionsStackPanel.Children.Add(light);
     }
@@ -241,6 +245,11 @@ public partial class LightingPage : UserControl
 
     private void PreviewButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        PreviewButton.Content = "Rendering";
+        PreviewButton.IsEnabled = false;
+        PreviewImage.IsVisible = false;
+        LoadingImage.IsVisible = true;
+        
         DataManager.PreviewRenderOptions = new RenderOptions();
         
         var resolution = new Entities.Resolution(Int32.Parse(WidthTextBox.Text ?? "0") , Int32.Parse(HeightTextBox.Text ?? "0"), 75);
@@ -271,7 +280,8 @@ public partial class LightingPage : UserControl
         {
             var lightOptions = (LightOptions)LightOptionsStackPanel.Children[i];
             var lightOrientation = lightOptions.LightOrientationSelector.CurrentOrientation.Name;
-            var lightColour = lightOptions.LightColourSelector.ColourPicker.Color.ToString();
+            var lightColour = lightOptions.LightColourSelector.GetHexColour().Substring(0, 7);
+            Debug.WriteLine($"Colour: {lightColour}");
             var lightPower = float.Parse(lightOptions.PowerValueSelector.ValueTextBox.Text ?? "0" ?? "0");
             var lightSize = float.Parse(lightOptions.SizeValueSelector.ValueTextBox.Text ?? "0" ?? "0");
             var lightDistance = float.Parse(lightOptions.DistanceValueSelector.ValueTextBox.Text ?? "0" ?? "0");
@@ -287,6 +297,10 @@ public partial class LightingPage : UserControl
             Dispatcher.UIThread.Post(() =>
             {
                 PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
+                PreviewImage.IsVisible = true;
+                LoadingImage.IsVisible = false;
+                PreviewButton.IsEnabled = true;
+                PreviewButton.Content = "Preview";
             });
         });
     }

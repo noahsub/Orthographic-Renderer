@@ -44,8 +44,14 @@
                     x:Name="BackgroundRectangle" />
                 <Image
                     Grid.Row="0"
+                    Height="350"
                     Margin="20,20,0,20"
-                    Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
+                    Source="avares://Orthographic Renderer/Assets/Images/grey_cube.png"
+                    Width="350"
+                    x:Name="LoadingImage" />
+                <Image
+                    Grid.Row="0"
+                    Margin="20,20,0,20"
                     x:Name="PreviewImage" />
 
                 <!--  PREVIEW SETTINGS GRID  -->
