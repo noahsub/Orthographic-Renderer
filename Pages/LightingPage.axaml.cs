@@ -289,7 +289,7 @@ public partial class LightingPage : UserControl
         Task.Run(async () =>
         {
             // Render the preview image
-            RenderManager.Render(previewRenderOptions);
+            RenderManager.RenderPreview(previewRenderOptions);
             
             // Update the UI to display the preview image
             Dispatcher.UIThread.Post(() =>

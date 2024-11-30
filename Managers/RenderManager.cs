@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Orthographic.Renderer.Entities;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,12 +200,21 @@ public static class RenderManager
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
     }
 
-    public static bool Render(RenderOptions renderOptions)
+    public static async Task<bool> Render(RenderOptions renderOptions, CancellationToken cancellationToken)
     {
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
         Debug.WriteLine(jsonRenderOptions);
         var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
-        return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
+
+        return await Task.Run(() =>
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return false;
+            }
+
+            return ProcessManager.RunProcessCheck(DataManager.BlenderPath, $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\"");
+        }, cancellationToken);
     }
     
     public static bool RenderPreview(RenderOptions renderOptions)
