@@ -155,10 +155,6 @@ public partial class ViewsPage : UserControl
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // RENDERING
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // SETTERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void SetFileName()
@@ -196,9 +192,17 @@ public partial class ViewsPage : UserControl
         NavigationManager.SwitchPage(mainWindow, "LightingPage");
     }
 
+    /// <summary>
+    /// Stores the selected views and switches to the RenderPage.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        // Get the selected views
         var selectedViews = GetSelectedViews();
+        
+        // If no views are selected, select the top-front-right view
         if (selectedViews.Count == 0)
         {
             foreach (var control in ViewStackGrid.GetItems())
@@ -213,6 +217,7 @@ public partial class ViewsPage : UserControl
             }
         }
 
+        // Store the selected views
         DataManager.SelectedViews = selectedViews;
 
         // Switch to the ModelPage

@@ -1,4 +1,14 @@
-﻿using System;
+﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RenderPage.axaml.cs
+// This file contains the logic for the RenderPage.
+//
+// Copyright (C) 2024 noahsub
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IMPORTS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -18,37 +28,76 @@ using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
 using RenderOptions = Orthographic.Renderer.Entities.RenderOptions;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NAMESPACE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace Orthographic.Renderer.Pages;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RENDER PAGE CLASS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// <summary>
+/// The render page of the application.
+/// </summary>
 public partial class RenderPage : UserControl
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // GLOBALS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// A token source for cancelling the render tasks.
+    /// </summary>
     private CancellationTokenSource _cancelToken = new();
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // INITIALIZATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Creates a new instance of the <see cref="RenderPage"/> class.
+    /// </summary>
     public RenderPage()
     {
         InitializeComponent();
 
-        ThreadsNumericUpDown.Minimum = 0;
+        // Set the numbers of threads to be between 1 and 100 and set the default value to 1.
+        ThreadsNumericUpDown.Minimum = 1;
         ThreadsNumericUpDown.Maximum = 100;
         ThreadsNumericUpDown.Value = 1;
         ThreadsNumericUpDown.IsEnabled = false;
 
+        // Set the default toggle button to sequential.
         SequentialToggleButton.IsChecked = true;
         ParallelToggleButton.IsChecked = false;
 
+        // Ensure the cancel button is not visible.
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
     }
 
+    /// <summary>
+    /// Method that is called when the page is navigated to.
+    /// </summary>
     public void Load()
     {
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        // Populate the render queue.
         PopulateRenderQueue();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // QUEUE
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Populates the render queue with the selected views.
+    /// </summary>
     private void PopulateRenderQueue()
     {
+        // Clear the render items.
         RenderItems.ClearItems();
 
         // Populate the render items.
@@ -68,6 +117,42 @@ public partial class RenderPage : UserControl
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // EVENT HANDLERS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Handles the selection of the rendering mode.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void ToggleButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleButton toggleButton)
+        {
+            if (toggleButton == SequentialToggleButton)
+            {
+                SequentialToggleButton.IsChecked = true;
+                ParallelToggleButton.IsChecked = false;
+
+                ThreadsNumericUpDown.Value = 1;
+                ThreadsNumericUpDown.IsEnabled = false;
+            }
+            else if (toggleButton == ParallelToggleButton)
+            {
+                ParallelToggleButton.IsChecked = true;
+                SequentialToggleButton.IsChecked = false;
+
+                ThreadsNumericUpDown.IsEnabled = true;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Navigates back to the ViewsPage.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BackButton_OnClick(object? sender, RoutedEventArgs e)
     {
         // Switch to the ModelPage
@@ -75,6 +160,11 @@ public partial class RenderPage : UserControl
         NavigationManager.SwitchPage(mainWindow, "ViewsPage");
     }
 
+    /// <summary>
+    /// Cancels the render tasks.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void CancelButton_OnClick(object? sender, RoutedEventArgs e)
     {
         // Cancel all running render tasks
@@ -87,15 +177,23 @@ public partial class RenderPage : UserControl
             process.Kill();
         }
 
+        // Enable the render button and disable the cancel button
         RenderButton.IsEnabled = true;
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
     }
 
+    /// <summary>
+    /// Renders the selected views sequentially or in parallel.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void RenderButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        // Populate the render queue.
         PopulateRenderQueue();
-
+        
+        // Get the output directory and check if it is valid.
         var outputDirectory = OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty;
         if (string.IsNullOrWhiteSpace(outputDirectory))
         {
@@ -107,12 +205,15 @@ public partial class RenderPage : UserControl
             OutputBrowsableDirectoryTextBox.PathTextBox.BorderBrush = Brushes.Transparent;
         }
 
+        // Disable the render button and enable the cancel button.
         RenderButton.IsEnabled = false;
         CancelButton.IsEnabled = true;
         CancelButton.IsVisible = true;
 
+        // Close all render complete windows.
         WindowManager.CloseAllRenderCompleteWindows();
 
+        // Create a new cancel token.
         _cancelToken = new CancellationTokenSource();
         var token = _cancelToken.Token;
 
@@ -136,23 +237,31 @@ public partial class RenderPage : UserControl
             token
         );
 
+        // Get the mode of rendering.
         var mode = "sequential";
         if (ParallelToggleButton.IsChecked == true)
         {
             mode = "parallel";
         }
 
+        // Render the items based on the mode.
         switch (mode)
         {
+            // Render the items sequentially.
             case "sequential":
                 while (RenderItems.PendingQueue.Count > 0)
                 {
+                    // Dequeue the next render item.
                     var renderItem = RenderItems.DequeuePending();
+                    // Render the item.
                     await RenderNext(renderItem, token);
                 }
                 break;
+            // Render the items in parallel.
             case "parallel":
+                // Get the number of threads.
                 var threads = (int)ThreadsNumericUpDown.Value!;
+                // Create a semaphore to limit the number of threads.
                 var semaphore = new SemaphoreSlim(threads);
                 // Create a list of tasks to render the items.
                 var tasks = RenderItems
@@ -189,11 +298,15 @@ public partial class RenderPage : UserControl
         // Play a sound if the setting is enabled.
         SoundManager.PlaySound("Assets/Sounds/ping.mp3");
 
+        // Enable the render button and disable the cancel button.
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
-
         RenderButton.IsEnabled = true;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RENDER STATISTICS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
     /// Displays the render statistics.
@@ -218,9 +331,19 @@ public partial class RenderPage : UserControl
         renderComplete.Show();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RENDERING
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Renders the next item in the render queue.
+    /// </summary>
+    /// <param name="renderItem"></param>
+    /// <param name="token"></param>
     private async Task RenderNext(RenderQueueItem renderItem, CancellationToken token)
     {
-        RenderOptions renderOptions = new RenderOptions();
+        // Get the render options.
+        var renderOptions = new RenderOptions();
         renderOptions.SetName(Guid.NewGuid().ToString().Replace("-", ""));
         renderOptions.SetModel(DataManager.ModelPath);
         renderOptions.SetUnit(DataManager.UnitScale);
@@ -237,7 +360,10 @@ public partial class RenderPage : UserControl
         renderOptions.AddLights(DataManager.Lights);
         renderOptions.SetSaveBlenderFile(false);
 
+        // Set the status of the render item to in progress.
         renderItem.SetStatus(RenderStatus.InProgress);
+        
+        // Render the item and get the success status.
         var success = await RenderManager.Render(renderOptions, token);
 
         // Update the status of the render item.
@@ -267,28 +393,6 @@ public partial class RenderPage : UserControl
         else
         {
             RenderItems.EnqueueFailed(renderItem);
-        }
-    }
-
-    private void ToggleButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (sender is ToggleButton toggleButton)
-        {
-            if (toggleButton == SequentialToggleButton)
-            {
-                SequentialToggleButton.IsChecked = true;
-                ParallelToggleButton.IsChecked = false;
-
-                ThreadsNumericUpDown.Value = 1;
-                ThreadsNumericUpDown.IsEnabled = false;
-            }
-            else if (toggleButton == ParallelToggleButton)
-            {
-                ParallelToggleButton.IsChecked = true;
-                SequentialToggleButton.IsChecked = false;
-
-                ThreadsNumericUpDown.IsEnabled = true;
-            }
         }
     }
 }
