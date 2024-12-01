@@ -200,25 +200,39 @@ public static class RenderManager
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RENDERING
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Renders the model with the specified options.
+    /// </summary>
+    /// <param name="renderOptions">The options to use when rendering the model.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>True if the model was rendered successfully, otherwise false.</returns>
     public static async Task<bool> Render(
         RenderOptions renderOptions,
         CancellationToken cancellationToken
     )
     {
+        // Get the JSON representation of the render options
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
-        Debug.WriteLine(jsonRenderOptions);
+        // Get the path to the render script
         var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
 
+        // Try to run the process
         try
         {
             return await Task.Run(
                 () =>
                 {
+                    // If the cancellation token has been requested, return false
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return false;
                     }
 
+                    // Run the blender process with the provided arguments
                     return ProcessManager.RunProcessCheck(
                         DataManager.BlenderPath,
                         $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
@@ -227,17 +241,26 @@ public static class RenderManager
                 cancellationToken
             );
         }
+        
+        // Otherwise, return false
         catch (OperationCanceledException)
         {
             return false;
         }
     }
 
+    /// <summary>
+    /// Renders a preview of the model with the specified options.
+    /// </summary>
+    /// <param name="renderOptions">The options to use when rendering the model.</param>
+    /// <returns>True if the preview was rendered successfully, otherwise false.</returns>
     public static bool RenderPreview(RenderOptions renderOptions)
     {
+        // Get the JSON representation of the render options
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
-        Debug.WriteLine(jsonRenderOptions);
+        // Get the path to the preview script
         var scriptPath = FileManager.GetAbsolutePath("Scripts/render_preview.py");
+        // Run the blender process with the provided arguments
         return ProcessManager.RunProcessCheck(
             DataManager.BlenderPath,
             $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
