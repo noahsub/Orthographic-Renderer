@@ -11,6 +11,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using LibreHardwareMonitor.Software;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 
@@ -41,8 +42,16 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     public void Load()
     {
-        // Load serialized paths
-        LoadPaths();
+        if (OperatingSystem.IsWindows8OrGreater)
+        {
+            BlenderPathTextBox.PathTextBox.Text = "Blender/Windows/blender.exe";
+        }
+
+        else
+        {
+            // Load serialized paths
+            LoadPaths();
+        }
 
         // Check if the blender path is valid
         PathValid("blender", BlenderPathTextBox);
@@ -213,6 +222,6 @@ public partial class RequirementsPage : UserControl
     private void BlenderInstallButton_OnClick(object? sender, RoutedEventArgs e)
     {
         // Open the Blender download page
-        WebManager.OpenUrl("https://www.blender.org/download/");
+        WebManager.OpenUrl("https://www.blender.org/download/lts/4-2/");
     }
 }

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -124,6 +125,9 @@ public partial class LightingPage : UserControl
                 Grid.SetColumn(resolutionButton, i % 6);
                 ResolutionGrid.Children.Add(resolutionButton);
             }
+            
+            WidthTextBox.Text = "1920";
+            HeightTextBox.Text = "1080";
         });
     }
 
@@ -137,6 +141,7 @@ public partial class LightingPage : UserControl
         _maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
         // Set the camera distance to the maximum dimension multiplied by 2
         CameraDistance.SetValue(_maxDimension * 2);
+        CameraDistance.SetSliderBounds(0, _maxDimension * 10, 0.2);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,7 +382,28 @@ public partial class LightingPage : UserControl
 
         // Store and retrieve the current options
         SaveOptions();
+        
+        // Set the base resolution
         var resolution = DataManager.Resolution;
+        if (resolution.Width == 0 || resolution.Height == 0)
+        {
+            resolution = new Entities.Resolution(1920, 1080, 100);
+            WidthTextBox.Text = "1920";
+            HeightTextBox.Text = "1080";
+        }
+        
+        // compute aspect ratio by determining the GCD of the width and height
+        var gcd = (int)BigInteger.GreatestCommonDivisor(resolution.Width, resolution.Height);
+        var aspectRatio = new Tuple<int, int>(resolution.Width / gcd, resolution.Height / gcd);
+
+        var previewResolution = new Entities.Resolution(800, (800 * aspectRatio.Item2) / aspectRatio.Item1, 100);
+
+        if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
+        {
+            resolution = previewResolution;
+            Debug.WriteLine($"RESOLUTION: WIDTH: {resolution.Width}, HEIGHT: {resolution.Height}");
+        }
+        
         var cameraDistance = DataManager.CameraDistance;
         var lights = DataManager.Lights;
 
@@ -468,7 +494,7 @@ public partial class LightingPage : UserControl
             || int.TryParse(WidthTextBox.Text, out _) == false
         )
         {
-            WidthTextBox.Text = "0";
+            WidthTextBox.Text = "1920";
         }
 
         // Verify the height text box and set it to 0 if it is invalid
@@ -477,7 +503,7 @@ public partial class LightingPage : UserControl
             || int.TryParse(HeightTextBox.Text, out _) == false
         )
         {
-            HeightTextBox.Text = "0";
+            HeightTextBox.Text = "1080";
         }
 
         // Verify the camera distance text box and set it to 0 if it is invalid
@@ -513,8 +539,8 @@ public partial class LightingPage : UserControl
         
         // Store the resolution
         DataManager.Resolution = new Entities.Resolution(
-            int.Parse(WidthTextBox.Text ?? "0"),
-            int.Parse(HeightTextBox.Text ?? "0")
+            int.Parse(WidthTextBox.Text ?? "1920"),
+            int.Parse(HeightTextBox.Text ?? "1080")
         );
         
         // Store the lights

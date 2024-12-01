@@ -61,7 +61,7 @@
                     VerticalAlignment="Bottom">
                     <Label
                         Content="Loading"
-                        FontSize="14"
+                        FontSize="12"
                         x:Name="LoadingLabel" />
                 </StackPanel>
                 <Border
@@ -71,8 +71,8 @@
                     Margin="30">
                     <Image
                         Opacity="0.75"
-                        Source="/Assets/Images/Backgrounds/cubes.png"
-                        Stretch="Fill" />
+                        Stretch="Fill"
+                        x:Name="LoadingImage" />
                 </Border>
             </Grid>
         </ExperimentalAcrylicBorder>

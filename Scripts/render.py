@@ -409,6 +409,14 @@ if __name__ == "__main__":
     if not output_path.endswith("/"):
         output_path += "/"
 
+    # Import the model if it is not a .blend file
+    if not data["Model"].endswith(".blend"):
+        import_model(data["Model"], data["Unit"])
+
+    # Otherwise, open the .blend file
+    else:
+        bpy.ops.wm.open_mainfile(filepath=data["Model"])
+
     # Set the default unit settings
     bpy.context.scene.unit_settings.system = "METRIC"
     bpy.context.scene.unit_settings.scale_length = 1
@@ -439,11 +447,6 @@ if __name__ == "__main__":
             ),
             light["Colour"],
         )
-
-    # Import the model if it is not a .blend file
-
-    if not data["Model"].endswith(".blend"):
-        import_model(data["Model"], data["Unit"])
 
     # Detect the rendering device and set the rendering preferences
     set_render_preferences()
@@ -484,7 +487,8 @@ if __name__ == "__main__":
         bg_node.inputs['Color'].default_value = background_colour
 
     # Render the view
-    render_generic_view(name=data["Name"], output_folder=output_path, position=position)
+    render_device = render_generic_view(name=data["Name"], output_folder=output_path, position=position)
+    print(f"Render Device: {render_device}")
 
     save = data["SaveBlenderFile"]
 

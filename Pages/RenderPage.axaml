@@ -86,6 +86,14 @@
                 <controls:BrowsableDirectoryTextBox x:Name="OutputBrowsableDirectoryTextBox" />
             </StackPanel>
 
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="20"
+                VerticalAlignment="Center">
+                <Label Content="Complete Sound" VerticalAlignment="Center" />
+                <CheckBox IsChecked="True" x:Name="CompleteSoundCheckBox" />
+            </StackPanel>
+
         </StackPanel>
 
         <!--  BOTTOM GRID  -->

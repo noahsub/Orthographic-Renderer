@@ -362,6 +362,14 @@ if __name__ == "__main__":
 
     data = json.loads(args.options)
 
+    # Import the model if it is not a .blend file
+    if not data["Model"].endswith(".blend"):
+        import_model(data["Model"], data["Unit"])
+
+    # Otherwise, open the .blend file
+    else:
+        bpy.ops.wm.open_mainfile(filepath=data["Model"])
+
     # If the output path does not end with a "/", add one
     output_path = data["OutputDirectory"]
     if not output_path.endswith("/"):
@@ -385,11 +393,6 @@ if __name__ == "__main__":
 
     for light in data["Lights"]:
         create_area_light(light["Power"], light["Size"], Position(light["Position"]["X"], light["Position"]["Y"], light["Position"]["Z"], light["Position"]["Rx"], light["Position"]["Ry"], light["Position"]["Rz"]))
-
-    # Import the model if it is not a .blend file
-
-    if not data["Model"].endswith(".blend"):
-        import_model(data["Model"], data["Unit"])
 
     # Detect the rendering device and set the rendering preferences
     set_render_preferences()

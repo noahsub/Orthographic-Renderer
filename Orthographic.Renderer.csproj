@@ -302,9 +302,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <None Remove="Assets\Images\Backgrounds\cubes.png" />
-      <AvaloniaResource Include="Assets\Images\Backgrounds\cubes.png">
+      <Content Include="Assets\Images\Backgrounds\cubes.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </AvaloniaResource>
+      </Content>
       <None Remove="Assets\Images\Symbols\warning.png" />
       <AvaloniaResource Include="Assets\Images\Symbols\warning.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -333,6 +333,14 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Scripts\render_preview.py">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\Backgrounds\computer.png" />
+      <Content Include="Assets\Images\Backgrounds\computer.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Assets\Images\Backgrounds\motor.png" />
+      <Content Include="Assets\Images\Backgrounds\motor.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

@@ -1,5 +1,4 @@
-﻿<!--  Copyright (C) 2024 noahsub  -->
-<UserControl
+﻿<UserControl
     d:DesignHeight="200"
     d:DesignWidth="1200"
     mc:Ignorable="d"
@@ -14,132 +13,148 @@
     <!--  MAIN GRID  -->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <!--  BACKGROUND RECTANGLE  -->
         <Rectangle
             Fill="{StaticResource PrimaryBackground}"
             Grid.Column="0"
-            Grid.ColumnSpan="6"
             RadiusX="{StaticResource RadiusRectangle}"
             RadiusY="{StaticResource RadiusRectangle}" />
 
-        <!--  POSITION GRID  -->
-        <Grid Grid.Column="0" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Label
-                Content="Position"
-                FontSize="16"
-                FontWeight="Bold"
-                Grid.Row="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
-            <controls:OrientationSelector
-                Grid.Row="1"
-                Margin="0,20,0,0"
-                x:Name="LightOrientationSelector" />
-        </Grid>
+        <!--  HORIZONTAL SCROLLVIEWER  -->
+        <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
 
-        <!--  COLOUR GRID  -->
-        <Grid Grid.Column="1" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Label
-                Content="Colour"
-                FontSize="16"
-                FontWeight="Bold"
-                Grid.Row="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
-            <controls:ColourSelector
-                Grid.Row="1"
-                Margin="0,20,0,0"
-                x:Name="LightColourSelector" />
-        </Grid>
+                <!--  BACKGROUND RECTANGLE  -->
+                <Rectangle
+                    Fill="{StaticResource PrimaryBackground}"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    RadiusX="{StaticResource RadiusRectangle}"
+                    RadiusY="{StaticResource RadiusRectangle}" />
 
-        <!--  POWER GRID  -->
-        <Grid Grid.Column="2" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Label
-                Content="Power"
-                FontSize="16"
-                FontWeight="Bold"
-                Grid.Row="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
-            <controls:ValueSelector
-                Grid.Row="1"
-                Margin="0,35,0,0"
-                VerticalAlignment="Center"
-                x:Name="PowerValueSelector" />
-        </Grid>
+                <!--  POSITION GRID  -->
+                <Grid Grid.Column="0" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Content="Position"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                    <controls:OrientationSelector
+                        Grid.Row="1"
+                        Margin="0,20,0,0"
+                        x:Name="LightOrientationSelector" />
+                </Grid>
 
-        <!--  SIZE GRID  -->
-        <Grid Grid.Column="3" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Label
-                Content="Size"
-                FontSize="16"
-                FontWeight="Bold"
-                Grid.Row="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
-            <controls:ValueSelector
-                Grid.Row="1"
-                Margin="0,35,0,0"
-                VerticalAlignment="Center"
-                x:Name="SizeValueSelector" />
-        </Grid>
+                <!--  COLOUR GRID  -->
+                <Grid Grid.Column="1" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Content="Colour"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                    <controls:ColourSelector
+                        Grid.Row="1"
+                        Margin="0,20,0,0"
+                        x:Name="LightColourSelector" />
+                </Grid>
 
-        <!--  DISTANCE GRID  -->
-        <Grid Grid.Column="4" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Label
-                Content="Distance"
-                FontSize="16"
-                FontWeight="Bold"
-                Grid.Row="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
-            <controls:ValueSelector
-                Grid.Row="1"
-                Margin="0,35,0,0"
-                VerticalAlignment="Center"
-                x:Name="DistanceValueSelector" />
-        </Grid>
+                <!--  POWER GRID  -->
+                <Grid Grid.Column="2" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Content="Power"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                    <controls:ValueSelector
+                        Grid.Row="1"
+                        Margin="0,35,0,0"
+                        VerticalAlignment="Center"
+                        x:Name="PowerValueSelector" />
+                </Grid>
 
-        <!--  REMOVE BUTTON  -->
-        <Button
-            Background="{StaticResource ControlsBackground}"
-            Click="RemoveButton_OnClick"
-            Content="X"
-            Grid.Column="5"
-            Height="30"
-            HorizontalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            VerticalAlignment="Center"
-            VerticalContentAlignment="Center"
-            Width="30"
-            x:Name="RemoveButton" />
+                <!--  SIZE GRID  -->
+                <Grid Grid.Column="3" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Content="Size"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                    <controls:ValueSelector
+                        Grid.Row="1"
+                        Margin="0,35,0,0"
+                        VerticalAlignment="Center"
+                        x:Name="SizeValueSelector" />
+                </Grid>
+
+                <!--  DISTANCE GRID  -->
+                <Grid Grid.Column="4" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Content="Distance"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                    <controls:ValueSelector
+                        Grid.Row="1"
+                        Margin="0,35,0,0"
+                        VerticalAlignment="Center"
+                        x:Name="DistanceValueSelector" />
+                </Grid>
+
+                <!--  REMOVE BUTTON  -->
+                <Button
+                    Background="{StaticResource ControlsBackground}"
+                    Click="RemoveButton_OnClick"
+                    Content="X"
+                    Grid.Column="5"
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Width="30"
+                    x:Name="RemoveButton" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

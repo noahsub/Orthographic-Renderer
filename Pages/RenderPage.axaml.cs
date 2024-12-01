@@ -54,7 +54,7 @@ public partial class RenderPage : UserControl
     /// <summary>
     /// Specifies whether the blender file should be saved.
     /// </summary>
-    private bool SaveBlenderFile { get; set; } = true;
+    private bool SaveBlenderFile { get; set; }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -89,6 +89,16 @@ public partial class RenderPage : UserControl
     {
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        
+        var userDirectory = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            "Downloads"
+        );
+        
+        OutputBrowsableDirectoryTextBox.PathTextBox.Text = userDirectory;
+
+        SaveBlenderFile = true;
+        
         // Populate the render queue.
         PopulateRenderQueue();
     }
@@ -301,7 +311,10 @@ public partial class RenderPage : UserControl
         DisplayRenderStats(timeStarted, timeEnded);
 
         // Play a sound if the setting is enabled.
-        SoundManager.PlaySound("Assets/Sounds/ping.mp3");
+        if (CompleteSoundCheckBox.IsChecked == true)
+        {
+            SoundManager.PlaySound("Assets/Sounds/ping.mp3");
+        }
 
         // Enable the render button and disable the cancel button.
         CancelButton.IsVisible = false;
@@ -349,7 +362,9 @@ public partial class RenderPage : UserControl
     {
         // Get the render options.
         var renderOptions = new RenderOptions();
-        renderOptions.SetName(Guid.NewGuid().ToString().Replace("-", ""));
+        var modelName = Path.GetFileNameWithoutExtension(DataManager.ModelPath);
+        var uuid = Guid.NewGuid().ToString().Replace("-", "");
+        renderOptions.SetName($"{modelName}-{renderItem.Key}-{uuid}");
         renderOptions.SetModel(DataManager.ModelPath);
         renderOptions.SetUnit(DataManager.UnitScale);
         renderOptions.SetOutputDirectory(
