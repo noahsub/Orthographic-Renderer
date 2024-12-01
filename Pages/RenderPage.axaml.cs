@@ -50,6 +50,11 @@ public partial class RenderPage : UserControl
     /// A token source for cancelling the render tasks.
     /// </summary>
     private CancellationTokenSource _cancelToken = new();
+    
+    /// <summary>
+    /// Specifies whether the blender file should be saved.
+    /// </summary>
+    private bool SaveBlenderFile { get; set; } = true;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -359,7 +364,12 @@ public partial class RenderPage : UserControl
 
         renderOptions.AddLights(DataManager.Lights);
         renderOptions.SetBackgroundColour(DataManager.BackgroundColour);
-        renderOptions.SetSaveBlenderFile(true);
+        renderOptions.SetSaveBlenderFile(SaveBlenderFile);
+
+        if (SaveBlenderFile == true)
+        {
+            SaveBlenderFile = false;
+        }
 
         // Set the status of the render item to in progress.
         renderItem.SetStatus(RenderStatus.InProgress);
