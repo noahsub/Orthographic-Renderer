@@ -89,6 +89,14 @@ public partial class RenderPage : UserControl
     {
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        
+        var userDirectory = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            "Downloads"
+        );
+        
+        OutputBrowsableDirectoryTextBox.PathTextBox.Text = userDirectory;
+        
         // Populate the render queue.
         PopulateRenderQueue();
     }
