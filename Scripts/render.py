@@ -484,7 +484,8 @@ if __name__ == "__main__":
         bg_node.inputs['Color'].default_value = background_colour
 
     # Render the view
-    render_generic_view(name=data["Name"], output_folder=output_path, position=position)
+    render_device = render_generic_view(name=data["Name"], output_folder=output_path, position=position)
+    print(f"Render Device: {render_device}")
 
     save = data["SaveBlenderFile"]
 

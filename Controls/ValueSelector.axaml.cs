@@ -19,7 +19,7 @@ public partial class ValueSelector : UserControl
 
     private void ValueSlider_OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
     {
-        ValueTextBox.Text = e.NewValue.ToString();
+        ValueTextBox.Text = e.NewValue.ToString("F2");
     }
 
     private void ValueTextBox_OnTextChanging(object? sender, TextChangingEventArgs e)

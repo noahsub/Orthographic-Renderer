@@ -213,6 +213,6 @@ public partial class RequirementsPage : UserControl
     private void BlenderInstallButton_OnClick(object? sender, RoutedEventArgs e)
     {
         // Open the Blender download page
-        WebManager.OpenUrl("https://www.blender.org/download/");
+        WebManager.OpenUrl("https://www.blender.org/download/lts/4-2/");
     }
 }

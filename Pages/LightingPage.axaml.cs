@@ -137,6 +137,7 @@ public partial class LightingPage : UserControl
         _maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
         // Set the camera distance to the maximum dimension multiplied by 2
         CameraDistance.SetValue(_maxDimension * 2);
+        CameraDistance.SetSliderBounds(0, _maxDimension * 10, 0.2);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

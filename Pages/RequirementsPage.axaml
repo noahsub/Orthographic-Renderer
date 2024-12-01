@@ -30,7 +30,7 @@
                     <StackPanel HorizontalAlignment="Stretch">
                         <Label Content="Blender Path" />
                         <Label
-                            Content="Version 4.2.X recommended"
+                            Content="Version 4.2.X LTS is strongly recommended"
                             FontFamily="{StaticResource JetBrainsMono}"
                             FontSize="10"
                             FontStyle="Italic" />
