@@ -309,7 +309,10 @@ public partial class RenderPage : UserControl
         DisplayRenderStats(timeStarted, timeEnded);
 
         // Play a sound if the setting is enabled.
-        SoundManager.PlaySound("Assets/Sounds/ping.mp3");
+        if (CompleteSoundCheckBox.IsChecked == true)
+        {
+            SoundManager.PlaySound("Assets/Sounds/ping.mp3");
+        }
 
         // Enable the render button and disable the cancel button.
         CancelButton.IsVisible = false;
