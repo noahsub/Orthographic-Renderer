@@ -52,6 +52,9 @@ public partial class ViewsPage : UserControl
         PopulateViews(RenderManager.RenderViews);
     }
 
+    /// <summary>
+    /// Method that is called when the page is navigated to.
+    /// </summary>
     public void Load()
     {
         // Set the file label to the name of the model file.
