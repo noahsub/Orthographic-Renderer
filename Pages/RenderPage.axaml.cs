@@ -357,7 +357,9 @@ public partial class RenderPage : UserControl
     {
         // Get the render options.
         var renderOptions = new RenderOptions();
-        renderOptions.SetName(Guid.NewGuid().ToString().Replace("-", ""));
+        var modelName = Path.GetFileNameWithoutExtension(DataManager.ModelPath);
+        var uuid = Guid.NewGuid().ToString().Replace("-", "");
+        renderOptions.SetName($"{modelName}-{renderItem.Key}-{uuid}");
         renderOptions.SetModel(DataManager.ModelPath);
         renderOptions.SetUnit(DataManager.UnitScale);
         renderOptions.SetOutputDirectory(

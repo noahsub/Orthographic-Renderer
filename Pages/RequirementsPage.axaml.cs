@@ -46,9 +46,12 @@ public partial class RequirementsPage : UserControl
         {
             BlenderPathTextBox.PathTextBox.Text = "Blender/Windows/blender.exe";
         }
-        
-        // Load serialized paths
-        LoadPaths();
+
+        else
+        {
+            // Load serialized paths
+            LoadPaths();
+        }
 
         // Check if the blender path is valid
         PathValid("blender", BlenderPathTextBox);
