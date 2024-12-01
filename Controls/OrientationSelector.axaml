@@ -15,7 +15,7 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal"
             VerticalAlignment="Center">
-            <StackPanel Spacing="20">
+            <StackPanel Spacing="10">
                 <Button
                     Click="LeftButton_OnClick"
                     Content="&#8592;"
@@ -29,11 +29,11 @@
                 Grid.Row="0"
                 Height="75"
                 HorizontalAlignment="Center"
-                Margin="20,0,20,0"
+                Margin="10,0,10,0"
                 VerticalAlignment="Center"
                 Width="75"
                 x:Name="OrientationImage" />
-            <StackPanel Spacing="20">
+            <StackPanel Spacing="10">
                 <Button
                     Click="RightButton_OnClick"
                     Content="&#8594;"
