@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Orthographic Renderer"
-#define MyAppVersion "1.0.5"
+#define MyAppVersion "2.0.0"
 #define MyAppPublisher "noahsub"
 #define MyAppURL "https://github.com/noahsub/Orthographic.Renderer"
 #define MyAppExeName "Orthographic Renderer.exe"
