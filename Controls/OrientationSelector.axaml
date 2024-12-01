@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--  Copyright (C) 2024 noahsub  -->
+<UserControl
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d"
@@ -7,6 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  MAIN GRID  -->
     <Grid>
         <StackPanel
             HorizontalAlignment="Center"
