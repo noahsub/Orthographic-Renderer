@@ -359,7 +359,7 @@ public partial class RenderPage : UserControl
 
         renderOptions.AddLights(DataManager.Lights);
         renderOptions.SetBackgroundColour(DataManager.BackgroundColour);
-        renderOptions.SetSaveBlenderFile(false);
+        renderOptions.SetSaveBlenderFile(true);
 
         // Set the status of the render item to in progress.
         renderItem.SetStatus(RenderStatus.InProgress);
