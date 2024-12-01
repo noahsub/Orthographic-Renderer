@@ -54,7 +54,7 @@ public partial class RenderPage : UserControl
     /// <summary>
     /// Specifies whether the blender file should be saved.
     /// </summary>
-    private bool SaveBlenderFile { get; set; } = true;
+    private bool SaveBlenderFile { get; set; }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -96,6 +96,8 @@ public partial class RenderPage : UserControl
         );
         
         OutputBrowsableDirectoryTextBox.PathTextBox.Text = userDirectory;
+
+        SaveBlenderFile = true;
         
         // Populate the render queue.
         PopulateRenderQueue();

@@ -10,8 +10,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Orthographic.Renderer.Managers;
 
@@ -39,6 +41,17 @@ public partial class SplashScreen : Window
     public SplashScreen()
     {
         InitializeComponent();
+        // Set the image
+        var images = new List<string>
+        {
+            "Assets/Images/Backgrounds/computer.png", 
+            "Assets/Images/Backgrounds/cubes.png",
+            "Assets/Images/Backgrounds/motor.png"
+        };
+        
+        var random = new Random();
+        var image = images[random.Next(images.Count)];
+        LoadingImage.Source = new Bitmap(image);
         // Set the version
         VersionLabel.Content = $"v{DataManager.CurrentVersion}";
         // Add the window to the list of open windows
