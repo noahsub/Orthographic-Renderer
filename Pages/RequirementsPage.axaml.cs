@@ -11,6 +11,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using LibreHardwareMonitor.Software;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Managers;
 
@@ -41,6 +42,11 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     public void Load()
     {
+        if (OperatingSystem.IsWindows8OrGreater)
+        {
+            BlenderPathTextBox.PathTextBox.Text = "Blender/Windows/blender.exe";
+        }
+        
         // Load serialized paths
         LoadPaths();
 
