@@ -66,6 +66,11 @@ public static class DataManager
     /// The lights in the scene.
     /// </summary>
     public static List<Light> Lights { get; set; } = new List<Light>();
+    
+    /// <summary>
+    /// The background colour of the rendered image.
+    /// </summary>
+    public static string BackgroundColour { get; set; } = "#FFFFFF";
 
     /// <summary>
     /// The views to render.

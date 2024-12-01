@@ -32,7 +32,7 @@ class BlenderArgparse(argparse.ArgumentParser):
     def parse_args(self):
         arguments = []
         if "--" in sys.argv:
-            arguments = sys.argv[sys.argv.index("--") + 1 :]
+            arguments = sys.argv[sys.argv.index("--") + 1:]
         return super().parse_args(args=arguments)
 
 
@@ -198,9 +198,6 @@ def set_render_preferences() -> RenderDevice:
     bpy.context.scene.render.image_settings.color_depth = "16"
     bpy.context.scene.render.image_settings.exr_codec = "DWAA"
 
-    # Enable transparent background
-    bpy.context.scene.render.film_transparent = True
-
     return render_device
 
 
@@ -306,7 +303,7 @@ def create_area_light(power, size, position, colour):
 
     colour = colour.lstrip("#")
 
-    light.data.color = tuple(int(colour[i : i + 2], 16) / 255.0 for i in (0, 2, 4))
+    light.data.color = tuple(int(colour[i: i + 2], 16) / 255.0 for i in (0, 2, 4))
 
     # Set the light's position
     light.location[0] = position.x
@@ -382,6 +379,17 @@ def get_formatted_date():
     """
     return datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
 
+
+########################################################################################################################
+# IMAGE MANIPULATION FUNCTIONS
+########################################################################################################################
+def hex_to_rgba(hex_value):
+    """
+    Convert a hex colour value to an RGBA tuple
+    """
+    hex_value = hex_value.lstrip('#')
+    length = len(hex_value)
+    return tuple(int(hex_value[i:i + length // 4], 16) / 255.0 for i in range(0, length, length // 4))
 
 ########################################################################################################################
 # MAIN
@@ -460,6 +468,20 @@ if __name__ == "__main__":
     )
 
     set_camera_start_pos(dist)
+
+    background_colour = hex_to_rgba(data["BackgroundColour"])
+
+    if background_colour[3] < 1:
+        bpy.context.scene.render.film_transparent = True
+
+    else:
+        # Disable transparent background
+        bpy.context.scene.render.film_transparent = False
+
+        # Set background color
+        bpy.context.scene.world.use_nodes = True
+        bg_node = bpy.context.scene.world.node_tree.nodes['Background']
+        bg_node.inputs['Color'].default_value = background_colour
 
     # Render the view
     render_generic_view(name=data["Name"], output_folder=output_path, position=position)

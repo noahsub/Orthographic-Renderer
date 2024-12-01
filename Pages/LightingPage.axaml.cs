@@ -95,7 +95,8 @@ public partial class LightingPage : UserControl
             FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
 
             // Set the colour picker to black
-            BackgroundColourSelector.ColourPicker.Color = Colors.Black;
+            BackgroundColourSelector.ColourPicker.Color = Colors.Transparent;
+            BackgroundColourSelector.ColourRectangle.Fill = new SolidColorBrush(Colors.Black);
             // Bind an event to the colour picker
             BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
 
@@ -518,5 +519,10 @@ public partial class LightingPage : UserControl
         
         // Store the lights
         DataManager.Lights = GetLights();
+
+        Debug.WriteLine($"Background colour: {BackgroundColourSelector.GetHexColour()}");
+        
+        // Store the background colour
+        DataManager.BackgroundColour = BackgroundColourSelector.GetHexColour();
     }
 }

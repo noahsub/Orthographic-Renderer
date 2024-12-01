@@ -11,10 +11,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 using Orthographic.Renderer.Entities;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

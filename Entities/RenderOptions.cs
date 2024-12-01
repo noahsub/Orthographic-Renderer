@@ -65,7 +65,12 @@ public class RenderOptions
     /// The lights to use for rendering.
     /// </summary>
     public List<Light> Lights { get; set; }
-    
+
+    /// <summary>
+    /// The background colour of the render.
+    /// </summary>
+    public string BackgroundColour { get; set; }
+
     /// <summary>
     /// Whether to save the Blender file.
     /// </summary>
@@ -84,6 +89,7 @@ public class RenderOptions
         Resolution = new Resolution(1920, 1080);
         Camera = new Camera(0, new Position(0, 0, 0, 0, 0, 0));
         Lights = new List<Light>();
+        BackgroundColour = "#FFFFFF";
         SaveBlenderFile = false;
     }
 
@@ -161,6 +167,15 @@ public class RenderOptions
     public void AddLights(List<Light> lights)
     {
         Lights.AddRange(lights);
+    }
+    
+    /// <summary>
+    /// Sets the background colour of the render.
+    /// </summary>
+    /// <param name="backgroundColour"></param>
+    public void SetBackgroundColour(string backgroundColour)
+    {
+        BackgroundColour = backgroundColour;
     }
 
     /// <summary>
