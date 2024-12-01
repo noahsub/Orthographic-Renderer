@@ -17,6 +17,11 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    # Publish Application
+    - name: Publish Application
+      shell: pwsh
+      run: dotnet publish -c Release -r win-x64 --self-contained -o ./publish
+
     # Download Blender
     - name: Download Blender File
       shell: pwsh
