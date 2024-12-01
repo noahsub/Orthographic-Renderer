@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--  Copyright (C) 2024 noahsub  -->
+<UserControl
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d"
@@ -8,12 +9,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  MAIN GRID  -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="75" />
         </Grid.RowDefinitions>
 
+        <!--  BACKGROUND RECTANGLES  -->
         <Rectangle
             Fill="{StaticResource SecondaryBackground}"
             Grid.Row="0"
@@ -21,6 +25,7 @@
             Opacity="{StaticResource GlobalOpacity}" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="1" />
 
+        <!--  SUB GRID  -->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
