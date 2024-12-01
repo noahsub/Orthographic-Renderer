@@ -28,7 +28,7 @@
                         Source="avares://Orthographic Renderer/Assets/Images/orange_cube.png"
                         Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="Blender Path" />
+                        <Label Content="Blender Executable Path" />
                         <Label
                             Content="Version 4.2.X LTS is strongly recommended"
                             FontFamily="{StaticResource JetBrainsMono}"
