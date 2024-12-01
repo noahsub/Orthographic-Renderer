@@ -22,6 +22,19 @@ jobs:
       shell: pwsh
       run: dotnet publish -c Release -r win-x64 --self-contained -o ./publish
 
+    # Download Blender
+    - name: Download Blender File
+      shell: pwsh
+      run: curl.exe -fSLo .\blender-4.2.4-windows-x64.zip https://mirrors.iu13.net/blender/release/Blender4.2/blender-4.2.4-windows-x64.zip
+
+    - name: Extract Blender File
+      shell: pwsh
+      run: Expand-Archive -Path ".\blender-4.2.4-windows-x64.zip"
+
+    - name: Move Blender Files
+      shell: pwsh
+      run: Move-Item -Path "./blender-4.2.4-windows-x64/blender-4.2.4-windows-x64/*" -Destination "./publish/Blender/Windows" -Force
+
     # Install Chocolatey
     - name: Install Chocolatey
       shell: pwsh
