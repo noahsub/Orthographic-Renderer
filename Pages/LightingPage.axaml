@@ -1,0 +1,325 @@
+﻿<!--  Copyright (C) 2024 noahsub  -->
+<UserControl
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Pages.LightingPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  MAIN GRID  -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="75" />
+        </Grid.RowDefinitions>
+
+        <!--  BACKGROUND RECTANGLES  -->
+        <Rectangle
+            Fill="{StaticResource SecondaryBackground}"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Opacity="{StaticResource GlobalOpacity}" />
+        <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="1" />
+
+        <!--  SUB GRID  -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  CAMERA PREVIEW GRID  -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="90" />
+                </Grid.RowDefinitions>
+
+                <Rectangle
+                    Fill="Black"
+                    Grid.Row="0"
+                    Margin="20,20,0,20"
+                    RadiusX="{StaticResource RadiusRectangle}"
+                    RadiusY="{StaticResource RadiusRectangle}"
+                    x:Name="BackgroundRectangle" />
+                <Image
+                    Grid.Row="0"
+                    Height="350"
+                    Margin="20,20,0,20"
+                    Source="avares://Orthographic Renderer/Assets/Images/grey_cube.png"
+                    Width="350"
+                    x:Name="LoadingImage" />
+                <Image
+                    Grid.Row="0"
+                    Margin="20,20,0,20"
+                    x:Name="PreviewImage" />
+
+                <!--  PREVIEW SETTINGS GRID  -->
+                <ScrollViewer Grid.Row="1">
+                    <Grid Margin="20,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--  CAMERA SETTINGS GRID  -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                Spacing="20"
+                                VerticalAlignment="Center">
+                                <Label
+                                    Content="Colour"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" />
+                                <controls:ColourSelector VerticalAlignment="Center" x:Name="BackgroundColourSelector" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Spacing="20">
+                                <Label
+                                    Content="Orientation"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" />
+                                <controls:OrientationSelector
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    x:Name="CameraOrientation" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                Spacing="20">
+                                <Label
+                                    Content="Camera Distance"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" />
+                                <controls:ValueSelector
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    x:Name="CameraDistance" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!--  RESOLUTION GRID  -->
+                        <Grid
+                            Grid.Row="1"
+                            Margin="0,20,0,0"
+                            x:Name="ResolutionGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                HorizontalContentAlignment="Center"
+                                Margin="5,5,5,5"
+                                Text="Width"
+                                VerticalContentAlignment="Center"
+                                x:Name="WidthTextBox" />
+                            <TextBox
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                HorizontalContentAlignment="Center"
+                                Margin="5,5,5,5"
+                                Text="Height"
+                                VerticalContentAlignment="Center"
+                                x:Name="HeightTextBox" />
+
+                            <ToggleButton
+                                Background="{StaticResource ControlsBackground}"
+                                Click="AspectRatioToggleButton_OnClick"
+                                Content="1:1"
+                                Grid.Column="2"
+                                Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Margin="5"
+                                Padding="0"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                x:Name="AspectRatio1X1ToggleButton" />
+
+                            <ToggleButton
+                                Background="{StaticResource ControlsBackground}"
+                                Click="AspectRatioToggleButton_OnClick"
+                                Content="4:3"
+                                Grid.Column="3"
+                                Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Margin="5"
+                                Padding="0"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                x:Name="AspectRatio4X3ToggleButton" />
+
+                            <ToggleButton
+                                Background="{StaticResource ControlsBackground}"
+                                Click="AspectRatioToggleButton_OnClick"
+                                Content="16:9"
+                                Grid.Column="4"
+                                Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Margin="5"
+                                Padding="0"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                x:Name="AspectRatio16X9ToggleButton" />
+
+                            <ToggleButton
+                                Background="{StaticResource ControlsBackground}"
+                                Click="AspectRatioToggleButton_OnClick"
+                                Content="21:9"
+                                Grid.Column="5"
+                                Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Margin="5"
+                                Padding="0"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                x:Name="AspectRatio21X9ToggleButton" />
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+
+                <Button
+                    Background="{StaticResource PrimaryAccent}"
+                    Click="PreviewButton_OnClick"
+                    Content="Preview"
+                    Foreground="{StaticResource PrimaryBackground}"
+                    Grid.Row="2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Margin="20,20,0,20"
+                    VerticalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    x:Name="PreviewButton" />
+            </Grid>
+
+            <!--  LIGHTING GRID  -->
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label
+                    Content="Lighting"
+                    Grid.Row="0"
+                    Margin="20,20,0,0" />
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    Margin="20,0,20,0"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="OnePointLightingButton_OnClick"
+                        Content="1 Point Lighting"
+                        x:Name="OnePointLightingButton" />
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="ThreePointLightingButton_OnClick"
+                        Content="3 Point Lighting"
+                        x:Name="ThreePointLightingButton" />
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="OverheadLightingButton_OnClick"
+                        Content="Overhead Lighting"
+                        x:Name="OverheadLightingButton" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Right"
+                    Margin="20,0,20,0"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="AddLightButton_OnClick"
+                        Content="Add Light"
+                        x:Name="AddLightButton" />
+                    <Button
+                        Background="{StaticResource PrimaryBackground}"
+                        Click="ClearButton_OnClick"
+                        Content="Clear"
+                        x:Name="ClearButton" />
+                </StackPanel>
+
+                <ScrollViewer
+                    Grid.Row="2"
+                    HorizontalAlignment="Stretch"
+                    Padding="20"
+                    VerticalAlignment="Stretch">
+                    <StackPanel Spacing="10" x:Name="LightOptionsStackPanel" />
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <!--  BOTTOM GRID  -->
+        <Grid
+            ColumnDefinitions="20,100,*,100,20"
+            Grid.Row="1"
+            VerticalAlignment="Center">
+            <Button
+                Click="BackButton_OnClick"
+                Content="Model"
+                Grid.Column="1"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                Width="100"
+                x:Name="BackButton" />
+            <Label
+                Content="File"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                x:Name="FileLabel" />
+            <Button
+                Click="ViewsButton_OnClick"
+                Content="Views"
+                Grid.Column="3"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                Width="100"
+                x:Name="ViewsButton" />
+        </Grid>
+    </Grid>
+</UserControl>

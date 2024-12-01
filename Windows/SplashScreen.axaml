@@ -59,7 +59,10 @@
                     Margin="30"
                     Orientation="Horizontal"
                     VerticalAlignment="Bottom">
-                    <Label Content="Loading" FontSize="14" />
+                    <Label
+                        Content="Loading"
+                        FontSize="14"
+                        x:Name="LoadingLabel" />
                 </StackPanel>
                 <Border
                     ClipToBounds="True"

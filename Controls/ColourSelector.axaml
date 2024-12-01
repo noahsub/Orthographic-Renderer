@@ -1,0 +1,50 @@
+﻿<!--  Copyright (C) 2024 noahsub  -->
+<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.ColourSelector"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:avaloniaColorPicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  MAIN GRID  -->
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Rectangle
+            Fill="White"
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Height="75"
+            Margin="0,0,10,0"
+            Width="75"
+            x:Name="ColourRectangle" />
+        <Label
+            Content="#FFFFFF"
+            Grid.Column="1"
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            Margin="10,0,0,10"
+            VerticalAlignment="Bottom"
+            x:Name="ColourLabel" />
+        <avaloniaColorPicker:ColorButton
+            Color="White"
+            Grid.Column="1"
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            Margin="10,10,0,0"
+            PropertyChanged="LightColourPicker_OnPropertyChanged"
+            VerticalAlignment="Top"
+            x:Name="ColourPicker" />
+    </Grid>
+</UserControl>

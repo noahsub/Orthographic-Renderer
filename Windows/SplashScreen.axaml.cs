@@ -10,7 +10,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,5 +58,18 @@ public partial class SplashScreen : Window
     {
         // Remove the window from the list of open windows
         WindowManager.RemoveWindow(this);
+    }
+
+    public void SetLoadingText(string text)
+    {
+        LoadingLabel.Content = text;
+    }
+
+    public void SetLoadingTextUiThread(string text)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            LoadingLabel.Content = text;
+        });
     }
 }

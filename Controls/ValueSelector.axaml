@@ -1,0 +1,47 @@
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.ValueSelector"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBox
+                Grid.Column="0"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                Text="0"
+                TextChanging="ValueTextBox_OnTextChanging"
+                Width="100"
+                x:Name="ValueTextBox" />
+            <Label
+                Content="m"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                x:Name="UnitLabel" />
+        </StackPanel>
+
+        <Slider
+            Foreground="{StaticResource PrimaryAccent}"
+            Grid.Column="0"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            ValueChanged="ValueSlider_OnValueChanged"
+            x:Name="ValueSlider">
+            <Slider.Resources>
+                <StaticResource ResourceKey="PrimaryAccent" x:Key="SliderThumbBackground" />
+            </Slider.Resources>
+        </Slider>
+    </Grid>
+</UserControl>

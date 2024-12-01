@@ -1,6 +1,6 @@
 ﻿<!--  Copyright (C) 2024 noahsub  -->
 <UserControl
-    d:DesignHeight="450"
+    d:DesignHeight="100"
     d:DesignWidth="800"
     mc:Ignorable="d"
     x:Class="Orthographic.Renderer.Controls.ViewSelectOptions"

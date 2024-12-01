@@ -198,6 +198,17 @@ public static class FileManager
     }
 
     /// <summary>
+    /// Verifies if a model path is valid by checking if the file exists and if the file extension is valid.
+    /// </summary>
+    /// <param name="path">The path to the model file.</param>
+    /// <returns>True or false depending on whether the model path is valid.</returns>
+    public static bool VerifyModelPath(string path)
+    {
+        // Check if the file exists and if the file extension is valid
+        return File.Exists(path) && ModelManager.ValidTypes.Contains(Path.GetExtension(path));
+    }
+
+    /// <summary>
     /// Checks if the path requires elevated permissions to access.
     /// </summary>
     /// <returns>True, if the path requires elevated permissions, otherwise false.</returns>
@@ -236,7 +247,7 @@ public static class FileManager
         {
             Directory.CreateDirectory(userDirectory);
         }
-        
+
         // foreach file in the data directory, if it doesn't exist in the user directory or the user directory file is older, copy it
         var dataFiles = Directory.GetFiles("Data");
         foreach (var file in dataFiles)

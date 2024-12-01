@@ -43,7 +43,6 @@ class RenderDevice(Enum):
     """
     An enum of the different types of rendering devices that can be used.
     """
-
     OPTIX = "OPTIX"
     CUDA = "CUDA"
     EEVEE = "EEVEE"
@@ -57,7 +56,6 @@ class Unit(Enum):
     """
     An enum of the different types of units that can be used and their corresponding scales in relation to meters.
     """
-
     MILLIMETERS = 0.001
     CENTIMETERS = 0.01
     METERS = 1
@@ -72,7 +70,6 @@ class Position:
     """
     A class to represent the position and rotation of an object in the scene.
     """
-
     # The x, y, and z coordinates of the object
     x: float
     y: float
@@ -91,15 +88,12 @@ class Position:
         self.rz = rz
 
     def __str__(self):
-        return (
-            f"X.{self.x}-Y.{self.y}-Z.{self.z}-RX.{self.rx}-RY.{self.ry}-RZ.{self.rz}"
-        )
+        return f"X.{self.x}-Y.{self.y}-Z.{self.z}-RX.{self.rx}-RY.{self.ry}-RZ.{self.rz}"
 
 
 ########################################################################################################################
 # MODEL FUNCTIONS
 ########################################################################################################################
-
 
 def import_model(model_path: str, unit: float) -> None:
     directory = os.path.dirname(model_path)
@@ -107,37 +101,26 @@ def import_model(model_path: str, unit: float) -> None:
     name = os.path.splitext(file_name)[0]
 
     if model_path.endswith(".obj"):
-        bpy.ops.wm.obj_import(
-            filepath=model_path,
-            directory=directory,
-            global_scale=unit,
-            forward_axis="Y",
-            up_axis="Z",
-        )
+        bpy.ops.wm.obj_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y',
+                              up_axis='Z')
     elif model_path.endswith(".stl"):
-        bpy.ops.wm.stl_import(
-            filepath=model_path,
-            directory=directory,
-            global_scale=unit,
-            forward_axis="Y",
-            up_axis="Z",
-        )
+        bpy.ops.wm.stl_import(filepath=model_path, directory=directory, global_scale=unit, forward_axis='Y',
+                              up_axis='Z')
 
     try:
         bpy.data.objects.remove(bpy.data.objects["Cube"], do_unlink=True)
     except:
         pass
 
-    bpy.ops.object.select_all(action="DESELECT")
+    bpy.ops.object.select_all(action='DESELECT')
     bpy.data.objects[name].select_set(True)
-    bpy.ops.object.origin_set(type="ORIGIN_CENTER_OF_VOLUME", center="MEDIAN")
+    bpy.ops.object.origin_set(type='ORIGIN_CENTER_OF_VOLUME', center='MEDIAN')
     bpy.data.objects[name].location = (0, 0, 0)
 
 
 ########################################################################################################################
 # RENDERING FUNCTIONS
 ########################################################################################################################
-
 
 def set_render_preferences() -> RenderDevice:
     render_device = None
@@ -151,35 +134,35 @@ def set_render_preferences() -> RenderDevice:
     cpu_devices = [x for x in devices if str(x.type) == "CPU"]
 
     if optix_devices:
-        bpy.context.scene.render.engine = "CYCLES"
-        bpy.context.scene.cycles.device = "GPU"
+        bpy.context.scene.render.engine = 'CYCLES'
+        bpy.context.scene.cycles.device = 'GPU'
         for device in optix_devices:
             device.use = True
         render_device = RenderDevice.OPTIX
     elif cuda_devices:
-        bpy.context.scene.render.engine = "CYCLES"
-        bpy.context.scene.cycles.device = "GPU"
+        bpy.context.scene.render.engine = 'CYCLES'
+        bpy.context.scene.cycles.device = 'GPU'
         for device in cuda_devices:
             device.use = True
         render_device = RenderDevice.CUDA
     elif cpu_devices:
-        bpy.context.scene.render.engine = "BLENDER_EEVEE_NEXT"
+        bpy.context.scene.render.engine = 'BLENDER_EEVEE_NEXT'
         for device in cpu_devices:
             device.use = True
         render_device = RenderDevice.EEVEE
     else:
         render_device = RenderDevice.UNSUPPORTED
 
-    bpy.context.scene.cycles.preview_samples = 500
+    bpy.context.scene.cycles.preview_samples = 200
     bpy.context.scene.cycles.use_denoising = True
     bpy.context.scene.render.use_persistent_data = True
 
     if optix_devices:
-        bpy.context.scene.cycles.denoiser = "OPTIX"
+        bpy.context.scene.cycles.denoiser = 'OPTIX'
 
     bpy.context.scene.render.use_simplify = True
     bpy.context.scene.render.simplify_subdivision = 2
-    bpy.context.scene.cycles.texture_limit_render = "2048"
+    bpy.context.scene.cycles.texture_limit_render = '512'
 
     bpy.context.scene.cycles.use_camera_cull = True
     bpy.context.scene.cycles.use_distance_cull = True
@@ -190,13 +173,16 @@ def set_render_preferences() -> RenderDevice:
     # might need to turn this off
     bpy.context.scene.cycles.auto_scrambling_distance = True
 
-    bpy.context.scene.cycles.max_bounces = 5
+    bpy.context.scene.cycles.max_bounces = 3
 
     # bpy.context.scene.render.image_settings.file_format = 'OPEN_EXR'
-    bpy.context.scene.render.image_settings.file_format = "PNG"
-    bpy.context.scene.render.image_settings.color_mode = "RGBA"
-    bpy.context.scene.render.image_settings.color_depth = "16"
-    bpy.context.scene.render.image_settings.exr_codec = "DWAA"
+    bpy.context.scene.render.image_settings.file_format = 'PNG'
+    bpy.context.scene.render.image_settings.color_mode = 'RGBA'
+    bpy.context.scene.render.image_settings.color_depth = '8'
+    bpy.context.scene.render.image_settings.exr_codec = 'DWAA'
+
+    # Enable transparent background
+    bpy.context.scene.render.film_transparent = True
 
     return render_device
 
@@ -223,7 +209,7 @@ def render_generic_view(name: str, output_folder: str, position: Position):
     :return: None
     """
     set_camera_pos_and_rot(position)
-    bpy.context.scene.render.filepath = output_folder + f"{name}"
+    bpy.context.scene.render.filepath = (output_folder + f"{name}")
     try:
         bpy.ops.render.render(write_still=True)
     except Exception as e:
@@ -242,13 +228,8 @@ def create_camera() -> None:
 
     # If a camera with the name "Camera" does not exist, create one
     if not exists:
-        bpy.ops.object.camera_add(
-            enter_editmode=False,
-            align="VIEW",
-            location=(0, 0, 0),
-            rotation=(0, 0, 0),
-            scale=(1, 1, 1),
-        )
+        bpy.ops.object.camera_add(enter_editmode=False, align='VIEW', location=(0, 0, 0), rotation=(0, 0, 0),
+                                  scale=(1, 1, 1))
 
 
 def set_camera_start_pos(distance: float) -> None:
@@ -285,12 +266,9 @@ def set_camera_pos_and_rot(pos: Position) -> None:
 # LIGHTING FUNCTIONS
 ########################################################################################################################
 
-
-def create_area_light(power, size, position, colour):
+def create_area_light(power, size, position):
     # Create a new area light
-    bpy.ops.object.light_add(
-        type="AREA", align="WORLD", location=(0, 0, 0), scale=(1, 1, 1)
-    )
+    bpy.ops.object.light_add(type='AREA', align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
 
     # Get the newly created light
     light = bpy.context.object
@@ -300,10 +278,6 @@ def create_area_light(power, size, position, colour):
 
     # Set the light's size
     light.data.size = size
-
-    colour = colour.lstrip("#")
-
-    light.data.color = tuple(int(colour[i: i + 2], 16) / 255.0 for i in (0, 2, 4))
 
     # Set the light's position
     light.location[0] = position.x
@@ -318,8 +292,8 @@ def create_area_light(power, size, position, colour):
 
 def setup_lighting(distance: float):
     # delete all existing lights
-    bpy.ops.object.select_all(action="DESELECT")
-    bpy.ops.object.select_by_type(type="LIGHT")
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.object.select_by_type(type='LIGHT')
     bpy.ops.object.delete()
 
     leg = compute_triangular_leg(distance)
@@ -357,16 +331,13 @@ def compute_triangular_leg(distance: float):
 # FILE FUNCTIONS
 ########################################################################################################################
 
-
 def save_file(file_path: str) -> None:
     """
     Save the file as a .blend file.
     :param file_path: The path to save the file
     :return: None
     """
-    bpy.ops.wm.save_as_mainfile(
-        filepath=file_path.replace(".obj", ".blend").replace(".stl", ".blend")
-    )
+    bpy.ops.wm.save_as_mainfile(filepath=file_path.replace(".obj", ".blend").replace(".stl", ".blend"))
 
 
 ########################################################################################################################
@@ -381,24 +352,11 @@ def get_formatted_date():
 
 
 ########################################################################################################################
-# IMAGE MANIPULATION FUNCTIONS
-########################################################################################################################
-def hex_to_rgba(hex_value):
-    """
-    Convert a hex colour value to an RGBA tuple
-    """
-    hex_value = hex_value.lstrip('#')
-    length = len(hex_value)
-    return tuple(int(hex_value[i:i + length // 4], 16) / 255.0 for i in range(0, length, length // 4))
-
-########################################################################################################################
 # MAIN
 ########################################################################################################################
 if __name__ == "__main__":
     # Parse the command line arguments
-    parser = BlenderArgparse(
-        description="Script to render a view of the scene with the specified parameters"
-    )
+    parser = BlenderArgparse(description="Script to render a view of the scene with the specified parameters")
     parser.add_argument("--options", type=str, help="Options for rendering")
     args = parser.parse_args()
 
@@ -410,9 +368,9 @@ if __name__ == "__main__":
         output_path += "/"
 
     # Set the default unit settings
-    bpy.context.scene.unit_settings.system = "METRIC"
+    bpy.context.scene.unit_settings.system = 'METRIC'
     bpy.context.scene.unit_settings.scale_length = 1
-    bpy.context.scene.unit_settings.system_rotation = "DEGREES"
+    bpy.context.scene.unit_settings.system_rotation = 'DEGREES'
 
     # Create the camera
     create_camera()
@@ -421,24 +379,12 @@ if __name__ == "__main__":
     # setup_lighting(args.light_distance)
 
     # delete all existing lights
-    bpy.ops.object.select_all(action="DESELECT")
-    bpy.ops.object.select_by_type(type="LIGHT")
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.ops.object.select_by_type(type='LIGHT')
     bpy.ops.object.delete()
 
     for light in data["Lights"]:
-        create_area_light(
-            light["Power"],
-            light["Size"],
-            Position(
-                light["Position"]["X"],
-                light["Position"]["Y"],
-                light["Position"]["Z"],
-                light["Position"]["Rx"],
-                light["Position"]["Ry"],
-                light["Position"]["Rz"],
-            ),
-            light["Colour"],
-        )
+        create_area_light(light["Power"], light["Size"], Position(light["Position"]["X"], light["Position"]["Y"], light["Position"]["Z"], light["Position"]["Rx"], light["Position"]["Ry"], light["Position"]["Rz"]))
 
     # Import the model if it is not a .blend file
 
@@ -449,39 +395,15 @@ if __name__ == "__main__":
     set_render_preferences()
 
     # Set the rendering resolution
-    set_render_resolution(
-        width=data["Resolution"]["Width"],
-        height=data["Resolution"]["Height"],
-        scale=data["Resolution"]["Scale"],
-    )
+    set_render_resolution(width=data["Resolution"]["Width"], height=data["Resolution"]["Height"], scale=data["Resolution"]["Scale"])
 
     # Set the camera position
     dist = data["Camera"]["Distance"]
     leg = compute_triangular_leg(dist)
-    position = Position(
-        x=data["Camera"]["Position"]["X"],
-        y=data["Camera"]["Position"]["Y"],
-        z=data["Camera"]["Position"]["Z"],
-        rx=data["Camera"]["Position"]["Rx"],
-        ry=data["Camera"]["Position"]["Ry"],
-        rz=data["Camera"]["Position"]["Rz"],
-    )
+    position = Position(x=data["Camera"]["Position"]["X"], y=data["Camera"]["Position"]["Y"], z=data["Camera"]["Position"]["Z"],
+                        rx=data["Camera"]["Position"]["Rx"], ry=data["Camera"]["Position"]["Ry"], rz=data["Camera"]["Position"]["Rz"])
 
     set_camera_start_pos(dist)
-
-    background_colour = hex_to_rgba(data["BackgroundColour"])
-
-    if background_colour[3] < 1:
-        bpy.context.scene.render.film_transparent = True
-
-    else:
-        # Disable transparent background
-        bpy.context.scene.render.film_transparent = False
-
-        # Set background color
-        bpy.context.scene.world.use_nodes = True
-        bg_node = bpy.context.scene.world.node_tree.nodes['Background']
-        bg_node.inputs['Color'].default_value = background_colour
 
     # Render the view
     render_generic_view(name=data["Name"], output_folder=output_path, position=position)

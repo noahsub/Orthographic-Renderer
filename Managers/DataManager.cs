@@ -5,13 +5,17 @@
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IMPORTS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using System.Collections.Generic;
+using System.IO;
+using Orthographic.Renderer.Entities;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-using System.IO;
-using HarfBuzzSharp;
-
 namespace Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,9 +46,34 @@ public static class DataManager
     /// The current version of the application.
     /// </summary>
     public static string CurrentVersion { get; set; } = File.ReadAllText("VERSION");
-    
+
     /// <summary>
     /// The latest version of the application.
     /// </summary>
     public static string LatestVersion { get; set; } = CurrentVersion;
+
+    /// <summary>
+    /// The distance of the camera from the origin of the model.
+    /// </summary>
+    public static float CameraDistance { get; set; } = 0.0f;
+
+    /// <summary>
+    /// The resolution of the rendered image.
+    /// </summary>
+    public static Resolution Resolution { get; set; } = new Resolution(0, 0);
+
+    /// <summary>
+    /// The lights in the scene.
+    /// </summary>
+    public static List<Light> Lights { get; set; } = new List<Light>();
+    
+    /// <summary>
+    /// The background colour of the rendered image.
+    /// </summary>
+    public static string BackgroundColour { get; set; } = "#FFFFFF";
+
+    /// <summary>
+    /// The views to render.
+    /// </summary>
+    public static List<string> SelectedViews { get; set; } = new List<string>();
 }

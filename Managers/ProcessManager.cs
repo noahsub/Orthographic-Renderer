@@ -76,6 +76,8 @@ public static class ProcessManager
             },
         };
 
+        Debug.WriteLine($"{path} {arguments}");
+
         // Start the process
         process.Start();
         // Wait for the process to exit

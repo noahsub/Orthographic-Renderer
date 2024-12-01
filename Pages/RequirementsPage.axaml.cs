@@ -34,7 +34,13 @@ public partial class RequirementsPage : UserControl
     public RequirementsPage()
     {
         InitializeComponent();
+    }
 
+    /// <summary>
+    /// Method that is called when the page is navigated to.
+    /// </summary>
+    public void Load()
+    {
         // Load serialized paths
         LoadPaths();
 

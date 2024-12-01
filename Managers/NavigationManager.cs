@@ -9,6 +9,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Orthographic.Renderer.Pages;
 using Orthographic.Renderer.Windows;
@@ -37,6 +38,11 @@ public static class NavigationManager
     private static ModelPage? _modelPage = null;
 
     /// <summary>
+    /// A reference to the views page.
+    /// </summary>
+    private static ViewsPage? _viewsPage = null;
+
+    /// <summary>
     /// A reference to the render page.
     /// </summary>
     private static RenderPage? _renderPage = null;
@@ -50,6 +56,11 @@ public static class NavigationManager
     /// A reference to the update page.
     /// </summary>
     private static UpdatePage? _updatePage = null;
+
+    /// <summary>
+    /// A reference to the lighting page.
+    /// </summary>
+    private static LightingPage? _lightingPage = null;
 
     /// <summary>
     /// The current page displayed in the main window.
@@ -90,14 +101,24 @@ public static class NavigationManager
                 pageContent.Content = _modelPage;
                 _currentPage = _modelPage;
                 break;
+            case "ViewsPage":
+                if (_viewsPage == null)
+                {
+                    _viewsPage = new ViewsPage();
+                }
+                pageContent.Content = _viewsPage;
+                _currentPage = _viewsPage;
+                _viewsPage.SetFileName();
+                _viewsPage.Load();
+                break;
             case "RenderPage":
                 if (_renderPage == null)
                 {
                     _renderPage = new RenderPage();
                 }
-                _renderPage.SetFileName();
                 pageContent.Content = _renderPage;
                 _currentPage = _renderPage;
+                _renderPage.Load();
                 break;
             case "RequirementsPage":
                 if (_requirementsPage == null)
@@ -106,6 +127,7 @@ public static class NavigationManager
                 }
                 pageContent.Content = _requirementsPage;
                 _currentPage = _requirementsPage;
+                _requirementsPage.Load();
                 break;
             case "UpdatePage":
                 if (_updatePage == null)
@@ -113,6 +135,51 @@ public static class NavigationManager
                     _updatePage = new UpdatePage();
                 }
                 pageContent.Content = _updatePage;
+                _currentPage = _updatePage;
+                break;
+            case "LightingPage":
+                if (_lightingPage == null)
+                {
+                    _lightingPage = new LightingPage();
+                }
+                pageContent.Content = _lightingPage;
+                _currentPage = _lightingPage;
+                _lightingPage.Load();
+                break;
+            default:
+                return;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // PAGE CREATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Create a new page of the specified type.
+    /// </summary>
+    /// <param name="name"></param>
+    public static async Task CreatePage(string name)
+    {
+        switch (name)
+        {
+            case "ModelPage":
+                _modelPage = new ModelPage();
+                break;
+            case "ViewsPage":
+                _viewsPage = new ViewsPage();
+                break;
+            case "RenderPage":
+                _renderPage = new RenderPage();
+                break;
+            case "RequirementsPage":
+                _requirementsPage = new RequirementsPage();
+                break;
+            case "UpdatePage":
+                _updatePage = new UpdatePage();
+                break;
+            case "LightingPage":
+                _lightingPage = new LightingPage();
                 break;
             default:
                 return;

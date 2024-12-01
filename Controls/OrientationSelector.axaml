@@ -1,0 +1,48 @@
+﻿<!--  Copyright (C) 2024 noahsub  -->
+<UserControl
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.OrientationSelector"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  MAIN GRID  -->
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            VerticalAlignment="Center">
+            <StackPanel Spacing="20">
+                <Button
+                    Click="LeftButton_OnClick"
+                    Content="&#8592;"
+                    x:Name="LeftButton" />
+                <Button
+                    Click="UpButton_OnClick"
+                    Content="&#8593;"
+                    x:Name="UpButton" />
+            </StackPanel>
+            <Image
+                Grid.Row="0"
+                Height="75"
+                HorizontalAlignment="Center"
+                Margin="20,0,20,0"
+                VerticalAlignment="Center"
+                Width="75"
+                x:Name="OrientationImage" />
+            <StackPanel Spacing="20">
+                <Button
+                    Click="RightButton_OnClick"
+                    Content="&#8594;"
+                    x:Name="RightButton" />
+                <Button
+                    Click="DownButton_OnClick"
+                    Content="&#8595;"
+                    x:Name="DownButton" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
