@@ -238,7 +238,7 @@ public static class RenderManager
                     // Run the blender process with the provided arguments
                     return ProcessManager.RunProcessCheck(
                         DataManager.BlenderPath,
-                        $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
+                        $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\" --quality normal"
                     );
                 },
                 cancellationToken
@@ -262,11 +262,11 @@ public static class RenderManager
         // Get the JSON representation of the render options
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
         // Get the path to the preview script
-        var scriptPath = FileManager.GetAbsolutePath("Scripts/render_preview.py");
+        var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
         // Run the blender process with the provided arguments
         return ProcessManager.RunProcessCheck(
             DataManager.BlenderPath,
-            $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
+            $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\" --quality preview"
         );
     }
 }

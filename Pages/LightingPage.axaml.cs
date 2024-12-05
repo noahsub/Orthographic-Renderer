@@ -396,7 +396,7 @@ public partial class LightingPage : UserControl
         var gcd = (int)BigInteger.GreatestCommonDivisor(resolution.Width, resolution.Height);
         var aspectRatio = new Tuple<int, int>(resolution.Width / gcd, resolution.Height / gcd);
 
-        var previewResolution = new Entities.Resolution(800, (800 * aspectRatio.Item2) / aspectRatio.Item1, 100);
+        var previewResolution = new Entities.Resolution(600, (600 * aspectRatio.Item2) / aspectRatio.Item1, 100);
 
         if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
         {
@@ -427,6 +427,7 @@ public partial class LightingPage : UserControl
         previewRenderOptions.SetCamera(camera);
         previewRenderOptions.SetSaveBlenderFile(true);
         previewRenderOptions.AddLights(lights);
+        previewRenderOptions.SetBackgroundColour(DataManager.BackgroundColour);
 
         Task.Run(async () =>
         {
@@ -436,7 +437,7 @@ public partial class LightingPage : UserControl
             // Update the UI to display the preview image
             Dispatcher.UIThread.Post(() =>
             {
-                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
+                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".jpg");
                 PreviewImage.IsVisible = true;
                 LoadingImage.IsVisible = false;
                 PreviewButton.IsEnabled = true;
