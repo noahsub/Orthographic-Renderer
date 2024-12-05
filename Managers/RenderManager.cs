@@ -211,10 +211,12 @@ public static class RenderManager
     /// Renders the model with the specified options.
     /// </summary>
     /// <param name="renderOptions">The options to use when rendering the model.</param>
+    /// <param name="quality">The quality of the render.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>True if the model was rendered successfully, otherwise false.</returns>
     public static async Task<bool> Render(
         RenderOptions renderOptions,
+        string quality,
         CancellationToken cancellationToken
     )
     {
@@ -239,7 +241,7 @@ public static class RenderManager
                     return ProcessManager.RunProcessCheck(
                         DataManager.BlenderPath,
                         $"-b -P \"{scriptPath}\" -- "
-                            + $"--options \"{jsonRenderOptions}\" --quality normal"
+                            + $"--options \"{jsonRenderOptions}\" --quality {quality}"
                     );
                 },
                 cancellationToken
@@ -250,23 +252,5 @@ public static class RenderManager
         {
             return false;
         }
-    }
-
-    /// <summary>
-    /// Renders a preview of the model with the specified options.
-    /// </summary>
-    /// <param name="renderOptions">The options to use when rendering the model.</param>
-    /// <returns>True if the preview was rendered successfully, otherwise false.</returns>
-    public static bool RenderPreview(RenderOptions renderOptions)
-    {
-        // Get the JSON representation of the render options
-        var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
-        // Get the path to the preview script
-        var scriptPath = FileManager.GetAbsolutePath("Scripts/render.py");
-        // Run the blender process with the provided arguments
-        return ProcessManager.RunProcessCheck(
-            DataManager.BlenderPath,
-            $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\" --quality preview"
-        );
     }
 }

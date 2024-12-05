@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -64,6 +65,11 @@ public partial class LightingPage : UserControl
     /// The maximum dimension of the model.
     /// </summary>
     private float _maxDimension;
+    
+    /// <summary>
+    /// A token source for cancelling the render tasks.
+    /// </summary>
+    private CancellationTokenSource _cancelToken = new();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -385,6 +391,12 @@ public partial class LightingPage : UserControl
     
     private void Option_Changed(object? sender, EventArgs e)
     {
+        // Cancel all running render tasks
+        _cancelToken.Cancel();
+        
+        _cancelToken = new CancellationTokenSource();
+        var token = _cancelToken.Token;
+        
         // Print the element that was changed
         Debug.WriteLine($"SENDER: {sender} => {((Control)sender).Name}");
         
@@ -459,7 +471,12 @@ public partial class LightingPage : UserControl
         Task.Run(async () =>
         {
             // Render the preview image
-            RenderManager.RenderPreview(previewRenderOptions);
+            var success = await RenderManager.Render(previewRenderOptions, "preview", token);
+            
+            if (!success)
+            {
+                return;
+            }
 
             // Update the UI to display the preview image
             Dispatcher.UIThread.Post(() =>

@@ -390,7 +390,7 @@ public partial class RenderPage : UserControl
         renderItem.SetStatus(RenderStatus.InProgress);
 
         // Render the item and get the success status.
-        var success = await RenderManager.Render(renderOptions, token);
+        var success = await RenderManager.Render(renderOptions, "normal", token);
 
         // Update the status of the render item.
         await Dispatcher.UIThread.InvokeAsync(() =>
