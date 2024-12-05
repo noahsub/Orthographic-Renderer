@@ -236,9 +236,33 @@ public static class RenderManager
                     }
 
                     // Run the blender process with the provided arguments
-                    return ProcessManager.RunProcessCheck(
+                    var createBlenderFile = ProcessManager.RunProcessCheck(
                         DataManager.BlenderPath,
                         $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
+                    );
+                    
+                    if (!createBlenderFile) return false;
+        
+                    var outputDirectory = renderOptions.OutputDirectory;
+                    if (!outputDirectory.EndsWith("/"))
+                    {
+                        outputDirectory += "/";
+                    }
+
+                    var renderCommand = "";
+                    if (DataManager.RenderEngine == "CYCLES")
+                    {
+                        renderCommand =
+                            $"-b {outputDirectory}{renderOptions.Name}.blend -E {DataManager.RenderEngine} -f 1 -- --cycles-device {DataManager.CycleDevice}";
+                    }
+                    else if (DataManager.RenderEngine == "BLENDER_EEVEE_NEXT")
+                    {
+                        renderCommand = $"-b {outputDirectory}{renderOptions.Name}.blend -E {DataManager.RenderEngine} -f 1";
+                    }
+        
+                    return ProcessManager.RunProcessCheck(
+                        DataManager.BlenderPath,
+                        renderCommand
                     );
                 },
                 cancellationToken
@@ -264,9 +288,32 @@ public static class RenderManager
         // Get the path to the preview script
         var scriptPath = FileManager.GetAbsolutePath("Scripts/render_preview.py");
         // Run the blender process with the provided arguments
-        return ProcessManager.RunProcessCheck(
+        var createBlenderFile = ProcessManager.RunProcessCheck(
             DataManager.BlenderPath,
             $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
+        );
+        if (!createBlenderFile) return false;
+        
+        var outputDirectory = renderOptions.OutputDirectory;
+        if (!outputDirectory.EndsWith("/"))
+        {
+            outputDirectory += "/";
+        }
+
+        var renderCommand = "";
+        if (DataManager.RenderEngine == "CYCLES")
+        {
+            renderCommand =
+                $"-b {outputDirectory}{renderOptions.Name}.blend -E {DataManager.RenderEngine} -f 1 -- --cycles-device {DataManager.CycleDevice}";
+        }
+        else if (DataManager.RenderEngine == "BLENDER_EEVEE_NEXT")
+        {
+            renderCommand = $"-b {outputDirectory}{renderOptions.Name}.blend -E {DataManager.RenderEngine} -f 1";
+        }
+        
+        return ProcessManager.RunProcessCheck(
+            DataManager.BlenderPath,
+            renderCommand
         );
     }
 }

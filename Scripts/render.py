@@ -214,7 +214,7 @@ def set_render_resolution(width: int, height: int, scale: int) -> None:
     bpy.context.scene.render.resolution_percentage = scale
 
 
-def render_generic_view(name: str, output_folder: str, position: Position):
+def setup_view(name: str, output_folder: str, position: Position):
     """
     Render a generic view of the scene with the specified parameters
     :param name: The name of the rendered image
@@ -224,10 +224,6 @@ def render_generic_view(name: str, output_folder: str, position: Position):
     """
     set_camera_pos_and_rot(position)
     bpy.context.scene.render.filepath = output_folder + f"{name}"
-    try:
-        bpy.ops.render.render(write_still=True)
-    except Exception as e:
-        sys.exit(1)
 
 
 ########################################################################################################################
@@ -487,10 +483,6 @@ if __name__ == "__main__":
         bg_node.inputs['Color'].default_value = background_colour
 
     # Render the view
-    render_device = render_generic_view(name=data["Name"], output_folder=output_path, position=position)
-    print(f"Render Device: {render_device}")
+    setup_view(name=data["Name"], output_folder=output_path, position=position)
 
-    save = data["SaveBlenderFile"]
-
-    if save:
-        save_file(output_path + data["Name"] + ".blend")
+    save_file(output_path + data["Name"] + ".blend")

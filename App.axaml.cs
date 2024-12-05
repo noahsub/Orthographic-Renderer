@@ -9,14 +9,19 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
-using LibreHardwareMonitor.Software;
+using LibreHardwareMonitor.Hardware;
 using Orthographic.Renderer.Managers;
+using OperatingSystem = LibreHardwareMonitor.Software.OperatingSystem;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -73,6 +78,59 @@ public partial class App : Application
                 await Task.Run(HardwareManager.SetupComputer);
                 splashScreen.SetLoadingTextUiThread("Collecting Hardware");
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
+                splashScreen.SetLoadingTextUiThread("Setting Render Engine");
+                await Task.Run(() =>
+                {
+                    bool renderEngineSet = false;
+
+                    foreach (var hardware in HardwareManager.HardwareToMonitor)
+                    {
+                        if (hardware.Type == HardwareType.GpuNvidia)
+                        {
+                            // deserialize data in 'nvidia_supported_devices.json' to a list of dynamic objects
+                            var devices = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Tuple<string, float>>>(File.ReadAllText("Data/nvidia_supported_devices.json"));
+                            foreach (var device in devices)
+                            {
+                                // if the device name matches the hardware name
+                                if (hardware.Name.Contains(device.Item1))
+                                {
+                                    if (device.Item2 >= 5.0)
+                                    {
+                                        DataManager.RenderEngine = "CYCLES";
+                                        DataManager.CycleDevice = "OPTIX";
+                                        renderEngineSet = true;
+                                        break;
+                                    }
+                
+                                    if (device.Item2 >= 3.0)
+                                    {
+                                        DataManager.RenderEngine = "CYCLES";
+                                        DataManager.CycleDevice = "CUDA";
+                                        renderEngineSet = true;
+                                        break;
+                                    }
+                
+                                    if (device.Item2 < 3.0)
+                                    {
+                                        DataManager.RenderEngine = "BLENDER_EEVEE_NEXT";
+                                        DataManager.CycleDevice = "";
+                                        renderEngineSet = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!renderEngineSet)
+                        {
+                            DataManager.RenderEngine = "BLENDER_EEVEE_NEXT";
+                            DataManager.CycleDevice = "";
+                        }
+                    }
+                    Debug.WriteLine(DataManager.RenderEngine);
+                    Debug.WriteLine(DataManager.CycleDevice);
+                });
+                
                 // Copy user files asynchronously
                 splashScreen.SetLoadingTextUiThread("Copying User Files");
                 await Task.Run(FileManager.CopyUserFiles);

@@ -72,11 +72,6 @@ public class RenderOptions
     public string BackgroundColour { get; set; }
 
     /// <summary>
-    /// Whether to save the Blender file.
-    /// </summary>
-    public bool SaveBlenderFile { get; set; }
-
-    /// <summary>
     /// Creates a new instance of the <see cref="RenderOptions"/> class.
     /// </summary>
     public RenderOptions()
@@ -90,7 +85,6 @@ public class RenderOptions
         Camera = new Camera(0, new Position(0, 0, 0, 0, 0, 0));
         Lights = new List<Light>();
         BackgroundColour = "#FFFFFF";
-        SaveBlenderFile = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -176,15 +170,6 @@ public class RenderOptions
     public void SetBackgroundColour(string backgroundColour)
     {
         BackgroundColour = backgroundColour;
-    }
-
-    /// <summary>
-    /// Whether to save the Blender file.
-    /// </summary>
-    /// <param name="saveBlenderFile">Whether to save the Blender file.</param>
-    public void SetSaveBlenderFile(bool saveBlenderFile)
-    {
-        SaveBlenderFile = saveBlenderFile;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

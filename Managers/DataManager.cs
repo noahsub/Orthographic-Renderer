@@ -76,4 +76,14 @@ public static class DataManager
     /// The views to render.
     /// </summary>
     public static List<string> SelectedViews { get; set; } = new List<string>();
+    
+    /// <summary>
+    /// The render engine to use.
+    /// </summary>
+    public static string RenderEngine { get; set; } = "";
+    
+    /// <summary>
+    /// The device to use for rendering.
+    /// </summary>
+    public static string CycleDevice { get; set; } = "";
 }

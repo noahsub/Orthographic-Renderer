@@ -343,6 +343,10 @@
       <Content Include="Assets\Images\Backgrounds\motor.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Data\nvidia_supported_devices.json" />
+      <Content Include="Data\nvidia_supported_devices.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

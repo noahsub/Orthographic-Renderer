@@ -425,7 +425,6 @@ public partial class LightingPage : UserControl
         previewRenderOptions.SetOutputDirectory(tempDirectory);
         previewRenderOptions.SetResolution(resolution);
         previewRenderOptions.SetCamera(camera);
-        previewRenderOptions.SetSaveBlenderFile(true);
         previewRenderOptions.AddLights(lights);
 
         Task.Run(async () =>
@@ -436,7 +435,7 @@ public partial class LightingPage : UserControl
             // Update the UI to display the preview image
             Dispatcher.UIThread.Post(() =>
             {
-                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
+                PreviewImage.Source = new Bitmap(tempDirectory + uuid + "0001.png");
                 PreviewImage.IsVisible = true;
                 LoadingImage.IsVisible = false;
                 PreviewButton.IsEnabled = true;

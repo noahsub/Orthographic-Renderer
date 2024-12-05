@@ -1,0 +1,1154 @@
+[
+  {
+    "Item1": "Tesla K80",
+    "Item2": 3.7
+  },
+  {
+    "Item1": "Tesla K40",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Tesla K20",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Tesla C2075",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "Tesla C2050/C2070",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "NVIDIA H100",
+    "Item2": 9.0
+  },
+  {
+    "Item1": "NVIDIA L4",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "NVIDIA L40",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "NVIDIA A100",
+    "Item2": 8.0
+  },
+  {
+    "Item1": "NVIDIA A40",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "NVIDIA A30",
+    "Item2": 8.0
+  },
+  {
+    "Item1": "NVIDIA A10",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "NVIDIA A16",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "NVIDIA A2",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "NVIDIA T4",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "NVIDIA V100",
+    "Item2": 7.0
+  },
+  {
+    "Item1": "Tesla P100",
+    "Item2": 6.0
+  },
+  {
+    "Item1": "Tesla P40",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Tesla P4",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Tesla M60",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Tesla M40",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Tesla K80",
+    "Item2": 3.7
+  },
+  {
+    "Item1": "Tesla K40",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Tesla K20",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Tesla K10",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "RTX 6000",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "RTX A6000",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "RTX A5000",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "RTX A4000",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "T1000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "T600",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "T400",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Quadro RTX 8000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Quadro RTX 6000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Quadro RTX 5000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Quadro RTX 4000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Quadro GV100",
+    "Item2": 7.0
+  },
+  {
+    "Item1": "Quadro GP100",
+    "Item2": 6.0
+  },
+  {
+    "Item1": "Quadro P6000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P5000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P4000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P2200",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P2000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P1000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P620",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P600",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P400",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro M6000 24GB",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro M6000",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro K6000",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Quadro M5000",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro K5200",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Quadro K5000",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro M4000",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro K4200",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K4000",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro M2000",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro K2200",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K2000",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K2000D",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K1200",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K620",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K600",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K420",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro 410",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro Plex 7000",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "RTX A5000",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "RTX A4000",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "RTX A3000",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "RTX A2000",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "RTX 5000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "RTX 4000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "RTX 3000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "T2000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "T1200",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "T1000",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "T600",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "T500",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "P620",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "P520",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P5200",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P4200",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P3200",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P5000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P4000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P3000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P2000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P1000",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P600",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro P500",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "Quadro M5500M",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro M2200",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro M1200",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro M620",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "Quadro M520",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K6000M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K5200M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K5100M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro M5000M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K500M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K4200M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K4100M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro M4000M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K3100M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro M3000M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K2200M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro K2100M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro M2000M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K1100M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "Quadro M1000M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K620M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K610M",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Quadro M600M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "Quadro K510M",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "Quadro M500M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "NVIDIA NVS 810",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "NVIDIA NVS 510",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "NVIDIA NVS 315",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "NVIDIA NVS 310",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "NVS 5400M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "NVS 5200M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "NVS 4200M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce RTX 4090",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 4080",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 4070 Ti",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 4060 Ti",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 3090 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3090",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3080 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3080",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3070 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3070",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "Geforce RTX 3060 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "Geforce RTX 3060",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce GTX 1650 Ti",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "NVIDIA TITAN RTX",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Geforce RTX 2080 Ti",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Geforce RTX 2080",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Geforce RTX 2070",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Geforce RTX 2060",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "NVIDIA TITAN V",
+    "Item2": 7.0
+  },
+  {
+    "Item1": "NVIDIA TITAN Xp",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "NVIDIA TITAN X",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1080 Ti",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1080",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1070 Ti",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1070",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1060",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1050",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX TITAN X",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX TITAN Z",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GTX TITAN Black",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GTX TITAN",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GTX 980 Ti",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 980",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 970",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 960",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 950",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 780 Ti",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GTX 780",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GTX 770",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 760",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 750 Ti",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce GTX 750",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce GTX 690",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 680",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 670",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 660 Ti",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 660",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 650 Ti BOOST",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 650 Ti",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 650",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 560 Ti",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 550 Ti",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 460",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTS 450",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTS 450*",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 590",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "GeForce GTX 580",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "GeForce GTX 570",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "GeForce GTX 480",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "GeForce GTX 470",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "GeForce GTX 465",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "GeForce GT 740",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 730",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GT 730 DDR3,128bit",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 720",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GT 705*",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GT 640 (GDDR5)",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce GT 640 (GDDR3)",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 630",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 620",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 610",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 520",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 440",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 440*",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 430",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 430*",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce RTX 4090",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 4080",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 4070",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 4060",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 4050",
+    "Item2": 8.9
+  },
+  {
+    "Item1": "GeForce RTX 3080 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3080",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3070 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3070",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3060 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3060",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3050 Ti",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "GeForce RTX 3050",
+    "Item2": 8.6
+  },
+  {
+    "Item1": "Geforce RTX 2080",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Geforce RTX 2070",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "Geforce RTX 2060",
+    "Item2": 7.5
+  },
+  {
+    "Item1": "GeForce GTX 1080",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1070",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 1060",
+    "Item2": 6.1
+  },
+  {
+    "Item1": "GeForce GTX 980",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 980M",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 970M",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 965M",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 960M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce GTX 950M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce 940M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce 930M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce 920M",
+    "Item2": 3.5
+  },
+  {
+    "Item1": "GeForce 910M",
+    "Item2": 5.2
+  },
+  {
+    "Item1": "GeForce GTX 880M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 870M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 860M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 850M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce 840M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce 830M",
+    "Item2": 5.0
+  },
+  {
+    "Item1": "GeForce 820M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce 800M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 780M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 770M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 765M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 760M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 680MX",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 680M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 675MX",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 675M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 670MX",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GTX 670M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 660M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 755M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 750M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 650M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 745M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 645M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 740M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 730M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 640M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 640M LE",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 735M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 635M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 730M",
+    "Item2": 3.0
+  },
+  {
+    "Item1": "GeForce GT 630M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 625M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 720M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 620M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce 710M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce 705M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce 610M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 580M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 570M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 560M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 555M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 550M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 540M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 525M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 520MX",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 520M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 485M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 470M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 460M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 445M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 435M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 420M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GT 415M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce GTX 480M",
+    "Item2": 2.0
+  },
+  {
+    "Item1": "GeForce 710M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "GeForce 410M",
+    "Item2": 2.1
+  },
+  {
+    "Item1": "Jetson AGX Orin, Jetson Orin NX, Jetson Orin Nano",
+    "Item2": 8.7
+  },
+  {
+    "Item1": "Jetson AGX Xavier, Jetson Xavier NX",
+    "Item2": 7.2
+  },
+  {
+    "Item1": "Jetson TX2",
+    "Item2": 6.2
+  },
+  {
+    "Item1": "Jetson Nano",
+    "Item2": 5.3
+  }
+]
