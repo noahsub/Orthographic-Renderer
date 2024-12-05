@@ -143,7 +143,7 @@
                                 Grid.Row="0"
                                 HorizontalContentAlignment="Center"
                                 Margin="5,5,5,5"
-                                Text="Width"
+                                Text="1920"
                                 VerticalContentAlignment="Center"
                                 x:Name="WidthTextBox" />
                             <TextBox
@@ -151,7 +151,7 @@
                                 Grid.Row="0"
                                 HorizontalContentAlignment="Center"
                                 Margin="5,5,5,5"
-                                Text="Height"
+                                Text="1080"
                                 VerticalContentAlignment="Center"
                                 x:Name="HeightTextBox" />
 

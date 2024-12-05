@@ -120,8 +120,18 @@ public partial class LightingPage : UserControl
                 ResolutionGrid.Children.Add(resolutionButton);
             }
 
-            WidthTextBox.Text = "1920";
-            HeightTextBox.Text = "1080";
+            WidthTextBox.TextChanged += Option_Changed;
+            HeightTextBox.TextChanged += Option_Changed;
+            CameraOrientation.OrientationChanged += Option_Changed;
+            CameraDistance.ValueChanged += Option_Changed;
+            BackgroundColourSelector.ColourChanged += Option_Changed;
+
+            OnePointLightingButton.Click += Option_Changed;
+            ThreePointLightingButton.Click += Option_Changed;
+            OverheadLightingButton.Click += Option_Changed;
+            
+            AddLightButton.Click += Option_Changed;
+            ClearButton.Click += Option_Changed;
         });
     }
 
@@ -275,6 +285,11 @@ public partial class LightingPage : UserControl
             light.SetPower(settings[i].power);
             light.SetSize(3);
             light.SetDistance(_maxDimension * 80);
+            light.LightOrientationSelector.OrientationChanged += Option_Changed;
+            light.LightColourSelector.ColourChanged += Option_Changed;
+            light.PowerValueSelector.ValueChanged += Option_Changed;
+            light.SizeValueSelector.ValueChanged += Option_Changed;
+            light.DistanceValueSelector.ValueChanged += Option_Changed;
             LightOptionsStackPanel.Children.Add(light);
         }
     }
@@ -301,6 +316,11 @@ public partial class LightingPage : UserControl
             light.SetPower(settings[i].power);
             light.SetSize(3);
             light.SetDistance(_maxDimension * 80);
+            light.LightOrientationSelector.OrientationChanged += Option_Changed;
+            light.LightColourSelector.ColourChanged += Option_Changed;
+            light.PowerValueSelector.ValueChanged += Option_Changed;
+            light.SizeValueSelector.ValueChanged += Option_Changed;
+            light.DistanceValueSelector.ValueChanged += Option_Changed;
             LightOptionsStackPanel.Children.Add(light);
         }
     }
@@ -322,6 +342,11 @@ public partial class LightingPage : UserControl
             light.SetPower(settings[i].power);
             light.SetSize(3);
             light.SetDistance(_maxDimension * 80);
+            light.LightOrientationSelector.OrientationChanged += Option_Changed;
+            light.LightColourSelector.ColourChanged += Option_Changed;
+            light.PowerValueSelector.ValueChanged += Option_Changed;
+            light.SizeValueSelector.ValueChanged += Option_Changed;
+            light.DistanceValueSelector.ValueChanged += Option_Changed;
             LightOptionsStackPanel.Children.Add(light);
         }
     }
@@ -334,6 +359,11 @@ public partial class LightingPage : UserControl
     private void AddLightButton_OnClick(object? sender, RoutedEventArgs e)
     {
         var light = new LightOptions();
+        light.LightOrientationSelector.OrientationChanged += Option_Changed;
+        light.LightColourSelector.ColourChanged += Option_Changed;
+        light.PowerValueSelector.ValueChanged += Option_Changed;
+        light.SizeValueSelector.ValueChanged += Option_Changed;
+        light.DistanceValueSelector.ValueChanged += Option_Changed;
         LightOptionsStackPanel.Children.Add(light);
     }
 
@@ -352,14 +382,12 @@ public partial class LightingPage : UserControl
             "StackPanel is not empty after clearing."
         );
     }
-
-    /// <summary>
-    /// Renders a preview image of the model according to the current options.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void PreviewButton_OnClick(object? sender, RoutedEventArgs e)
+    
+    private void Option_Changed(object? sender, EventArgs e)
     {
+        // Print the element that was changed
+        Debug.WriteLine($"SENDER: {sender} => {((Control)sender).Name}");
+        
         // Update the UI to indicate that rendering is in progress.
         Dispatcher.UIThread.Post(() =>
         {
@@ -443,6 +471,16 @@ public partial class LightingPage : UserControl
                 PreviewButton.Content = "Preview";
             });
         });
+    }
+
+    /// <summary>
+    /// Renders a preview image of the model according to the current options.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void PreviewButton_OnClick(object? sener, RoutedEventArgs e)
+    {
+        
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

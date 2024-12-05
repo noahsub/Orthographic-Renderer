@@ -166,23 +166,13 @@ def set_render_preferences(quality: str) -> Tuple[str, str]:
         bpy.context.scene.render.image_settings.exr_codec = "DWAA"
 
     if quality == "preview":
-        if device[0] == "CYCLES" and device[1] == "OPTIX":
-            bpy.context.scene.cycles.denoiser = "OPTIX"
+        # Switch to Eevee render engine
+        bpy.context.scene.render.engine = 'BLENDER_EEVEE_NEXT'
 
         bpy.context.scene.render.use_simplify = True
-        bpy.context.scene.render.simplify_subdivision = 1
-        bpy.context.scene.cycles.texture_limit_render = "512"
+        bpy.context.scene.render.simplify_subdivision = 2
 
-        bpy.context.scene.cycles.use_camera_cull = True
-        bpy.context.scene.cycles.use_distance_cull = True
-
-        bpy.context.scene.cycles.use_fast_gi = True
-        bpy.context.scene.cycles.use_animated_seed = True
-
-        # might need to turn this off
-        bpy.context.scene.cycles.auto_scrambling_distance = True
-
-        bpy.context.scene.cycles.max_bounces = 3
+        bpy.context.scene.eevee.taa_render_samples = 32
 
         bpy.context.scene.render.image_settings.file_format = "JPEG"
         bpy.context.scene.render.image_settings.color_mode = "RGB"

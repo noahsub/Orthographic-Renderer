@@ -8,6 +8,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -37,6 +39,8 @@ public partial class OrientationSelector : UserControl
     /// The current orientation of the 3D model.
     /// </summary>
     public OrientationNode CurrentOrientation { get; set; }
+    
+    public event EventHandler OrientationChanged;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ORIENTATION NODES
@@ -448,6 +452,7 @@ public partial class OrientationSelector : UserControl
     {
         CurrentOrientation = CurrentOrientation.Left;
         OrientationImage.Source = new Bitmap(CurrentOrientation.Icon);
+        OrientationChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -459,6 +464,7 @@ public partial class OrientationSelector : UserControl
     {
         CurrentOrientation = CurrentOrientation.Up;
         OrientationImage.Source = new Bitmap(CurrentOrientation.Icon);
+        OrientationChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -470,6 +476,7 @@ public partial class OrientationSelector : UserControl
     {
         CurrentOrientation = CurrentOrientation.Right;
         OrientationImage.Source = new Bitmap(CurrentOrientation.Icon);
+        OrientationChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -481,5 +488,6 @@ public partial class OrientationSelector : UserControl
     {
         CurrentOrientation = CurrentOrientation.Down;
         OrientationImage.Source = new Bitmap(CurrentOrientation.Icon);
+        OrientationChanged?.Invoke(this, e);
     }
 }
