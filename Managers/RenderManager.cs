@@ -206,7 +206,7 @@ public static class RenderManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // RENDERING
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Renders the model with the specified options.
     /// </summary>
@@ -238,13 +238,13 @@ public static class RenderManager
                     // Run the blender process with the provided arguments
                     return ProcessManager.RunProcessCheck(
                         DataManager.BlenderPath,
-                        $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\" --quality normal"
+                        $"-b -P \"{scriptPath}\" -- "
+                            + $"--options \"{jsonRenderOptions}\" --quality normal"
                     );
                 },
                 cancellationToken
             );
         }
-        
         // Otherwise, return false
         catch (OperationCanceledException)
         {

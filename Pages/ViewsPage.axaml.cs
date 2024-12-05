@@ -204,7 +204,7 @@ public partial class ViewsPage : UserControl
     {
         // Get the selected views
         var selectedViews = GetSelectedViews();
-        
+
         // If no views are selected, select the top-front-right view
         if (selectedViews.Count == 0)
         {

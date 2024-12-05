@@ -30,7 +30,7 @@ public partial class ColourSelector : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Event handler for when the colour is changed.
     /// </summary>
@@ -39,14 +39,14 @@ public partial class ColourSelector : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ColourSelector"/> class.
     /// </summary>
     public ColourSelector()
     {
         InitializeComponent();
-        
+
         // Set the text of the colour label
         ColourLabel.Content = ColourPicker.Color.ToString();
     }
@@ -54,7 +54,7 @@ public partial class ColourSelector : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // COLOUR CONVERSIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Converts the RGBA values of the colour picker to a hex colour.
     /// </summary>
@@ -79,7 +79,10 @@ public partial class ColourSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void LightColourPicker_OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    private void LightColourPicker_OnPropertyChanged(
+        object? sender,
+        AvaloniaPropertyChangedEventArgs e
+    )
     {
         // If the colour property has changed
         if (e.Property == ColorButton.ColorProperty)

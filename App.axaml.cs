@@ -69,18 +69,34 @@ public partial class App : Application
             Task.Run(async () =>
             {
                 // Perform hardware setup and collection asynchronously
-                splashScreen.SetLoadingTextUiThread("Setting up Computer");
+                splashScreen.SetLoadingTextUiThread("Initializing hardware setup...");
                 await Task.Run(HardwareManager.SetupComputer);
-                splashScreen.SetLoadingTextUiThread("Collecting Hardware");
+
+                splashScreen.SetLoadingTextUiThread("Collecting hardware information...");
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
+
                 // Copy user files asynchronously
-                splashScreen.SetLoadingTextUiThread("Copying User Files");
+                splashScreen.SetLoadingTextUiThread("Copying user files...");
                 await Task.Run(FileManager.CopyUserFiles);
+
                 // Check for updates asynchronously
-                splashScreen.SetLoadingTextUiThread("Checking for Updates");
+                splashScreen.SetLoadingTextUiThread("Checking for updates...");
                 DataManager.LatestVersion = await WebManager.GetLatestVersion();
 
-                splashScreen.SetLoadingTextUiThread("Creating Pages");
+                splashScreen.SetLoadingTextUiThread("Configuring Blender path...");
+                if (OperatingSystem.IsWindows8OrGreater)
+                {
+                    DataManager.BlenderPath = "Blender/Windows/blender.exe";
+                }
+
+                // Get Render Hardware
+                splashScreen.SetLoadingTextUiThread("Retrieving render hardware...");
+                if (!string.IsNullOrEmpty(DataManager.BlenderPath))
+                {
+                    await Task.Run(HardwareManager.GetRenderHardware);
+                }
+
+                splashScreen.SetLoadingTextUiThread("Creating application pages...");
 
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(async () =>
@@ -88,22 +104,13 @@ public partial class App : Application
                     var mainWindow = new Windows.MainWindow();
                     desktop.MainWindow = mainWindow;
 
-                    // Create update page
+                    // Create application pages
                     await NavigationManager.CreatePage("UpdatePage");
-
-                    // Create requirements page
                     await NavigationManager.CreatePage("RequirementsPage");
-
-                    // Create model page
+                    await NavigationManager.CreatePage("HardwarePage");
                     await NavigationManager.CreatePage("ModelPage");
-
-                    // Create lighting page
                     await NavigationManager.CreatePage("LightingPage");
-
-                    // Create views page
                     await NavigationManager.CreatePage("ViewsPage");
-
-                    // Create render page
                     await NavigationManager.CreatePage("RenderPage");
 
                     mainWindow.Show();

@@ -44,48 +44,42 @@ public partial class LightingPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// The list of light options for one point lighting.
     /// </summary>
     private List<LightOptions> _onePointLighting;
-    
+
     /// <summary>
     /// The list of light options for three point lighting.
     /// </summary>
     private List<LightOptions> _threePointLighting;
-    
+
     /// <summary>
     /// The list of light options for overhead lighting.
     /// </summary>
     private List<LightOptions> _overheadLighting;
-    
+
     /// <summary>
     /// The maximum dimension of the model.
     /// </summary>
     private float _maxDimension;
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Creates a new instance of the <see cref="LightingPage"/> class.
     /// </summary>
     public LightingPage()
     {
         InitializeComponent();
-        
+
         // Initialize the light options
         _onePointLighting = [new LightOptions()];
 
-        _threePointLighting =
-        [
-            new LightOptions(),
-            new LightOptions(),
-            new LightOptions()
-        ];
+        _threePointLighting = [new LightOptions(), new LightOptions(), new LightOptions()];
 
         _overheadLighting = [new LightOptions()];
 
@@ -125,7 +119,7 @@ public partial class LightingPage : UserControl
                 Grid.SetColumn(resolutionButton, i % 6);
                 ResolutionGrid.Children.Add(resolutionButton);
             }
-            
+
             WidthTextBox.Text = "1920";
             HeightTextBox.Text = "1080";
         });
@@ -138,7 +132,8 @@ public partial class LightingPage : UserControl
     {
         // Calculate the maximum dimension of the model
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        _maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
+        _maxDimension =
+            new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
         // Set the camera distance to the maximum dimension multiplied by 2
         CameraDistance.SetValue(_maxDimension * 2);
         CameraDistance.SetSliderBounds(0, _maxDimension * 10, 0.2);
@@ -147,7 +142,7 @@ public partial class LightingPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Sets the resolution according to the resolution button clicked.
     /// </summary>
@@ -269,10 +264,7 @@ public partial class LightingPage : UserControl
         LightOptionsStackPanel.Children.Clear();
 
         // The orientation and power to use for the lights
-        var settings = new List<(string orientation, int power)>
-        {
-            ("front", 1000)
-        };
+        var settings = new List<(string orientation, int power)> { ("front", 1000) };
 
         // Set the light options for one point lighting using default settings
         for (var i = 0; i < _onePointLighting.Count; i++)
@@ -360,7 +352,7 @@ public partial class LightingPage : UserControl
             "StackPanel is not empty after clearing."
         );
     }
-    
+
     /// <summary>
     /// Renders a preview image of the model according to the current options.
     /// </summary>
@@ -382,7 +374,7 @@ public partial class LightingPage : UserControl
 
         // Store and retrieve the current options
         SaveOptions();
-        
+
         // Set the base resolution
         var resolution = DataManager.Resolution;
         if (resolution.Width == 0 || resolution.Height == 0)
@@ -391,19 +383,26 @@ public partial class LightingPage : UserControl
             WidthTextBox.Text = "1920";
             HeightTextBox.Text = "1080";
         }
-        
+
         // compute aspect ratio by determining the GCD of the width and height
         var gcd = (int)BigInteger.GreatestCommonDivisor(resolution.Width, resolution.Height);
         var aspectRatio = new Tuple<int, int>(resolution.Width / gcd, resolution.Height / gcd);
 
-        var previewResolution = new Entities.Resolution(600, (600 * aspectRatio.Item2) / aspectRatio.Item1, 100);
+        var previewResolution = new Entities.Resolution(
+            600,
+            (600 * aspectRatio.Item2) / aspectRatio.Item1,
+            100
+        );
 
-        if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
+        if (
+            previewResolution.Width * previewResolution.Height
+            < resolution.Width * resolution.Height
+        )
         {
             resolution = previewResolution;
             Debug.WriteLine($"RESOLUTION: WIDTH: {resolution.Width}, HEIGHT: {resolution.Height}");
         }
-        
+
         var cameraDistance = DataManager.CameraDistance;
         var lights = DataManager.Lights;
 
@@ -483,7 +482,7 @@ public partial class LightingPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // VERIFICATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Checks if the options are valid and sets them to default if they are not.
     /// </summary>
@@ -534,21 +533,21 @@ public partial class LightingPage : UserControl
     {
         // Verify the options
         VerifyOptions();
-        
+
         // Store the camera distance
         DataManager.CameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
-        
+
         // Store the resolution
         DataManager.Resolution = new Entities.Resolution(
             int.Parse(WidthTextBox.Text ?? "1920"),
             int.Parse(HeightTextBox.Text ?? "1080")
         );
-        
+
         // Store the lights
         DataManager.Lights = GetLights();
 
         Debug.WriteLine($"Background colour: {BackgroundColourSelector.GetHexColour()}");
-        
+
         // Store the background colour
         DataManager.BackgroundColour = BackgroundColourSelector.GetHexColour();
     }

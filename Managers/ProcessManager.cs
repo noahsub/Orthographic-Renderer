@@ -45,6 +45,8 @@ public static class ProcessManager
             },
         };
 
+        Debug.WriteLine($"{path} {arguments}");
+
         // Start the process
         process.Start();
         // Read the output

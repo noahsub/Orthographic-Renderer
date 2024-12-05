@@ -45,12 +45,12 @@ public partial class RenderPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// A token source for cancelling the render tasks.
     /// </summary>
     private CancellationTokenSource _cancelToken = new();
-    
+
     /// <summary>
     /// Specifies whether the blender file should be saved.
     /// </summary>
@@ -59,7 +59,7 @@ public partial class RenderPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Creates a new instance of the <see cref="RenderPage"/> class.
     /// </summary>
@@ -89,16 +89,16 @@ public partial class RenderPage : UserControl
     {
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
-        
+
         var userDirectory = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             "Downloads"
         );
-        
+
         OutputBrowsableDirectoryTextBox.PathTextBox.Text = userDirectory;
 
         SaveBlenderFile = true;
-        
+
         // Populate the render queue.
         PopulateRenderQueue();
     }
@@ -135,7 +135,7 @@ public partial class RenderPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Handles the selection of the rendering mode.
     /// </summary>
@@ -162,7 +162,7 @@ public partial class RenderPage : UserControl
             }
         }
     }
-    
+
     /// <summary>
     /// Navigates back to the ViewsPage.
     /// </summary>
@@ -207,7 +207,7 @@ public partial class RenderPage : UserControl
     {
         // Populate the render queue.
         PopulateRenderQueue();
-        
+
         // Get the output directory and check if it is valid.
         var outputDirectory = OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty;
         if (string.IsNullOrWhiteSpace(outputDirectory))
@@ -388,7 +388,7 @@ public partial class RenderPage : UserControl
 
         // Set the status of the render item to in progress.
         renderItem.SetStatus(RenderStatus.InProgress);
-        
+
         // Render the item and get the success status.
         var success = await RenderManager.Render(renderOptions, token);
 

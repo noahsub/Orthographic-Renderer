@@ -66,7 +66,7 @@ public static class DataManager
     /// The lights in the scene.
     /// </summary>
     public static List<Light> Lights { get; set; } = new List<Light>();
-    
+
     /// <summary>
     /// The background colour of the rendered image.
     /// </summary>
@@ -76,4 +76,19 @@ public static class DataManager
     /// The views to render.
     /// </summary>
     public static List<string> SelectedViews { get; set; } = new List<string>();
+
+    /// <summary>
+    /// The OPTIX devices available.
+    /// </summary>
+    public static List<string> OptixDevices { get; set; } = new List<string>();
+
+    /// <summary>
+    /// The CUDA devices available.
+    /// </summary>
+    public static List<string> CudaDevices { get; set; } = new List<string>();
+
+    /// <summary>
+    /// The CPU devices available.
+    /// </summary>
+    public static List<string> CpuDevices { get; set; } = new List<string>();
 }

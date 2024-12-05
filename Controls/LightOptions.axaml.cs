@@ -37,14 +37,14 @@ public partial class LightOptions : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="LightOptions"/> class. 
+    /// Initializes a new instance of the <see cref="LightOptions"/> class.
     /// </summary>
     public LightOptions()
     {
         InitializeComponent();
-        
+
         // Compute the slider bounds based on the size of the model.
         ComputeSliderBounds();
     }
@@ -97,7 +97,7 @@ public partial class LightOptions : UserControl
     {
         DistanceValueSelector.SetValue(distance);
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // SLIDER BOUNDS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,8 +112,9 @@ public partial class LightOptions : UserControl
         SizeValueSelector.SetSliderBounds(0, 100, 1);
 
         // If the model path is invalid, return
-        if (!FileManager.VerifyModelPath(DataManager.ModelPath)) return;
-        
+        if (!FileManager.VerifyModelPath(DataManager.ModelPath))
+            return;
+
         // Get the dimensions of the model
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
         // Get the biggest dimension
@@ -124,7 +125,6 @@ public partial class LightOptions : UserControl
         {
             DistanceValueSelector.SetSliderBounds(0, 100, 0.2);
         }
-        
         // otherwise, set the distance slider bounds to [0, maxDimension * 200] with a step of 0.2
         else
         {
@@ -135,7 +135,7 @@ public partial class LightOptions : UserControl
             );
         }
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // VERIFICATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,27 +146,33 @@ public partial class LightOptions : UserControl
     public void VerifyOptions()
     {
         // If the power value is invalid, set it to 0
-        if (string.IsNullOrEmpty(PowerValueSelector.ValueTextBox.Text) || 
-            float.TryParse(PowerValueSelector.ValueTextBox.Text, out _) == false)
+        if (
+            string.IsNullOrEmpty(PowerValueSelector.ValueTextBox.Text)
+            || float.TryParse(PowerValueSelector.ValueTextBox.Text, out _) == false
+        )
         {
             PowerValueSelector.SetValue(0);
         }
 
         // If the size value is invalid, set it to 0
-        if (string.IsNullOrEmpty(SizeValueSelector.ValueTextBox.Text) || 
-            float.TryParse(SizeValueSelector.ValueTextBox.Text, out _) == false)
+        if (
+            string.IsNullOrEmpty(SizeValueSelector.ValueTextBox.Text)
+            || float.TryParse(SizeValueSelector.ValueTextBox.Text, out _) == false
+        )
         {
             SizeValueSelector.SetValue(0);
         }
 
         // If the distance value is invalid, set it to 0
-        if (string.IsNullOrEmpty(DistanceValueSelector.ValueTextBox.Text) || 
-            float.TryParse(DistanceValueSelector.ValueTextBox.Text, out _) == false)
+        if (
+            string.IsNullOrEmpty(DistanceValueSelector.ValueTextBox.Text)
+            || float.TryParse(DistanceValueSelector.ValueTextBox.Text, out _) == false
+        )
         {
             DistanceValueSelector.SetValue(0);
         }
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENTS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
