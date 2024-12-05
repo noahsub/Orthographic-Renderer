@@ -160,7 +160,7 @@ def set_render_preferences(quality: str) -> Tuple[str, str]:
 
         bpy.context.scene.cycles.max_bounces = 5
 
-        bpy.context.scene.render.image_settings.file_format = "JPEG"
+        bpy.context.scene.render.image_settings.file_format = "PNG"
         bpy.context.scene.render.image_settings.color_mode = "RGBA"
         bpy.context.scene.render.image_settings.color_depth = "16"
         bpy.context.scene.render.image_settings.exr_codec = "DWAA"
