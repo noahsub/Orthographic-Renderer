@@ -151,12 +151,14 @@ def set_render_preferences() -> RenderDevice:
     cpu_devices = [x for x in devices if str(x.type) == "CPU"]
 
     if optix_devices:
+        bpy.context.preferences.addons['cycles'].preferences.compute_device_type = 'OPTIX'
         bpy.context.scene.render.engine = "CYCLES"
         bpy.context.scene.cycles.device = "GPU"
         for device in optix_devices:
             device.use = True
         render_device = RenderDevice.OPTIX
     elif cuda_devices:
+        bpy.context.preferences.addons['cycles'].preferences.compute_device_type = 'CUDA'
         bpy.context.scene.render.engine = "CYCLES"
         bpy.context.scene.cycles.device = "GPU"
         for device in cuda_devices:
