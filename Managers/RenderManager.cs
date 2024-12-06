@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
@@ -201,6 +202,31 @@ public static class RenderManager
     private static string ToTitleCase(string str)
     {
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+    }
+    
+    public static Entities.Resolution CalculatePreviewResolution(Entities.Resolution resolution)
+    {
+        if (resolution.Width == 0 || resolution.Height == 0)
+        {
+            resolution = new Entities.Resolution(1920, 1080, 100);
+        }
+
+        // Compute aspect ratio by determining the GCD of the width and height
+        var gcd = (int)BigInteger.GreatestCommonDivisor(resolution.Width, resolution.Height);
+        var aspectRatio = new Tuple<int, int>(resolution.Width / gcd, resolution.Height / gcd);
+
+        var previewResolution = new Entities.Resolution(
+            600,
+            (600 * aspectRatio.Item2) / aspectRatio.Item1,
+            100
+        );
+
+        if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
+        {
+            resolution = previewResolution;
+        }
+
+        return resolution;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
