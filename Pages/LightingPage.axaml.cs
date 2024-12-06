@@ -83,33 +83,23 @@ public partial class LightingPage : UserControl
         InitializeComponent();
 
         // Initialize the light options
-        _onePointLighting = new List<LightOptions> { new LightOptions() };
-        _threePointLighting = new List<LightOptions>
-        {
-            new LightOptions(),
-            new LightOptions(),
-            new LightOptions(),
-        };
-        _overheadLighting = new List<LightOptions> { new LightOptions() };
+        _onePointLighting = [new LightOptions()];
+
+        _threePointLighting = [new LightOptions(), new LightOptions(), new LightOptions()];
+
+        _overheadLighting = [new LightOptions()];
 
         // Initialize the UI
-        InitializeUi();
-        InitializeEventHandlers();
-    }
-
-    /// <summary>
-    /// Initializes the UI components.
-    /// </summary>
-    private void InitializeUi()
-    {
         Dispatcher.UIThread.Post(() =>
         {
             // Set the model file label
             FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
 
             // Set the colour picker to black
-            BackgroundColourSelector.ColourPicker.Color = Colors.Transparent;
+            BackgroundColourSelector.ColourPicker.Color = Colors.Black;
             BackgroundColourSelector.ColourRectangle.Fill = new SolidColorBrush(Colors.Black);
+            // Bind an event to the colour picker
+            BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
 
             // Set the aspect ratio 16:9 as the default
             AspectRatio16X9ToggleButton.IsChecked = true;
@@ -117,42 +107,38 @@ public partial class LightingPage : UserControl
             // Add resolution buttons to the grid
             for (var i = 0; i < 12; i++)
             {
-                var resolutionButton = new Button
-                {
-                    Content = Resolution.AspectRatio16X9[i],
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch,
-                    VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch,
-                    HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-                    VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center,
-                    Margin = new Thickness(5),
-                };
+                var resolutionButton = new Button();
+                resolutionButton.Content = Resolution.AspectRatio16X9[i];
                 resolutionButton.Click += ResolutionButton_OnClick;
+                resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+                resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+                resolutionButton.HorizontalContentAlignment = Avalonia
+                    .Layout
+                    .HorizontalAlignment
+                    .Center;
+                resolutionButton.VerticalContentAlignment = Avalonia
+                    .Layout
+                    .VerticalAlignment
+                    .Center;
+                resolutionButton.Margin = new Thickness(5);
                 Grid.SetRow(resolutionButton, (i / 6) + 1);
                 Grid.SetColumn(resolutionButton, i % 6);
                 ResolutionGrid.Children.Add(resolutionButton);
             }
+
+            WidthTextBox.TextChanged += Option_Changed;
+            HeightTextBox.TextChanged += Option_Changed;
+            CameraOrientation.OrientationChanged += Option_Changed;
+            CameraDistance.ValueChanged += Option_Changed;
+            BackgroundColourSelector.ColourChanged += Option_Changed;
+
+            OnePointLightingButton.Click += Option_Changed;
+            ThreePointLightingButton.Click += Option_Changed;
+            OverheadLightingButton.Click += Option_Changed;
+            
+            AddLightButton.Click += Option_Changed;
+            ClearButton.Click += Option_Changed;
         });
-    }
-
-    /// <summary>
-    /// Initializes the event handlers for the page.
-    /// </summary>
-    private void InitializeEventHandlers()
-    {
-        // Background colour selector event handlers
-        BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
-
-        // Events for when the preview should be rendered
-        WidthTextBox.TextChanged += Option_Changed;
-        HeightTextBox.TextChanged += Option_Changed;
-        CameraOrientation.OrientationChanged += Option_Changed;
-        CameraDistance.ValueChanged += Option_Changed;
-        BackgroundColourSelector.ColourChanged += Option_Changed;
-        OnePointLightingButton.Click += Option_Changed;
-        ThreePointLightingButton.Click += Option_Changed;
-        OverheadLightingButton.Click += Option_Changed;
-        AddLightButton.Click += Option_Changed;
-        ClearButton.Click += Option_Changed;
     }
 
     /// <summary>
@@ -321,6 +307,7 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void Option_Changed(object? sender, EventArgs e)
     {
+        Debug.WriteLine($"Triggered by {sender} with name {((Control)sender!).Name}");
         RenderPreview();
     }
 
