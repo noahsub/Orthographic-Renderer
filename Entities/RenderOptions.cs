@@ -184,7 +184,6 @@ public class RenderOptions
         BackgroundColour = $"{red},{green},{blue},{alpha}";
     }
 
-
     /// <summary>
     /// Whether to save the Blender file.
     /// </summary>

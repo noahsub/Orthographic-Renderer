@@ -65,7 +65,7 @@ public partial class LightingPage : UserControl
     /// The maximum dimension of the model.
     /// </summary>
     private float _maxDimension;
-    
+
     /// <summary>
     /// A token source for cancelling the render tasks.
     /// </summary>
@@ -84,7 +84,12 @@ public partial class LightingPage : UserControl
 
         // Initialize the light options
         _onePointLighting = new List<LightOptions> { new LightOptions() };
-        _threePointLighting = new List<LightOptions> { new LightOptions(), new LightOptions(), new LightOptions() };
+        _threePointLighting = new List<LightOptions>
+        {
+            new LightOptions(),
+            new LightOptions(),
+            new LightOptions(),
+        };
         _overheadLighting = new List<LightOptions> { new LightOptions() };
 
         // Initialize the UI
@@ -119,7 +124,7 @@ public partial class LightingPage : UserControl
                     VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch,
                     HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                     VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center,
-                    Margin = new Thickness(5)
+                    Margin = new Thickness(5),
                 };
                 resolutionButton.Click += ResolutionButton_OnClick;
                 Grid.SetRow(resolutionButton, (i / 6) + 1);
@@ -134,9 +139,9 @@ public partial class LightingPage : UserControl
     /// </summary>
     private void InitializeEventHandlers()
     {
-        // Background colour selector event handlers   
+        // Background colour selector event handlers
         BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
-        
+
         // Events for when the preview should be rendered
         WidthTextBox.TextChanged += Option_Changed;
         HeightTextBox.TextChanged += Option_Changed;
@@ -157,7 +162,8 @@ public partial class LightingPage : UserControl
     {
         // Calculate the maximum dimension of the model
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        _maxDimension = new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
+        _maxDimension =
+            new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
         // Set the camera distance to the maximum dimension multiplied by 2
         CameraDistance.SetValue(_maxDimension * 2);
         CameraDistance.SetSliderBounds(0, _maxDimension * 10, 0.2);
@@ -307,7 +313,7 @@ public partial class LightingPage : UserControl
     {
         LightOptionsStackPanel.Children.Clear();
     }
-    
+
     /// <summary>
     /// When preview options are changed, render the preview.
     /// </summary>
@@ -388,7 +394,7 @@ public partial class LightingPage : UserControl
         {
             WidthTextBox.Text = "1920";
         }
-        
+
         // Verify the height text's value and set it to 1080 if it is invalid
         if (int.Parse(HeightTextBox.Text) <= 0)
         {
@@ -396,7 +402,10 @@ public partial class LightingPage : UserControl
         }
 
         // Verify the camera distance text box and set it to 0 if it is invalid
-        if (string.IsNullOrEmpty(CameraDistance.ValueTextBox.Text) || !float.TryParse(CameraDistance.ValueTextBox.Text, out _))
+        if (
+            string.IsNullOrEmpty(CameraDistance.ValueTextBox.Text)
+            || !float.TryParse(CameraDistance.ValueTextBox.Text, out _)
+        )
         {
             CameraDistance.SetValue(0);
         }
@@ -439,7 +448,7 @@ public partial class LightingPage : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPER FUNCTIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Unchecks all aspect ratio toggle buttons.
     /// </summary>
@@ -460,9 +469,12 @@ public partial class LightingPage : UserControl
     {
         return clickedButton switch
         {
-            _ when clickedButton == AspectRatio1X1ToggleButton => Resolution.AspectRatio1X1.ToArray(),
-            _ when clickedButton == AspectRatio4X3ToggleButton => Resolution.AspectRatio4X3.ToArray(),
-            _ when clickedButton == AspectRatio16X9ToggleButton => Resolution.AspectRatio16X9.ToArray(),
+            _ when clickedButton == AspectRatio1X1ToggleButton =>
+                Resolution.AspectRatio1X1.ToArray(),
+            _ when clickedButton == AspectRatio4X3ToggleButton =>
+                Resolution.AspectRatio4X3.ToArray(),
+            _ when clickedButton == AspectRatio16X9ToggleButton =>
+                Resolution.AspectRatio16X9.ToArray(),
             _ => Resolution.AspectRatio21X9.ToArray(),
         };
     }
@@ -480,13 +492,16 @@ public partial class LightingPage : UserControl
             resolutionButton.Content = aspectRatios[i];
         }
     }
-    
+
     /// <summary>
     /// Sets up the lighting options according to the settings provided.
     /// </summary>
     /// <param name="lightingOptions">The list of light options to set up.</param>
     /// <param name="settings">The settings for the light options.</param>
-    private void SetupLighting(List<LightOptions> lightingOptions, List<(string orientation, int power)> settings)
+    private void SetupLighting(
+        List<LightOptions> lightingOptions,
+        List<(string orientation, int power)> settings
+    )
     {
         // Clear the light stack panel
         LightOptionsStackPanel.Children.Clear();
@@ -518,7 +533,7 @@ public partial class LightingPage : UserControl
         light.DistanceValueSelector.ValueChanged += Option_Changed;
         light.RemoveButton.Click += Option_Changed;
     }
-    
+
     /// <summary>
     /// Renders the preview image of the model.
     /// </summary>
@@ -577,7 +592,7 @@ public partial class LightingPage : UserControl
         {
             // Render the preview image
             var success = await RenderManager.Render(previewRenderOptions, "preview", token);
-            
+
             if (!success)
             {
                 return;

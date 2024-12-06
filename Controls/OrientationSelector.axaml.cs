@@ -39,7 +39,7 @@ public partial class OrientationSelector : UserControl
     /// The current orientation of the 3D model.
     /// </summary>
     public OrientationNode CurrentOrientation { get; set; }
-    
+
     public event EventHandler OrientationChanged;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

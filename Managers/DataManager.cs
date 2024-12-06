@@ -71,7 +71,8 @@ public static class DataManager
     /// <summary>
     /// The background colour of the rendered image.
     /// </summary>
-    public static Avalonia.Media.Color BackgroundColour { get; set; } = Avalonia.Media.Color.FromRgb(255, 255, 255);
+    public static Avalonia.Media.Color BackgroundColour { get; set; } =
+        Avalonia.Media.Color.FromRgb(255, 255, 255);
 
     /// <summary>
     /// The views to render.

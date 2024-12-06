@@ -203,7 +203,7 @@ public static class RenderManager
     {
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
     }
-    
+
     public static Entities.Resolution CalculatePreviewResolution(Entities.Resolution resolution)
     {
         if (resolution.Width == 0 || resolution.Height == 0)
@@ -221,7 +221,10 @@ public static class RenderManager
             100
         );
 
-        if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
+        if (
+            previewResolution.Width * previewResolution.Height
+            < resolution.Width * resolution.Height
+        )
         {
             resolution = previewResolution;
         }

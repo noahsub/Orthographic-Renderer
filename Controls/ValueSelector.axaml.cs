@@ -12,12 +12,20 @@ namespace Orthographic.Renderer.Controls;
 public partial class ValueSelector : UserControl
 {
     public event EventHandler ValueChanged;
-    
+
     public ValueSelector()
     {
         InitializeComponent();
-        ValueSlider.AddHandler(InputElement.PointerPressedEvent, SliderPointerPressed, RoutingStrategies.Tunnel);
-        ValueSlider.AddHandler(InputElement.PointerReleasedEvent, SliderPointerReleased, RoutingStrategies.Tunnel);
+        ValueSlider.AddHandler(
+            InputElement.PointerPressedEvent,
+            SliderPointerPressed,
+            RoutingStrategies.Tunnel
+        );
+        ValueSlider.AddHandler(
+            InputElement.PointerReleasedEvent,
+            SliderPointerReleased,
+            RoutingStrategies.Tunnel
+        );
     }
 
     private void SliderPointerReleased(object? sender, PointerReleasedEventArgs e)
