@@ -217,18 +217,7 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void BackgroundColourChanged_Event(object? sender, EventArgs e)
     {
-        // get the colour from the colour picker
-        var colour = BackgroundColourSelector.ColourPicker.Color;
-
-        // if the colour is transparent we set the background to black
-        if (colour == Colors.Transparent)
-        {
-            BackgroundRectangle.Fill = new SolidColorBrush(Colors.Black);
-            return;
-        }
-
-        // otherwise we set the background to the selected colour
-        BackgroundRectangle.Fill = new SolidColorBrush(colour);
+        BackgroundRectangle.Fill = new SolidColorBrush(BackgroundColourSelector.ColourPicker.Color);
     }
 
     /// <summary>
@@ -327,6 +316,7 @@ public partial class LightingPage : UserControl
             light.PowerValueSelector.ValueChanged += Option_Changed;
             light.SizeValueSelector.ValueChanged += Option_Changed;
             light.DistanceValueSelector.ValueChanged += Option_Changed;
+            light.RemoveButton.Click += Option_Changed;
             LightOptionsStackPanel.Children.Add(light);
         }
     }
@@ -353,6 +343,7 @@ public partial class LightingPage : UserControl
             light.PowerValueSelector.ValueChanged += Option_Changed;
             light.SizeValueSelector.ValueChanged += Option_Changed;
             light.DistanceValueSelector.ValueChanged += Option_Changed;
+            light.RemoveButton.Click += Option_Changed;
             LightOptionsStackPanel.Children.Add(light);
         }
     }
@@ -370,6 +361,7 @@ public partial class LightingPage : UserControl
         light.PowerValueSelector.ValueChanged += Option_Changed;
         light.SizeValueSelector.ValueChanged += Option_Changed;
         light.DistanceValueSelector.ValueChanged += Option_Changed;
+        light.RemoveButton.Click += Option_Changed;
         LightOptionsStackPanel.Children.Add(light);
     }
 
@@ -481,7 +473,7 @@ public partial class LightingPage : UserControl
             // Update the UI to display the preview image
             Dispatcher.UIThread.Post(() =>
             {
-                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".jpg");
+                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
                 PreviewImage.IsVisible = true;
                 LoadingImage.IsVisible = false;
                 PreviewButton.IsEnabled = true;
@@ -604,6 +596,6 @@ public partial class LightingPage : UserControl
         Debug.WriteLine($"Background colour: {BackgroundColourSelector.GetHexColour()}");
 
         // Store the background colour
-        DataManager.BackgroundColour = BackgroundColourSelector.GetHexColour();
+        DataManager.BackgroundColour = BackgroundColourSelector.ColourPicker.Color;
     }
 }

@@ -399,6 +399,12 @@ public partial class RenderPage : UserControl
             if (success)
             {
                 renderItem.SetStatus(RenderStatus.Completed);
+
+                var outputDirectory = renderOptions.OutputDirectory;
+                if (!outputDirectory.EndsWith("/"))
+                {
+                    outputDirectory += "/";
+                }
             }
             // If the render failed, set the status to failed.
             else

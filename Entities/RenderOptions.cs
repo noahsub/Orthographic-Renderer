@@ -8,7 +8,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
+using Avalonia.Media;
 using Newtonsoft.Json;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +90,7 @@ public class RenderOptions
         Resolution = new Resolution(1920, 1080);
         Camera = new Camera(0, new Position(0, 0, 0, 0, 0, 0));
         Lights = new List<Light>();
-        BackgroundColour = "#FFFFFF";
+        BackgroundColour = "0,0,0,1";
         SaveBlenderFile = false;
     }
 
@@ -171,10 +174,16 @@ public class RenderOptions
     /// Sets the background colour of the render.
     /// </summary>
     /// <param name="backgroundColour"></param>
-    public void SetBackgroundColour(string backgroundColour)
+    public void SetBackgroundColour(Avalonia.Media.Color backgroundColour)
     {
-        BackgroundColour = backgroundColour;
+        var red = backgroundColour.R;
+        var green = backgroundColour.G;
+        var blue = backgroundColour.B;
+        var alpha = backgroundColour.A;
+
+        BackgroundColour = $"{red},{green},{blue},{alpha}";
     }
+
 
     /// <summary>
     /// Whether to save the Blender file.

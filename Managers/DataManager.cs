@@ -10,6 +10,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using Orthographic.Renderer.Entities;
 
@@ -70,7 +71,7 @@ public static class DataManager
     /// <summary>
     /// The background colour of the rendered image.
     /// </summary>
-    public static string BackgroundColour { get; set; } = "#FFFFFF";
+    public static Avalonia.Media.Color BackgroundColour { get; set; } = Avalonia.Media.Color.FromRgb(255, 255, 255);
 
     /// <summary>
     /// The views to render.

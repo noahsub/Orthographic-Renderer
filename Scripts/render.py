@@ -167,15 +167,15 @@ def set_render_preferences(quality: str) -> Tuple[str, str]:
 
     if quality == "preview":
         # Switch to Eevee render engine
-        bpy.context.scene.render.engine = 'BLENDER_EEVEE_NEXT'
+        bpy.context.scene.render.engine = "BLENDER_EEVEE_NEXT"
 
         bpy.context.scene.render.use_simplify = True
         bpy.context.scene.render.simplify_subdivision = 2
 
         bpy.context.scene.eevee.taa_render_samples = 32
 
-        bpy.context.scene.render.image_settings.file_format = "JPEG"
-        bpy.context.scene.render.image_settings.color_mode = "RGB"
+        bpy.context.scene.render.image_settings.file_format = "PNG"
+        bpy.context.scene.render.image_settings.color_mode = "RGBA"
         bpy.context.scene.render.image_settings.color_depth = "8"
         bpy.context.scene.render.image_settings.exr_codec = "NONE"
 
@@ -351,6 +351,23 @@ def save_file(file_path: str) -> None:
 
 
 ########################################################################################################################
+# COLOUR FUNCTIONS
+########################################################################################################################
+def srgb_to_linearrgb(value: int) -> float:
+    """
+    Convert an sRGB value to a linear RGB value
+    """
+    value = value / 255.0
+    if value < 0.04045:
+        if value < 0.0:
+            return 0.0
+        else:
+            return value * 0.077399
+    else:
+        return pow((value + 0.055) * 0.947867, 2.4)
+
+
+########################################################################################################################
 # HELPER FUNCTIONS
 ########################################################################################################################
 def get_formatted_date():
@@ -359,21 +376,6 @@ def get_formatted_date():
     :return: A formatted string of the current date and time
     """
     return datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
-
-
-########################################################################################################################
-# IMAGE MANIPULATION FUNCTIONS
-########################################################################################################################
-def hex_to_rgba(hex_value):
-    """
-    Convert a hex colour value to an RGBA tuple
-    """
-    hex_value = hex_value.lstrip("#")
-    length = len(hex_value)
-    return tuple(
-        int(hex_value[i : i + length // 4], 16) / 255.0
-        for i in range(0, length, length // 4)
-    )
 
 
 ########################################################################################################################
@@ -460,11 +462,16 @@ if __name__ == "__main__":
 
     set_camera_start_pos(dist)
 
-    background_colour = hex_to_rgba(data["BackgroundColour"])
+    # Set the background color
+    rgb_background_colour = [int(x) for x in data["BackgroundColour"].split(",")]
+    # Convert sRGB to linear RGB
+    linear_rgb_background_colour = [srgb_to_linearrgb(x) for x in rgb_background_colour]
 
-    if background_colour[3] < 1:
+    # if the alpha channel is 0 or the quality is set to preview, set the background to transparent
+    if rgb_background_colour[3] == 0 or args.quality == "preview":
         bpy.context.scene.render.film_transparent = True
 
+    # otherwise, set the background to the specified colour
     else:
         # Disable transparent background
         bpy.context.scene.render.film_transparent = False
@@ -472,12 +479,15 @@ if __name__ == "__main__":
         # Set background color
         bpy.context.scene.world.use_nodes = True
         bg_node = bpy.context.scene.world.node_tree.nodes["Background"]
-        bg_node.inputs["Color"].default_value = background_colour
+        bg_node.inputs["Color"].default_value = (
+            linear_rgb_background_colour[0],
+            linear_rgb_background_colour[1],
+            linear_rgb_background_colour[2],
+            rgb_background_colour[3] / 255,
+        )
 
     # Render the view
-    render_generic_view(
-        name=data["Name"], output_folder=output_path, position=position
-    )
+    render_generic_view(name=data["Name"], output_folder=output_path, position=position)
 
     save = data["SaveBlenderFile"]
 
