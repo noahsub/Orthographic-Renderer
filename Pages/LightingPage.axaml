@@ -21,7 +21,6 @@
         <Rectangle
             Fill="{StaticResource SecondaryBackground}"
             Grid.Row="0"
-            Grid.RowSpan="2"
             Opacity="{StaticResource GlobalOpacity}" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="1" />
 

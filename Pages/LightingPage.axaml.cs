@@ -92,9 +92,6 @@ public partial class LightingPage : UserControl
         // Initialize the UI
         Dispatcher.UIThread.Post(() =>
         {
-            // Set the model file label
-            FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
-
             // Set the colour picker to black
             BackgroundColourSelector.ColourPicker.Color = Colors.Black;
             BackgroundColourSelector.ColourRectangle.Fill = new SolidColorBrush(Colors.Black);
@@ -146,6 +143,9 @@ public partial class LightingPage : UserControl
     /// </summary>
     public void Load()
     {
+        // Set the file label to the name of the model file
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        
         // Calculate the maximum dimension of the model
         var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
         _maxDimension =
