@@ -69,34 +69,34 @@ public partial class App : Application
             Task.Run(async () =>
             {
                 // Perform hardware setup and collection asynchronously
-                splashScreen.SetLoadingTextUiThread("Hardware setup...");
+                splashScreen.SetLoadingTextUiThread("DETECTING COMPUTER HARDWARE");
                 await Task.Run(HardwareManager.SetupComputer);
 
-                splashScreen.SetLoadingTextUiThread("Hardware information...");
+                splashScreen.SetLoadingTextUiThread("GATHERING HARDWARE COMPONENTS AND SENSORS");
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
 
                 // Copy user files asynchronously
-                splashScreen.SetLoadingTextUiThread("Copying user files...");
+                splashScreen.SetLoadingTextUiThread("COPYING USER FILES");
                 await Task.Run(FileManager.CopyUserFiles);
 
-                // Check for updates asynchronously
-                splashScreen.SetLoadingTextUiThread("Checking for updates...");
-                DataManager.LatestVersion = await WebManager.GetLatestVersion();
-
-                splashScreen.SetLoadingTextUiThread("Configuring Blender path...");
+                splashScreen.SetLoadingTextUiThread("CONFIGURING BLENDER PATH");
                 if (OperatingSystem.IsWindows8OrGreater)
                 {
                     DataManager.BlenderPath = "Blender/Windows/blender.exe";
                 }
 
                 // Get Render Hardware
-                splashScreen.SetLoadingTextUiThread("Render hardware...");
+                splashScreen.SetLoadingTextUiThread("DETECTING BLENDER COMPATIBLE HARDWARE");
                 if (!string.IsNullOrEmpty(DataManager.BlenderPath))
                 {
                     await Task.Run(HardwareManager.GetRenderHardware);
                 }
+                
+                // Check for updates asynchronously
+                splashScreen.SetLoadingTextUiThread("CHECKING FOR UPDATES");
+                DataManager.LatestVersion = await WebManager.GetLatestVersion();
 
-                splashScreen.SetLoadingTextUiThread("Application pages...");
+                splashScreen.SetLoadingTextUiThread("CREATING USER INTERFACE");
 
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(async () =>
