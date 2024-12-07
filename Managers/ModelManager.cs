@@ -79,21 +79,24 @@ public class ModelManager
     /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
     public static Vector3 GetObjDimensions(string path)
     {
-        // Read all lines in the file
-        var lines = File.ReadAllLines(path);
-
-        // Get all the vertices
+        // List to store the vertices
         var vertices = new List<Vector3>();
-        foreach (var line in lines)
-        {
-            if (line.StartsWith("v "))
-            {
-                var values = line.Split(' ');
-                var x = float.Parse(values[1]);
-                var y = float.Parse(values[2]);
-                var z = float.Parse(values[3]);
 
-                vertices.Add(new Vector3(x, y, z));
+        // Get all the vertices by reading the file line by line
+        using (var reader = new StreamReader(path))
+        {
+            string? line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("v "))
+                {
+                    var values = line.Split(' ');
+                    var x = float.Parse(values[1]);
+                    var y = float.Parse(values[2]);
+                    var z = float.Parse(values[3]);
+
+                    vertices.Add(new Vector3(x, y, z));
+                }
             }
         }
 
@@ -113,15 +116,15 @@ public class ModelManager
     /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
     public static Vector3 GetStlDimensions(string path)
     {
-        var text = File.ReadAllText(path);
-        if (text.Contains("solid") && text.Contains("endsolid"))
+        using (var reader = new StreamReader(path))
         {
-            return GetStlAsciiDimensions(path);
+            var firstLine = reader.ReadLine();
+            if (firstLine != null && firstLine.Contains("solid"))
+            {
+                return GetStlAsciiDimensions(path);
+            }
         }
-        else
-        {
-            return GetStlBinaryDimensions(path);
-        }
+        return GetStlBinaryDimensions(path);
     }
 
     /// <summary>
@@ -131,32 +134,30 @@ public class ModelManager
     /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
     private static Vector3 GetStlAsciiDimensions(string path)
     {
-        // Read all lines in the file
-        var lines = File.ReadAllLines(path);
-
-        // Get all the vertices
         var vertices = new List<Vector3>();
 
-        foreach (var line in lines)
+        using (var reader = new StreamReader(path))
         {
-            var formattedLine = RemoveWhitespace(line);
-            if (formattedLine.StartsWith("vertex"))
+            string? line;
+            while ((line = reader.ReadLine()) != null)
             {
-                var values = formattedLine.Split(' ');
-                var x = float.Parse(values[1]);
-                var y = float.Parse(values[2]);
-                var z = float.Parse(values[3]);
+                var formattedLine = RemoveWhitespace(line);
+                if (formattedLine.StartsWith("vertex"))
+                {
+                    var values = formattedLine.Split(' ');
+                    var x = float.Parse(values[1]);
+                    var y = float.Parse(values[2]);
+                    var z = float.Parse(values[3]);
 
-                vertices.Add(new Vector3(x, y, z));
+                    vertices.Add(new Vector3(x, y, z));
+                }
             }
         }
 
-        // Get the dimensions
         var width = vertices.Max(v => v.X) - vertices.Min(v => v.X);
         var height = vertices.Max(v => v.Y) - vertices.Min(v => v.Y);
         var depth = vertices.Max(v => v.Z) - vertices.Min(v => v.Z);
 
-        // Return the dimensions
         return new Vector3(width, height, depth);
     }
 
@@ -167,29 +168,31 @@ public class ModelManager
     /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
     private static Vector3 GetStlBinaryDimensions(string path)
     {
-        // Read the file as bytes
-        var data = File.ReadAllBytes(path);
-
         var vertices = new List<Vector3>();
-        int offset = 84; // Skip the header (80 bytes) and the number of triangles (4 bytes)
 
-        while (offset < data.Length)
+        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+        using (var reader = new BinaryReader(stream))
         {
-            offset += 12; // Skip the normal vector (3 floats, 12 bytes)
+            // Skip the header (80 bytes) and the number of triangles (4 bytes)
+            reader.BaseStream.Seek(84, SeekOrigin.Begin);
 
-            for (int i = 0; i < 3; i++)
+            while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
-                float x = BitConverter.ToSingle(data, offset);
-                offset += 4;
-                float y = BitConverter.ToSingle(data, offset);
-                offset += 4;
-                float z = BitConverter.ToSingle(data, offset);
-                offset += 4;
+                // Skip the normal vector (3 floats, 12 bytes)
+                reader.BaseStream.Seek(12, SeekOrigin.Current);
 
-                vertices.Add(new Vector3(x, y, z));
+                for (int i = 0; i < 3; i++)
+                {
+                    float x = reader.ReadSingle();
+                    float y = reader.ReadSingle();
+                    float z = reader.ReadSingle();
+
+                    vertices.Add(new Vector3(x, y, z));
+                }
+
+                // Skip the attribute byte count (2 bytes)
+                reader.BaseStream.Seek(2, SeekOrigin.Current);
             }
-
-            offset += 2; // Skip the attribute byte count (2 bytes)
         }
 
         // Get the dimensions
