@@ -69,10 +69,10 @@ public partial class App : Application
             Task.Run(async () =>
             {
                 // Perform hardware setup and collection asynchronously
-                splashScreen.SetLoadingTextUiThread("Initializing hardware setup...");
+                splashScreen.SetLoadingTextUiThread("Hardware setup...");
                 await Task.Run(HardwareManager.SetupComputer);
 
-                splashScreen.SetLoadingTextUiThread("Collecting hardware information...");
+                splashScreen.SetLoadingTextUiThread("Hardware information...");
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
 
                 // Copy user files asynchronously
@@ -90,13 +90,13 @@ public partial class App : Application
                 }
 
                 // Get Render Hardware
-                splashScreen.SetLoadingTextUiThread("Retrieving render hardware...");
+                splashScreen.SetLoadingTextUiThread("Render hardware...");
                 if (!string.IsNullOrEmpty(DataManager.BlenderPath))
                 {
                     await Task.Run(HardwareManager.GetRenderHardware);
                 }
 
-                splashScreen.SetLoadingTextUiThread("Creating application pages...");
+                splashScreen.SetLoadingTextUiThread("Application pages...");
 
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(async () =>

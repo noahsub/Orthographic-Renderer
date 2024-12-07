@@ -3,13 +3,13 @@
     Background="Transparent"
     Closed="TopLevel_OnClosed"
     ExtendClientAreaToDecorationsHint="True"
-    Height="500"
+    Height="400"
     Icon="avares://Orthographic Renderer/Assets/Icons/green_cube.ico"
     SystemDecorations="None"
     Title="Orthographic Renderer"
     Topmost="True"
     TransparencyLevelHint="AcrylicBlur"
-    Width="700"
+    Width="950"
     WindowStartupLocation="CenterOwner"
     d:DesignHeight="500"
     d:DesignWidth="700"
@@ -25,7 +25,7 @@
             <ExperimentalAcrylicBorder.Material>
                 <StaticResource ResourceKey="AcrylicMaterial" />
             </ExperimentalAcrylicBorder.Material>
-            <Grid ColumnDefinitions="1*,2*">
+            <Grid ColumnDefinitions="3*,7*">
                 <Rectangle
                     Fill="{StaticResource PrimaryBackground}"
                     Grid.Column="0"
