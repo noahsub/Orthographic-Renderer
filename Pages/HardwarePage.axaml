@@ -20,7 +20,7 @@
                 VerticalAlignment="Center">
                 <!--  TITLE  -->
                 <Label
-                    Content="Render Hardware"
+                    Content="Hardware"
                     FontSize="30"
                     HorizontalAlignment="Center"
                     Padding="0,20,0,50" />
@@ -32,9 +32,9 @@
                         Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
                         Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="CPU and GPU Devices" />
+                        <Label Content="Cycles Devices" />
                         <Label
-                            Content="OPTIX, CUDA, and EEVEE devices are supported"
+                            Content="OPTIX, CUDA, and CPU devices are supported"
                             FontFamily="{StaticResource JetBrainsMono}"
                             FontSize="10"
                             FontStyle="Italic" />
@@ -53,9 +53,9 @@
                         Source="avares://Orthographic Renderer/Assets/Images/orange_cube.png"
                         Width="25" />
                     <StackPanel HorizontalAlignment="Stretch">
-                        <Label Content="Selected Engine" />
+                        <Label Content="Cycles Render Framework" />
                         <Label
-                            Content="The engine to be used for rendering"
+                            Content="The framework utilized for Cycles rendering"
                             FontFamily="{StaticResource JetBrainsMono}"
                             FontSize="10"
                             FontStyle="Italic" />
@@ -64,7 +64,7 @@
                 <!--  ENGINE SELECTION  -->
                 <Label
                     Background="{StaticResource PrimaryAccent}"
-                    Content="EEVEE"
+                    Content="CPU CYCLES"
                     CornerRadius="{StaticResource Radius}"
                     Height="50"
                     HorizontalAlignment="Stretch"

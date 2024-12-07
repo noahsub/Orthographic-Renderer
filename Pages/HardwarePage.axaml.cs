@@ -107,7 +107,7 @@ public partial class HardwarePage : UserControl
         foreach (var cpuDevice in DataManager.CpuDevices)
         {
             // Add EEVEE to the engines list.
-            var engines = new List<string> { "EEVEE" };
+            var engines = new List<string> { "CPU CYCLES" };
 
             // Add the render hardware item to the RenderHardwareStackPanel.
             RenderHardwareStackPanel.Children.Add(
@@ -125,10 +125,10 @@ public partial class HardwarePage : UserControl
         {
             EngineLabel.Content = "CUDA";
         }
-        // If there are no devices, use EEVEE.
+        // If there are no devices, use CPU CYCLES.
         else
         {
-            EngineLabel.Content = "EEVEE";
+            EngineLabel.Content = "CPU CYCLES";
             WarningLabel.IsVisible = true;
         }
     }
