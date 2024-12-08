@@ -125,7 +125,8 @@ def import_model(model_path: str, unit: float) -> None:
 
     bpy.ops.object.select_all(action="DESELECT")
     bpy.data.objects[name].select_set(True)
-    bpy.ops.object.origin_set(type="ORIGIN_CENTER_OF_VOLUME", center="MEDIAN")
+    # bpy.ops.object.origin_set(type="ORIGIN_CENTER_OF_VOLUME", center="MEDIAN")
+    bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
     bpy.data.objects[name].location = (0, 0, 0)
 
 

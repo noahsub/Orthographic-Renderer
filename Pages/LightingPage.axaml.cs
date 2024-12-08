@@ -588,7 +588,11 @@ public partial class LightingPage : UserControl
             // Update the UI to display the preview image
             Dispatcher.UIThread.Post(() =>
             {
+                // Display the image and load it into memory
                 PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
+                // Delete the temp image and blender file
+                File.Delete(tempDirectory + uuid + ".png");
+                File.Delete(tempDirectory + uuid + ".blend");
                 PreviewImage.IsVisible = true;
                 LoadingImage.IsVisible = false;
                 PreviewButton.IsEnabled = true;

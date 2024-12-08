@@ -20,6 +20,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
@@ -404,6 +405,21 @@ public partial class RenderPage : UserControl
                 if (!outputDirectory.EndsWith("/"))
                 {
                     outputDirectory += "/";
+                }
+                
+                using (var stream = File.OpenRead($"{outputDirectory}{renderOptions.Name}.png"))
+                {
+                    var originalImage = new Bitmap(stream);
+                    var originalWidth = originalImage.PixelSize.Width;
+                    var originalHeight = originalImage.PixelSize.Height;
+                    var biggestDimension = Math.Max(originalWidth, originalHeight);
+                    // get the factor needed to divide the biggest dimension by to get the desired size of 480px
+                    var factor = biggestDimension / 480;
+                    var newWidth = originalWidth / factor;
+                    var newHeight = originalHeight / factor;
+                    var resizedImage = originalImage.CreateScaledBitmap(new PixelSize(newWidth, newHeight));
+                    originalImage.Dispose();
+                    RenderOutputStackPanel.Children.Insert(0, new Image { Source = resizedImage });
                 }
             }
             // If the render failed, set the status to failed.

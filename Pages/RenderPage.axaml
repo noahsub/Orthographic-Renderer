@@ -9,92 +9,87 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--  MAIN GRID  -->
-    <Grid RowDefinitions="150,*,100,75">
+    <Grid RowDefinitions="150,*,75">
         <Rectangle
             Fill="{StaticResource SecondaryBackground}"
             Grid.Row="0"
             Grid.RowSpan="3"
             Opacity="{StaticResource GlobalOpacity}" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="0" />
-        <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="3" />
+        <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="2" />
         <controls:HardwareMonitorBar Grid.Row="0" />
         <!--  CONTENT GRID  -->
-        <Grid ColumnDefinitions="*" Grid.Row="1">
-            <!--  QUEUE AND SETTINGS GRID  -->
-            <Grid Grid.Column="0" RowDefinitions="*">
-                <!--  QUEUE GRID  -->
-                <Grid Grid.Row="0" RowDefinitions="70,*">
-                    <Label
-                        Content="Render Queue"
-                        FontSize="20"
-                        Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        Margin="20,0,0,0"
-                        VerticalAlignment="Center" />
-                    <Label
-                        Content="00:00:00"
-                        Grid.Row="0"
-                        HorizontalAlignment="Right"
-                        Margin="0,0,20,0"
-                        VerticalAlignment="Center"
-                        x:Name="TimerLabel" />
-                    <ScrollViewer Grid.Row="1" Margin="0,0,0,20">
-                        <controls:RenderQueue Margin="20,0,20,0" x:Name="RenderItems" />
-                    </ScrollViewer>
-                </Grid>
+        <Grid ColumnDefinitions="2*, 1*" Grid.Row="1">
+            <!--  QUEUE GRID  -->
+            <Grid Grid.Column="0" RowDefinitions="70,*">
+                <Label
+                    Content="Render Queue"
+                    FontSize="20"
+                    Grid.Row="0"
+                    HorizontalAlignment="Left"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center" />
+                <Label
+                    Content="00:00:00"
+                    Grid.Row="0"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    x:Name="TimerLabel" />
+                <ScrollViewer Grid.Row="1" Margin="0,0,0,20">
+                    <controls:RenderQueue Margin="20,0,20,0" x:Name="RenderItems" />
+                </ScrollViewer>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="0,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="300" />
+                </Grid.RowDefinitions>
+                <Label
+                    Content="Renders"
+                    FontSize="20"
+                    Grid.Row="0"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center" />
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel Spacing="10" x:Name="RenderOutputStackPanel" />
+                </ScrollViewer>
+                <Label
+                    Content="Settings"
+                    FontSize="20"
+                    Grid.Row="2"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center" />
+                <StackPanel Grid.Row="3" Spacing="10">
+                    <Label Content="Processing mode" />
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        Orientation="Horizontal"
+                        Spacing="10">
+                        <ToggleButton
+                            Click="ToggleButton_OnClick"
+                            Content="Sequential"
+                            HorizontalAlignment="Stretch"
+                            x:Name="SequentialToggleButton" />
+                        <ToggleButton
+                            Click="ToggleButton_OnClick"
+                            Content="Parallel"
+                            HorizontalAlignment="Stretch"
+                            x:Name="ParallelToggleButton" />
+                    </StackPanel>
+                    <Label Content="Threads" />
+                    <NumericUpDown Text="1" x:Name="ThreadsNumericUpDown" />
+                    <Label Content="Output Directory" />
+                    <controls:BrowsableDirectoryTextBox x:Name="OutputBrowsableDirectoryTextBox" />
+                    <Label Content="Complete Sound" />
+                    <CheckBox IsCancel="True" x:Name="CompleteSoundCheckBox" />
+                </StackPanel>
             </Grid>
         </Grid>
-
-        <!--  SETTINGS GRID  -->
-        <StackPanel
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal"
-            Spacing="100"
-            VerticalAlignment="Center">
-            <StackPanel
-                Orientation="Horizontal"
-                Spacing="20"
-                VerticalAlignment="Center">
-                <Label Content="Processing Mode" VerticalAlignment="Center" />
-                <ToggleButton
-                    Click="ToggleButton_OnClick"
-                    Content="Sequential"
-                    VerticalAlignment="Center"
-                    x:Name="SequentialToggleButton" />
-                <ToggleButton
-                    Click="ToggleButton_OnClick"
-                    Content="Parallel"
-                    VerticalAlignment="Center"
-                    x:Name="ParallelToggleButton" />
-            </StackPanel>
-            <StackPanel
-                Orientation="Horizontal"
-                Spacing="20"
-                VerticalAlignment="Center">
-                <Label Content="Threads" VerticalAlignment="Center" />
-                <NumericUpDown
-                    Text="1"
-                    Width="150"
-                    x:Name="ThreadsNumericUpDown" />
-            </StackPanel>
-            <StackPanel
-                Orientation="Horizontal"
-                Spacing="20"
-                VerticalAlignment="Center">
-                <Label Content="Output Directory" VerticalAlignment="Center" />
-                <controls:BrowsableDirectoryTextBox x:Name="OutputBrowsableDirectoryTextBox" />
-            </StackPanel>
-
-            <StackPanel
-                Orientation="Horizontal"
-                Spacing="20"
-                VerticalAlignment="Center">
-                <Label Content="Complete Sound" VerticalAlignment="Center" />
-                <CheckBox IsChecked="True" x:Name="CompleteSoundCheckBox" />
-            </StackPanel>
-
-        </StackPanel>
 
         <!--  BOTTOM GRID  -->
         <Grid
