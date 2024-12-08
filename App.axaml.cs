@@ -85,6 +85,11 @@ public partial class App : Application
                     DataManager.BlenderPath = "Blender/Windows/blender.exe";
                 }
 
+                if (OperatingSystem.IsUnix)
+                {
+                    DataManager.BlenderPath = "Blender/Linux/blender";
+                }
+
                 // Get Render Hardware
                 splashScreen.SetLoadingTextUiThread("DETECTING BLENDER COMPATIBLE HARDWARE");
                 if (!string.IsNullOrEmpty(DataManager.BlenderPath))
