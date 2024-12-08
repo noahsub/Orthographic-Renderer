@@ -67,7 +67,7 @@
                             Margin="3">
                             <Run Text="COPYRIGHT (C) 2024 NOAHSUB AND CONTRIBUTORS. ALL RIGHTS RESERVED." />
                             <LineBreak />
-                            <Run Text="LICENSED UNDER THE GPL-3.0 LICENSE." />
+                            <Run Text="LICENSED UNDER THE GNU GENERAL PUBLIC LICENSE V3.0." />
                         </TextBlock>
                     </StackPanel>
                 </Grid>
