@@ -118,6 +118,16 @@ public static class RenderManager
         };
         return mapping[view];
     }
+    
+    /// <summary>
+    /// Computes the leg of a triangle given the hypotenuse.
+    /// </summary>
+    /// <param name="distance">The hypotenuse of the triangle.</param>
+    /// <returns>The leg of the triangle.</returns>
+    private static float ComputeTriangularLeg(float distance)
+    {
+        return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // VIEWS
@@ -185,16 +195,6 @@ public static class RenderManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Computes the leg of a triangle given the hypotenuse.
-    /// </summary>
-    /// <param name="distance">The hypotenuse of the triangle.</param>
-    /// <returns>The leg of the triangle.</returns>
-    private static float ComputeTriangularLeg(float distance)
-    {
-        return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
-    }
-
-    /// <summary>
     /// Converts a string to title case.
     /// </summary>
     /// <param name="str">The string to convert.</param>
@@ -221,10 +221,7 @@ public static class RenderManager
             100
         );
 
-        if (
-            previewResolution.Width * previewResolution.Height
-            < resolution.Width * resolution.Height
-        )
+        if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
         {
             resolution = previewResolution;
         }
@@ -243,11 +240,7 @@ public static class RenderManager
     /// <param name="quality">The quality of the render.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>True if the model was rendered successfully, otherwise false.</returns>
-    public static async Task<bool> Render(
-        RenderOptions renderOptions,
-        string quality,
-        CancellationToken cancellationToken
-    )
+    public static async Task<bool> Render(RenderOptions renderOptions, string quality, CancellationToken cancellationToken)
     {
         // Get the JSON representation of the render options
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
