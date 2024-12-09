@@ -2,7 +2,7 @@
     d:DesignHeight="200"
     d:DesignWidth="1200"
     mc:Ignorable="d"
-    x:Class="Orthographic.Renderer.Controls.LightOptions"
+    x:Class="Orthographic.Renderer.Controls.LightSetupItem"
     xmlns="https://github.com/avaloniaui"
     xmlns:avaloniaColorPicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
     xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"

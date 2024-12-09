@@ -122,7 +122,7 @@ public partial class RenderPage : UserControl
             // Create a new render item.
             var renderItem = new RenderQueueItem();
             // Set the properties of the render item.
-            renderItem.Name.Content = RenderManager.GetFormattedViewName(view);
+            renderItem.NameLabel.Content = RenderManager.GetFormattedViewName(view);
             renderItem.Key = view;
 
             // Enqueue the render item.

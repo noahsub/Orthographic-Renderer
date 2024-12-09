@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// BrowsableFileTextBox.axaml.cs
-// This file contains the logic for the BrowsableFileTextBox control.
+// DirectoryPathSelector.axaml.cs
+// This file contains the logic for the DirectoryPathSelector control.
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,13 +8,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Orthographic.Renderer.Managers;
-using Orthographic.Renderer.Pages;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -22,22 +18,22 @@ using Orthographic.Renderer.Pages;
 namespace Orthographic.Renderer.Controls;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// BROWSABLE FILE TEXT BOX CLASS
+// BROWSABLE DIRECTORY TEXT BOX CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// A text box that allows the user to browse for a file.
+/// A text box that allows the user to browse for a directory.
 /// </summary>
-public partial class BrowsableFileTextBox : UserControl
+public partial class DirectoryPathSelector : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BrowsableFileTextBox"/> class.
+    /// Initializes a new instance of the <see cref="DirectoryPathSelector"/> class.
     /// </summary>
-    public BrowsableFileTextBox()
+    public DirectoryPathSelector()
     {
         InitializeComponent();
     }
@@ -47,7 +43,7 @@ public partial class BrowsableFileTextBox : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Allows the user to browse for a file when the browse button is clicked.
+    /// Allows the user to browse for a directory when the browse button is clicked.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -56,50 +52,19 @@ public partial class BrowsableFileTextBox : UserControl
         // Get the top level window
         var topLevel = TopLevel.GetTopLevel(this);
 
-        // Open the file picker
-        var file = await topLevel.StorageProvider.OpenFilePickerAsync(
-            new FilePickerOpenOptions
-            {
-                Title = "Select a file",
-                AllowMultiple = false,
-                // Filter the file types
-                FileTypeFilter = new List<FilePickerFileType>
-                {
-                    new("All Files") { Patterns = new[] { "*" } },
-                    new("Model Files")
-                    {
-                        Patterns = new[]
-                        {
-                            "*.blend",
-                            "*.obj",
-                            "*.stl",
-                            "*.BLEND",
-                            "*.OBJ",
-                            "*.STL",
-                        },
-                    },
-                    new("Blender Files") { Patterns = new[] { "*.blend", "*.BLEND" } },
-                    new("OBJ Files") { Patterns = new[] { "*.obj", "*.OBJ" } },
-                    new("STL Files") { Patterns = new[] { "*.stl", "*.STL" } },
-                },
-            }
+        // Open the folder picker
+        var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(
+            new FolderPickerOpenOptions { Title = "Select a Directory" }
         );
 
-        // If no file was selected, return
-        if (file.Count < 1)
+        // If no directory was selected, return
+        if (directory.Count < 1)
         {
             return;
         }
 
-        // Set the path text box to the selected file
-        var path = file[0].Path.AbsolutePath.Replace("%20", " ");
+        // Set the path text box to the selected directory
+        var path = directory[0].Path.AbsolutePath.Replace("%20", " ");
         PathTextBox.Text = path;
-
-        // If the current page is the model page
-        if (NavigationManager.GetCurrentPage() is ModelPage modelPage)
-        {
-            // Set the dimensions of the model to unknown
-            modelPage.SetDimensionsUnknown();
-        }
     }
 }

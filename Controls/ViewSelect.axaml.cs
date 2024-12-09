@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ViewSelectOptions.axaml.cs
-// This file contains the logic for the ViewSelectOptions control.
+// ViewSelect.axaml.cs
+// This file contains the logic for the ViewSelect control.
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,16 +22,16 @@ namespace Orthographic.Renderer.Controls;
 /// <summary>
 /// A control that allows the user to select all, none, or invert the selection of a list of items.
 /// </summary>
-public partial class ViewSelectOptions : UserControl
+public partial class ViewSelect : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ViewSelectOptions"/> class.
+    /// Initializes a new instance of the <see cref="ViewSelect"/> class.
     /// </summary>
-    public ViewSelectOptions()
+    public ViewSelect()
     {
         InitializeComponent();
     }

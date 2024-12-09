@@ -49,17 +49,17 @@ public partial class LightingPage : UserControl
     /// <summary>
     /// The list of light options for one point lighting.
     /// </summary>
-    private List<LightOptions> _onePointLighting;
+    private List<LightSetupItem> _onePointLighting;
 
     /// <summary>
     /// The list of light options for three point lighting.
     /// </summary>
-    private List<LightOptions> _threePointLighting;
+    private List<LightSetupItem> _threePointLighting;
 
     /// <summary>
     /// The list of light options for overhead lighting.
     /// </summary>
-    private List<LightOptions> _overheadLighting;
+    private List<LightSetupItem> _overheadLighting;
 
     /// <summary>
     /// The maximum dimension of the model.
@@ -83,11 +83,11 @@ public partial class LightingPage : UserControl
         InitializeComponent();
 
         // Initialize the light options
-        _onePointLighting = [new LightOptions()];
+        _onePointLighting = [new LightSetupItem()];
 
-        _threePointLighting = [new LightOptions(), new LightOptions(), new LightOptions()];
+        _threePointLighting = [new LightSetupItem(), new LightSetupItem(), new LightSetupItem()];
 
-        _overheadLighting = [new LightOptions()];
+        _overheadLighting = [new LightSetupItem()];
 
         // Initialize the UI
         Dispatcher.UIThread.Post(() =>
@@ -285,7 +285,7 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void AddLightButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var light = new LightOptions();
+        var light = new LightSetupItem();
         AddLightEventHandlers(light);
         LightOptionsStackPanel.Children.Add(light);
     }
@@ -337,7 +337,7 @@ public partial class LightingPage : UserControl
         // Iterate through the light options and add them to the list
         foreach (var lightOption in LightOptionsStackPanel.Children)
         {
-            var lightOptions = (LightOptions)lightOption;
+            var lightOptions = (LightSetupItem)lightOption;
             var lightOrientation = lightOptions.LightOrientationSelector.CurrentOrientation.Name;
             // We only want the first 7 characters of the hex colour, meaning the alpha channel is ignored
             var lightColour = lightOptions.LightColourSelector.GetHexColour()[..7];
@@ -398,7 +398,7 @@ public partial class LightingPage : UserControl
         }
 
         // Verify the light options in the light stack panel
-        foreach (var lightOptions in LightOptionsStackPanel.Children.Cast<LightOptions?>())
+        foreach (var lightOptions in LightOptionsStackPanel.Children.Cast<LightSetupItem?>())
         {
             lightOptions?.VerifyOptions();
         }
@@ -486,7 +486,7 @@ public partial class LightingPage : UserControl
     /// <param name="lightingOptions">The list of light options to set up.</param>
     /// <param name="settings">The settings for the light options.</param>
     private void SetupLighting(
-        List<LightOptions> lightingOptions,
+        List<LightSetupItem> lightingOptions,
         List<(string orientation, int power)> settings
     )
     {
@@ -511,7 +511,7 @@ public partial class LightingPage : UserControl
     /// Adds event handlers to the light options.
     /// </summary>
     /// <param name="light"></param>
-    private void AddLightEventHandlers(LightOptions light)
+    private void AddLightEventHandlers(LightSetupItem light)
     {
         light.LightOrientationSelector.OrientationChanged += Option_Changed;
         light.LightColourSelector.ColourChanged += Option_Changed;

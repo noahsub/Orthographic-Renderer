@@ -100,7 +100,7 @@ public class Hardware
     public override string ToString()
     {
         var pathString = string.Join(", ", Path);
-        return $"Name: {Name}, Type: {Type}, SensorName: {SensorName}, SensorType: {SensorType}, Value: {Value}, Unit: {Unit}, Path: {pathString}";
+        return $"NameLabel: {Name}, Type: {Type}, SensorName: {SensorName}, SensorType: {SensorType}, Value: {Value}, Unit: {Unit}, Path: {pathString}";
     }
 
     /// <summary>

@@ -37,7 +37,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="0,20,0,0">
-                    <controls:BrowsableFileTextBox x:Name="ModelPathTextBox" />
+                    <controls:FilePathSelector x:Name="ModelPathTextBox" />
                     <ComboBox
                         HorizontalAlignment="Stretch"
                         Margin="0,5,0,0"

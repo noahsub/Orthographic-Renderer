@@ -82,7 +82,7 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     /// <param name="pathTextBox">The text box containing the path.</param>
     /// <returns>The normalized path, or <c>null</c> if the path is invalid.</returns>
-    private static string? NormalizePath(BrowsableFileTextBox pathTextBox)
+    private static string? NormalizePath(FilePathSelector pathTextBox)
     {
         // Get the path from the text box
         var path = pathTextBox.PathTextBox.Text;
@@ -109,7 +109,7 @@ public partial class RequirementsPage : UserControl
     /// <param name="pathTextBox">The text box containing the path.</param>
     /// <param name="save">Whether to save the path if valid.</param>
     /// <returns><c>true</c> if the path is valid; otherwise, <c>false</c>.</returns>
-    private static bool PathValid(string key, BrowsableFileTextBox pathTextBox, bool save = false)
+    private static bool PathValid(string key, FilePathSelector pathTextBox, bool save = false)
     {
         // Normalize the path
         var path = NormalizePath(pathTextBox);
@@ -156,7 +156,7 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     /// <param name="pathTextBox">The text box to update.</param>
     /// <param name="isValid">Whether the path is valid.</param>
-    private static void SetBorder(BrowsableFileTextBox pathTextBox, bool isValid)
+    private static void SetBorder(FilePathSelector pathTextBox, bool isValid)
     {
         // Set the border color based on the validity of the path (green if valid, red if invalid)
         pathTextBox.PathTextBox.BorderBrush = isValid

@@ -28,7 +28,7 @@
             Margin="20,0,0,0"
             VerticalAlignment="Center"
             x:Name="RenderHardwareNameLabel">
-            Hardware Device Name | Type
+            Hardware Device NameLabel | Type
         </Label>
         <!--  ENGINE TYPES STACK PANEL  -->
         <StackPanel

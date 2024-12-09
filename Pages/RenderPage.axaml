@@ -17,7 +17,7 @@
             Opacity="{StaticResource GlobalOpacity}" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="0" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="2" />
-        <controls:HardwareMonitorBar Grid.Row="0" />
+        <controls:SystemStatsBar Grid.Row="0" />
         <!--  CONTENT GRID  -->
         <Grid ColumnDefinitions="2*, 1*" Grid.Row="1">
             <!--  QUEUE GRID  -->
@@ -84,7 +84,7 @@
                     <Label Content="Threads" />
                     <NumericUpDown Text="1" x:Name="ThreadsNumericUpDown" />
                     <Label Content="Output Directory" />
-                    <controls:BrowsableDirectoryTextBox x:Name="OutputBrowsableDirectoryTextBox" />
+                    <controls:DirectoryPathSelector x:Name="OutputBrowsableDirectoryTextBox" />
                     <Label Content="Complete Sound" />
                     <CheckBox IsCancel="True" x:Name="CompleteSoundCheckBox" />
                 </StackPanel>

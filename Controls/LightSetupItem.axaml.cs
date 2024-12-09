@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// LightOptions.axaml.cs
-// This file contains the logic for the LightOptions control.
+// LightSetupItem.axaml.cs
+// This file contains the logic for the LightSetupItem control.
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,16 +32,16 @@ namespace Orthographic.Renderer.Controls;
 /// <summary>
 /// A control that allows for the configuration of a blender area light.
 /// </summary>
-public partial class LightOptions : UserControl
+public partial class LightSetupItem : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LightOptions"/> class.
+    /// Initializes a new instance of the <see cref="LightSetupItem"/> class.
     /// </summary>
-    public LightOptions()
+    public LightSetupItem()
     {
         InitializeComponent();
 

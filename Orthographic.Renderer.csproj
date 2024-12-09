@@ -354,7 +354,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Controls\BrowsableDirectoryTextBox.axaml.cs">
+      <Compile Update="Controls\DirectoryPathSelector.axaml.cs">
         <DependentUpon>BrowsableDirectoryTextBox.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
