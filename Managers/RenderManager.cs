@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
@@ -117,6 +118,16 @@ public static class RenderManager
         };
         return mapping[view];
     }
+    
+    /// <summary>
+    /// Computes the leg of a triangle given the hypotenuse.
+    /// </summary>
+    /// <param name="distance">The hypotenuse of the triangle.</param>
+    /// <returns>The leg of the triangle.</returns>
+    private static float ComputeTriangularLeg(float distance)
+    {
+        return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // VIEWS
@@ -184,16 +195,6 @@ public static class RenderManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Computes the leg of a triangle given the hypotenuse.
-    /// </summary>
-    /// <param name="distance">The hypotenuse of the triangle.</param>
-    /// <returns>The leg of the triangle.</returns>
-    private static float ComputeTriangularLeg(float distance)
-    {
-        return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
-    }
-
-    /// <summary>
     /// Converts a string to title case.
     /// </summary>
     /// <param name="str">The string to convert.</param>
@@ -203,20 +204,43 @@ public static class RenderManager
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
     }
 
+    public static Entities.Resolution CalculatePreviewResolution(Entities.Resolution resolution)
+    {
+        if (resolution.Width == 0 || resolution.Height == 0)
+        {
+            resolution = new Entities.Resolution(1920, 1080, 100);
+        }
+
+        // Compute aspect ratio by determining the GCD of the width and height
+        var gcd = (int)BigInteger.GreatestCommonDivisor(resolution.Width, resolution.Height);
+        var aspectRatio = new Tuple<int, int>(resolution.Width / gcd, resolution.Height / gcd);
+
+        var previewResolution = new Entities.Resolution(
+            600,
+            (600 * aspectRatio.Item2) / aspectRatio.Item1,
+            100
+        );
+
+        if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
+        {
+            resolution = previewResolution;
+        }
+
+        return resolution;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // RENDERING
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Renders the model with the specified options.
     /// </summary>
     /// <param name="renderOptions">The options to use when rendering the model.</param>
+    /// <param name="quality">The quality of the render.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>True if the model was rendered successfully, otherwise false.</returns>
-    public static async Task<bool> Render(
-        RenderOptions renderOptions,
-        CancellationToken cancellationToken
-    )
+    public static async Task<bool> Render(RenderOptions renderOptions, string quality, CancellationToken cancellationToken)
     {
         // Get the JSON representation of the render options
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
@@ -238,35 +262,17 @@ public static class RenderManager
                     // Run the blender process with the provided arguments
                     return ProcessManager.RunProcessCheck(
                         DataManager.BlenderPath,
-                        $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
+                        $"-b -P \"{scriptPath}\" -- "
+                            + $"--options \"{jsonRenderOptions}\" --quality {quality}"
                     );
                 },
                 cancellationToken
             );
         }
-        
         // Otherwise, return false
         catch (OperationCanceledException)
         {
             return false;
         }
-    }
-
-    /// <summary>
-    /// Renders a preview of the model with the specified options.
-    /// </summary>
-    /// <param name="renderOptions">The options to use when rendering the model.</param>
-    /// <returns>True if the preview was rendered successfully, otherwise false.</returns>
-    public static bool RenderPreview(RenderOptions renderOptions)
-    {
-        // Get the JSON representation of the render options
-        var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
-        // Get the path to the preview script
-        var scriptPath = FileManager.GetAbsolutePath("Scripts/render_preview.py");
-        // Run the blender process with the provided arguments
-        return ProcessManager.RunProcessCheck(
-            DataManager.BlenderPath,
-            $"-b -P \"{scriptPath}\" -- " + $"--options \"{jsonRenderOptions}\""
-        );
     }
 }

@@ -1,0 +1,103 @@
+﻿<UserControl
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Pages.HardwarePage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:Orthographic.Renderer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  MAIN GRID  -->
+    <Grid>
+        <!--  BACKGROUND RECTANGLE  -->
+        <Rectangle Fill="{StaticResource PrimaryBackground}" />
+        <!--  SCROLL VIEWER  -->
+        <ScrollViewer>
+            <StackPanel
+                HorizontalAlignment="Center"
+                MinWidth="700"
+                VerticalAlignment="Center">
+                <!--  TITLE  -->
+                <Label
+                    Content="Hardware"
+                    FontSize="30"
+                    HorizontalAlignment="Center"
+                    Padding="0,20,0,50" />
+                <!--  HEADING  -->
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Height="25"
+                        Margin="0,0,10,0"
+                        Source="avares://Orthographic Renderer/Assets/Images/green_cube.png"
+                        Width="25" />
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <Label Content="Cycles Devices" />
+                        <Label
+                            Content="OPTIX, CUDA, and CPU devices are supported"
+                            FontFamily="{StaticResource JetBrainsMono}"
+                            FontSize="10"
+                            FontStyle="Italic" />
+                    </StackPanel>
+                </StackPanel>
+                <!--  RENDER HARDWARE ITEMS  -->
+                <StackPanel
+                    Margin="0,20,0,0"
+                    Spacing="10"
+                    x:Name="RenderHardwareStackPanel" />
+                <!--  HEADING  -->
+                <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                    <Image
+                        Height="25"
+                        Margin="0,0,10,0"
+                        Source="avares://Orthographic Renderer/Assets/Images/orange_cube.png"
+                        Width="25" />
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <Label Content="Cycles Render Framework" />
+                        <Label
+                            Content="The framework utilized for Cycles rendering"
+                            FontFamily="{StaticResource JetBrainsMono}"
+                            FontSize="10"
+                            FontStyle="Italic" />
+                    </StackPanel>
+                </StackPanel>
+                <!--  ENGINE SELECTION  -->
+                <Label
+                    Background="{StaticResource PrimaryAccent}"
+                    Content="CPU CYCLES"
+                    CornerRadius="{StaticResource Radius}"
+                    Height="50"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Margin="0,20,0,0"
+                    VerticalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    x:Name="EngineLabel" />
+                <!--  NEXT BUTTON  -->
+                <Button
+                    Click="NextButton_OnClick"
+                    Content="Next"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0"
+                    x:Name="NextButton" />
+            </StackPanel>
+        </ScrollViewer>
+        <!--  WARNING LABEL  -->
+        <Label
+            Content="Warning: CPU rendering detected. Rendering performance will be slow."
+            Foreground="Goldenrod"
+            HorizontalAlignment="Center"
+            IsVisible="False"
+            Margin="20,20,20,20"
+            VerticalAlignment="Bottom"
+            x:Name="WarningLabel" />
+        <!--  BACK BUTTON  -->
+        <Button
+            Click="BackButton_OnClick"
+            Content="Back"
+            HorizontalAlignment="Left"
+            Margin="20,20,20,20"
+            VerticalAlignment="Bottom"
+            x:Name="BackButton" />
+    </Grid>
+</UserControl>

@@ -17,7 +17,16 @@ import argparse
 import os
 from enum import Enum
 import sys
+from typing import Tuple
+
 import bpy
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+if script_dir not in sys.path:
+    sys.path.append(script_dir)
+
+import render_devices
 
 
 ########################################################################################################################
@@ -32,22 +41,8 @@ class BlenderArgparse(argparse.ArgumentParser):
     def parse_args(self):
         arguments = []
         if "--" in sys.argv:
-            arguments = sys.argv[sys.argv.index("--") + 1:]
+            arguments = sys.argv[sys.argv.index("--") + 1 :]
         return super().parse_args(args=arguments)
-
-
-########################################################################################################################
-# RENDER DEVICE ENUM
-########################################################################################################################
-class RenderDevice(Enum):
-    """
-    An enum of the different types of rendering devices that can be used.
-    """
-
-    OPTIX = "OPTIX"
-    CUDA = "CUDA"
-    EEVEE = "EEVEE"
-    UNSUPPORTED = "UNSUPPORTED"
 
 
 ########################################################################################################################
@@ -130,7 +125,8 @@ def import_model(model_path: str, unit: float) -> None:
 
     bpy.ops.object.select_all(action="DESELECT")
     bpy.data.objects[name].select_set(True)
-    bpy.ops.object.origin_set(type="ORIGIN_CENTER_OF_VOLUME", center="MEDIAN")
+    # bpy.ops.object.origin_set(type="ORIGIN_CENTER_OF_VOLUME", center="MEDIAN")
+    bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
     bpy.data.objects[name].location = (0, 0, 0)
 
 
@@ -139,66 +135,52 @@ def import_model(model_path: str, unit: float) -> None:
 ########################################################################################################################
 
 
-def set_render_preferences() -> RenderDevice:
-    render_device = None
-    preferences = bpy.context.preferences
-    cycles_preferences = preferences.addons["cycles"].preferences
-    cycles_preferences.refresh_devices()
-    devices = list(cycles_preferences.devices)
-
-    optix_devices = [x for x in devices if str(x.type) == "OPTIX"]
-    cuda_devices = [x for x in devices if str(x.type) == "CUDA"]
-    cpu_devices = [x for x in devices if str(x.type) == "CPU"]
-
-    if optix_devices:
-        bpy.context.scene.render.engine = "CYCLES"
-        bpy.context.scene.cycles.device = "GPU"
-        for device in optix_devices:
-            device.use = True
-        render_device = RenderDevice.OPTIX
-    elif cuda_devices:
-        bpy.context.scene.render.engine = "CYCLES"
-        bpy.context.scene.cycles.device = "GPU"
-        for device in cuda_devices:
-            device.use = True
-        render_device = RenderDevice.CUDA
-    elif cpu_devices:
-        bpy.context.scene.render.engine = "BLENDER_EEVEE_NEXT"
-        for device in cpu_devices:
-            device.use = True
-        render_device = RenderDevice.EEVEE
-    else:
-        render_device = RenderDevice.UNSUPPORTED
+def set_render_preferences(quality: str) -> Tuple[str, str]:
+    device = render_devices.set_render_device()
 
     bpy.context.scene.cycles.preview_samples = 500
     bpy.context.scene.cycles.use_denoising = True
     bpy.context.scene.render.use_persistent_data = True
 
-    if optix_devices:
-        bpy.context.scene.cycles.denoiser = "OPTIX"
+    if quality == "normal":
+        if device[0] == "CYCLES" and device[1] == "OPTIX":
+            bpy.context.scene.cycles.denoiser = "OPTIX"
 
-    bpy.context.scene.render.use_simplify = True
-    bpy.context.scene.render.simplify_subdivision = 2
-    bpy.context.scene.cycles.texture_limit_render = "2048"
+        bpy.context.scene.render.use_simplify = True
+        bpy.context.scene.render.simplify_subdivision = 2
+        bpy.context.scene.cycles.texture_limit_render = "2048"
 
-    bpy.context.scene.cycles.use_camera_cull = True
-    bpy.context.scene.cycles.use_distance_cull = True
+        bpy.context.scene.cycles.use_camera_cull = True
+        bpy.context.scene.cycles.use_distance_cull = True
 
-    bpy.context.scene.cycles.use_fast_gi = True
-    bpy.context.scene.cycles.use_animated_seed = True
+        bpy.context.scene.cycles.use_fast_gi = True
+        bpy.context.scene.cycles.use_animated_seed = True
 
-    # might need to turn this off
-    bpy.context.scene.cycles.auto_scrambling_distance = True
+        # might need to turn this off
+        bpy.context.scene.cycles.auto_scrambling_distance = True
 
-    bpy.context.scene.cycles.max_bounces = 5
+        bpy.context.scene.cycles.max_bounces = 5
 
-    # bpy.context.scene.render.image_settings.file_format = 'OPEN_EXR'
-    bpy.context.scene.render.image_settings.file_format = "PNG"
-    bpy.context.scene.render.image_settings.color_mode = "RGBA"
-    bpy.context.scene.render.image_settings.color_depth = "16"
-    bpy.context.scene.render.image_settings.exr_codec = "DWAA"
+        bpy.context.scene.render.image_settings.file_format = "PNG"
+        bpy.context.scene.render.image_settings.color_mode = "RGBA"
+        bpy.context.scene.render.image_settings.color_depth = "16"
+        bpy.context.scene.render.image_settings.exr_codec = "DWAA"
 
-    return render_device
+    if quality == "preview":
+        # Switch to Eevee render engine
+        bpy.context.scene.render.engine = "BLENDER_EEVEE_NEXT"
+
+        bpy.context.scene.render.use_simplify = True
+        bpy.context.scene.render.simplify_subdivision = 2
+
+        bpy.context.scene.eevee.taa_render_samples = 32
+
+        bpy.context.scene.render.image_settings.file_format = "PNG"
+        bpy.context.scene.render.image_settings.color_mode = "RGBA"
+        bpy.context.scene.render.image_settings.color_depth = "8"
+        bpy.context.scene.render.image_settings.exr_codec = "NONE"
+
+    return device
 
 
 def set_render_resolution(width: int, height: int, scale: int) -> None:
@@ -303,7 +285,7 @@ def create_area_light(power, size, position, colour):
 
     colour = colour.lstrip("#")
 
-    light.data.color = tuple(int(colour[i: i + 2], 16) / 255.0 for i in (0, 2, 4))
+    light.data.color = tuple(int(colour[i : i + 2], 16) / 255.0 for i in (0, 2, 4))
 
     # Set the light's position
     light.location[0] = position.x
@@ -370,6 +352,23 @@ def save_file(file_path: str) -> None:
 
 
 ########################################################################################################################
+# COLOUR FUNCTIONS
+########################################################################################################################
+def srgb_to_linearrgb(value: int) -> float:
+    """
+    Convert an sRGB value to a linear RGB value
+    """
+    value = value / 255.0
+    if value < 0.04045:
+        if value < 0.0:
+            return 0.0
+        else:
+            return value * 0.077399
+    else:
+        return pow((value + 0.055) * 0.947867, 2.4)
+
+
+########################################################################################################################
 # HELPER FUNCTIONS
 ########################################################################################################################
 def get_formatted_date():
@@ -381,17 +380,6 @@ def get_formatted_date():
 
 
 ########################################################################################################################
-# IMAGE MANIPULATION FUNCTIONS
-########################################################################################################################
-def hex_to_rgba(hex_value):
-    """
-    Convert a hex colour value to an RGBA tuple
-    """
-    hex_value = hex_value.lstrip('#')
-    length = len(hex_value)
-    return tuple(int(hex_value[i:i + length // 4], 16) / 255.0 for i in range(0, length, length // 4))
-
-########################################################################################################################
 # MAIN
 ########################################################################################################################
 if __name__ == "__main__":
@@ -400,6 +388,11 @@ if __name__ == "__main__":
         description="Script to render a view of the scene with the specified parameters"
     )
     parser.add_argument("--options", type=str, help="Options for rendering")
+    parser.add_argument(
+        "--quality",
+        type=str,
+        help="The quality of the render, either 'preview' or 'normal'",
+    )
     args = parser.parse_args()
 
     data = json.loads(args.options)
@@ -425,14 +418,12 @@ if __name__ == "__main__":
     # Create the camera
     create_camera()
 
-    # # Setup lighting
-    # setup_lighting(args.light_distance)
-
     # delete all existing lights
     bpy.ops.object.select_all(action="DESELECT")
     bpy.ops.object.select_by_type(type="LIGHT")
     bpy.ops.object.delete()
 
+    # Set up the lighting
     for light in data["Lights"]:
         create_area_light(
             light["Power"],
@@ -449,7 +440,7 @@ if __name__ == "__main__":
         )
 
     # Detect the rendering device and set the rendering preferences
-    set_render_preferences()
+    set_render_preferences(args.quality)
 
     # Set the rendering resolution
     set_render_resolution(
@@ -472,23 +463,32 @@ if __name__ == "__main__":
 
     set_camera_start_pos(dist)
 
-    background_colour = hex_to_rgba(data["BackgroundColour"])
+    # Set the background color
+    rgb_background_colour = [int(x) for x in data["BackgroundColour"].split(",")]
+    # Convert sRGB to linear RGB
+    linear_rgb_background_colour = [srgb_to_linearrgb(x) for x in rgb_background_colour]
 
-    if background_colour[3] < 1:
+    # if the alpha channel is 0 or the quality is set to preview, set the background to transparent
+    if rgb_background_colour[3] == 0 or args.quality == "preview":
         bpy.context.scene.render.film_transparent = True
 
+    # otherwise, set the background to the specified colour
     else:
         # Disable transparent background
         bpy.context.scene.render.film_transparent = False
 
         # Set background color
         bpy.context.scene.world.use_nodes = True
-        bg_node = bpy.context.scene.world.node_tree.nodes['Background']
-        bg_node.inputs['Color'].default_value = background_colour
+        bg_node = bpy.context.scene.world.node_tree.nodes["Background"]
+        bg_node.inputs["Color"].default_value = (
+            linear_rgb_background_colour[0],
+            linear_rgb_background_colour[1],
+            linear_rgb_background_colour[2],
+            rgb_background_colour[3] / 255,
+        )
 
     # Render the view
-    render_device = render_generic_view(name=data["Name"], output_folder=output_path, position=position)
-    print(f"Render Device: {render_device}")
+    render_generic_view(name=data["Name"], output_folder=output_path, position=position)
 
     save = data["SaveBlenderFile"]
 

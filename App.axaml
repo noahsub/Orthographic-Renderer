@@ -48,6 +48,12 @@
             <Setter Property="CornerRadius" Value="{StaticResource Radius}" />
         </Style>
 
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}" />
+        </Style>
+
         <!--  Button Styles  -->
         <Style Selector="Button">
             <Setter Property="FontFamily" Value="{StaticResource JetBrainsMono}" />

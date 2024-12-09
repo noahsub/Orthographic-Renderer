@@ -184,6 +184,7 @@ public partial class ModelPage : UserControl
         // Switch to the RenderPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "LightingPage");
+        NavigationManager.LoadPage("LightingPage");
     }
 
     /// <summary>
@@ -227,7 +228,7 @@ public partial class ModelPage : UserControl
     {
         // Switch to the RequirementsPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, "RequirementsPage");
+        NavigationManager.SwitchPage(mainWindow, "HardwarePage");
     }
 
     /// <summary>

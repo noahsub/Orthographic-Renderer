@@ -63,6 +63,11 @@ public static class NavigationManager
     private static LightingPage? _lightingPage = null;
 
     /// <summary>
+    /// A reference to the hardware page.
+    /// </summary>
+    private static HardwarePage? _hardwarePage = null;
+
+    /// <summary>
     /// The current page displayed in the main window.
     /// </summary>
     private static UserControl? _currentPage = null;
@@ -144,7 +149,44 @@ public static class NavigationManager
                 }
                 pageContent.Content = _lightingPage;
                 _currentPage = _lightingPage;
-                _lightingPage.Load();
+                break;
+            case "HardwarePage":
+                if (_hardwarePage == null)
+                {
+                    _hardwarePage = new HardwarePage();
+                }
+                pageContent.Content = _hardwarePage;
+                _currentPage = _hardwarePage;
+                break;
+            default:
+                return;
+        }
+    }
+
+    public static void LoadPage(string page)
+    {
+        switch (page)
+        {
+            case "ModelPage":
+                // _modelPage?.Load();
+                break;
+            case "ViewsPage":
+                _viewsPage?.Load();
+                break;
+            case "RenderPage":
+                _renderPage?.Load();
+                break;
+            case "RequirementsPage":
+                _renderPage?.Load();
+                break;
+            case "UpdatePage":
+                // _updatePage?.Load();
+                break;
+            case "LightingPage":
+                _lightingPage?.Load();
+                break;
+            case "HardwarePage":
+                _hardwarePage?.Load();
                 break;
             default:
                 return;
@@ -154,7 +196,7 @@ public static class NavigationManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PAGE CREATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Create a new page of the specified type.
     /// </summary>
@@ -180,6 +222,9 @@ public static class NavigationManager
                 break;
             case "LightingPage":
                 _lightingPage = new LightingPage();
+                break;
+            case "HardwarePage":
+                _hardwarePage = new HardwarePage();
                 break;
             default:
                 return;

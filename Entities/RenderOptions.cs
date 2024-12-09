@@ -8,15 +8,16 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
+using System;
+using System.Collections.Generic;
+using Avalonia.Media;
+using Newtonsoft.Json;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace Orthographic.Renderer.Entities;
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // RENDER OPTIONS CLASS
@@ -30,37 +31,37 @@ public class RenderOptions
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PROPERTIES
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// The name of the render.
     /// </summary>
     public string Name { get; set; }
-    
+
     /// <summary>
     /// The path to the model.
     /// </summary>
     public string Model { get; set; }
-    
+
     /// <summary>
     /// The scale of the model relative to meters.
     /// </summary>
     public float Unit { get; set; }
-    
+
     /// <summary>
     /// The directory to save the output files.
     /// </summary>
     public string OutputDirectory { get; set; }
-    
+
     /// <summary>
     /// The resolution of the output image.
     /// </summary>
     public Resolution Resolution { get; set; }
-    
+
     /// <summary>
     /// The camera to use for rendering.
     /// </summary>
     public Camera Camera { get; set; }
-    
+
     /// <summary>
     /// The lights to use for rendering.
     /// </summary>
@@ -89,14 +90,14 @@ public class RenderOptions
         Resolution = new Resolution(1920, 1080);
         Camera = new Camera(0, new Position(0, 0, 0, 0, 0, 0));
         Lights = new List<Light>();
-        BackgroundColour = "#FFFFFF";
+        BackgroundColour = "0,0,0,1";
         SaveBlenderFile = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // SETTERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Sets the name of the render.
     /// </summary>
@@ -168,14 +169,19 @@ public class RenderOptions
     {
         Lights.AddRange(lights);
     }
-    
+
     /// <summary>
     /// Sets the background colour of the render.
     /// </summary>
     /// <param name="backgroundColour"></param>
-    public void SetBackgroundColour(string backgroundColour)
+    public void SetBackgroundColour(Avalonia.Media.Color backgroundColour)
     {
-        BackgroundColour = backgroundColour;
+        var red = backgroundColour.R;
+        var green = backgroundColour.G;
+        var blue = backgroundColour.B;
+        var alpha = backgroundColour.A;
+
+        BackgroundColour = $"{red},{green},{blue},{alpha}";
     }
 
     /// <summary>
@@ -190,7 +196,7 @@ public class RenderOptions
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // JSON REPRESENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Converts the render options to a JSON representation.
     /// </summary>

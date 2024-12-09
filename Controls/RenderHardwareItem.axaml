@@ -1,0 +1,43 @@
+﻿<UserControl
+    d:DesignHeight="100"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Orthographic.Renderer.Controls.RenderHardwareItem"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  MAIN GRID  -->
+    <Grid Height="50">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions />
+        <!--  BACKGROUND RECTANGLE  -->
+        <Rectangle
+            Fill="{StaticResource ControlsBackground}"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            RadiusX="{StaticResource RadiusRectangle}"
+            RadiusY="{StaticResource RadiusRectangle}" />
+        <!--  DEVICE NAME AND TYPE LABEL  -->
+        <Label
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            Margin="20,0,0,0"
+            VerticalAlignment="Center"
+            x:Name="RenderHardwareNameLabel">
+            Hardware Device Name | Type
+        </Label>
+        <!--  ENGINE TYPES STACK PANEL  -->
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            Margin="0,0,20,0"
+            Orientation="Horizontal"
+            Spacing="20"
+            VerticalAlignment="Center"
+            x:Name="EngineTypesStackPanel" />
+    </Grid>
+</UserControl>

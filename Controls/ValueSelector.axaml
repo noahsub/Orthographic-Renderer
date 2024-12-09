@@ -21,6 +21,7 @@
                 Grid.Column="0"
                 Grid.Row="0"
                 HorizontalAlignment="Center"
+                KeyUp="ValueTextBox_OnKeyUp"
                 Text="0"
                 TextChanging="ValueTextBox_OnTextChanging"
                 Width="100"

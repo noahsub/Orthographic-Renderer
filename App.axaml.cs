@@ -69,18 +69,39 @@ public partial class App : Application
             Task.Run(async () =>
             {
                 // Perform hardware setup and collection asynchronously
-                splashScreen.SetLoadingTextUiThread("Setting up Computer");
+                splashScreen.SetLoadingTextUiThread("DETECTING COMPUTER HARDWARE");
                 await Task.Run(HardwareManager.SetupComputer);
-                splashScreen.SetLoadingTextUiThread("Collecting Hardware");
+
+                splashScreen.SetLoadingTextUiThread("GATHERING HARDWARE COMPONENTS AND SENSORS");
                 await Task.Run(HardwareManager.CollectHardwareToMonitor);
+
                 // Copy user files asynchronously
-                splashScreen.SetLoadingTextUiThread("Copying User Files");
+                splashScreen.SetLoadingTextUiThread("COPYING USER FILES");
                 await Task.Run(FileManager.CopyUserFiles);
+
+                splashScreen.SetLoadingTextUiThread("CONFIGURING BLENDER PATH");
+                if (OperatingSystem.IsWindows8OrGreater)
+                {
+                    DataManager.BlenderPath = "Blender/Windows/blender.exe";
+                }
+
+                if (OperatingSystem.IsUnix)
+                {
+                    DataManager.BlenderPath = "Blender/Linux/blender";
+                }
+
+                // Get Render Hardware
+                splashScreen.SetLoadingTextUiThread("DETECTING BLENDER COMPATIBLE HARDWARE");
+                if (!string.IsNullOrEmpty(DataManager.BlenderPath))
+                {
+                    await Task.Run(HardwareManager.GetRenderHardware);
+                }
+                
                 // Check for updates asynchronously
-                splashScreen.SetLoadingTextUiThread("Checking for Updates");
+                splashScreen.SetLoadingTextUiThread("CHECKING FOR UPDATES");
                 DataManager.LatestVersion = await WebManager.GetLatestVersion();
 
-                splashScreen.SetLoadingTextUiThread("Creating Pages");
+                splashScreen.SetLoadingTextUiThread("CREATING USER INTERFACE");
 
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(async () =>
@@ -88,22 +109,13 @@ public partial class App : Application
                     var mainWindow = new Windows.MainWindow();
                     desktop.MainWindow = mainWindow;
 
-                    // Create update page
+                    // Create application pages
                     await NavigationManager.CreatePage("UpdatePage");
-
-                    // Create requirements page
                     await NavigationManager.CreatePage("RequirementsPage");
-
-                    // Create model page
+                    await NavigationManager.CreatePage("HardwarePage");
                     await NavigationManager.CreatePage("ModelPage");
-
-                    // Create lighting page
                     await NavigationManager.CreatePage("LightingPage");
-
-                    // Create views page
                     await NavigationManager.CreatePage("ViewsPage");
-
-                    // Create render page
                     await NavigationManager.CreatePage("RenderPage");
 
                     mainWindow.Show();

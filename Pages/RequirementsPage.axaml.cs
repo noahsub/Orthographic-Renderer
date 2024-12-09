@@ -42,11 +42,10 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     public void Load()
     {
-        if (OperatingSystem.IsWindows8OrGreater)
+        if (DataManager.BlenderPath != "")
         {
-            BlenderPathTextBox.PathTextBox.Text = "Blender/Windows/blender.exe";
+            BlenderPathTextBox.PathTextBox.Text = DataManager.BlenderPath;
         }
-
         else
         {
             // Load serialized paths
@@ -213,7 +212,8 @@ public partial class RequirementsPage : UserControl
 
         // Switch to the ModelPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, "ModelPage");
+        NavigationManager.SwitchPage(mainWindow, "HardwarePage");
+        NavigationManager.LoadPage("HardwarePage");
     }
 
     /// <summary>

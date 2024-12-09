@@ -18,27 +18,27 @@ public class Light
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PROPERTIES
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// The position of the light, including rotation.
     /// </summary>
     public Position Position { get; set; }
-    
+
     /// <summary>
     /// The colour of the light.
     /// </summary>
     public string Colour { get; set; }
-    
+
     /// <summary>
     /// The power of the light.
     /// </summary>
     public float Power { get; set; }
-    
+
     /// <summary>
     /// The size of the light.
     /// </summary>
     public float Size { get; set; }
-    
+
     /// <summary>
     /// The distance of the light.
     /// </summary>
@@ -47,7 +47,7 @@ public class Light
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Creates a new instance of the <see cref="Light"/> class.
     /// </summary>

@@ -10,6 +10,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using Orthographic.Renderer.Entities;
 
@@ -66,14 +67,30 @@ public static class DataManager
     /// The lights in the scene.
     /// </summary>
     public static List<Light> Lights { get; set; } = new List<Light>();
-    
+
     /// <summary>
     /// The background colour of the rendered image.
     /// </summary>
-    public static string BackgroundColour { get; set; } = "#FFFFFF";
+    public static Avalonia.Media.Color BackgroundColour { get; set; } =
+        Avalonia.Media.Color.FromRgb(255, 255, 255);
 
     /// <summary>
     /// The views to render.
     /// </summary>
     public static List<string> SelectedViews { get; set; } = new List<string>();
+
+    /// <summary>
+    /// The OPTIX devices available.
+    /// </summary>
+    public static List<string> OptixDevices { get; set; } = new List<string>();
+
+    /// <summary>
+    /// The CUDA devices available.
+    /// </summary>
+    public static List<string> CudaDevices { get; set; } = new List<string>();
+
+    /// <summary>
+    /// The CPU devices available.
+    /// </summary>
+    public static List<string> CpuDevices { get; set; } = new List<string>();
 }

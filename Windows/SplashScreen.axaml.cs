@@ -44,11 +44,11 @@ public partial class SplashScreen : Window
         // Set the image
         var images = new List<string>
         {
-            "Assets/Images/Backgrounds/computer.png", 
-            "Assets/Images/Backgrounds/cubes.png",
-            "Assets/Images/Backgrounds/motor.png"
+            "Assets/Images/Backgrounds/gears.png",
+            "Assets/Images/Backgrounds/mini_computer.png",
+            "Assets/Images/Backgrounds/portable_computer.png",
         };
-        
+
         var random = new Random();
         var image = images[random.Next(images.Count)];
         LoadingImage.Source = new Bitmap(image);

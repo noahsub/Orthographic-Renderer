@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using LibreHardwareMonitor.Hardware;
+using Newtonsoft.Json.Linq;
 using Hardware = Orthographic.Renderer.Entities.Hardware;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -432,6 +433,34 @@ public static class HardwareManager
             default:
                 throw new InvalidEnumArgumentException();
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RENDER HARDWARE
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Reads the render capable hardware from Blender.
+    /// </summary>
+    public static void GetRenderHardware()
+    {
+        // The output of the Blender command to get the render devices
+        var output = ProcessManager.RunProcess(
+            DataManager.BlenderPath,
+            $"-b --python Scripts/render_devices.py"
+        );
+        // Clean up the output to get the JSON data
+        var jsonStartIndex = output.IndexOf('{');
+        var jsonEndIndex = output.LastIndexOf('}');
+        // Parse the JSON data
+        var renderDevices = JObject.Parse(
+            output.Substring(jsonStartIndex, jsonEndIndex - jsonStartIndex + 1)
+        );
+
+        // Set the render devices
+        DataManager.OptixDevices = renderDevices["OPTIX"]?.ToObject<List<string>>() ?? [];
+        DataManager.CudaDevices = renderDevices["CUDA"]?.ToObject<List<string>>() ?? [];
+        DataManager.CpuDevices = renderDevices["CPU"]?.ToObject<List<string>>() ?? [];
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

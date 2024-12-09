@@ -24,32 +24,32 @@ public class OrientationNode
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PROPERTIES
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// The name of the node, i.e, the view it represents.
     /// </summary>
     public string Name { get; set; }
-    
+
     /// <summary>
     /// The icon of the node.
     /// </summary>
     public string Icon { get; set; }
-    
+
     /// <summary>
     /// The node to the left of this node.
     /// </summary>
     public OrientationNode Left { get; set; }
-    
+
     /// <summary>
     /// The node above this node.
     /// </summary>
     public OrientationNode Up { get; set; }
-    
+
     /// <summary>
     /// The node to the right of this node.
     /// </summary>
     public OrientationNode Right { get; set; }
-    
+
     /// <summary>
     /// The node below this node.
     /// </summary>
@@ -69,7 +69,7 @@ public class OrientationNode
         Name = name;
         Icon = icon;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // SETTERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
