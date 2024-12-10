@@ -12,6 +12,7 @@
     <Grid ColumnDefinitions="*,10,Auto">
         <TextBox
             Grid.Column="0"
+            TextChanged="PathTextBox_OnTextChanged"
             Watermark="Directory path"
             x:Name="PathTextBox" />
         <Button

@@ -49,4 +49,9 @@ public static class SoundManager
             }
         });
     }
+    
+    public static void PlayErrorSound()
+    {
+        PlaySound("Assets/Sounds/error.mp3");
+    }
 }

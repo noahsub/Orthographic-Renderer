@@ -129,10 +129,11 @@ public static class NavigationManager
                 if (_requirementsPage == null)
                 {
                     _requirementsPage = new RequirementsPage();
+                    _requirementsPage.OnFirstLoad();
                 }
                 pageContent.Content = _requirementsPage;
                 _currentPage = _requirementsPage;
-                _requirementsPage.Load();
+                _requirementsPage.OnNavigatedTo();
                 break;
             case "UpdatePage":
                 if (_updatePage == null)

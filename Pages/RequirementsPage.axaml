@@ -36,7 +36,7 @@
                             FontStyle="Italic" />
                     </StackPanel>
                 </StackPanel>
-                <controls:FilePathSelector Margin="0,20,0,0" x:Name="BlenderPathTextBox" />
+                <controls:FilePathSelector Margin="0,20,0,0" x:Name="BlenderFilePathSelector" />
                 <Button
                     Click="NextButton_OnClick"
                     Content="Next"

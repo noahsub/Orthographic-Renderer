@@ -8,11 +8,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using LibreHardwareMonitor.Software;
 using Orthographic.Renderer.Controls;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,14 +30,14 @@ namespace Orthographic.Renderer.Pages;
 /// <summary>
 /// Represents the requirements page of the application.
 /// </summary>
-public partial class RequirementsPage : UserControl
+public partial class RequirementsPage : UserControl, IPage
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RequirementsPage"/> class.
     /// </summary>
     public RequirementsPage()
     {
-        InitializeComponent();
+        Initialize();
     }
 
     /// <summary>
@@ -42,127 +45,16 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     public void Load()
     {
-        if (DataManager.BlenderPath != "")
-        {
-            BlenderPathTextBox.PathTextBox.Text = DataManager.BlenderPath;
-        }
-        else
-        {
-            // Load serialized paths
-            LoadPaths();
-        }
-
-        // Check if the blender path is valid
-        PathValid("blender", BlenderPathTextBox);
+        
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PATH
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /// <summary>
-    /// Loads the paths from the configuration file.
-    /// </summary>
-    private void LoadPaths()
-    {
-        // Get the paths from the file
-        var paths = FileManager.ReadJsonKeyValue(FileManager.GetProgramPathsFile());
-        // Get the blender path
-        var blenderPath = paths.blender;
-
-        // If the blender path is not null, set the text box to the path
-        if (blenderPath != null)
-        {
-            BlenderPathTextBox.PathTextBox.Text = blenderPath;
-        }
-    }
-
-    /// <summary>
-    /// Normalizes the specified path.
-    /// </summary>
-    /// <param name="pathTextBox">The text box containing the path.</param>
-    /// <returns>The normalized path, or <c>null</c> if the path is invalid.</returns>
-    private static string? NormalizePath(FilePathSelector pathTextBox)
-    {
-        // Get the path from the text box
-        var path = pathTextBox.PathTextBox.Text;
-
-        // If the path is null, return null
-        if (path == null)
-        {
-            return null;
-        }
-
-        // Reformat the path
-        path = FileManager.ReformatPath(path);
-
-        // Set the text box to the reformatted path
-        pathTextBox.PathTextBox.Text = path;
-
-        return path;
-    }
-
-    /// <summary>
-    /// Validates the specified path.
-    /// </summary>
-    /// <param name="key">The key associated with the path.</param>
-    /// <param name="pathTextBox">The text box containing the path.</param>
-    /// <param name="save">Whether to save the path if valid.</param>
-    /// <returns><c>true</c> if the path is valid; otherwise, <c>false</c>.</returns>
-    private static bool PathValid(string key, FilePathSelector pathTextBox, bool save = false)
-    {
-        // Normalize the path
-        var path = NormalizePath(pathTextBox);
-
-        // If the path is null, return false
-        if (path == null)
-        {
-            return false;
-        }
-
-        // Verify the program path
-        if (FileManager.VerifyProgramPath(key, path))
-        {
-            // Set the border color to green
-            SetBorder(pathTextBox, true);
-
-            // Save the path if specified
-            if (save)
-            {
-                FileManager.WriteKeyValueToJsonFile(FileManager.GetProgramPathsFile(), key, path);
-            }
-
-            return true;
-        }
-
-        // Set the border color to red
-        SetBorder(pathTextBox, false);
-        return false;
-    }
-
-    private static void DisplayWarning(string message)
-    {
-        var warning = new Windows.Warning();
-        warning.SetWarning(message);
-        warning.Show();
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPER FUNCTIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Sets the border color of the specified text box based on its validity.
-    /// </summary>
-    /// <param name="pathTextBox">The text box to update.</param>
-    /// <param name="isValid">Whether the path is valid.</param>
-    private static void SetBorder(FilePathSelector pathTextBox, bool isValid)
-    {
-        // Set the border color based on the validity of the path (green if valid, red if invalid)
-        pathTextBox.PathTextBox.BorderBrush = isValid
-            ? Brushes.MediumSpringGreen
-            : Brushes.IndianRed;
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENTS
@@ -173,47 +65,27 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var blenderPath = FileManager.ReformatPath(
-            BlenderPathTextBox.PathTextBox.Text ?? string.Empty
-        );
+        // Fix path
+        BlenderFilePathSelector.FixPath();
+        
+        // Check the file path
+        BlenderFilePathSelector.CheckPath();
 
-        if (blenderPath == string.Empty)
+        // Check if the Blender path is valid
+        var pathValid = FileManager.CheckBlenderPath(BlenderFilePathSelector.GetPath());
+        
+        // If the path is valid, switch to the hardware page
+        if (pathValid)
         {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-            SetBorder(BlenderPathTextBox, false);
-            return;
+            var mainWindow = (Windows.MainWindow)this.VisualRoot!;
+            NavigationManager.SwitchPage(mainWindow, "HardwarePage");
         }
 
-        if (FileManager.ElevatedPath(blenderPath))
+        // Otherwise, mark the path as invalid
+        else
         {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-            SetBorder(BlenderPathTextBox, false);
-            DisplayWarning(
-                "Blender is installed in a protected directory. Please run this application as an administrator or install the portable version of Blender."
-            );
-            return;
+            BlenderFilePathSelector.MarkInvalid();
         }
-
-        // Check if the blender path is valid
-        var blenderValid = PathValid("blender", BlenderPathTextBox, true);
-
-        // If the blender path is not valid, play an error sound and return
-        if (!blenderValid)
-        {
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-            SetBorder(BlenderPathTextBox, false);
-            return;
-        }
-
-        SetBorder(BlenderPathTextBox, true);
-
-        // Set the blender path
-        DataManager.BlenderPath = blenderPath;
-
-        // Switch to the ModelPage
-        var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-        NavigationManager.SwitchPage(mainWindow, "HardwarePage");
-        NavigationManager.LoadPage("HardwarePage");
     }
 
     /// <summary>
@@ -221,7 +93,29 @@ public partial class RequirementsPage : UserControl
     /// </summary>
     private void BlenderInstallButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // Open the Blender download page
-        WebManager.OpenUrl("https://www.blender.org/download/lts/4-2/");
+        
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // IPAGE INTERFACE IMPLEMENTATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    public void Initialize()
+    {
+        InitializeComponent();
+    }
+
+    public void OnFirstLoad()
+    {
+        if (DataManager.BlenderPath != String.Empty)
+        {
+            BlenderFilePathSelector.SetPath(DataManager.BlenderPath);
+            BlenderFilePathSelector.MarkValid();
+        }
+    }
+
+    public void OnNavigatedTo()
+    {
+        return;
     }
 }
