@@ -18,6 +18,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Newtonsoft.Json.Linq;
 using Orthographic.Renderer.Controls;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
 
@@ -30,7 +31,7 @@ namespace Orthographic.Renderer.Pages;
 // HARDARE PAGE CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public partial class HardwarePage : UserControl
+public partial class HardwarePage : UserControl, IPage
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -41,96 +42,7 @@ public partial class HardwarePage : UserControl
     /// </summary>
     public HardwarePage()
     {
-        InitializeComponent();
-    }
-
-    /// <summary>
-    /// Method that is called when the page is navigated to.
-    /// </summary>
-    public void Load()
-    {
-        // Clear the RenderHardwareStackPanel.
-        RenderHardwareStackPanel.Children.Clear();
-
-        // Get the total number of render capable devices.
-        var totalDevices =
-            DataManager.OptixDevices.Count
-            + DataManager.CudaDevices.Count
-            + DataManager.CpuDevices.Count;
-
-        // If there are no devices, get the render hardware.
-        if (totalDevices == 0)
-        {
-            HardwareManager.GetRenderHardware();
-        }
-
-        // Iterate through the Optix devices.
-        foreach (var optixDevice in DataManager.OptixDevices)
-        {
-            // Create a list of engines and add OPTIX.
-            var engines = new List<string> { "OPTIX" };
-
-            // Iterate through the CUDA devices.
-            foreach (var cudaDevice in DataManager.CudaDevices.ToList())
-            {
-                // If the CUDA device is the same as the OPTIX device, add CUDA and remove the device from the list.
-                if (cudaDevice == optixDevice)
-                {
-                    // Add CUDA to the engines list.
-                    engines.Add("CUDA");
-                    // Remove the CUDA device from the list.
-                    DataManager.CudaDevices.Remove(cudaDevice);
-                    // Break the loop and continue to the next OPTIX device.
-                    break;
-                }
-            }
-
-            // Add the render hardware item to the RenderHardwareStackPanel.
-            RenderHardwareStackPanel.Children.Add(
-                new RenderHardwareItem(optixDevice, "GPU", engines)
-            );
-        }
-
-        // Iterate through the CUDA devices.
-        foreach (var cudaDevice in DataManager.CudaDevices)
-        {
-            // Add CUDA to the engines list.
-            var engines = new List<string> { "CUDA" };
-
-            // Add the render hardware item to the RenderHardwareStackPanel.
-            RenderHardwareStackPanel.Children.Add(
-                new RenderHardwareItem(cudaDevice, "GPU", engines)
-            );
-        }
-
-        // Iterate through the CPU devices.
-        foreach (var cpuDevice in DataManager.CpuDevices)
-        {
-            // Add EEVEE to the engines list.
-            var engines = new List<string> { "CPU CYCLES" };
-
-            // Add the render hardware item to the RenderHardwareStackPanel.
-            RenderHardwareStackPanel.Children.Add(
-                new RenderHardwareItem(cpuDevice, "CPU", engines)
-            );
-        }
-
-        // Optix devices are prioritized over CUDA devices.
-        if (DataManager.OptixDevices.Count != 0)
-        {
-            EngineLabel.Content = "OPTIX";
-        }
-        // CUDA devices are prioritized over CPU devices.
-        else if (DataManager.CudaDevices.Count != 0)
-        {
-            EngineLabel.Content = "CUDA";
-        }
-        // If there are no devices, use CPU CYCLES.
-        else
-        {
-            EngineLabel.Content = "CPU CYCLES";
-            WarningLabel.IsVisible = true;
-        }
+        Initialize();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,5 +73,46 @@ public partial class HardwarePage : UserControl
         var mainWindow = (MainWindow)this.VisualRoot!;
         // Navigate to the RenderPage
         NavigationManager.SwitchPage(mainWindow, "ModelPage");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // IPAGE INTERFACE IMPLEMENTATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Initializes the HardwarePage.
+    /// </summary>
+    public void Initialize()
+    {
+        InitializeComponent();
+    }
+
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
+    public void OnFirstLoad()
+    {
+        // If there are no render devices, get the render hardware
+        if (DataManager.RenderDevices.Count == 0)
+        {
+            HardwareManager.GetRenderHardware();
+        }
+
+        // Add each render device to the stack panel
+        foreach (var device in DataManager.RenderDevices)
+        {
+            var item = new RenderHardwareItem(device);
+            RenderHardwareStackPanel.Children.Add(item);
+        }
+        
+        FrameworkLabel.Content = DataManager.RenderFramework;
+    }
+
+    /// <summary>
+    /// When the page is navigated to.
+    /// </summary>
+    public void OnNavigatedTo()
+    {
+        return;
     }
 }

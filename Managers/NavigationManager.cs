@@ -9,6 +9,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Orthographic.Renderer.Pages;
@@ -80,6 +81,17 @@ public static class NavigationManager
     {
         return _currentPage;
     }
+    
+    public static Dictionary<string, bool> LoadedPages = new()
+    {
+        { "ModelPage", false },
+        { "ViewsPage", false },
+        { "RenderPage", false },
+        { "RequirementsPage", false },
+        { "UpdatePage", false },
+        { "LightingPage", false },
+        { "HardwarePage", false }
+    };
 
     /// <summary>
     /// Switches the current page displayed in the main window.
@@ -102,6 +114,12 @@ public static class NavigationManager
                 {
                     _modelPage = new ModelPage();
                 }
+                
+                if (!LoadedPages["ModelPage"])
+                {
+                    LoadedPages["ModelPage"] = true;
+                }
+                
                 _modelPage.SetDimensionsUnknown();
                 pageContent.Content = _modelPage;
                 _currentPage = _modelPage;
@@ -111,6 +129,12 @@ public static class NavigationManager
                 {
                     _viewsPage = new ViewsPage();
                 }
+                
+                if (!LoadedPages["ViewsPage"])
+                {
+                    LoadedPages["ViewsPage"] = true;
+                }
+                
                 pageContent.Content = _viewsPage;
                 _currentPage = _viewsPage;
                 _viewsPage.SetFileName();
@@ -121,6 +145,12 @@ public static class NavigationManager
                 {
                     _renderPage = new RenderPage();
                 }
+                
+                if (!LoadedPages["RenderPage"])
+                {
+                    LoadedPages["RenderPage"] = true;
+                }
+                
                 pageContent.Content = _renderPage;
                 _currentPage = _renderPage;
                 _renderPage.Load();
@@ -129,8 +159,14 @@ public static class NavigationManager
                 if (_requirementsPage == null)
                 {
                     _requirementsPage = new RequirementsPage();
+                }
+
+                if (!LoadedPages["RequirementsPage"])
+                {
+                    LoadedPages["RequirementsPage"] = true;
                     _requirementsPage.OnFirstLoad();
                 }
+                
                 pageContent.Content = _requirementsPage;
                 _currentPage = _requirementsPage;
                 _requirementsPage.OnNavigatedTo();
@@ -140,6 +176,12 @@ public static class NavigationManager
                 {
                     _updatePage = new UpdatePage();
                 }
+                
+                if (!LoadedPages["UpdatePage"])
+                {
+                    LoadedPages["UpdatePage"] = true;
+                }
+                
                 pageContent.Content = _updatePage;
                 _currentPage = _updatePage;
                 break;
@@ -148,6 +190,12 @@ public static class NavigationManager
                 {
                     _lightingPage = new LightingPage();
                 }
+                
+                if (!LoadedPages["LightingPage"])
+                {
+                    LoadedPages["LightingPage"] = true;
+                }
+                
                 pageContent.Content = _lightingPage;
                 _currentPage = _lightingPage;
                 break;
@@ -156,8 +204,16 @@ public static class NavigationManager
                 {
                     _hardwarePage = new HardwarePage();
                 }
+                
+                if (!LoadedPages["HardwarePage"])
+                {
+                    LoadedPages["HardwarePage"] = true;
+                    _hardwarePage.OnFirstLoad();
+                }
+                
                 pageContent.Content = _hardwarePage;
                 _currentPage = _hardwarePage;
+                _hardwarePage.OnNavigatedTo();
                 break;
             default:
                 return;
@@ -178,7 +234,7 @@ public static class NavigationManager
                 _renderPage?.Load();
                 break;
             case "RequirementsPage":
-                _renderPage?.Load();
+                // _renderPage?.Load();
                 break;
             case "UpdatePage":
                 // _updatePage?.Load();
@@ -187,7 +243,7 @@ public static class NavigationManager
                 _lightingPage?.Load();
                 break;
             case "HardwarePage":
-                _hardwarePage?.Load();
+                // _hardwarePage?.Load();
                 break;
             default:
                 return;

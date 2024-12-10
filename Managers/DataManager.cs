@@ -77,20 +77,30 @@ public static class DataManager
     /// <summary>
     /// The views to render.
     /// </summary>
-    public static List<string> SelectedViews { get; set; } = new List<string>();
+    public static List<string> SelectedViews { get; set; } = [];
 
     /// <summary>
     /// The OPTIX devices available.
     /// </summary>
-    public static List<string> OptixDevices { get; set; } = new List<string>();
+    public static List<string> OptixDevices { get; set; } = [];
 
     /// <summary>
     /// The CUDA devices available.
     /// </summary>
-    public static List<string> CudaDevices { get; set; } = new List<string>();
+    public static List<string> CudaDevices { get; set; } = [];
 
     /// <summary>
     /// The CPU devices available.
     /// </summary>
-    public static List<string> CpuDevices { get; set; } = new List<string>();
+    public static List<string> CpuDevices { get; set; } = [];
+    
+    /// <summary>
+    /// The render devices available.
+    /// </summary>
+    public static List<RenderHardware> RenderDevices = [];
+    
+    /// <summary>
+    /// The framework to use with the cycle render engine.
+    /// </summary>
+    public static string RenderFramework { get; set; } = "";
 }

@@ -13,6 +13,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Orthographic.Renderer.Entities;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -31,28 +32,22 @@ public partial class RenderHardwareItem : UserControl
     /// <summary>
     /// The constructor for the RenderHardwareItem control.
     /// </summary>
-    /// <param name="name">The name of the device</param>
-    /// <param name="type">The type of device</param>
-    /// <param name="engines">The engines the device is compatible with</param>
-    public RenderHardwareItem(string name, string type, List<string> engines)
+    /// <param name="renderHardware">The render hardware to display.</param>
+    public RenderHardwareItem(RenderHardware renderHardware)
     {
         // Initialize the control.
         InitializeComponent();
 
         // Set the name and type of the hardware item.
-        RenderHardwareNameLabel.Content = $"{type} | {name}";
-
-        // Set the engines of the hardware item.
+        RenderHardwareNameLabel.Content = $"{renderHardware.Type} | {renderHardware.Name}";
 
         // Add each engine to the stack panel.
-        foreach (var engine in engines)
+        foreach (var framework in renderHardware.Frameworks)
         {
-            var engineLabel = new Label();
-            engineLabel.Content = engine;
-
-            engineLabel.Foreground = new SolidColorBrush(Color.Parse("#38b178"));
-
-            EngineTypesStackPanel.Children.Add(engineLabel);
+            var frameworkLabel = new Label();
+            frameworkLabel.Content = framework;
+            frameworkLabel.Foreground = new SolidColorBrush(Color.Parse("#38b178"));
+            FrameworksStackPanel.Children.Add(frameworkLabel);
         }
     }
 }

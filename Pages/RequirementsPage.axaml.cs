@@ -40,14 +40,6 @@ public partial class RequirementsPage : UserControl, IPage
         Initialize();
     }
 
-    /// <summary>
-    /// Method that is called when the page is navigated to.
-    /// </summary>
-    public void Load()
-    {
-        
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PATH
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +78,12 @@ public partial class RequirementsPage : UserControl, IPage
         {
             BlenderFilePathSelector.MarkInvalid();
         }
+
+        // Save the Blender path
+        if (!string.Equals(DataManager.BlenderPath, BlenderFilePathSelector.GetPath()))
+        {
+            DataManager.BlenderPath = BlenderFilePathSelector.GetPath();
+        }
     }
 
     /// <summary>
@@ -93,29 +91,53 @@ public partial class RequirementsPage : UserControl, IPage
     /// </summary>
     private void BlenderInstallButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+        WebManager.OpenUrl("https://www.blender.org/download/lts/4-2/");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    /// <summary>
+    /// Initializes the RequirementsPage.
+    /// </summary>
     public void Initialize()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
     public void OnFirstLoad()
     {
-        if (DataManager.BlenderPath != String.Empty)
-        {
-            BlenderFilePathSelector.SetPath(DataManager.BlenderPath);
-            BlenderFilePathSelector.MarkValid();
-        }
+        LoadBlenderPath();
     }
 
+    /// <summary>
+    /// When the page is navigated to.
+    /// </summary>
     public void OnNavigatedTo()
     {
-        return;
+        LoadBlenderPath();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HELPER FUNCTIONS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Loads the Blender path from memory.
+    /// </summary>
+    private void LoadBlenderPath()
+    {
+        // Check if the Blender path is not empty
+        if (DataManager.BlenderPath != String.Empty)
+        {
+            // Set the Blender path
+            BlenderFilePathSelector.SetPath(DataManager.BlenderPath);
+            // Mark the path as valid
+            BlenderFilePathSelector.MarkValid();
+        }
     }
 }

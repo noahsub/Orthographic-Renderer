@@ -38,6 +38,6 @@
             Orientation="Horizontal"
             Spacing="20"
             VerticalAlignment="Center"
-            x:Name="EngineTypesStackPanel" />
+            x:Name="FrameworksStackPanel" />
     </Grid>
 </UserControl>
