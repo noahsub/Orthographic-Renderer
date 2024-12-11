@@ -118,11 +118,11 @@ public static class NavigationManager
                 if (!LoadedPages["ModelPage"])
                 {
                     LoadedPages["ModelPage"] = true;
+                    _modelPage.OnFirstLoad();
                 }
-                
-                _modelPage.SetDimensionsUnknown();
                 pageContent.Content = _modelPage;
                 _currentPage = _modelPage;
+                _modelPage.OnNavigatedTo();
                 break;
             case "ViewsPage":
                 if (_viewsPage == null)

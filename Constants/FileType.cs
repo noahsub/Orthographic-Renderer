@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IPathSelector.cs
-// This file contains the logic for the IPathSelector interface.
+// FileType.cs
+// This file contains the FileType enum.
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,43 +8,24 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-namespace Orthographic.Renderer.Interfaces;
+namespace Orthographic.Renderer.Constants;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// THE IPATHSELECTOR INTERFACE
+// FILE TYPE ENUM
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-public interface IPathSelector
+
+/// <summary>
+/// The type of file.
+/// </summary>
+public enum FileType
 {
     /// <summary>
-    /// Fixes the path of the path selector.
+    /// A model file.
     /// </summary>
-    void FixPath();
+    Model,
     
     /// <summary>
-    /// Checks if the path is valid.
+    /// An executable file.
     /// </summary>
-    /// <returns></returns>
-    bool CheckPath();
-    
-    /// <summary>
-    /// Marks the path as valid.
-    /// </summary>
-    void MarkValid();
-    
-    /// <summary>
-    /// Marks the path as invalid.
-    /// </summary>
-    void MarkInvalid();
-    
-    /// <summary>
-    /// Gets the path from the path selector.
-    /// </summary>
-    /// <returns></returns>
-    string GetPath();
-    
-    /// <summary>
-    /// Sets the path of the path text box.
-    /// </summary>
-    /// <param name="path"></param>
-    void SetPath(string path);
+    Executable,
 }

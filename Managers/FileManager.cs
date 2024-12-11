@@ -30,9 +30,9 @@ namespace Orthographic.Renderer.Managers
     /// </summary>
     public static class FileManager
     {
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // JSON OPERATIONS
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Reads a JSON file and returns its content as a dynamic object.
@@ -105,9 +105,9 @@ namespace Orthographic.Renderer.Managers
             File.WriteAllText(path, jsonString);
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // PATH OPERATIONS
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Reformats a file path by removing double quotes, converting backslashes to forward slashes, and replacing %20 with spaces.
@@ -140,6 +140,134 @@ namespace Orthographic.Renderer.Managers
             return Path.GetFullPath(localPath);
         }
 
+        /// <summary>
+        /// Checks if the path requires elevated permissions to access.
+        /// </summary>
+        /// <returns>True, if the path requires elevated permissions, otherwise false.</returns>
+        public static bool ElevatedPath(string path)
+        {
+            try
+            {
+                using (File.Open(path, FileMode.Open, FileAccess.Read))
+                {
+                    // If we can open the file, it does not require elevated permissions
+                    return false;
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // If an UnauthorizedAccessException is caught, it requires elevated permissions
+                return true;
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // USER FILES
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        ///  Copies the user files from the data directory to the user directory.
+        /// </summary>
+        public static void CopyUserFiles()
+        {
+            var userDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                "Documents/Orthographic Renderer"
+            );
+
+            if (!Directory.Exists(userDirectory))
+            {
+                Directory.CreateDirectory(userDirectory);
+            }
+
+            // foreach file in the data directory, if it doesn't exist in the user directory or the user directory file is older, copy it
+            var dataFiles = Directory.GetFiles("Data");
+            foreach (var file in dataFiles)
+            {
+                var fileName = Path.GetFileName(file);
+                var userFilePath = Path.Combine(userDirectory, fileName);
+                if (!File.Exists(userFilePath) || File.GetLastWriteTime(file) > File.GetLastWriteTime(userFilePath))
+                {
+                    File.Copy(file, userFilePath, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the path to the program paths file.
+        /// </summary>
+        /// <returns>The path to the program paths file.</returns>
+        public static string GetProgramPathsFile()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                "Documents/Orthographic Renderer/program_paths.json"
+            );
+        }
+
+        /// <summary>
+        /// Gets the path to the recent models file.
+        /// </summary>
+        /// <returns>The path to the recent models file.</returns>
+        public static string GetRecentModelsFile()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                "Documents/Orthographic Renderer/recent_models.json"
+            );
+        }
+
+        /// <summary>
+        /// Gets the list of paths of recent 3D models.
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetRecentModels()
+        {
+            // Get the path to the serialized recent models file
+            var recentModelsFile = GetRecentModelsFile();
+            // Read the 'paths' array from the file
+            return ReadJsonArray(recentModelsFile, "paths");
+        }
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // VERIFICATION
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+        /// <summary>
+        /// Verifies if a blender path is valid.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool VerifyBlenderPath(string path)
+        {
+            // Check if the path is the bundled blender windows executable
+            if (OperatingSystem.IsWindows8OrGreater && path == "/Blender/Windows/blender.exe")
+            {
+                return true;
+            }
+            
+            // Check if the path is the bundled blender Linux executable
+            if (OperatingSystem.IsUnix && path == "/Blender/Linux/blender")
+            {
+                return true;
+            }
+
+            // Check if the custom path is valid
+            return VerifyProgramPath("blender", path);
+        }
+
+        /// <summary>
+        /// Checks if the path to the 3D model is valid.
+        /// </summary>
+        /// <param name="path">The path to verify.</param>
+        /// <returns></returns>
+        public static bool VerifyModelPath(string path)
+        {
+            // Assuming that the file already exists, check if the extension is valid
+            var extension = Path.GetExtension(path).ToLower();
+            return ModelManager.ValidTypes.Contains(extension);
+        }
+        
         /// <summary>
         /// Verifies if a directory path exists.
         /// </summary>
@@ -202,116 +330,6 @@ namespace Orthographic.Renderer.Managers
 
             // Return true if the output is not empty
             return !string.IsNullOrEmpty(output);
-        }
-
-        /// <summary>
-        /// Verifies if a model path is valid by checking if the file exists and if the file extension is valid.
-        /// </summary>
-        /// <param name="path">The path to the model file.</param>
-        /// <returns>True or false depending on whether the model path is valid.</returns>
-        public static bool VerifyModelPath(string path)
-        {
-            // Check if the file exists and if the file extension is valid
-            return File.Exists(path) && ModelManager.ValidTypes.Contains(Path.GetExtension(path));
-        }
-
-        /// <summary>
-        /// Checks if the path requires elevated permissions to access.
-        /// </summary>
-        /// <returns>True, if the path requires elevated permissions, otherwise false.</returns>
-        public static bool ElevatedPath(string path)
-        {
-            try
-            {
-                using (File.Open(path, FileMode.Open, FileAccess.Read))
-                {
-                    // If we can open the file, it does not require elevated permissions
-                    return false;
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                // If an UnauthorizedAccessException is caught, it requires elevated permissions
-                return true;
-            }
-        }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // USER FILES
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /// <summary>
-        ///  Copies the user files from the data directory to the user directory.
-        /// </summary>
-        public static void CopyUserFiles()
-        {
-            var userDirectory = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "Documents/Orthographic Renderer"
-            );
-
-            if (!Directory.Exists(userDirectory))
-            {
-                Directory.CreateDirectory(userDirectory);
-            }
-
-            // foreach file in the data directory, if it doesn't exist in the user directory or the user directory file is older, copy it
-            var dataFiles = Directory.GetFiles("Data");
-            foreach (var file in dataFiles)
-            {
-                var fileName = Path.GetFileName(file);
-                var userFilePath = Path.Combine(userDirectory, fileName);
-                if (!File.Exists(userFilePath) || File.GetLastWriteTime(file) > File.GetLastWriteTime(userFilePath))
-                {
-                    File.Copy(file, userFilePath, true);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the path to the program paths file.
-        /// </summary>
-        /// <returns>The path to the program paths file.</returns>
-        public static string GetProgramPathsFile()
-        {
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "Documents/Orthographic Renderer/program_paths.json"
-            );
-        }
-
-        /// <summary>
-        /// Gets the path to the recent models file.
-        /// </summary>
-        /// <returns>The path to the recent models file.</returns>
-        public static string GetRecentModelsFile()
-        {
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "Documents/Orthographic Renderer/recent_models.json"
-            );
-        }
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // PROGRAM PATHS
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-        public static bool CheckBlenderPath(string path)
-        {
-            // Check if the path is the bundled blender windows executable
-            if (OperatingSystem.IsWindows8OrGreater && path == "/Blender/Windows/blender.exe")
-            {
-                return true;
-            }
-            
-            // Check if the path is the bundled blender Linux executable
-            if (OperatingSystem.IsUnix && path == "/Blender/Linux/blender")
-            {
-                return true;
-            }
-
-            // Check if the custom path is valid
-            return VerifyProgramPath("blender", path);
         }
     }
 }

@@ -88,6 +88,9 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
     // IPATHSELECTOR IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// Fixes the path in the text box.
+    /// </summary>
     public void FixPath()
     {
         // Get the path from the text box
@@ -106,6 +109,10 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
         SetPath(reformattedPath);
     }
 
+    /// <summary>
+    /// Checks if the path in the text box is valid.
+    /// </summary>
+    /// <returns></returns>
     public bool CheckPath()
     {
         // Get the path from the text box
@@ -141,12 +148,18 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
         return true;
     }
 
+    /// <summary>
+    /// Marks the path as valid.
+    /// </summary>
     public void MarkValid()
     {
         // Set the border color to green
         PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
     }
 
+    /// <summary>
+    /// Marks the path as invalid.
+    /// </summary>
     public void MarkInvalid()
     {
         // Set the border color to red
@@ -156,6 +169,10 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
         SoundManager.PlayErrorSound();
     }
 
+    /// <summary>
+    /// Gets the path from the text box.
+    /// </summary>
+    /// <returns></returns>
     public string GetPath()
     {
         // Get the path from the text box
@@ -171,6 +188,10 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
         return path;
     }
 
+    /// <summary>
+    /// Sets the path in the text box.
+    /// </summary>
+    /// <param name="path">The path to set.</param>
     public void SetPath(string path)
     {
         // Set the text box to the path

@@ -11,12 +11,16 @@
 
 using System.Collections.Generic;
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
+using Mono.Unix;
+using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Pages;
+using Path = System.IO.Path;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -94,21 +98,17 @@ public partial class FilePathSelector : UserControl, IPathSelector
         }
 
         // Set the path text box to the selected file
-        var path = file[0].Path.AbsolutePath.Replace("%20", " ");
-        PathTextBox.Text = path;
-
-        // If the current page is the model page
-        if (NavigationManager.GetCurrentPage() is ModelPage modelPage)
-        {
-            // Set the dimensions of the model to unknown
-            modelPage.SetDimensionsUnknown();
-        }
+        var path = FileManager.ReformatPath(file[0].Path.AbsolutePath);
+        SetPath(path);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPATHSELECTOR IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// Fix the path in the text box.
+    /// </summary>
     public void FixPath()
     {
         // Get the path from the text box
@@ -126,7 +126,11 @@ public partial class FilePathSelector : UserControl, IPathSelector
         // Set the text box to the reformatted path
         SetPath(reformattedPath);
     }
-
+    
+    /// <summary>
+    /// Check if the path in the text box is valid.
+    /// </summary>
+    /// <returns></returns>
     public bool CheckPath()
     {
         // Get the path from the text box
@@ -162,12 +166,74 @@ public partial class FilePathSelector : UserControl, IPathSelector
         return true;
     }
 
+    /// <summary>
+    /// Check if the path in the text box is valid.
+    /// </summary>
+    /// <param name="fileType">The type of file to check.</param>
+    /// <returns></returns>
+    public bool CheckPath(FileType fileType)
+    {
+        // Get the path
+        var path = GetPath();
+        
+        // Verify the file path
+        if (!FileManager.VerifyFilePath(path))
+        {
+            MarkInvalid();
+            return false;
+        }
+
+        // Check if the path requires elevated permissions
+        if (FileManager.ElevatedPath(path))
+        {
+            MarkInvalid();
+            DialogManager.ShowElevatedPermissionsWarningDialog();
+            return false;
+        }
+
+        // If the file type is executable, check if the path is valid
+        if (fileType == FileType.Executable)
+        {
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path).ToLower();
+            if (fileNameWithoutExtension == "blender")
+            {
+                if (!FileManager.VerifyBlenderPath(path))
+                {
+                    MarkInvalid();
+                    return false;
+                }
+            }
+            else if (!FileManager.VerifyProgramPath(fileNameWithoutExtension, path))
+            {
+                MarkInvalid();
+                return false;
+            }
+        }
+        
+        // If the file type is model, check if the path is valid
+        else if (fileType == FileType.Model && !FileManager.VerifyModelPath(path))
+        {
+            MarkInvalid();
+            return false;
+        }
+
+        // Mark the path as valid and return true
+        MarkValid();
+        return true;
+    }
+
+    /// <summary>
+    /// Mark the path as valid.
+    /// </summary>
     public void MarkValid()
     {
         // Set the border color to green
         PathTextBox.BorderBrush = Brushes.MediumSpringGreen;
     }
 
+    /// <summary>
+    /// Mark the path as invalid.
+    /// </summary>
     public void MarkInvalid()
     {
         // Set the border color to red
@@ -177,6 +243,10 @@ public partial class FilePathSelector : UserControl, IPathSelector
         SoundManager.PlayErrorSound();
     }
 
+    /// <summary>
+    /// Get the path from the text box.
+    /// </summary>
+    /// <returns></returns>
     public string GetPath()
     {
         // Get the path from the text box
@@ -192,6 +262,10 @@ public partial class FilePathSelector : UserControl, IPathSelector
         return path;
     }
 
+    /// <summary>
+    /// Set the path in the text box.
+    /// </summary>
+    /// <param name="path">The path to set.</param>q
     public void SetPath(string path)
     {
         // Set the text box to the path

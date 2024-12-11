@@ -85,13 +85,7 @@ public partial class HardwarePage : UserControl, IPage
     public void Initialize()
     {
         InitializeComponent();
-    }
-
-    /// <summary>
-    /// When the page is first loaded by the user.
-    /// </summary>
-    public void OnFirstLoad()
-    {
+        
         // If there are no render devices, get the render hardware
         if (DataManager.RenderDevices.Count == 0)
         {
@@ -106,6 +100,14 @@ public partial class HardwarePage : UserControl, IPage
         }
         
         FrameworkLabel.Content = DataManager.RenderFramework;
+    }
+
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
+    public void OnFirstLoad()
+    {
+        return;
     }
 
     /// <summary>

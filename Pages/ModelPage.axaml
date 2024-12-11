@@ -37,12 +37,11 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="0,20,0,0">
-                    <controls:FilePathSelector x:Name="ModelPathTextBox" />
+                    <controls:FilePathSelector x:Name="ModelFilePathSelector" />
                     <ComboBox
                         HorizontalAlignment="Stretch"
                         Margin="0,5,0,0"
                         SelectionChanged="RecentlyOpenedComboBox_OnSelectionChanged"
-                        Tapped="RecentlyOpenedComboBox_OnTapped"
                         x:Name="RecentlyOpenedComboBox" />
                 </StackPanel>
                 <StackPanel Margin="0,20,0,0" Orientation="Horizontal">

@@ -14,9 +14,11 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using LibreHardwareMonitor.Software;
+using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
+using Orthographic.Renderer.Windows;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -32,6 +34,10 @@ namespace Orthographic.Renderer.Pages;
 /// </summary>
 public partial class RequirementsPage : UserControl, IPage
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // INITIALIZATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="RequirementsPage"/> class.
     /// </summary>
@@ -39,14 +45,6 @@ public partial class RequirementsPage : UserControl, IPage
     {
         Initialize();
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // PATH
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // HELPER FUNCTIONS
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENTS
@@ -57,33 +55,23 @@ public partial class RequirementsPage : UserControl, IPage
     /// </summary>
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // Fix path
+        // Fix the path
         BlenderFilePathSelector.FixPath();
+        // Check if the path is valid
+        BlenderFilePathSelector.CheckPath(FileType.Executable);
+
+        // Get the path
+        var path = BlenderFilePathSelector.GetPath();
         
-        // Check the file path
-        BlenderFilePathSelector.CheckPath();
-
-        // Check if the Blender path is valid
-        var pathValid = FileManager.CheckBlenderPath(BlenderFilePathSelector.GetPath());
+        // Save the Blender path if it has changed
+        if (!string.Equals(DataManager.BlenderPath, path))
+        {
+            DataManager.BlenderPath = path;
+        }
         
-        // If the path is valid, switch to the hardware page
-        if (pathValid)
-        {
-            var mainWindow = (Windows.MainWindow)this.VisualRoot!;
-            NavigationManager.SwitchPage(mainWindow, "HardwarePage");
-        }
-
-        // Otherwise, mark the path as invalid
-        else
-        {
-            BlenderFilePathSelector.MarkInvalid();
-        }
-
-        // Save the Blender path
-        if (!string.Equals(DataManager.BlenderPath, BlenderFilePathSelector.GetPath()))
-        {
-            DataManager.BlenderPath = BlenderFilePathSelector.GetPath();
-        }
+        // Switch to the hardware page
+        var mainWindow = (MainWindow)this.VisualRoot!;
+        NavigationManager.SwitchPage(mainWindow, "HardwarePage");
     }
 
     /// <summary>
