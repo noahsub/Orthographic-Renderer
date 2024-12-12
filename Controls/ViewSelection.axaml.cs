@@ -72,7 +72,7 @@ public partial class ViewSelection : UserControl
     /// <param name="title">The title of the view</param>
     public void SetName(string title)
     {
-        var name = RenderManager.GetFormattedViewName(title);
+        var name = ViewManager.GetFormattedViewName(title);
         NameLabel.Content = name;
         Key = title;
     }

@@ -122,7 +122,7 @@ public partial class RenderPage : UserControl
             // Create a new render item.
             var renderItem = new RenderQueueItem();
             // Set the properties of the render item.
-            renderItem.NameLabel.Content = RenderManager.GetFormattedViewName(view);
+            renderItem.NameLabel.Content = ViewManager.GetFormattedViewName(view);
             renderItem.Key = view;
 
             // Enqueue the render item.
@@ -374,7 +374,7 @@ public partial class RenderPage : UserControl
         renderOptions.SetResolution(DataManager.Resolution);
 
         var cameraDistance = DataManager.CameraDistance;
-        var cameraPosition = RenderManager.GetPosition(renderItem.Key, cameraDistance);
+        var cameraPosition = SceneManager.GetPosition(renderItem.Key, cameraDistance);
         var camera = new Camera(cameraDistance, cameraPosition);
         renderOptions.SetCamera(camera);
 

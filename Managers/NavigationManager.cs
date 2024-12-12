@@ -194,10 +194,12 @@ public static class NavigationManager
                 if (!LoadedPages["LightingPage"])
                 {
                     LoadedPages["LightingPage"] = true;
+                    _lightingPage.OnFirstLoad();
                 }
                 
                 pageContent.Content = _lightingPage;
                 _currentPage = _lightingPage;
+                _lightingPage.OnNavigatedTo();
                 break;
             case "HardwarePage":
                 if (_hardwarePage == null)
@@ -240,7 +242,7 @@ public static class NavigationManager
                 // _updatePage?.Load();
                 break;
             case "LightingPage":
-                _lightingPage?.Load();
+                // _lightingPage?.Load();
                 break;
             case "HardwarePage":
                 // _hardwarePage?.Load();

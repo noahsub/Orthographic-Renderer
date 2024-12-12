@@ -25,6 +25,9 @@ namespace Orthographic.Renderer.Constants;
 /// </summary>
 public static class Resolution
 {
+    public static readonly int DefaultWidth = 1920;
+    public static readonly int DefaultHeight = 1080;
+    
     public static readonly List<string> AspectRatio4X3 =
     [
         "VGA",

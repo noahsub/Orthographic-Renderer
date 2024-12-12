@@ -132,6 +132,9 @@ public partial class ModelPage : UserControl, IPage
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// Initializes the ModelPage.
+    /// </summary>
     public void Initialize()
     {
         InitializeComponent();
@@ -147,11 +150,17 @@ public partial class ModelPage : UserControl, IPage
         UnitComboBox.SelectedIndex = 0;
     }
  
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
     public void OnFirstLoad()
     {
         return;
     }
 
+    /// <summary>
+    ///  When the page is navigated to.
+    /// </summary>
     public void OnNavigatedTo()
     {
         return;

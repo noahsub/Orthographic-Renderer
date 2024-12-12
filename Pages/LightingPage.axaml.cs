@@ -27,6 +27,7 @@ using Avalonia.Threading;
 using AvaloniaColorPicker;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
 using RenderOptions = Orthographic.Renderer.Entities.RenderOptions;
@@ -40,32 +41,14 @@ namespace Orthographic.Renderer.Pages;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LIGHTING PAGE CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-public partial class LightingPage : UserControl
+public partial class LightingPage : UserControl, IPage
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /// <summary>
-    /// The list of light options for one point lighting.
-    /// </summary>
-    private List<LightSetupItem> _onePointLighting;
-
-    /// <summary>
-    /// The list of light options for three point lighting.
-    /// </summary>
-    private List<LightSetupItem> _threePointLighting;
-
-    /// <summary>
-    /// The list of light options for overhead lighting.
-    /// </summary>
-    private List<LightSetupItem> _overheadLighting;
-
-    /// <summary>
-    /// The maximum dimension of the model.
-    /// </summary>
-    private float _maxDimension;
-
+    private RenderOptions _previewRenderOptions = new();
+    
     /// <summary>
     /// A token source for cancelling the render tasks.
     /// </summary>
@@ -80,79 +63,7 @@ public partial class LightingPage : UserControl
     /// </summary>
     public LightingPage()
     {
-        InitializeComponent();
-
-        // Initialize the light options
-        _onePointLighting = [new LightSetupItem()];
-
-        _threePointLighting = [new LightSetupItem(), new LightSetupItem(), new LightSetupItem()];
-
-        _overheadLighting = [new LightSetupItem()];
-
-        // Initialize the UI
-        Dispatcher.UIThread.Post(() =>
-        {
-            // Set the colour picker to black
-            BackgroundColourSelector.ColourPicker.Color = Colors.Black;
-            BackgroundColourSelector.ColourRectangle.Fill = new SolidColorBrush(Colors.Black);
-            // Bind an event to the colour picker
-            BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
-
-            // Set the aspect ratio 16:9 as the default
-            AspectRatio16X9ToggleButton.IsChecked = true;
-
-            // Add resolution buttons to the grid
-            for (var i = 0; i < 12; i++)
-            {
-                var resolutionButton = new Button();
-                resolutionButton.Content = Resolution.AspectRatio16X9[i];
-                resolutionButton.Click += ResolutionButton_OnClick;
-                resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-                resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
-                resolutionButton.HorizontalContentAlignment = Avalonia
-                    .Layout
-                    .HorizontalAlignment
-                    .Center;
-                resolutionButton.VerticalContentAlignment = Avalonia
-                    .Layout
-                    .VerticalAlignment
-                    .Center;
-                resolutionButton.Margin = new Thickness(5);
-                Grid.SetRow(resolutionButton, (i / 6) + 1);
-                Grid.SetColumn(resolutionButton, i % 6);
-                ResolutionGrid.Children.Add(resolutionButton);
-            }
-
-            WidthTextBox.TextChanged += Option_Changed;
-            HeightTextBox.TextChanged += Option_Changed;
-            CameraOrientation.OrientationChanged += Option_Changed;
-            CameraDistance.ValueChanged += Option_Changed;
-            BackgroundColourSelector.ColourChanged += Option_Changed;
-
-            OnePointLightingButton.Click += Option_Changed;
-            ThreePointLightingButton.Click += Option_Changed;
-            OverheadLightingButton.Click += Option_Changed;
-            
-            AddLightButton.Click += Option_Changed;
-            ClearButton.Click += Option_Changed;
-        });
-    }
-
-    /// <summary>
-    /// Method that is called when the page is navigated to.
-    /// </summary>
-    public void Load()
-    {
-        // Set the file label to the name of the model file
-        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
-        
-        // Calculate the maximum dimension of the model
-        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        _maxDimension =
-            new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
-        // Set the camera distance to the maximum dimension multiplied by 2
-        CameraDistance.SetValue(_maxDimension * 2);
-        CameraDistance.SetSliderBounds(0, _maxDimension * 10, 0.2);
+        Initialize();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,13 +85,9 @@ public partial class LightingPage : UserControl
             return;
         }
 
-        // Set the resolution text boxes to the resolution of the button
-        WidthTextBox.Text = Resolution
-            .ResolutionDictionary[button.Content.ToString() ?? string.Empty]
-            .Item1.ToString();
-        HeightTextBox.Text = Resolution
-            .ResolutionDictionary[button.Content.ToString() ?? string.Empty]
-            .Item2.ToString();
+        var resolution = ImageManager.ConvertResolutionNameToResolution(button.Content.ToString() ?? string.Empty);
+        WidthTextBox.Text = resolution.Width.ToString();
+        HeightTextBox.Text = resolution.Height.ToString();
     }
 
     /// <summary>
@@ -202,9 +109,9 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void ViewsButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // Save the current render options
-        SaveOptions();
-
+        // Save the current options
+        RenderManager.SaveRenderOptions(_previewRenderOptions);
+        
         // Switch to the RenderPage
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "ViewsPage");
@@ -227,17 +134,7 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void AspectRatioToggleButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        UncheckAllAspectRatioButtons();
 
-        // Determine the clicked button and set the corresponding aspect ratio
-        var clickedButton = (ToggleButton)sender!;
-        clickedButton.IsChecked = true;
-
-        // Set the aspect ratios according to the clicked button
-        var aspectRatios = GetAspectRatios(clickedButton);
-
-        // Set the content of the resolution buttons to the aspect ratios
-        SetResolutionButtonsContent(aspectRatios);
     }
 
     /// <summary>
@@ -247,8 +144,12 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void OnePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var settings = new List<(string orientation, int power)> { ("front", 1000) };
-        SetupLighting(_onePointLighting, settings);
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupOnePointLighting();
+        foreach (var light in lights)
+        {
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
+        }
     }
 
     /// <summary>
@@ -258,13 +159,12 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void ThreePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var settings = new List<(string orientation, int power)>
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupThreePointLighting();
+        foreach (var light in lights)
         {
-            ("top-right-back", 200),
-            ("top-back-left", 1000),
-            ("top-left-front", 800),
-        };
-        SetupLighting(_threePointLighting, settings);
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
+        }
     }
 
     /// <summary>
@@ -274,8 +174,12 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void OverheadLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var settings = new List<(string orientation, int power)> { ("top", 1000) };
-        SetupLighting(_overheadLighting, settings);
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupOverheadLighting();
+        foreach (var light in lights)
+        {
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
+        }
     }
 
     /// <summary>
@@ -285,9 +189,8 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void AddLightButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var light = new LightSetupItem();
-        AddLightEventHandlers(light);
-        LightOptionsStackPanel.Children.Add(light);
+        LightSetupItem lightSetupItem = new();
+        LightSetupItemsStackPanel.Children.Add(lightSetupItem);
     }
 
     /// <summary>
@@ -297,7 +200,7 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void ClearButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        LightOptionsStackPanel.Children.Clear();
+        LightSetupItemsStackPanel.Children.Clear();
     }
 
     /// <summary>
@@ -307,8 +210,7 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void Option_Changed(object? sender, EventArgs e)
     {
-        Debug.WriteLine($"Triggered by {sender} with name {((Control)sender!).Name}");
-        RenderPreview();
+
     }
 
     /// <summary>
@@ -322,204 +224,74 @@ public partial class LightingPage : UserControl
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // LIGHTING METHODS
+    // IPAGE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     /// <summary>
-    /// Collects the lights in the light stack panel.
+    /// Initializes the LightingPage.
     /// </summary>
-    /// <returns></returns>
-    private List<Light> GetLights()
+    public void Initialize()
     {
-        // Create a list of lights
-        var lights = new List<Light>();
-
-        // Iterate through the light options and add them to the list
-        foreach (var lightOption in LightOptionsStackPanel.Children)
-        {
-            var lightOptions = (LightSetupItem)lightOption;
-            var lightOrientation = lightOptions.LightOrientationSelector.CurrentOrientation.Name;
-            // We only want the first 7 characters of the hex colour, meaning the alpha channel is ignored
-            var lightColour = lightOptions.LightColourSelector.GetHexColour()[..7];
-            var lightPower = float.Parse(lightOptions.PowerValueSelector.ValueTextBox.Text ?? "0");
-            var lightSize = float.Parse(lightOptions.SizeValueSelector.ValueTextBox.Text ?? "0");
-            var lightDistance = float.Parse(
-                lightOptions.DistanceValueSelector.ValueTextBox.Text ?? "0"
-            );
-            var lightPosition = RenderManager.GetPosition(lightOrientation, lightDistance);
-            var light = new Light(lightPosition, lightColour, lightPower, lightSize, lightDistance);
-            lights.Add(light);
-        }
-
-        // Return the list of lights
-        return lights;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // VERIFICATION
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Checks if the options are valid and sets them to default if they are not.
-    /// </summary>
-    private void VerifyOptions()
-    {
-        // Verify the width text box and set it to 1920 if it is invalid
-        if (string.IsNullOrEmpty(WidthTextBox.Text) || !int.TryParse(WidthTextBox.Text, out _))
-        {
-            WidthTextBox.Text = "1920";
-        }
-
-        // Verify the height text box and set it to 1080 if it is invalid
-        if (string.IsNullOrEmpty(HeightTextBox.Text) || !int.TryParse(HeightTextBox.Text, out _))
-        {
-            HeightTextBox.Text = "1080";
-        }
-
-        // Verify the width text's value and set it to 1920 if it is invalid
-        if (int.Parse(WidthTextBox.Text) <= 0)
-        {
-            WidthTextBox.Text = "1920";
-        }
-
-        // Verify the height text's value and set it to 1080 if it is invalid
-        if (int.Parse(HeightTextBox.Text) <= 0)
-        {
-            HeightTextBox.Text = "1080";
-        }
-
-        // Verify the camera distance text box and set it to 0 if it is invalid
-        if (
-            string.IsNullOrEmpty(CameraDistance.ValueTextBox.Text)
-            || !float.TryParse(CameraDistance.ValueTextBox.Text, out _)
-        )
-        {
-            CameraDistance.SetValue(0);
-        }
-
-        // Verify the light options in the light stack panel
-        foreach (var lightOptions in LightOptionsStackPanel.Children.Cast<LightSetupItem?>())
-        {
-            lightOptions?.VerifyOptions();
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // SAVING
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Stores the current options in the data manager.
-    /// </summary>
-    private void SaveOptions()
-    {
-        // Verify the options
-        VerifyOptions();
-
-        // Store the camera distance
-        DataManager.CameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
-
-        // Store the resolution
-        DataManager.Resolution = new Entities.Resolution(
-            int.Parse(WidthTextBox.Text ?? "1920"),
-            int.Parse(HeightTextBox.Text ?? "1080")
-        );
-
-        // Store the lights
-        DataManager.Lights = GetLights();
-
-        // Store the background colour
-        DataManager.BackgroundColour = BackgroundColourSelector.ColourPicker.Color;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // HELPER FUNCTIONS
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Unchecks all aspect ratio toggle buttons.
-    /// </summary>
-    private void UncheckAllAspectRatioButtons()
-    {
-        AspectRatio16X9ToggleButton.IsChecked = false;
-        AspectRatio21X9ToggleButton.IsChecked = false;
-        AspectRatio4X3ToggleButton.IsChecked = false;
-        AspectRatio1X1ToggleButton.IsChecked = false;
+        // Initialize the page
+        InitializeComponent();
+        
+        // Add colour changed event for the background colour selector
+        BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
+        
+        // Create the resolution buttons
+        CreateResolutionButtons();
     }
 
     /// <summary>
-    /// Gets the aspect ratios according to the clicked button.
+    /// When the page is first loaded by the user.
     /// </summary>
-    /// <param name="clickedButton">The aspect ratio button that was clicked.</param>
-    /// <returns>A string array of aspect ratios.</returns>
-    private string[] GetAspectRatios(ToggleButton clickedButton)
+    public void OnFirstLoad()
     {
-        return clickedButton switch
-        {
-            _ when clickedButton == AspectRatio1X1ToggleButton =>
-                Resolution.AspectRatio1X1.ToArray(),
-            _ when clickedButton == AspectRatio4X3ToggleButton =>
-                Resolution.AspectRatio4X3.ToArray(),
-            _ when clickedButton == AspectRatio16X9ToggleButton =>
-                Resolution.AspectRatio16X9.ToArray(),
-            _ => Resolution.AspectRatio21X9.ToArray(),
-        };
+        return;
     }
 
     /// <summary>
-    /// Sets the content of the resolution buttons according to the aspect ratios.
+    /// When the page is navigated to.
     /// </summary>
-    /// <param name="aspectRatios"></param>
-    private void SetResolutionButtonsContent(string[] aspectRatios)
+    public void OnNavigatedTo()
     {
+        return;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HELPERS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Creates the resolution buttons for the user to select.
+    /// </summary>
+    private void CreateResolutionButtons()
+    {
+        // Create the aspect ratio buttons
         for (var i = 0; i < 12; i++)
         {
-            // Get button from ResolutionGrid starting from the 7th element
-            var resolutionButton = (Button)ResolutionGrid.Children[i + 6];
-            resolutionButton.Content = aspectRatios[i];
+            // Create the button
+            var resolutionButton = new Button();
+            // Set the button content
+            resolutionButton.Content = Resolution.AspectRatio16X9[i];
+            // Set the button click event
+            resolutionButton.Click += ResolutionButton_OnClick;
+            // Set the button properties
+            resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+            resolutionButton.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            resolutionButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+            resolutionButton.Margin = new Thickness(5);
+            // Add the button to the grid
+            Grid.SetRow(resolutionButton, (i / 6) + 1);
+            Grid.SetColumn(resolutionButton, i % 6);
+            ResolutionGrid.Children.Add(resolutionButton);
         }
     }
 
-    /// <summary>
-    /// Sets up the lighting options according to the settings provided.
-    /// </summary>
-    /// <param name="lightingOptions">The list of light options to set up.</param>
-    /// <param name="settings">The settings for the light options.</param>
-    private void SetupLighting(
-        List<LightSetupItem> lightingOptions,
-        List<(string orientation, int power)> settings
-    )
-    {
-        // Clear the light stack panel
-        LightOptionsStackPanel.Children.Clear();
-
-        // Set the light options using the provided settings
-        for (var i = 0; i < lightingOptions.Count; i++)
-        {
-            var light = lightingOptions[i];
-            light.SetOrientation(settings[i].orientation);
-            light.SetColour(Colors.White);
-            light.SetPower(settings[i].power);
-            light.SetSize(3);
-            light.SetDistance(_maxDimension * 80);
-            AddLightEventHandlers(light);
-            LightOptionsStackPanel.Children.Add(light);
-        }
-    }
-
-    /// <summary>
-    /// Adds event handlers to the light options.
-    /// </summary>
-    /// <param name="light"></param>
-    private void AddLightEventHandlers(LightSetupItem light)
-    {
-        light.LightOrientationSelector.OrientationChanged += Option_Changed;
-        light.LightColourSelector.ColourChanged += Option_Changed;
-        light.PowerValueSelector.ValueChanged += Option_Changed;
-        light.SizeValueSelector.ValueChanged += Option_Changed;
-        light.DistanceValueSelector.ValueChanged += Option_Changed;
-        light.RemoveButton.Click += Option_Changed;
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // PREVIEW
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
     /// Renders the preview image of the model.
@@ -530,7 +302,150 @@ public partial class LightingPage : UserControl
         _cancelToken.Cancel();
         _cancelToken = new CancellationTokenSource();
         var token = _cancelToken.Token;
+        
+        // Update the UI to indicate that rendering is in progress
+        RenderStarted();
+        
+        // Generate a unique identifier for the preview
+        var uuid = Guid.NewGuid().ToString().Replace("-", "");
+        // Set the preview render options
+        SetPreviewRenderOptions(uuid);
 
+        // Create a copy of the preview render options
+        var previewRenderOptionsCopy = _previewRenderOptions.Copy();
+        // Lower the resolution for the preview
+        previewRenderOptionsCopy.Resolution = 
+            ImageManager.ResizeResolution(previewRenderOptionsCopy.Resolution, 600);
+
+        // Render the preview image
+        Task.Run(async () =>
+        {
+            // Render the preview image
+            var success = await RenderManager.Render(previewRenderOptionsCopy, "preview", token);
+
+            if (!success)
+            {
+                return;
+            }
+            
+            RenderFinished(uuid);
+        });
+    }
+
+    /// <summary>
+    /// Set the preview render options according to the current UI settings.
+    /// </summary>
+    /// <param name="name">The name of the image to render.</param>
+    private void SetPreviewRenderOptions(string name)
+    {
+        // Name
+        _previewRenderOptions.SetName(name);
+        
+        // Model
+        _previewRenderOptions.SetModel(DataManager.ModelPath);
+        
+        // Unit
+        _previewRenderOptions.SetUnit(DataManager.UnitScale);
+        
+        // Output directory
+        _previewRenderOptions.SetOutputDirectory(FileManager.GetTempDirectoryPath());
+        
+        // Resolution
+        var resolution = GetResolution();
+        _previewRenderOptions.SetResolution(resolution);
+        
+        // Camera
+        _previewRenderOptions.SetCamera(GetCamera());
+        
+        // Lights
+        var lightSetupItems = LightSetupItemsStackPanel.Children.OfType<LightSetupItem>().ToList();
+        var lights = SceneManager.GetLights(lightSetupItems);
+        _previewRenderOptions.AddLights(lights);
+        
+        // Background colour
+        _previewRenderOptions.SetBackgroundColour(BackgroundColourSelector.ColourPicker.Color);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HELPER FUNCTIONS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Get the resolution from the width and height text boxes.
+    /// If the values are invalid, the default resolution is returned.
+    /// </summary>
+    /// <returns>A resolution with the width and height from the text boxes.</returns>
+    private Entities.Resolution GetResolution()
+    {
+        // Get and validate the width
+        int width;
+        bool widthValid = int.TryParse(WidthTextBox.Text, out width);
+        
+        // Get and validate the height
+        int height;
+        bool heightValid = int.TryParse(HeightTextBox.Text, out height);
+
+        // If the values are invalid, set the resolution to the default resolution
+        if (!widthValid || width <= 0)
+        {
+            width = Resolution.DefaultWidth;
+            WidthTextBox.Text = Resolution.DefaultWidth.ToString();
+        }
+        
+        if (!heightValid || height <= 0)
+        {
+            height = Resolution.DefaultHeight;
+            HeightTextBox.Text = Resolution.DefaultHeight.ToString();
+        }
+        
+        // Return the resolution
+        return new Entities.Resolution(width, height);
+    }
+
+    /// <summary>
+    /// Get the camera from the camera distance and orientation selectors.
+    /// </summary>
+    /// <returns></returns>
+    private Camera GetCamera()
+    {
+        // Get the camera distance
+        var cameraDistance = CameraDistanceValueSelector.GetValue();
+        // Get the camera view
+        var cameraView = CameraOrientationSelector.CurrentOrientation.Name;
+        // Get the camera position
+        var cameraPosition = SceneManager.GetPosition(cameraView, cameraDistance);
+        // Return the camera
+        return new Camera(cameraDistance, cameraPosition);
+    }
+
+    private LightSetupItem CreateLight(Light light)
+    {
+        var lightSetupItem = new LightSetupItem();
+        lightSetupItem.LightOrientationSelector.SetOrientation(light.View);
+        
+        var colourComponents = light.Colour.Split(',');
+        var red = byte.Parse(colourComponents[0]);
+        var green = byte.Parse(colourComponents[1]);
+        var blue = byte.Parse(colourComponents[2]);
+        var alpha = byte.Parse(colourComponents[3]);
+        var colour = Avalonia.Media.Color.FromArgb(alpha, red, green, blue);
+        lightSetupItem.SetColour(colour);
+        
+        lightSetupItem.SetPower(light.Power);
+        lightSetupItem.SetSize(light.Size);
+        lightSetupItem.SetDistance(light.Distance);
+        return lightSetupItem;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // UI
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Sets the UI to indicate that rendering has started.
+    /// </summary>
+    private void RenderStarted()
+    {
         // Update the UI to indicate that rendering is in progress.
         Dispatcher.UIThread.Post(() =>
         {
@@ -539,65 +454,28 @@ public partial class LightingPage : UserControl
             PreviewImage.IsVisible = false;
             LoadingImage.IsVisible = true;
         });
-
-        // Create the render options
-        var previewRenderOptions = new RenderOptions();
-
-        // Store and retrieve the current options
-        SaveOptions();
-
-        // Set the base resolution
-        var resolution = DataManager.Resolution;
-        resolution = RenderManager.CalculatePreviewResolution(resolution);
-
-        var cameraDistance = DataManager.CameraDistance;
-        var lights = DataManager.Lights;
-
-        // Setup the preview camera
-        var cameraView = CameraOrientation.CurrentOrientation.Name;
-        var cameraPosition = RenderManager.GetPosition(cameraView, cameraDistance);
-        var camera = new Camera(cameraDistance, cameraPosition);
-
-        // Get the uuid for the render
-        var uuid = Guid.NewGuid().ToString().Replace("-", "");
-
-        // Get the temp directory
-        var tempDirectory = Path.GetTempPath().Replace("\\", "/");
-
-        // Set the render options
-        previewRenderOptions.SetName(uuid);
-        previewRenderOptions.SetModel(DataManager.ModelPath);
-        previewRenderOptions.SetUnit(DataManager.UnitScale);
-        previewRenderOptions.SetOutputDirectory(tempDirectory);
-        previewRenderOptions.SetResolution(resolution);
-        previewRenderOptions.SetCamera(camera);
-        previewRenderOptions.SetSaveBlenderFile(true);
-        previewRenderOptions.AddLights(lights);
-        previewRenderOptions.SetBackgroundColour(DataManager.BackgroundColour);
-
-        Task.Run(async () =>
+    }
+    
+    /// <summary>
+    /// Sets the UI to indicate that rendering has finished.
+    /// </summary>
+    /// <param name="uuid"></param>
+    private void RenderFinished(string uuid)
+    {
+        var tempDirectory = FileManager.GetTempDirectoryPath();
+        
+        // Update the UI to indicate that rendering is complete.
+        Dispatcher.UIThread.Post(() =>
         {
-            // Render the preview image
-            var success = await RenderManager.Render(previewRenderOptions, "preview", token);
-
-            if (!success)
-            {
-                return;
-            }
-
-            // Update the UI to display the preview image
-            Dispatcher.UIThread.Post(() =>
-            {
-                // Display the image and load it into memory
-                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
-                // Delete the temp image and blender file
-                File.Delete(tempDirectory + uuid + ".png");
-                File.Delete(tempDirectory + uuid + ".blend");
-                PreviewImage.IsVisible = true;
-                LoadingImage.IsVisible = false;
-                PreviewButton.IsEnabled = true;
-                PreviewButton.Content = "Preview";
-            });
+            // Display the image and load it into memory
+            PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
+            // Delete the temp image and blender file
+            File.Delete(tempDirectory + uuid + ".png");
+            File.Delete(tempDirectory + uuid + ".blend");
+            PreviewImage.IsVisible = true;
+            LoadingImage.IsVisible = false;
+            PreviewButton.IsEnabled = true;
+            PreviewButton.Content = "Preview";
         });
     }
 }

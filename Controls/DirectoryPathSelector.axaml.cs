@@ -128,21 +128,6 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
             return false;
         }
         
-        // Check if the path requires elevated permissions
-        var requiresElevation = FileManager.ElevatedPath(path);
-        
-        // If it does, mark it as invalid
-        if (requiresElevation)
-        {
-            // Mark the path as invalid
-            MarkInvalid();
-            
-            // Show the elevation required dialog
-            DialogManager.ShowElevatedPermissionsWarningDialog();
-            
-            return false;
-        }
-        
         // Mark the path as valid
         MarkValid();
         return true;

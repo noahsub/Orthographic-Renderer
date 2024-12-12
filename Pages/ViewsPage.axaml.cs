@@ -49,7 +49,7 @@ public partial class ViewsPage : UserControl
         ViewStackGrid.SetLayout(5);
 
         // Populate the views.
-        PopulateViews(RenderManager.RenderViews);
+        PopulateViews(View.RenderViews);
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public partial class ViewsPage : UserControl
         var selectedViews = GetSelectedViews();
         ViewStackGrid.ClearItems();
         var selectedFaces = ViewSortOptions.GetSelectedFaces();
-        var sortedViews = RenderManager.SortViews(selectedFaces);
+        var sortedViews = ViewManager.SortViews(selectedFaces);
         PopulateViews(sortedViews);
         foreach (var control in ViewStackGrid.GetItems())
         {

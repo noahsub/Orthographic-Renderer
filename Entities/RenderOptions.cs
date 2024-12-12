@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using Avalonia.Media;
+using Mono.Unix.Native;
 using Newtonsoft.Json;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,5 +205,25 @@ public class RenderOptions
     public string GetJsonRepresentation()
     {
         return JsonConvert.SerializeObject(this);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // COPY
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    public RenderOptions Copy()
+    {
+        return new RenderOptions
+        {
+            Name = this.Name,
+            Model = this.Model,
+            Unit = this.Unit,
+            OutputDirectory = this.OutputDirectory,
+            Resolution = this.Resolution,
+            Camera = this.Camera,
+            BackgroundColour = this.BackgroundColour,
+            Lights = this.Lights,
+            SaveBlenderFile = this.SaveBlenderFile
+        };
     }
 }

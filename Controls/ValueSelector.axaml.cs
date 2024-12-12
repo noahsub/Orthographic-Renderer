@@ -42,6 +42,16 @@ public partial class ValueSelector : UserControl
     {
         UnitLabel.Content = unit;
     }
+    
+    public float GetValue()
+    {
+        if (float.TryParse(ValueTextBox.Text, out var value))
+        {
+            return value;
+        }
+
+        return 0;
+    }
 
     private void ValueSlider_OnValueChanged(object? sender, RangeBaseValueChangedEventArgs e)
     {

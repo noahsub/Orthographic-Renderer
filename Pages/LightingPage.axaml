@@ -100,7 +100,7 @@
                                 <controls:OrientationSelector
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    x:Name="CameraOrientation" />
+                                    x:Name="CameraOrientationSelector" />
                             </StackPanel>
 
                             <StackPanel
@@ -114,7 +114,7 @@
                                 <controls:ValueSelector
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    x:Name="CameraDistance" />
+                                    x:Name="CameraDistanceValueSelector" />
                             </StackPanel>
                         </Grid>
 
@@ -288,7 +288,7 @@
                     HorizontalAlignment="Stretch"
                     Padding="20"
                     VerticalAlignment="Stretch">
-                    <StackPanel Spacing="10" x:Name="LightOptionsStackPanel" />
+                    <StackPanel Spacing="10" x:Name="LightSetupItemsStackPanel" />
                 </ScrollViewer>
             </Grid>
         </Grid>

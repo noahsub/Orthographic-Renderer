@@ -228,6 +228,11 @@ namespace Orthographic.Renderer.Managers
             // Read the 'paths' array from the file
             return ReadJsonArray(recentModelsFile, "paths");
         }
+
+        public static string GetTempDirectoryPath()
+        {
+            return Path.GetTempPath().Replace("\\", "/");
+        }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // VERIFICATION
