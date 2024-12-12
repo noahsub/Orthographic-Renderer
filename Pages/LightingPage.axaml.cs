@@ -360,6 +360,7 @@ public partial class LightingPage : UserControl, IPage
         // Lights
         var lightSetupItems = LightSetupItemsStackPanel.Children.OfType<LightSetupItem>().ToList();
         var lights = SceneManager.GetLights(lightSetupItems);
+        _previewRenderOptions.Lights.Clear();
         _previewRenderOptions.AddLights(lights);
         
         // Background colour
