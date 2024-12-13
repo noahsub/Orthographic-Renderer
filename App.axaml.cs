@@ -106,9 +106,6 @@ public partial class App : Application
                 // Switch to the UI thread to update the UI
                 Dispatcher.UIThread.Post(async () =>
                 {
-                    var mainWindow = new Windows.MainWindow();
-                    desktop.MainWindow = mainWindow;
-
                     // Create application pages
                     await NavigationManager.CreatePage("UpdatePage");
                     await NavigationManager.CreatePage("RequirementsPage");
@@ -117,6 +114,11 @@ public partial class App : Application
                     await NavigationManager.CreatePage("LightingPage");
                     await NavigationManager.CreatePage("ViewsPage");
                     await NavigationManager.CreatePage("RenderPage");
+                    
+                    // IMPORTANT: MainWindow must be created after all pages are created, otherwise,
+                    // the first page will be initialized twice
+                    var mainWindow = new Windows.MainWindow();
+                    desktop.MainWindow = mainWindow;
 
                     mainWindow.Show();
                     splashScreen.Close();

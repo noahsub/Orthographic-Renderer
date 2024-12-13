@@ -36,7 +36,35 @@
                             FontStyle="Italic" />
                     </StackPanel>
                 </StackPanel>
-                <controls:FilePathSelector Margin="0,20,0,0" x:Name="BlenderFilePathSelector" />
+
+                <StackPanel
+                    Margin="0,20,0,0"
+                    Spacing="10"
+                    x:Name="BlenderPathStackPanel">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton
+                            Background="{StaticResource ControlsBackground}"
+                            Click="BlenderPathToggleButton_OnClick"
+                            Content="Bundled"
+                            Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Name="BundledBlenderToggleButton" />
+                        <ToggleButton
+                            Background="{StaticResource ControlsBackground}"
+                            Click="BlenderPathToggleButton_OnClick"
+                            Content="Custom"
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Name="CustomBlenderToggleButton" />
+                    </Grid>
+                </StackPanel>
                 <Button
                     Click="NextButton_OnClick"
                     Content="Next"

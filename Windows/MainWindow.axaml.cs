@@ -49,17 +49,14 @@ public partial class MainWindow : Window
             ) > 0
         )
         {
-            // Set the content to the update page
-            PageContent.Content = new UpdatePage();
+            NavigationManager.SwitchPage(this, "UpdatePage");
         }
         // Otherwise, show the requirements page
         else
         {
-            // Set the content to the requirements page
-            // PageContent.Content = new RequirementsPage();
             // Switch to the RequirementsPage
-            var mainWindow = (MainWindow)this.VisualRoot!;
-            NavigationManager.SwitchPage(mainWindow, "RequirementsPage");
+            // var mainWindow = (MainWindow)this.VisualRoot!;
+            NavigationManager.SwitchPage(this, "RequirementsPage");
         }
     }
 
