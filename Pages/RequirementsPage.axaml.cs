@@ -181,6 +181,9 @@ public partial class RequirementsPage : UserControl, IPage
             Height = 30,
             VerticalContentAlignment = VerticalAlignment.Center,
         };
+        
+        ToolTip.SetTip(_blenderFilePathLabel, "The path to the version of Blender bundled with Orthographic Renderer");
+        ToolTip.SetTip(_blenderFilePathSelector, "The path to a locally installed version of Blender");
     }
 
     /// <summary>
