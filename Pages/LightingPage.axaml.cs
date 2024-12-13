@@ -400,6 +400,11 @@ public partial class LightingPage : UserControl, IPage
         return new Camera(cameraDistance, cameraPosition);
     }
 
+    /// <summary>
+    /// Create a LightSetupItem control from a Light object.
+    /// </summary>
+    /// <param name="light"></param>
+    /// <returns></returns>
     private LightSetupItem CreateLight(Light light)
     {
         var lightSetupItem = new LightSetupItem();

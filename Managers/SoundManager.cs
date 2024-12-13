@@ -50,6 +50,9 @@ public static class SoundManager
         });
     }
     
+    /// <summary>
+    /// Plays an error sound.
+    /// </summary>
     public static void PlayErrorSound()
     {
         PlaySound("Assets/Sounds/error.mp3");

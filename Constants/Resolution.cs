@@ -25,9 +25,19 @@ namespace Orthographic.Renderer.Constants;
 /// </summary>
 public static class Resolution
 {
+    /// <summary>
+    /// The default width of a render.
+    /// </summary>
     public static readonly int DefaultWidth = 1920;
+    
+    /// <summary>
+    /// The default height of a render.
+    /// </summary>
     public static readonly int DefaultHeight = 1080;
     
+    /// <summary>
+    /// List of 4:3 aspect ratios.
+    /// </summary>
     public static readonly List<string> AspectRatio4X3 =
     [
         "VGA",
@@ -44,6 +54,9 @@ public static class Resolution
         "WHUXGA",
     ];
 
+    /// <summary>
+    /// List of 16:9 aspect ratios.
+    /// </summary>
     public static readonly List<string> AspectRatio16X9 =
     [
         "720p",
@@ -60,6 +73,9 @@ public static class Resolution
         "24K",
     ];
 
+    /// <summary>
+    /// List of 21:9 aspect ratios.
+    /// </summary>
     public static readonly List<string> AspectRatio21X9 =
     [
         "UWHD",
@@ -76,6 +92,9 @@ public static class Resolution
         "UW64K",
     ];
 
+    /// <summary>
+    /// List of 1:1 aspect ratios.
+    /// </summary>
     public static readonly List<string> AspectRatio1X1 =
     [
         "640p",
@@ -92,6 +111,9 @@ public static class Resolution
         "8192p",
     ];
 
+    /// <summary>
+    /// Mapping of resolution names to their width and height.
+    /// </summary>
     public static readonly Dictionary<string, Tuple<int, int>> ResolutionDictionary =
         new Dictionary<string, Tuple<int, int>>
         {

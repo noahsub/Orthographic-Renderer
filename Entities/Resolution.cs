@@ -41,6 +41,13 @@ public class Resolution
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Creates a new instance of the <see cref="Resolution"/> class.
+    /// </summary>
+    /// <param name="width">The width of the image.</param>
+    /// <param name="height">The height of the image.</param>
+    /// <param name="scale">The scale of the image</param>
     public Resolution(int width, int height, int scale = 100)
     {
         Width = width;

@@ -98,8 +98,9 @@ public partial class FilePathSelector : UserControl, IPathSelector
         }
 
         // Set the path text box to the selected file
-        var path = FileManager.ReformatPath(file[0].Path.AbsolutePath);
+        var path = file[0].Path.AbsolutePath;
         SetPath(path);
+        FixPath();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

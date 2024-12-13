@@ -140,7 +140,7 @@ namespace Orthographic.Renderer.Managers
                 string? line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    var formattedLine = RemoveWhitespace(line);
+                    var formattedLine = TextManager.RemoveWhitespace(line);
                     if (formattedLine.StartsWith("vertex"))
                     {
                         var values = formattedLine.Split(' ');
@@ -218,21 +218,6 @@ namespace Orthographic.Renderer.Managers
                 "feet" => ModelUnit.Foot,
                 _ => DataManager.UnitScale,
             };
-        }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // HELPER METHODS
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /// <summary>
-        /// Removes leading and trailing whitespace from a string as well as replaces spaces longer than one with a
-        /// single space.
-        /// </summary>
-        /// <param name="input">The string to format</param>
-        /// <returns></returns>
-        private static string RemoveWhitespace(string input)
-        {
-            return string.Join(" ", input.Split(' ', StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

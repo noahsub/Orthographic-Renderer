@@ -50,6 +50,11 @@ public partial class LightSetupItem : UserControl
     {
         InitializeComponent();
         
+        // Set the units of the value selectors
+        PowerValueSelector.SetUnit("W");
+        SizeValueSelector.SetUnit("m");
+        DistanceValueSelector.SetUnit("m");
+        
         // Set the slider bounds of the value selectors
         PowerValueSelector.SetSliderBounds(0, 2000, 50);
         SizeValueSelector.SetSliderBounds(0, 10, 0.2);

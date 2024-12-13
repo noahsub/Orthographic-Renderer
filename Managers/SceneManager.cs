@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// NAMESPACE
+// IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
@@ -14,6 +14,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NAMESPACE
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace Orthographic.Renderer.Managers;
 
@@ -63,10 +67,16 @@ public class SceneManager
         return lights;
     }
 
+    /// <summary>
+    /// Sets up one-point lighting for the scene.
+    /// </summary>
+    /// <returns></returns>
     public static List<Light> SetupOnePointLighting()
     {
+        // The optimal distance for the light
         var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
 
+        // The lights to use for one-point lighting
         var lights = new List<Light>
         {
             new Light("front", Avalonia.Media.Colors.White, 1000, 3, distance),
@@ -75,10 +85,16 @@ public class SceneManager
         return lights;
     }
     
+    /// <summary>
+    /// Sets up two-point lighting for the scene.
+    /// </summary>
+    /// <returns></returns>
     public static List<Light> SetupThreePointLighting()
     {
+        // The optimal distance for the light
         var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
         
+        // The lights to use for three-point lighting
         var lights = new List<Light>
         {
             new Light("top-right-back", Avalonia.Media.Colors.White, 200, 3, distance),
@@ -89,10 +105,16 @@ public class SceneManager
         return lights;
     }
     
+    /// <summary>
+    /// Sets up overhead lighting for the scene.
+    /// </summary>
+    /// <returns></returns>
     public static List<Light> SetupOverheadLighting()
     {
+        // The optimal distance for the light
         var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
         
+        // The lights to use for overhead lighting
         var lights = new List<Light>
         {
             new Light("top", Avalonia.Media.Colors.White, 1000, 3, distance),

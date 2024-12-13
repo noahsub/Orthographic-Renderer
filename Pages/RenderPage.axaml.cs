@@ -229,6 +229,11 @@ public partial class RenderPage : UserControl, IPage
         RenderingFinished();
     }
     
+    /// <summary>
+    /// Opens the output directory in the default file manager based on the operating system.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OpenOutputDirectoryButton_OnClick(object? sender, RoutedEventArgs e)
     {
         // Fix and check the output directory path.

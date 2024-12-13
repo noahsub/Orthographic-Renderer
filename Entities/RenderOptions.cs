@@ -211,6 +211,10 @@ public class RenderOptions
     // COPY
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    /// <summary>
+    /// Creates a copy of the render options.
+    /// </summary>
+    /// <returns>A copy of the render options.</returns>
     public RenderOptions Copy()
     {
         return new RenderOptions

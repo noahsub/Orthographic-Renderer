@@ -72,6 +72,11 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
         FixPath();
     }
     
+    /// <summary>
+    /// Detects when the text in the path text box is changed.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void PathTextBox_OnTextChanged(object? sender, TextChangedEventArgs e)
     {
         // Set the border color to transparent
