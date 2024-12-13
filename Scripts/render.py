@@ -283,7 +283,12 @@ def create_area_light(power, size, position, colour):
     # Set the light's size
     light.data.size = size
 
-    # light.data.color = tuple(int(c) / 255.0 for c in colour.split(',')[:3])
+    # Parse the colour
+    rgb_colour = [int(x) for x in colour.split(",")]
+    # Convert sRGB to linear RGB
+    linear_rgb_colour = [srgb_to_linearrgb(x) for x in rgb_colour][:3]
+    # Set the light's colour
+    light.data.color = tuple(linear_rgb_colour)
 
     # Set the light's position
     light.location[0] = position.x
