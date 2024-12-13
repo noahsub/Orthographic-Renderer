@@ -133,12 +133,12 @@ public static class NavigationManager
                 if (!LoadedPages["ViewsPage"])
                 {
                     LoadedPages["ViewsPage"] = true;
+                    _viewsPage.OnFirstLoad();
                 }
                 
                 pageContent.Content = _viewsPage;
                 _currentPage = _viewsPage;
-                _viewsPage.SetFileName();
-                _viewsPage.Load();
+                _viewsPage.OnNavigatedTo();
                 break;
             case "RenderPage":
                 if (_renderPage == null)
@@ -149,11 +149,12 @@ public static class NavigationManager
                 if (!LoadedPages["RenderPage"])
                 {
                     LoadedPages["RenderPage"] = true;
+                    _renderPage.OnFirstLoad();
                 }
                 
                 pageContent.Content = _renderPage;
                 _currentPage = _renderPage;
-                _renderPage.Load();
+                _renderPage.OnNavigatedTo();
                 break;
             case "RequirementsPage":
                 if (_requirementsPage == null)
@@ -222,36 +223,6 @@ public static class NavigationManager
         }
     }
 
-    public static void LoadPage(string page)
-    {
-        switch (page)
-        {
-            case "ModelPage":
-                // _modelPage?.Load();
-                break;
-            case "ViewsPage":
-                _viewsPage?.Load();
-                break;
-            case "RenderPage":
-                _renderPage?.Load();
-                break;
-            case "RequirementsPage":
-                // _renderPage?.Load();
-                break;
-            case "UpdatePage":
-                // _updatePage?.Load();
-                break;
-            case "LightingPage":
-                // _lightingPage?.Load();
-                break;
-            case "HardwarePage":
-                // _hardwarePage?.Load();
-                break;
-            default:
-                return;
-        }
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PAGE CREATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -287,6 +258,33 @@ public static class NavigationManager
                 break;
             default:
                 return;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // GETTERS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static Control? GetPage(string name)
+    {
+        switch (name)
+        {
+            case "ModelPage":
+                return _modelPage;
+            case "ViewsPage":
+                return _viewsPage;
+            case "RenderPage":
+                return _renderPage;
+            case "RequirementsPage":
+                return _requirementsPage;
+            case "UpdatePage":
+                return _updatePage;
+            case "LightingPage":
+                return _lightingPage;
+            case "HardwarePage":
+                return _hardwarePage;
+            default:
+                return new Control();
         }
     }
 }

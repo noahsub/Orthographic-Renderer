@@ -25,9 +25,11 @@ using Avalonia.Threading;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
 using RenderOptions = Orthographic.Renderer.Entities.RenderOptions;
+using Resolution = Orthographic.Renderer.Entities.Resolution;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -41,7 +43,7 @@ namespace Orthographic.Renderer.Pages;
 /// <summary>
 /// The render page of the application.
 /// </summary>
-public partial class RenderPage : UserControl
+public partial class RenderPage : UserControl, IPage
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
@@ -66,42 +68,7 @@ public partial class RenderPage : UserControl
     /// </summary>
     public RenderPage()
     {
-        InitializeComponent();
-
-        // Set the numbers of threads to be between 1 and 100 and set the default value to 1.
-        ThreadsNumericUpDown.Minimum = 1;
-        ThreadsNumericUpDown.Maximum = 100;
-        ThreadsNumericUpDown.Value = 1;
-        ThreadsNumericUpDown.IsEnabled = false;
-
-        // Set the default toggle button to sequential.
-        SequentialToggleButton.IsChecked = true;
-        ParallelToggleButton.IsChecked = false;
-
-        // Ensure the cancel button is not visible.
-        CancelButton.IsVisible = false;
-        CancelButton.IsEnabled = false;
-    }
-
-    /// <summary>
-    /// Method that is called when the page is navigated to.
-    /// </summary>
-    public void Load()
-    {
-        // Set the file label to the name of the model file.
-        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
-
-        var userDirectory = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            "Downloads"
-        );
-
-        OutputBrowsableDirectoryTextBox.PathTextBox.Text = userDirectory;
-
-        SaveBlenderFile = true;
-
-        // Populate the render queue.
-        PopulateRenderQueue();
+        Initialize();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,25 +176,15 @@ public partial class RenderPage : UserControl
         // Populate the render queue.
         PopulateRenderQueue();
 
-        // Get the output directory and check if it is valid.
-        var outputDirectory = OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(outputDirectory))
+        // Check the output directory
+        OutputDirectoryPathSelector.FixPath();
+        if (!OutputDirectoryPathSelector.CheckPath())
         {
-            OutputBrowsableDirectoryTextBox.PathTextBox.BorderBrush = Brushes.Red;
             return;
         }
-        else
-        {
-            OutputBrowsableDirectoryTextBox.PathTextBox.BorderBrush = Brushes.Transparent;
-        }
 
-        // Disable the render button and enable the cancel button.
-        RenderButton.IsEnabled = false;
-        CancelButton.IsEnabled = true;
-        CancelButton.IsVisible = true;
-
-        // Close all render complete windows.
-        WindowManager.CloseAllRenderCompleteWindows();
+        // Modify UI to indicate that rendering has started.
+        RenderingStarted();
 
         // Create a new cancel token.
         _cancelToken = new CancellationTokenSource();
@@ -260,6 +217,180 @@ public partial class RenderPage : UserControl
             mode = "parallel";
         }
 
+        await RenderAll(mode, token);
+
+        // Stop the timer.
+        var timeEnded = DateTime.Now;
+        timerRunning = false;
+
+        // Display the render statistics in a new window.
+        DisplayRenderStats(timeStarted, timeEnded);
+
+        RenderingFinished();
+    }
+    
+    private void OpenOutputDirectoryButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        // Fix and check the output directory path.
+        OutputDirectoryPathSelector.FixPath();
+        if (!OutputDirectoryPathSelector.CheckPath())
+        {
+            return;
+        }
+        
+        // Get the output directory path.
+        var path = OutputDirectoryPathSelector.GetPath();
+        
+        // Open the output directory in the default file manager according to the operating system.
+        if (OperatingSystem.IsWindows())
+        {
+            ProcessManager.RunProcess("explorer.exe", $"\"{path.Replace('/', '\\')}\"");
+        }
+        
+        if (OperatingSystem.IsLinux())
+        {
+            ProcessManager.RunProcess("xdg-open", $"\"{path}\"");
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RENDER STATISTICS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Displays the render statistics.
+    /// </summary>
+    /// <param name="timeStarted">The time the render started.</param>
+    /// <param name="timeEnded">The time the render ended.</param>
+    private void DisplayRenderStats(DateTime timeStarted, DateTime timeEnded)
+    {
+        // Create a new RenderComplete window.
+        var renderComplete = new RenderComplete();
+
+        // Set the values of the RenderComplete window.
+        renderComplete.SetValues(
+            timeStarted.ToString(),
+            timeEnded.ToString(),
+            TimerLabel.Content.ToString(),
+            RenderItems.CompletedQueue.Count,
+            RenderItems.FailedQueue.Count
+        );
+
+        // Show the RenderComplete window.
+        renderComplete.Show();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // RENDERING
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Renders the next item in the render queue.
+    /// </summary>
+    /// <param name="renderItem"></param>
+    /// <param name="token"></param>
+    private async Task RenderNext(RenderQueueItem renderItem, CancellationToken token)
+    {
+        var renderOptions = CreateRenderOptions(renderItem);
+
+        if (SaveBlenderFile == true)
+        {
+            SaveBlenderFile = false;
+        }
+
+        // Set the status of the render item to in progress.
+        renderItem.SetStatus(RenderStatus.InProgress);
+
+        // Render the item and get the success status.
+        var success = await RenderManager.Render(renderOptions, "normal", token);
+
+        // Update the status of the render item.
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            // If the render was successful, set the status to completed.
+            if (success)
+            {
+                renderItem.SetStatus(RenderStatus.Completed);
+                
+                var outputDirectory = renderOptions.OutputDirectory;
+                if (!outputDirectory.EndsWith("/"))
+                {
+                    outputDirectory += "/";
+                }
+                
+                using (var stream = File.OpenRead($"{outputDirectory}{renderOptions.Name}.png"))
+                {
+                    var originalImage = new Bitmap(stream);
+                    var originalResolution =
+                        new Resolution(originalImage.PixelSize.Width, originalImage.PixelSize.Height);
+                    var resizedResolution = ImageManager.ResizeResolution(originalResolution, 600);
+                    var resizedImage = originalImage.CreateScaledBitmap(new PixelSize(resizedResolution.Width, resizedResolution.Height));
+                    originalImage.Dispose();
+                    RenderOutputStackPanel.Children.Insert(0, new Image { Source = resizedImage });
+                }
+                
+                if (RenderOutputStackPanel.Children.Count > 0)
+                {
+                    RenderOutputPlaceholderImage.IsVisible = false;
+                }
+            }
+            // If the render failed, set the status to failed.
+            else
+            {
+                renderItem.SetStatus(RenderStatus.Failed);
+            }
+
+            // Push the render item to the bottom of the display.
+            RenderItems.RemoveFromDisplay(renderItem);
+            RenderItems.AddToDisplay(renderItem);
+        });
+
+        // Enqueue the render item based on the success or failure of the render.
+        if (success)
+        {
+            RenderItems.EnqueueCompleted(renderItem);
+        }
+        else
+        {
+            RenderItems.EnqueueFailed(renderItem);
+        }
+    }
+
+    /// <summary>
+    /// Creates the render options based on the saved settings and the specified output directory.
+    /// </summary>
+    /// <param name="renderItem">The render item to create the render options for.</param>
+    /// <returns>A new render options object.</returns>
+    private RenderOptions CreateRenderOptions(RenderQueueItem renderItem)
+    {
+        // Get the render options.
+        var renderOptions = new RenderOptions();
+        var modelName = Path.GetFileNameWithoutExtension(DataManager.ModelPath);
+        var uuid = Guid.NewGuid().ToString().Replace("-", "");
+        renderOptions.SetName($"{modelName}-{renderItem.Key}-{uuid}");
+        renderOptions.SetModel(DataManager.ModelPath);
+        renderOptions.SetUnit(DataManager.UnitScale);
+        renderOptions.SetOutputDirectory(OutputDirectoryPathSelector.PathTextBox.Text ?? string.Empty);
+        renderOptions.SetResolution(DataManager.Resolution);
+
+        var cameraDistance = DataManager.CameraDistance;
+        var cameraPosition = SceneManager.GetPosition(renderItem.Key, cameraDistance);
+        var camera = new Camera(cameraDistance, cameraPosition);
+        renderOptions.SetCamera(camera);
+
+        renderOptions.AddLights(DataManager.Lights);
+        renderOptions.SetBackgroundColour(DataManager.BackgroundColour);
+        renderOptions.SetSaveBlenderFile(SaveBlenderFile);
+        return renderOptions;
+    }
+
+    /// <summary>
+    /// Render all the items in the render queue based on the specified mode.
+    /// </summary>
+    /// <param name="mode">Either "sequential" or "parallel" rendering mode.</param>
+    /// <param name="token">The cancellation token.</param>
+    private async Task RenderAll(string mode, CancellationToken token)
+    {
         // Render the items based on the mode.
         switch (mode)
         {
@@ -303,14 +434,13 @@ public partial class RenderPage : UserControl
                 await Task.WhenAll(tasks);
                 break;
         }
+    }
 
-        // Stop the timer.
-        var timeEnded = DateTime.Now;
-        timerRunning = false;
-
-        // Display the render statistics in a new window.
-        DisplayRenderStats(timeStarted, timeEnded);
-
+    /// <summary>
+    /// Updates the UI to indicate that rendering has finished.
+    /// </summary>
+    private void RenderingFinished()
+    {
         // Play a sound if the setting is enabled.
         if (CompleteSoundCheckBox.IsChecked == true)
         {
@@ -321,126 +451,79 @@ public partial class RenderPage : UserControl
         CancelButton.IsVisible = false;
         CancelButton.IsEnabled = false;
         RenderButton.IsEnabled = true;
+        BackButton.IsEnabled = true;
+    }
+
+    /// <summary>
+    /// Updates the UI to indicate that rendering has started.
+    /// </summary>
+    private void RenderingStarted()
+    {
+        // Clear render output stack panel.
+        RenderOutputStackPanel.Children.Clear();
+        
+        // Disable the render button and enable the cancel button.
+        RenderButton.IsEnabled = false;
+        CancelButton.IsEnabled = true;
+        CancelButton.IsVisible = true;
+        BackButton.IsEnabled = false;
+
+        // Close all render complete windows.
+        WindowManager.CloseAllRenderCompleteWindows();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // RENDER STATISTICS
+    // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     /// <summary>
-    /// Displays the render statistics.
+    /// Initializes the RenderPage.
     /// </summary>
-    /// <param name="timeStarted">The time the render started.</param>
-    /// <param name="timeEnded">The time the render ended.</param>
-    private void DisplayRenderStats(DateTime timeStarted, DateTime timeEnded)
+    public void Initialize()
     {
-        // Create a new RenderComplete window.
-        var renderComplete = new RenderComplete();
+        InitializeComponent();
 
-        // Set the values of the RenderComplete window.
-        renderComplete.SetValues(
-            timeStarted.ToString(),
-            timeEnded.ToString(),
-            TimerLabel.Content.ToString(),
-            RenderItems.CompletedQueue.Count,
-            RenderItems.FailedQueue.Count
-        );
+        // Set the numbers of threads to be between 1 and 100 and set the default value to 1.
+        ThreadsNumericUpDown.Minimum = 1;
+        ThreadsNumericUpDown.Maximum = 100;
+        ThreadsNumericUpDown.Value = 1;
+        ThreadsNumericUpDown.IsEnabled = false;
 
-        // Show the RenderComplete window.
-        renderComplete.Show();
+        // Set the default toggle button to sequential.
+        SequentialToggleButton.IsChecked = true;
+        ParallelToggleButton.IsChecked = false;
+
+        // Ensure the cancel button is not visible.
+        CancelButton.IsVisible = false;
+        CancelButton.IsEnabled = false;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // RENDERING
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
+    public void OnFirstLoad()
+    {
+        return;
+    }
 
     /// <summary>
-    /// Renders the next item in the render queue.
+    /// When the page is navigated to.
     /// </summary>
-    /// <param name="renderItem"></param>
-    /// <param name="token"></param>
-    private async Task RenderNext(RenderQueueItem renderItem, CancellationToken token)
+    public void OnNavigatedTo()
     {
-        // Get the render options.
-        var renderOptions = new RenderOptions();
-        var modelName = Path.GetFileNameWithoutExtension(DataManager.ModelPath);
-        var uuid = Guid.NewGuid().ToString().Replace("-", "");
-        renderOptions.SetName($"{modelName}-{renderItem.Key}-{uuid}");
-        renderOptions.SetModel(DataManager.ModelPath);
-        renderOptions.SetUnit(DataManager.UnitScale);
-        renderOptions.SetOutputDirectory(
-            OutputBrowsableDirectoryTextBox.PathTextBox.Text ?? string.Empty
-        );
-        renderOptions.SetResolution(DataManager.Resolution);
+        // Set the file label to the name of the model file.
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
 
-        var cameraDistance = DataManager.CameraDistance;
-        var cameraPosition = SceneManager.GetPosition(renderItem.Key, cameraDistance);
-        var camera = new Camera(cameraDistance, cameraPosition);
-        renderOptions.SetCamera(camera);
+        var userDirectory =  FileManager.GetDownloadsDirectoryPath();
+        OutputDirectoryPathSelector.SetPath(userDirectory);
 
-        renderOptions.AddLights(DataManager.Lights);
-        renderOptions.SetBackgroundColour(DataManager.BackgroundColour);
-        renderOptions.SetSaveBlenderFile(SaveBlenderFile);
+        SaveBlenderFile = true;
 
-        if (SaveBlenderFile == true)
-        {
-            SaveBlenderFile = false;
-        }
-
-        // Set the status of the render item to in progress.
-        renderItem.SetStatus(RenderStatus.InProgress);
-
-        // Render the item and get the success status.
-        var success = await RenderManager.Render(renderOptions, "normal", token);
-
-        // Update the status of the render item.
-        await Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            // If the render was successful, set the status to completed.
-            if (success)
-            {
-                renderItem.SetStatus(RenderStatus.Completed);
-
-                var outputDirectory = renderOptions.OutputDirectory;
-                if (!outputDirectory.EndsWith("/"))
-                {
-                    outputDirectory += "/";
-                }
-                
-                using (var stream = File.OpenRead($"{outputDirectory}{renderOptions.Name}.png"))
-                {
-                    var originalImage = new Bitmap(stream);
-                    var originalWidth = originalImage.PixelSize.Width;
-                    var originalHeight = originalImage.PixelSize.Height;
-                    var biggestDimension = Math.Max(originalWidth, originalHeight);
-                    // get the factor needed to divide the biggest dimension by to get the desired size of 480px
-                    var factor = biggestDimension / 480;
-                    var newWidth = originalWidth / factor;
-                    var newHeight = originalHeight / factor;
-                    var resizedImage = originalImage.CreateScaledBitmap(new PixelSize(newWidth, newHeight));
-                    originalImage.Dispose();
-                    RenderOutputStackPanel.Children.Insert(0, new Image { Source = resizedImage });
-                }
-            }
-            // If the render failed, set the status to failed.
-            else
-            {
-                renderItem.SetStatus(RenderStatus.Failed);
-            }
-
-            // Push the render item to the bottom of the display.
-            RenderItems.RemoveFromDisplay(renderItem);
-            RenderItems.AddToDisplay(renderItem);
-        });
-
-        // Enqueue the render item based on the success or failure of the render.
-        if (success)
-        {
-            RenderItems.EnqueueCompleted(renderItem);
-        }
-        else
-        {
-            RenderItems.EnqueueFailed(renderItem);
-        }
+        // Populate the render queue.
+        PopulateRenderQueue();
+        
+        // Clear the render output stack panel.
+        RenderOutputStackPanel.Children.Clear();
+        RenderOutputPlaceholderImage.IsVisible = true;
     }
 }

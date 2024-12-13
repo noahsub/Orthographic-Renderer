@@ -17,6 +17,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Orthographic.Renderer.Constants;
+using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 
@@ -72,6 +73,10 @@ public partial class ModelPage : UserControl, IPage
         
         // Measure the model
         Measure(path);
+
+        // Set the optimal camera distance for the model on the LightingPage
+        var lightingPage = (LightingPage)NavigationManager.GetPage("LightingPage")!;
+        lightingPage.SetOptimalCameraDistance();
         
         // Switch to the LightingPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;

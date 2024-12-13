@@ -59,7 +59,7 @@
 
         <!--  BOTTOM GRID  -->
         <Grid
-            ColumnDefinitions="20,100,*,100,20,100,20"
+            ColumnDefinitions="20,100,*,100,20"
             Grid.Row="2"
             VerticalAlignment="Center">
             <Button
@@ -79,7 +79,7 @@
             <Button
                 Click="NextButton_OnClick"
                 Content="Next"
-                Grid.Column="5"
+                Grid.Column="3"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
                 Width="100"

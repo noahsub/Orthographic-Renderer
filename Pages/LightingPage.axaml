@@ -290,6 +290,15 @@
                     VerticalAlignment="Stretch">
                     <StackPanel Spacing="10" x:Name="LightSetupItemsStackPanel" />
                 </ScrollViewer>
+
+                <Image
+                    Grid.Row="2"
+                    Height="200"
+                    IsVisible="False"
+                    Opacity="0.5"
+                    Source="../Assets/Images/grey_cube.png"
+                    Width="200"
+                    x:Name="NoLightsImage" />
             </Grid>
         </Grid>
 

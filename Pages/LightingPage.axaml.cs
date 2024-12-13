@@ -248,6 +248,15 @@ public partial class LightingPage : UserControl, IPage
     /// <param name="e"></param>
     private void Option_Changed(object? sender, EventArgs e)
     {
+        if (LightSetupItemsStackPanel.Children.Count == 0)
+        {
+            NoLightsImage.IsVisible = true;
+        }
+        else
+        {
+            NoLightsImage.IsVisible = false;
+        }
+        
         RenderPreview();
     }
 
@@ -553,6 +562,17 @@ public partial class LightingPage : UserControl, IPage
         lightSetupItem.DistanceValueSelector.ValueChanged += Option_Changed;
         lightSetupItem.RemoveButton.Click += Option_Changed;
     }
+
+    /// <summary>
+    /// Sets the optimal camera distance for the model.
+    /// </summary>
+    public void SetOptimalCameraDistance()
+    {
+        // Set the optimal camera distance
+        var optimalCameraDistance = SceneManager.ComputeOptimalCameraDistance(DataManager.ModelMaxDimension * DataManager.UnitScale);
+        CameraDistanceValueSelector.SetSliderBounds(0, optimalCameraDistance * 5, 0.2);
+        CameraDistanceValueSelector.SetValue(optimalCameraDistance);
+    }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE IMPLEMENTATION
@@ -588,6 +608,8 @@ public partial class LightingPage : UserControl, IPage
         {
             LightSetupItemsStackPanel.Children.Add(CreateLight(light));
         }
+        
+        BackgroundColourSelector.ColourPicker.Color = Color.Parse("#0B0B0C");
     }
 
     /// <summary>
@@ -595,12 +617,6 @@ public partial class LightingPage : UserControl, IPage
     /// </summary>
     public void OnNavigatedTo()
     {
-        // Set the optimal camera distance
-        var optimalCameraDistance =
-            SceneManager.ComputeOptimalCameraDistance(DataManager.ModelMaxDimension * DataManager.UnitScale);
-        CameraDistanceValueSelector.SetSliderBounds(0, optimalCameraDistance * 5, 0.2);
-        CameraDistanceValueSelector.SetValue(optimalCameraDistance);
-        
         // Set the file name
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
         

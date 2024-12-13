@@ -66,10 +66,10 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
             return;
         }
 
-        // Fix the path
+        // Set the path text box to the selected directory
+        var path = directory[0].Path.AbsolutePath;
+        SetPath(path);
         FixPath();
-        // Check the path
-        CheckPath();
     }
     
     private void PathTextBox_OnTextChanged(object? sender, TextChangedEventArgs e)

@@ -229,9 +229,22 @@ namespace Orthographic.Renderer.Managers
             return ReadJsonArray(recentModelsFile, "paths");
         }
 
+        /// <summary>
+        /// Returns the path to the temp directory.
+        /// </summary>
+        /// <returns></returns>
         public static string GetTempDirectoryPath()
         {
             return Path.GetTempPath().Replace("\\", "/");
+        }
+
+        /// <summary>
+        /// Returns the path to the user's downloads directory.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetDownloadsDirectoryPath()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
