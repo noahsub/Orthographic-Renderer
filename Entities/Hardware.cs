@@ -32,7 +32,7 @@ public class Hardware
     /// <summary>
     /// The name of the hardware component.
     /// </summary>
-    public string Name;
+    public readonly string Name;
 
     /// <summary>
     /// The type of the hardware component.

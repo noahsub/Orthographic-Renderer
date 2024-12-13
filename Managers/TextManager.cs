@@ -23,7 +23,7 @@ namespace Orthographic.Renderer.Managers;
 /// <summary>
 /// Manages text/string operations.
 /// </summary>
-public class TextManager
+public static class TextManager
 {
     /// <summary>
     /// Converts a string to title case.

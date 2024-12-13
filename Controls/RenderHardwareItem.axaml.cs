@@ -44,9 +44,11 @@ public partial class RenderHardwareItem : UserControl
         // Add each engine to the stack panel.
         foreach (var framework in renderHardware.Frameworks)
         {
-            var frameworkLabel = new Label();
-            frameworkLabel.Content = framework;
-            frameworkLabel.Foreground = new SolidColorBrush(Color.Parse("#38b178"));
+            var frameworkLabel = new Label
+            {
+                Content = framework,
+                Foreground = new SolidColorBrush(Color.Parse("#38b178"))
+            };
             FrameworksStackPanel.Children.Add(frameworkLabel);
         }
     }

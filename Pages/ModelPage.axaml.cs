@@ -179,7 +179,6 @@ public partial class ModelPage : UserControl, IPage
     /// </summary>
     public void OnFirstLoad()
     {
-        return;
     }
 
     /// <summary>
@@ -187,6 +186,5 @@ public partial class ModelPage : UserControl, IPage
     /// </summary>
     public void OnNavigatedTo()
     {
-        return;
     }
 }

@@ -175,7 +175,7 @@ public class RenderOptions
     /// Sets the background colour of the render.
     /// </summary>
     /// <param name="backgroundColour"></param>
-    public void SetBackgroundColour(Avalonia.Media.Color backgroundColour)
+    public void SetBackgroundColour(Color backgroundColour)
     {
         var red = backgroundColour.R;
         var green = backgroundColour.G;

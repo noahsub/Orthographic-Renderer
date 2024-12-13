@@ -17,7 +17,7 @@ namespace Orthographic.Renderer.Managers;
 /// <summary>
 /// Manages dialogs.
 /// </summary>
-public class DialogManager
+public static class DialogManager
 {
     /// <summary>
     /// Creates a dialog to show the user that the path requires elevated permissions.

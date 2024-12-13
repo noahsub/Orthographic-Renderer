@@ -252,14 +252,7 @@ public partial class LightingPage : UserControl, IPage
     /// <param name="e"></param>
     private void Option_Changed(object? sender, EventArgs e)
     {
-        if (LightSetupItemsStackPanel.Children.Count == 0)
-        {
-            NoLightsImage.IsVisible = true;
-        }
-        else
-        {
-            NoLightsImage.IsVisible = false;
-        }
+        NoLightsImage.IsVisible = LightSetupItemsStackPanel.Children.Count == 0;
 
         RenderPreview();
     }
@@ -316,7 +309,7 @@ public partial class LightingPage : UserControl, IPage
             }
 
             RenderFinished(uuid);
-        });
+        }, token);
     }
 
     /// <summary>
@@ -366,12 +359,10 @@ public partial class LightingPage : UserControl, IPage
     private Entities.Resolution GetResolution()
     {
         // Get and validate the width
-        int width;
-        bool widthValid = int.TryParse(WidthTextBox.Text, out width);
+        var widthValid = int.TryParse(WidthTextBox.Text, out var width);
 
         // Get and validate the height
-        int height;
-        bool heightValid = int.TryParse(HeightTextBox.Text, out height);
+        var heightValid = int.TryParse(HeightTextBox.Text, out var height);
 
         // If the values are invalid, set the resolution to the default resolution
         if (!widthValid || width <= 0)
@@ -421,7 +412,7 @@ public partial class LightingPage : UserControl, IPage
         var green = byte.Parse(colourComponents[1]);
         var blue = byte.Parse(colourComponents[2]);
         var alpha = byte.Parse(colourComponents[3]);
-        var colour = Avalonia.Media.Color.FromArgb(alpha, red, green, blue);
+        var colour = Color.FromArgb(alpha, red, green, blue);
         lightSetupItem.SetColour(colour);
 
         lightSetupItem.SetPower(light.Power);
@@ -480,9 +471,12 @@ public partial class LightingPage : UserControl, IPage
         for (var i = 0; i < 12; i++)
         {
             // Create the button
-            var resolutionButton = new Button();
-            // Set the button content
-            resolutionButton.Content = Resolution.AspectRatio16X9[i];
+            var resolutionButton = new Button
+            {
+                // Set the button content
+                Content = Resolution.AspectRatio16X9[i]
+            };
+            
             // Set the button click event
             resolutionButton.Click += ResolutionButton_OnClick;
             // Set the button properties

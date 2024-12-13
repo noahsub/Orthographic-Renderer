@@ -38,22 +38,22 @@ public class OrientationNode
     /// <summary>
     /// The node to the left of this node.
     /// </summary>
-    public OrientationNode Left { get; set; }
+    public OrientationNode Left { get; set; } = null!;
 
     /// <summary>
     /// The node above this node.
     /// </summary>
-    public OrientationNode Up { get; set; }
+    public OrientationNode Up { get; set; } = null!;
 
     /// <summary>
     /// The node to the right of this node.
     /// </summary>
-    public OrientationNode Right { get; set; }
+    public OrientationNode Right { get; set; } = null!;
 
     /// <summary>
     /// The node below this node.
     /// </summary>
-    public OrientationNode Down { get; set; }
+    public OrientationNode Down { get; set; } = null!;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION

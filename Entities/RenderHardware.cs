@@ -50,14 +50,7 @@ public class RenderHardware
         Name = name;
 
         // Check if the hardware is a GPU or CPU and set the type accordingly
-        if (!frameworks.Contains("CPU CYCLES"))
-        {
-            Type = "GPU";
-        }
-        else
-        {
-            Type = "CPU";
-        }
+        Type = !frameworks.Contains("CPU CYCLES") ? "GPU" : "CPU";
 
         // Set the frameworks
         Frameworks = frameworks;

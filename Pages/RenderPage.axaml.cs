@@ -10,6 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -87,10 +88,15 @@ public partial class RenderPage : UserControl, IPage
         foreach (var view in DataManager.SelectedViews)
         {
             // Create a new render item.
-            var renderItem = new RenderQueueItem();
-            // Set the properties of the render item.
-            renderItem.NameLabel.Content = ViewManager.GetFormattedViewName(view);
-            renderItem.Key = view;
+            var renderItem = new RenderQueueItem
+            {
+                NameLabel =
+                {
+                    // Set the properties of the render item.
+                    Content = ViewManager.GetFormattedViewName(view)
+                },
+                Key = view
+            };
 
             // Enqueue the render item.
             RenderItems.EnqueuePending(renderItem);
@@ -274,9 +280,9 @@ public partial class RenderPage : UserControl, IPage
 
         // Set the values of the RenderComplete window.
         renderComplete.SetValues(
-            timeStarted.ToString(),
-            timeEnded.ToString(),
-            TimerLabel.Content.ToString(),
+            timeStarted.ToString(CultureInfo.InvariantCulture),
+            timeEnded.ToString(CultureInfo.InvariantCulture),
+            TimerLabel.Content?.ToString(),
             RenderItems.CompletedQueue.Count,
             RenderItems.FailedQueue.Count
         );
@@ -312,7 +318,7 @@ public partial class RenderPage : UserControl, IPage
         // Update the status of the render item.
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            // If the render was successful, set the status to completed.
+            // If the render was successful, set the status to complete.
             if (success)
             {
                 renderItem.SetStatus(RenderStatus.Completed);
@@ -428,7 +434,7 @@ public partial class RenderPage : UserControl, IPage
                     .Select(async renderItem =>
                     {
                         // Wait for the semaphore to be released.
-                        await semaphore.WaitAsync();
+                        await semaphore.WaitAsync(token);
                         try
                         {
                             // Render the item.

@@ -181,11 +181,22 @@ public partial class SystemStatsBar : UserControl
     private static HardwareStatItem CreateHardwareMonitorControl(Hardware hardware)
     {
         // Create a new hardware monitor control
-        var hardwareMonitorControl = new HardwareStatItem();
-        // Set the hardware monitor control properties based on the hardware item
-        hardwareMonitorControl.TypeLabel.Content = HardwareManager.FormatName(hardware);
-        hardwareMonitorControl.ValueLabel.Content = 0.00;
-        hardwareMonitorControl.UnitLabel.Content = hardware.Unit;
+        var hardwareMonitorControl = new HardwareStatItem
+        {
+            TypeLabel =
+            {
+                // Set the hardware monitor control properties based on the hardware item
+                Content = HardwareManager.FormatName(hardware)
+            },
+            ValueLabel =
+            {
+                Content = 0.00
+            },
+            UnitLabel =
+            {
+                Content = hardware.Unit
+            }
+        };
         // Return the hardware monitor control
         return hardwareMonitorControl;
     }

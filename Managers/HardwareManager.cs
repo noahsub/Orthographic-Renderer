@@ -227,7 +227,7 @@ public static class HardwareManager
     /// <returns>A list of NVIDIA GPU hardware components.</returns>
     private static List<Hardware> GetNvidiaGpuHardware()
     {
-        // excute `nvidia-smi --query-gpu=count --format=csv,noheader` to get the number of NVIDIA GPUs
+        // execute `nvidia-smi --query-gpu=count --format=csv,noheader` to get the number of NVIDIA GPUs
         var gpuCount = int.Parse(
             ProcessManager.RunProcess(
                 "/bin/bash",

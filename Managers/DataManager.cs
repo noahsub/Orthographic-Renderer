@@ -57,7 +57,7 @@ public static class DataManager
     /// <summary>
     /// The distance of the camera from the origin of the model.
     /// </summary>
-    public static float CameraDistance { get; set; } = 0.0f;
+    public static float CameraDistance { get; set; }
 
     /// <summary>
     /// The resolution of the rendered image.
@@ -108,10 +108,10 @@ public static class DataManager
     /// <summary>
     /// The dimensions of the model.
     /// </summary>
-    public static Vector3 ModelDimensions { get; set; } = new Vector3(0, 0, 0);
+    public static Vector3 ModelDimensions { get; set; } = new(0, 0, 0);
 
     /// <summary>
     /// The biggest dimension of the model.
     /// </summary>
-    public static float ModelMaxDimension { get; set; } = 0.0f;
+    public static float ModelMaxDimension { get; set; }
 }

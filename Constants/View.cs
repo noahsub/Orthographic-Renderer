@@ -22,7 +22,7 @@ namespace Orthographic.Renderer.Constants;
 /// <summary>
 /// Stores view constants.
 /// </summary>
-public class View
+public static class View
 {
     /// <summary>
     /// A list of all the views that can be rendered.

@@ -10,6 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -38,7 +39,7 @@ public partial class ValueSelector : UserControl
     /// <summary>
     /// Event handler for when the value is changed.
     /// </summary>
-    public event EventHandler ValueChanged;
+    public event EventHandler ValueChanged = delegate { };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -76,7 +77,7 @@ public partial class ValueSelector : UserControl
     /// <param name="e"></param>
     private void SliderPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        ValueChanged?.Invoke(this, e);
+        ValueChanged(this, e);
     }
 
     /// <summary>
@@ -86,7 +87,6 @@ public partial class ValueSelector : UserControl
     /// <param name="e"></param>
     private void SliderPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        return;
     }
 
     /// <summary>
@@ -113,16 +113,6 @@ public partial class ValueSelector : UserControl
     }
 
     /// <summary>
-    /// When the value slider is entered by the pointer
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void ValueSlider_OnPointerEntered(object? sender, PointerEventArgs e)
-    {
-        return;
-    }
-
-    /// <summary>
     /// When a key is pressed in the value text box
     /// </summary>
     /// <param name="sender"></param>
@@ -130,9 +120,9 @@ public partial class ValueSelector : UserControl
     private void ValueTextBox_OnKeyUp(object? sender, KeyEventArgs e)
     {
         // check if value is a double
-        if (double.TryParse(ValueTextBox.Text, out var value))
+        if (double.TryParse(ValueTextBox.Text, out _))
         {
-            ValueChanged?.Invoke(this, e);
+            ValueChanged(this, e);
         }
     }
 
@@ -169,7 +159,7 @@ public partial class ValueSelector : UserControl
     public void SetValue(double value)
     {
         ValueSlider.Value = value;
-        ValueTextBox.Text = value.ToString();
+        ValueTextBox.Text = value.ToString(CultureInfo.InvariantCulture);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

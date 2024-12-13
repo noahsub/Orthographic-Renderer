@@ -107,7 +107,6 @@ public partial class HardwarePage : UserControl, IPage
     /// </summary>
     public void OnFirstLoad()
     {
-        return;
     }
 
     /// <summary>
@@ -115,6 +114,5 @@ public partial class HardwarePage : UserControl, IPage
     /// </summary>
     public void OnNavigatedTo()
     {
-        return;
     }
 }

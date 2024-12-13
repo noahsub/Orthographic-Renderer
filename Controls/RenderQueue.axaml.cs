@@ -118,7 +118,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the pending queue.
     /// </summary>
-    /// <returns>An enumerable of items in the pending queue.</returns>
+    /// <returns>An enumeration of items in the pending queue.</returns>
     public IEnumerable GetItemsPending()
     {
         return PendingQueue.ToArray();
@@ -127,7 +127,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the completed queue.
     /// </summary>
-    /// <returns>An enumerable of items in the completed queue.</returns>
+    /// <returns>An enumeration of items in the completed queue.</returns>
     public IEnumerable GetItemsCompleted()
     {
         return CompletedQueue.ToArray();
@@ -136,7 +136,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the failed queue.
     /// </summary>
-    /// <returns>An enumerable of items in the failed queue.</returns>
+    /// <returns>An enumeration of items in the failed queue.</returns>
     public IEnumerable GetItemsFailed()
     {
         return FailedQueue.ToArray();
@@ -145,7 +145,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the queues combined in the order pending, completed, failed.
     /// </summary>
-    /// <returns>An enumerable of all items in the queues.</returns>
+    /// <returns>An enumeration of all items in the queues.</returns>
     public IEnumerable GetItems()
     {
         // Combine the three queues into one

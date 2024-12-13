@@ -56,19 +56,23 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
         var topLevel = TopLevel.GetTopLevel(this);
 
         // Open the folder picker
-        var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(
-            new FolderPickerOpenOptions { Title = "Select a Directory" }
-        );
-
-        // If no directory was selected, return
-        if (directory.Count < 1)
+        if (topLevel != null)
         {
-            return;
+            var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(
+                new FolderPickerOpenOptions { Title = "Select a Directory" }
+            );
+
+            // If no directory was selected, return
+            if (directory.Count < 1)
+            {
+                return;
+            }
+
+            // Set the path text box to the selected directory
+            var path = directory[0].Path.AbsolutePath;
+            SetPath(path);
         }
 
-        // Set the path text box to the selected directory
-        var path = directory[0].Path.AbsolutePath;
-        SetPath(path);
         FixPath();
     }
 

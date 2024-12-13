@@ -28,7 +28,7 @@ namespace Orthographic.Renderer.Managers
     /// <summary>
     /// Manages 3D model operations.
     /// </summary>
-    public class ModelManager
+    public static class ModelManager
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // VALID MODEL TYPES
@@ -37,15 +37,15 @@ namespace Orthographic.Renderer.Managers
         /// <summary>
         /// The valid types of 3D models.
         /// </summary>
-        public static readonly List<string> ValidTypes = new List<string>
-        {
+        public static readonly List<string> ValidTypes =
+        [
             ".blend",
             ".obj",
             ".stl",
             ".BLEND",
             ".OBJ",
-            ".STL",
-        };
+            ".STL"
+        ];
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // MODEL DIMENSIONS
@@ -85,14 +85,13 @@ namespace Orthographic.Renderer.Managers
         /// </summary>
         /// <param name="path">The path to the .obj file.</param>
         /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
-        public static Vector3 GetObjDimensions(string path)
+        private static Vector3 GetObjDimensions(string path)
         {
             var vertices = new List<Vector3>();
 
             using (var reader = new StreamReader(path))
             {
-                string? line;
-                while ((line = reader.ReadLine()) != null)
+                while (reader.ReadLine() is { } line)
                 {
                     if (line.StartsWith("v "))
                     {
@@ -118,7 +117,7 @@ namespace Orthographic.Renderer.Managers
         /// </summary>
         /// <param name="path">The path to the .stl file</param>
         /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
-        public static Vector3 GetStlDimensions(string path)
+        private static Vector3 GetStlDimensions(string path)
         {
             using (var reader = new StreamReader(path))
             {
@@ -142,8 +141,7 @@ namespace Orthographic.Renderer.Managers
 
             using (var reader = new StreamReader(path))
             {
-                string? line;
-                while ((line = reader.ReadLine()) != null)
+                while (reader.ReadLine() is { } line)
                 {
                     var formattedLine = TextManager.RemoveWhitespace(line);
                     if (formattedLine.StartsWith("vertex"))

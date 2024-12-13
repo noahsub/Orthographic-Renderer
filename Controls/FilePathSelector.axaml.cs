@@ -9,6 +9,7 @@
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -63,43 +64,47 @@ public partial class FilePathSelector : UserControl, IPathSelector
         var topLevel = TopLevel.GetTopLevel(this);
 
         // Open the file picker
-        var file = await topLevel.StorageProvider.OpenFilePickerAsync(
-            new FilePickerOpenOptions
-            {
-                Title = "Select a file",
-                AllowMultiple = false,
-                // Filter the file types
-                FileTypeFilter = new List<FilePickerFileType>
-                {
-                    new("All Files") { Patterns = new[] { "*" } },
-                    new("Model Files")
-                    {
-                        Patterns = new[]
-                        {
-                            "*.blend",
-                            "*.obj",
-                            "*.stl",
-                            "*.BLEND",
-                            "*.OBJ",
-                            "*.STL",
-                        },
-                    },
-                    new("Blender Files") { Patterns = new[] { "*.blend", "*.BLEND" } },
-                    new("OBJ Files") { Patterns = new[] { "*.obj", "*.OBJ" } },
-                    new("STL Files") { Patterns = new[] { "*.stl", "*.STL" } },
-                },
-            }
-        );
-
-        // If no file was selected, return
-        if (file.Count < 1)
+        if (topLevel != null)
         {
-            return;
+            var file = await topLevel.StorageProvider.OpenFilePickerAsync(
+                new FilePickerOpenOptions
+                {
+                    Title = "Select a file",
+                    AllowMultiple = false,
+                    // Filter the file types
+                    FileTypeFilter = new List<FilePickerFileType>
+                    {
+                        new("All Files") { Patterns = ["*"] },
+                        new("Model Files")
+                        {
+                            Patterns =
+                            [
+                                "*.blend",
+                                "*.obj",
+                                "*.stl",
+                                "*.BLEND",
+                                "*.OBJ",
+                                "*.STL"
+                            ],
+                        },
+                        new("Blender Files") { Patterns = ["*.blend", "*.BLEND"] },
+                        new("OBJ Files") { Patterns = ["*.obj", "*.OBJ"] },
+                        new("STL Files") { Patterns = ["*.stl", "*.STL"] },
+                    },
+                }
+            );
+
+            // If no file was selected, return
+            if (file.Count < 1)
+            {
+                return;
+            }
+
+            // Set the path text box to the selected file
+            var path = file[0].Path.AbsolutePath;
+            SetPath(path);
         }
 
-        // Set the path text box to the selected file
-        var path = file[0].Path.AbsolutePath;
-        SetPath(path);
         FixPath();
     }
 

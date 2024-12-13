@@ -58,7 +58,7 @@ public partial class MainWindow : Window
             // Set the content to the requirements page
             // PageContent.Content = new RequirementsPage();
             // Switch to the RequirementsPage
-            var mainWindow = (Windows.MainWindow)this.VisualRoot!;
+            var mainWindow = (MainWindow)this.VisualRoot!;
             NavigationManager.SwitchPage(mainWindow, "RequirementsPage");
         }
     }

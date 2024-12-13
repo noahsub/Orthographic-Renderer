@@ -24,7 +24,7 @@ namespace Orthographic.Renderer.Managers;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SCENE MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-public class SceneManager
+public static class SceneManager
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // LIGHTING
@@ -35,7 +35,7 @@ public class SceneManager
     /// </summary>
     /// <param name="lightSetupItem">The light setup item.</param>
     /// <returns>A light with the properties from the light setup item.</returns>
-    public static Light GetLight(LightSetupItem lightSetupItem)
+    private static Light GetLight(LightSetupItem lightSetupItem)
     {
         // Get the light properties
         var lightOrientation = lightSetupItem.LightOrientationSelector.CurrentOrientation.Name;
@@ -46,8 +46,7 @@ public class SceneManager
         var lightDistance = float.Parse(
             lightSetupItem.DistanceValueSelector.ValueTextBox.Text ?? "0"
         );
-        var lightPosition = GetPosition(lightOrientation, lightDistance);
-
+        
         // Create the light
         return new Light(lightOrientation, lightColour, lightPower, lightSize, lightDistance);
     }
@@ -199,7 +198,7 @@ public class SceneManager
     /// </summary>
     /// <param name="size"></param>
     /// <returns></returns>
-    public static double ComputeOptimalLightDistance(float size)
+    private static double ComputeOptimalLightDistance(float size)
     {
         // The formula for the optimal light distance based on testing
         // Needs to be tested for larger models

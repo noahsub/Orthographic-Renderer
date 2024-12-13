@@ -25,7 +25,7 @@ namespace Orthographic.Renderer.Managers;
 /// <summary>
 /// Manages render orientation operations.
 /// </summary>
-public class ViewManager
+public static class ViewManager
 {
     /// <summary>
     /// Sorts the views based on the given keys.

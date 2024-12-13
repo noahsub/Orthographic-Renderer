@@ -239,7 +239,6 @@ public partial class ViewsPage : UserControl, IPage
     /// </summary>
     public void OnFirstLoad()
     {
-        return;
     }
 
     /// <summary>
