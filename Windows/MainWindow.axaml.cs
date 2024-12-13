@@ -43,7 +43,11 @@ public partial class MainWindow : Window
         WindowManager.AddWindow(this);
 
         // If an update is available, show the update page
-        if (new Version(DataManager.LatestVersion).CompareTo(new Version(DataManager.CurrentVersion)) > 0)
+        if (
+            new Version(DataManager.LatestVersion).CompareTo(
+                new Version(DataManager.CurrentVersion)
+            ) > 0
+        )
         {
             NavigationManager.SwitchPage(this, "UpdatePage");
         }

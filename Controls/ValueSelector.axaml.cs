@@ -85,9 +85,7 @@ public partial class ValueSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void SliderPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-    }
+    private void SliderPointerPressed(object? sender, PointerPressedEventArgs e) { }
 
     /// <summary>
     /// When the slider value is changed

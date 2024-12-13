@@ -237,9 +237,7 @@ public partial class ViewsPage : UserControl, IPage
     /// <summary>
     /// When the page is first loaded by the user.
     /// </summary>
-    public void OnFirstLoad()
-    {
-    }
+    public void OnFirstLoad() { }
 
     /// <summary>
     /// When the page is navigated to.

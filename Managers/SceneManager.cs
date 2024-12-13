@@ -46,7 +46,7 @@ public static class SceneManager
         var lightDistance = float.Parse(
             lightSetupItem.DistanceValueSelector.ValueTextBox.Text ?? "0"
         );
-        
+
         // Create the light
         return new Light(lightOrientation, lightColour, lightPower, lightSize, lightDistance);
     }

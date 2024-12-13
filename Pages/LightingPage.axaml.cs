@@ -298,18 +298,25 @@ public partial class LightingPage : UserControl, IPage
         );
 
         // Render the preview image
-        Task.Run(async () =>
-        {
-            // Render the preview image
-            var success = await RenderManager.Render(previewRenderOptionsCopy, "preview", token);
-
-            if (!success)
+        Task.Run(
+            async () =>
             {
-                return;
-            }
+                // Render the preview image
+                var success = await RenderManager.Render(
+                    previewRenderOptionsCopy,
+                    "preview",
+                    token
+                );
 
-            RenderFinished(uuid);
-        }, token);
+                if (!success)
+                {
+                    return;
+                }
+
+                RenderFinished(uuid);
+            },
+            token
+        );
     }
 
     /// <summary>
@@ -474,9 +481,9 @@ public partial class LightingPage : UserControl, IPage
             var resolutionButton = new Button
             {
                 // Set the button content
-                Content = Resolution.AspectRatio16X9[i]
+                Content = Resolution.AspectRatio16X9[i],
             };
-            
+
             // Set the button click event
             resolutionButton.Click += ResolutionButton_OnClick;
             // Set the button properties

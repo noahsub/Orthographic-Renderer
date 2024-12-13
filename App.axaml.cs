@@ -114,7 +114,7 @@ public partial class App : Application
                     await NavigationManager.CreatePage("LightingPage");
                     await NavigationManager.CreatePage("ViewsPage");
                     await NavigationManager.CreatePage("RenderPage");
-                    
+
                     // IMPORTANT: MainWindow must be created after all pages are created, otherwise,
                     // the first page will be initialized twice
                     var mainWindow = new Windows.MainWindow();

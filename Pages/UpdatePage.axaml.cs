@@ -72,7 +72,7 @@ public partial class UpdatePage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Initializes the update page.
     /// </summary>
@@ -84,14 +84,10 @@ public partial class UpdatePage : UserControl, IPage
     /// <summary>
     /// Called when the page is first loaded by the user.
     /// </summary>
-    public void OnFirstLoad()
-    {
-    }
+    public void OnFirstLoad() { }
 
     /// <summary>
     /// Called when the page is navigated to.
     /// </summary>
-    public void OnNavigatedTo()
-    {
-    }
+    public void OnNavigatedTo() { }
 }

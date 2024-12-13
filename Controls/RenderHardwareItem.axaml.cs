@@ -47,7 +47,7 @@ public partial class RenderHardwareItem : UserControl
             var frameworkLabel = new Label
             {
                 Content = framework,
-                Foreground = new SolidColorBrush(Color.Parse("#38b178"))
+                Foreground = new SolidColorBrush(Color.Parse("#38b178")),
             };
             FrameworksStackPanel.Children.Add(frameworkLabel);
         }

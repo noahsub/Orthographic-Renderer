@@ -47,12 +47,12 @@ public partial class RequirementsPage : UserControl, IPage
     /// Browsable file path selector for the custom Blender file path.
     /// </summary>
     private FilePathSelector _blenderFilePathSelector;
-    
+
     /// <summary>
     /// Label for the default Blender file path.
     /// </summary>
     private Label _blenderFilePathLabel;
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ public partial class RequirementsPage : UserControl, IPage
         {
             DataManager.BlenderPath = path;
         }
-        
+
         // Switch to the hardware page
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "HardwarePage");
@@ -103,7 +103,7 @@ public partial class RequirementsPage : UserControl, IPage
     {
         WebManager.OpenUrl("https://www.blender.org/download/lts/4-2/");
     }
-    
+
     /// <summary>
     /// Handles the selection of the Blender file path.
     /// </summary>
@@ -130,7 +130,7 @@ public partial class RequirementsPage : UserControl, IPage
                         DataManager.BlenderPath = "Blender/Windows/blender.exe";
                         _blenderFilePathSelector.SetPath("Blender/Windows/blender.exe");
                     }
-                    
+
                     if (OperatingSystem.IsUnix)
                     {
                         DataManager.BlenderPath = "Blender/Linux/blender";
@@ -142,7 +142,7 @@ public partial class RequirementsPage : UserControl, IPage
             {
                 CustomBlenderToggleButton.IsChecked = true;
                 BundledBlenderToggleButton.IsChecked = false;
-                
+
                 if (BlenderPathStackPanel.Children.Count > 1)
                 {
                     // Remove existing Blender path
@@ -168,12 +168,16 @@ public partial class RequirementsPage : UserControl, IPage
         _blenderFilePathSelector = new FilePathSelector();
         _blenderFilePathLabel = new Label();
         var colour = (Color)(Application.Current?.Resources["ControlsBackground"] ?? "#000000");
-        
+
         _blenderFilePathLabel = new Label
         {
             Padding = new Thickness(10, 0, 0, 0),
             Background = new SolidColorBrush(colour),
-            CornerRadius = new CornerRadius(Application.Current?.Resources["Radius"] is string radiusStr ? float.Parse(radiusStr) : 10),
+            CornerRadius = new CornerRadius(
+                Application.Current?.Resources["Radius"] is string radiusStr
+                    ? float.Parse(radiusStr)
+                    : 10
+            ),
             Height = 30,
             VerticalContentAlignment = VerticalAlignment.Center,
         };

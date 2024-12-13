@@ -186,16 +186,10 @@ public partial class SystemStatsBar : UserControl
             TypeLabel =
             {
                 // Set the hardware monitor control properties based on the hardware item
-                Content = HardwareManager.FormatName(hardware)
+                Content = HardwareManager.FormatName(hardware),
             },
-            ValueLabel =
-            {
-                Content = 0.00
-            },
-            UnitLabel =
-            {
-                Content = hardware.Unit
-            }
+            ValueLabel = { Content = 0.00 },
+            UnitLabel = { Content = hardware.Unit },
         };
         // Return the hardware monitor control
         return hardwareMonitorControl;

@@ -93,9 +93,9 @@ public partial class RenderPage : UserControl, IPage
                 NameLabel =
                 {
                     // Set the properties of the render item.
-                    Content = ViewManager.GetFormattedViewName(view)
+                    Content = ViewManager.GetFormattedViewName(view),
                 },
-                Key = view
+                Key = view,
             };
 
             // Enqueue the render item.

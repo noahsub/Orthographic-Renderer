@@ -22,27 +22,28 @@ namespace Orthographic.Renderer.Managers;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAVIGATION MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
 public static class NavigationManager
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // PAGES
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// The pages that can be navigated to.
     /// </summary>
-    private static readonly Dictionary<string, UserControl?> Pages = new()
-    {
-        { "ModelPage", null },
-        { "ViewsPage", null },
-        { "RenderPage", null },
-        { "RequirementsPage", null },
-        { "UpdatePage", null },
-        { "LightingPage", null },
-        { "HardwarePage", null }
-    };
-    
+    private static readonly Dictionary<string, UserControl?> Pages =
+        new()
+        {
+            { "ModelPage", null },
+            { "ViewsPage", null },
+            { "RenderPage", null },
+            { "RequirementsPage", null },
+            { "UpdatePage", null },
+            { "LightingPage", null },
+            { "HardwarePage", null },
+        };
+
     /// <summary>
     /// The current page.
     /// </summary>
@@ -55,16 +56,17 @@ public static class NavigationManager
     /// <summary>
     /// Contains a dictionary of pages and whether they have been loaded.
     /// </summary>
-    private static readonly Dictionary<string, bool> LoadedPages = new()
-    {
-        { "ModelPage", false },
-        { "ViewsPage", false },
-        { "RenderPage", false },
-        { "RequirementsPage", false },
-        { "UpdatePage", false },
-        { "LightingPage", false },
-        { "HardwarePage", false }
-    };
+    private static readonly Dictionary<string, bool> LoadedPages =
+        new()
+        {
+            { "ModelPage", false },
+            { "ViewsPage", false },
+            { "RenderPage", false },
+            { "RequirementsPage", false },
+            { "UpdatePage", false },
+            { "LightingPage", false },
+            { "HardwarePage", false },
+        };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // NAVIGATION
@@ -78,9 +80,11 @@ public static class NavigationManager
     public static void SwitchPage(MainWindow mainWindow, string page)
     {
         var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-        if (pageContent == null) return;
+        if (pageContent == null)
+            return;
 
-        if (!Pages.ContainsKey(page)) return;
+        if (!Pages.ContainsKey(page))
+            return;
 
         if (Pages[page] == null)
         {
@@ -103,17 +107,18 @@ public static class NavigationManager
     /// </summary>
     /// <param name="pageName"></param>
     /// <returns></returns>
-    private static UserControl? CreatePageInstance(string pageName) => pageName switch
-    {
-        "ModelPage" => new ModelPage(),
-        "ViewsPage" => new ViewsPage(),
-        "RenderPage" => new RenderPage(),
-        "RequirementsPage" => new RequirementsPage(),
-        "UpdatePage" => new UpdatePage(),
-        "LightingPage" => new LightingPage(),
-        "HardwarePage" => new HardwarePage(),
-        _ => null
-    };
+    private static UserControl? CreatePageInstance(string pageName) =>
+        pageName switch
+        {
+            "ModelPage" => new ModelPage(),
+            "ViewsPage" => new ViewsPage(),
+            "RenderPage" => new RenderPage(),
+            "RequirementsPage" => new RequirementsPage(),
+            "UpdatePage" => new UpdatePage(),
+            "LightingPage" => new LightingPage(),
+            "HardwarePage" => new HardwarePage(),
+            _ => null,
+        };
 
     /// <summary>
     /// Creates an instance of the specified page.
@@ -127,7 +132,7 @@ public static class NavigationManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GETTERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Gets the current page.
     /// </summary>
@@ -139,5 +144,6 @@ public static class NavigationManager
     /// </summary>
     /// <param name="name">The name of the page to get.</param>
     /// <returns></returns>
-    public static Control? GetPage(string name) => Pages.ContainsKey(name) ? Pages[name] : new Control();
+    public static Control? GetPage(string name) =>
+        Pages.ContainsKey(name) ? Pages[name] : new Control();
 }

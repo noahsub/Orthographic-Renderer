@@ -77,15 +77,7 @@ public partial class FilePathSelector : UserControl, IPathSelector
                         new("All Files") { Patterns = ["*"] },
                         new("Model Files")
                         {
-                            Patterns =
-                            [
-                                "*.blend",
-                                "*.obj",
-                                "*.stl",
-                                "*.BLEND",
-                                "*.OBJ",
-                                "*.STL"
-                            ],
+                            Patterns = ["*.blend", "*.obj", "*.stl", "*.BLEND", "*.OBJ", "*.STL"],
                         },
                         new("Blender Files") { Patterns = ["*.blend", "*.BLEND"] },
                         new("OBJ Files") { Patterns = ["*.obj", "*.OBJ"] },
