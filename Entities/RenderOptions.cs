@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using Avalonia.Media;
+using Mono.Unix.Native;
 using Newtonsoft.Json;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,7 +175,7 @@ public class RenderOptions
     /// Sets the background colour of the render.
     /// </summary>
     /// <param name="backgroundColour"></param>
-    public void SetBackgroundColour(Avalonia.Media.Color backgroundColour)
+    public void SetBackgroundColour(Color backgroundColour)
     {
         var red = backgroundColour.R;
         var green = backgroundColour.G;
@@ -204,5 +205,29 @@ public class RenderOptions
     public string GetJsonRepresentation()
     {
         return JsonConvert.SerializeObject(this);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // COPY
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Creates a copy of the render options.
+    /// </summary>
+    /// <returns>A copy of the render options.</returns>
+    public RenderOptions Copy()
+    {
+        return new RenderOptions
+        {
+            Name = this.Name,
+            Model = this.Model,
+            Unit = this.Unit,
+            OutputDirectory = this.OutputDirectory,
+            Resolution = this.Resolution,
+            Camera = this.Camera,
+            BackgroundColour = this.BackgroundColour,
+            Lights = this.Lights,
+            SaveBlenderFile = this.SaveBlenderFile,
+        };
     }
 }

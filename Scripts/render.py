@@ -283,9 +283,12 @@ def create_area_light(power, size, position, colour):
     # Set the light's size
     light.data.size = size
 
-    colour = colour.lstrip("#")
-
-    light.data.color = tuple(int(colour[i : i + 2], 16) / 255.0 for i in (0, 2, 4))
+    # Parse the colour
+    rgb_colour = [int(x) for x in colour.split(",")]
+    # Convert sRGB to linear RGB
+    linear_rgb_colour = [srgb_to_linearrgb(x) for x in rgb_colour][:3]
+    # Set the light's colour
+    light.data.color = tuple(linear_rgb_colour)
 
     # Set the light's position
     light.location[0] = position.x
@@ -424,7 +427,7 @@ if __name__ == "__main__":
     bpy.ops.object.delete()
 
     # Set up the lighting
-    for light in data["Lights"]:
+    for light in data["Lights"]:        
         create_area_light(
             light["Power"],
             light["Size"],

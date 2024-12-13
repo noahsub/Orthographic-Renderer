@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// HardwareMonitorBar.axaml.cs
-// This file contains the logic for the HardwareMonitorBar control.
+// SystemStatsBar.axaml.cs
+// This file contains the logic for the SystemStatsBar control.
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ namespace Orthographic.Renderer.Controls;
 /// <summary>
 /// Displays the values of various hardware sensors.
 /// </summary>
-public partial class HardwareMonitorBar : UserControl
+public partial class SystemStatsBar : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
@@ -41,7 +41,7 @@ public partial class HardwareMonitorBar : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public HardwareMonitorBar()
+    public SystemStatsBar()
     {
         InitializeComponent();
 
@@ -132,9 +132,8 @@ public partial class HardwareMonitorBar : UserControl
             {
                 for (var i = 0; i < HardwareGrid.Children.Count; i++)
                 {
-                    ((HardwareStatus)HardwareGrid.Children[i]).ValueLabel.Content = updatedValues?[
-                        i
-                    ];
+                    ((HardwareStatItem)HardwareGrid.Children[i]).ValueLabel.Content =
+                        updatedValues?[i];
                 }
             });
         }
@@ -179,14 +178,19 @@ public partial class HardwareMonitorBar : UserControl
     /// </summary>
     /// <param name="hardware">The hardware item to create a control for.</param>
     /// <returns>A control displaying the hardware status.</returns>
-    private static HardwareStatus CreateHardwareMonitorControl(Hardware hardware)
+    private static HardwareStatItem CreateHardwareMonitorControl(Hardware hardware)
     {
         // Create a new hardware monitor control
-        var hardwareMonitorControl = new HardwareStatus();
-        // Set the hardware monitor control properties based on the hardware item
-        hardwareMonitorControl.TypeLabel.Content = HardwareManager.FormatName(hardware);
-        hardwareMonitorControl.ValueLabel.Content = 0.00;
-        hardwareMonitorControl.UnitLabel.Content = hardware.Unit;
+        var hardwareMonitorControl = new HardwareStatItem
+        {
+            TypeLabel =
+            {
+                // Set the hardware monitor control properties based on the hardware item
+                Content = HardwareManager.FormatName(hardware),
+            },
+            ValueLabel = { Content = 0.00 },
+            UnitLabel = { Content = hardware.Unit },
+        };
         // Return the hardware monitor control
         return hardwareMonitorControl;
     }

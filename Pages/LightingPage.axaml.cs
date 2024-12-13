@@ -27,6 +27,7 @@ using Avalonia.Threading;
 using AvaloniaColorPicker;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
 using RenderOptions = Orthographic.Renderer.Entities.RenderOptions;
@@ -40,31 +41,13 @@ namespace Orthographic.Renderer.Pages;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LIGHTING PAGE CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-public partial class LightingPage : UserControl
+public partial class LightingPage : UserControl, IPage
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /// <summary>
-    /// The list of light options for one point lighting.
-    /// </summary>
-    private List<LightOptions> _onePointLighting;
-
-    /// <summary>
-    /// The list of light options for three point lighting.
-    /// </summary>
-    private List<LightOptions> _threePointLighting;
-
-    /// <summary>
-    /// The list of light options for overhead lighting.
-    /// </summary>
-    private List<LightOptions> _overheadLighting;
-
-    /// <summary>
-    /// The maximum dimension of the model.
-    /// </summary>
-    private float _maxDimension;
+    private RenderOptions _previewRenderOptions = new();
 
     /// <summary>
     /// A token source for cancelling the render tasks.
@@ -80,79 +63,7 @@ public partial class LightingPage : UserControl
     /// </summary>
     public LightingPage()
     {
-        InitializeComponent();
-
-        // Initialize the light options
-        _onePointLighting = [new LightOptions()];
-
-        _threePointLighting = [new LightOptions(), new LightOptions(), new LightOptions()];
-
-        _overheadLighting = [new LightOptions()];
-
-        // Initialize the UI
-        Dispatcher.UIThread.Post(() =>
-        {
-            // Set the colour picker to black
-            BackgroundColourSelector.ColourPicker.Color = Colors.Black;
-            BackgroundColourSelector.ColourRectangle.Fill = new SolidColorBrush(Colors.Black);
-            // Bind an event to the colour picker
-            BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
-
-            // Set the aspect ratio 16:9 as the default
-            AspectRatio16X9ToggleButton.IsChecked = true;
-
-            // Add resolution buttons to the grid
-            for (var i = 0; i < 12; i++)
-            {
-                var resolutionButton = new Button();
-                resolutionButton.Content = Resolution.AspectRatio16X9[i];
-                resolutionButton.Click += ResolutionButton_OnClick;
-                resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-                resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
-                resolutionButton.HorizontalContentAlignment = Avalonia
-                    .Layout
-                    .HorizontalAlignment
-                    .Center;
-                resolutionButton.VerticalContentAlignment = Avalonia
-                    .Layout
-                    .VerticalAlignment
-                    .Center;
-                resolutionButton.Margin = new Thickness(5);
-                Grid.SetRow(resolutionButton, (i / 6) + 1);
-                Grid.SetColumn(resolutionButton, i % 6);
-                ResolutionGrid.Children.Add(resolutionButton);
-            }
-
-            WidthTextBox.TextChanged += Option_Changed;
-            HeightTextBox.TextChanged += Option_Changed;
-            CameraOrientation.OrientationChanged += Option_Changed;
-            CameraDistance.ValueChanged += Option_Changed;
-            BackgroundColourSelector.ColourChanged += Option_Changed;
-
-            OnePointLightingButton.Click += Option_Changed;
-            ThreePointLightingButton.Click += Option_Changed;
-            OverheadLightingButton.Click += Option_Changed;
-            
-            AddLightButton.Click += Option_Changed;
-            ClearButton.Click += Option_Changed;
-        });
-    }
-
-    /// <summary>
-    /// Method that is called when the page is navigated to.
-    /// </summary>
-    public void Load()
-    {
-        // Set the file label to the name of the model file
-        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
-        
-        // Calculate the maximum dimension of the model
-        var dimensions = ModelManager.GetDimensions(DataManager.ModelPath);
-        _maxDimension =
-            new[] { dimensions.X, dimensions.Y, dimensions.Z }.Max() * DataManager.UnitScale;
-        // Set the camera distance to the maximum dimension multiplied by 2
-        CameraDistance.SetValue(_maxDimension * 2);
-        CameraDistance.SetSliderBounds(0, _maxDimension * 10, 0.2);
+        Initialize();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,13 +85,40 @@ public partial class LightingPage : UserControl
             return;
         }
 
-        // Set the resolution text boxes to the resolution of the button
-        WidthTextBox.Text = Resolution
-            .ResolutionDictionary[button.Content.ToString() ?? string.Empty]
-            .Item1.ToString();
-        HeightTextBox.Text = Resolution
-            .ResolutionDictionary[button.Content.ToString() ?? string.Empty]
-            .Item2.ToString();
+        var resolution = ImageManager.ConvertResolutionNameToResolution(
+            button.Content.ToString() ?? string.Empty
+        );
+        WidthTextBox.Text = resolution.Width.ToString();
+        HeightTextBox.Text = resolution.Height.ToString();
+
+        // Change the colour of the text boxes to indicate that the resolution has changed
+        var originalColour = WidthTextBox.Foreground;
+
+        Task.Run(async () =>
+        {
+            // Get the primary accent colour from the resource dictionary
+            var primaryColourHex =
+                Application.Current?.Resources["PrimaryAccent"]?.ToString()
+                ?? Colors.SeaGreen.ToString();
+            var highlightColour = Color.Parse(primaryColourHex);
+
+            // Change the colour of the text boxes to the highlight colour
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                WidthTextBox.Foreground = new SolidColorBrush(highlightColour);
+                HeightTextBox.Foreground = new SolidColorBrush(highlightColour);
+            });
+
+            // Wait for 1 second
+            await Task.Delay(1000);
+
+            // Change the colour of the text boxes back to the original colour
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                WidthTextBox.Foreground = originalColour;
+                HeightTextBox.Foreground = originalColour;
+            });
+        });
     }
 
     /// <summary>
@@ -202,8 +140,8 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void ViewsButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // Save the current render options
-        SaveOptions();
+        // Save the current options
+        RenderManager.SaveRenderOptions(_previewRenderOptions);
 
         // Switch to the RenderPage
         var mainWindow = (MainWindow)this.VisualRoot!;
@@ -211,7 +149,7 @@ public partial class LightingPage : UserControl
     }
 
     /// <summary>
-    /// Detects if the background colour has changed and updates the background accordingly.
+    /// Detects if the background color has changed and updates the background accordingly.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -247,8 +185,12 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void OnePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var settings = new List<(string orientation, int power)> { ("front", 1000) };
-        SetupLighting(_onePointLighting, settings);
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupOnePointLighting();
+        foreach (var light in lights)
+        {
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
+        }
     }
 
     /// <summary>
@@ -258,13 +200,12 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void ThreePointLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var settings = new List<(string orientation, int power)>
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupThreePointLighting();
+        foreach (var light in lights)
         {
-            ("top-right-back", 200),
-            ("top-back-left", 1000),
-            ("top-left-front", 800),
-        };
-        SetupLighting(_threePointLighting, settings);
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
+        }
     }
 
     /// <summary>
@@ -274,8 +215,12 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void OverheadLightingButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var settings = new List<(string orientation, int power)> { ("top", 1000) };
-        SetupLighting(_overheadLighting, settings);
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupOverheadLighting();
+        foreach (var light in lights)
+        {
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
+        }
     }
 
     /// <summary>
@@ -285,9 +230,9 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void AddLightButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var light = new LightOptions();
-        AddLightEventHandlers(light);
-        LightOptionsStackPanel.Children.Add(light);
+        LightSetupItem lightSetupItem = new();
+        BindLightOptionChanged(lightSetupItem);
+        LightSetupItemsStackPanel.Children.Add(lightSetupItem);
     }
 
     /// <summary>
@@ -297,7 +242,7 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void ClearButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        LightOptionsStackPanel.Children.Clear();
+        LightSetupItemsStackPanel.Children.Clear();
     }
 
     /// <summary>
@@ -307,7 +252,8 @@ public partial class LightingPage : UserControl
     /// <param name="e"></param>
     private void Option_Changed(object? sender, EventArgs e)
     {
-        Debug.WriteLine($"Triggered by {sender} with name {((Control)sender!).Name}");
+        NoLightsImage.IsVisible = LightSetupItemsStackPanel.Children.Count == 0;
+
         RenderPreview();
     }
 
@@ -322,119 +268,239 @@ public partial class LightingPage : UserControl
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // LIGHTING METHODS
+    // PREVIEW
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Collects the lights in the light stack panel.
+    /// Renders the preview image of the model.
     /// </summary>
-    /// <returns></returns>
-    private List<Light> GetLights()
+    private void RenderPreview()
     {
-        // Create a list of lights
-        var lights = new List<Light>();
+        // Cancel all running render tasks
+        _cancelToken.Cancel();
+        _cancelToken = new CancellationTokenSource();
+        var token = _cancelToken.Token;
 
-        // Iterate through the light options and add them to the list
-        foreach (var lightOption in LightOptionsStackPanel.Children)
-        {
-            var lightOptions = (LightOptions)lightOption;
-            var lightOrientation = lightOptions.LightOrientationSelector.CurrentOrientation.Name;
-            // We only want the first 7 characters of the hex colour, meaning the alpha channel is ignored
-            var lightColour = lightOptions.LightColourSelector.GetHexColour()[..7];
-            var lightPower = float.Parse(lightOptions.PowerValueSelector.ValueTextBox.Text ?? "0");
-            var lightSize = float.Parse(lightOptions.SizeValueSelector.ValueTextBox.Text ?? "0");
-            var lightDistance = float.Parse(
-                lightOptions.DistanceValueSelector.ValueTextBox.Text ?? "0"
-            );
-            var lightPosition = RenderManager.GetPosition(lightOrientation, lightDistance);
-            var light = new Light(lightPosition, lightColour, lightPower, lightSize, lightDistance);
-            lights.Add(light);
-        }
+        // Update the UI to indicate that rendering is in progress
+        RenderStarted();
 
-        // Return the list of lights
-        return lights;
-    }
+        // Generate a unique identifier for the preview
+        var uuid = Guid.NewGuid().ToString().Replace("-", "");
+        // Set the preview render options
+        SetPreviewRenderOptions(uuid);
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // VERIFICATION
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Checks if the options are valid and sets them to default if they are not.
-    /// </summary>
-    private void VerifyOptions()
-    {
-        // Verify the width text box and set it to 1920 if it is invalid
-        if (string.IsNullOrEmpty(WidthTextBox.Text) || !int.TryParse(WidthTextBox.Text, out _))
-        {
-            WidthTextBox.Text = "1920";
-        }
-
-        // Verify the height text box and set it to 1080 if it is invalid
-        if (string.IsNullOrEmpty(HeightTextBox.Text) || !int.TryParse(HeightTextBox.Text, out _))
-        {
-            HeightTextBox.Text = "1080";
-        }
-
-        // Verify the width text's value and set it to 1920 if it is invalid
-        if (int.Parse(WidthTextBox.Text) <= 0)
-        {
-            WidthTextBox.Text = "1920";
-        }
-
-        // Verify the height text's value and set it to 1080 if it is invalid
-        if (int.Parse(HeightTextBox.Text) <= 0)
-        {
-            HeightTextBox.Text = "1080";
-        }
-
-        // Verify the camera distance text box and set it to 0 if it is invalid
-        if (
-            string.IsNullOrEmpty(CameraDistance.ValueTextBox.Text)
-            || !float.TryParse(CameraDistance.ValueTextBox.Text, out _)
-        )
-        {
-            CameraDistance.SetValue(0);
-        }
-
-        // Verify the light options in the light stack panel
-        foreach (var lightOptions in LightOptionsStackPanel.Children.Cast<LightOptions?>())
-        {
-            lightOptions?.VerifyOptions();
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // SAVING
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Stores the current options in the data manager.
-    /// </summary>
-    private void SaveOptions()
-    {
-        // Verify the options
-        VerifyOptions();
-
-        // Store the camera distance
-        DataManager.CameraDistance = float.Parse(CameraDistance.ValueTextBox.Text ?? "0");
-
-        // Store the resolution
-        DataManager.Resolution = new Entities.Resolution(
-            int.Parse(WidthTextBox.Text ?? "1920"),
-            int.Parse(HeightTextBox.Text ?? "1080")
+        // Create a copy of the preview render options
+        var previewRenderOptionsCopy = _previewRenderOptions.Copy();
+        // Lower the resolution for the preview
+        previewRenderOptionsCopy.Resolution = ImageManager.ResizeResolution(
+            previewRenderOptionsCopy.Resolution,
+            600
         );
 
-        // Store the lights
-        DataManager.Lights = GetLights();
+        // Render the preview image
+        Task.Run(
+            async () =>
+            {
+                // Render the preview image
+                var success = await RenderManager.Render(
+                    previewRenderOptionsCopy,
+                    "preview",
+                    token
+                );
 
-        // Store the background colour
-        DataManager.BackgroundColour = BackgroundColourSelector.ColourPicker.Color;
+                if (!success)
+                {
+                    return;
+                }
+
+                RenderFinished(uuid);
+            },
+            token
+        );
+    }
+
+    /// <summary>
+    /// Set the preview render options according to the current UI settings.
+    /// </summary>
+    /// <param name="name">The name of the image to render.</param>
+    private void SetPreviewRenderOptions(string name)
+    {
+        // Name
+        _previewRenderOptions.SetName(name);
+
+        // Model
+        _previewRenderOptions.SetModel(DataManager.ModelPath);
+
+        // Unit
+        _previewRenderOptions.SetUnit(DataManager.UnitScale);
+
+        // Output directory
+        _previewRenderOptions.SetOutputDirectory(FileManager.GetTempDirectoryPath());
+
+        // Resolution
+        var resolution = GetResolution();
+        _previewRenderOptions.SetResolution(resolution);
+
+        // Camera
+        _previewRenderOptions.SetCamera(GetCamera());
+
+        // Lights
+        var lightSetupItems = LightSetupItemsStackPanel.Children.OfType<LightSetupItem>().ToList();
+        var lights = SceneManager.GetLights(lightSetupItems);
+        _previewRenderOptions.Lights.Clear();
+        _previewRenderOptions.AddLights(lights);
+
+        // Background color
+        _previewRenderOptions.SetBackgroundColour(BackgroundColourSelector.ColourPicker.Color);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPER FUNCTIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Get the resolution from the width and height text boxes.
+    /// If the values are invalid, the default resolution is returned.
+    /// </summary>
+    /// <returns>A resolution with the width and height from the text boxes.</returns>
+    private Entities.Resolution GetResolution()
+    {
+        // Get and validate the width
+        var widthValid = int.TryParse(WidthTextBox.Text, out var width);
+
+        // Get and validate the height
+        var heightValid = int.TryParse(HeightTextBox.Text, out var height);
+
+        // If the values are invalid, set the resolution to the default resolution
+        if (!widthValid || width <= 0)
+        {
+            width = Resolution.DefaultWidth;
+            WidthTextBox.Text = Resolution.DefaultWidth.ToString();
+        }
+
+        if (!heightValid || height <= 0)
+        {
+            height = Resolution.DefaultHeight;
+            HeightTextBox.Text = Resolution.DefaultHeight.ToString();
+        }
+
+        // Return the resolution
+        return new Entities.Resolution(width, height);
+    }
+
+    /// <summary>
+    /// Get the camera from the camera distance and orientation selectors.
+    /// </summary>
+    /// <returns></returns>
+    private Camera GetCamera()
+    {
+        // Get the camera distance
+        var cameraDistance = CameraDistanceValueSelector.GetValue();
+        // Get the camera view
+        var cameraView = CameraOrientationSelector.CurrentOrientation.Name;
+        // Get the camera position
+        var cameraPosition = SceneManager.GetPosition(cameraView, cameraDistance);
+        // Return the camera
+        return new Camera(cameraDistance, cameraPosition);
+    }
+
+    /// <summary>
+    /// Create a LightSetupItem control from a Light object.
+    /// </summary>
+    /// <param name="light"></param>
+    /// <returns></returns>
+    private LightSetupItem CreateLight(Light light)
+    {
+        var lightSetupItem = new LightSetupItem();
+        lightSetupItem.LightOrientationSelector.SetOrientation(light.View);
+
+        var colourComponents = light.Colour.Split(',');
+        var red = byte.Parse(colourComponents[0]);
+        var green = byte.Parse(colourComponents[1]);
+        var blue = byte.Parse(colourComponents[2]);
+        var alpha = byte.Parse(colourComponents[3]);
+        var colour = Color.FromArgb(alpha, red, green, blue);
+        lightSetupItem.SetColour(colour);
+
+        lightSetupItem.SetPower(light.Power);
+        lightSetupItem.SetSize(light.Size);
+        lightSetupItem.SetDistance(light.Distance);
+
+        BindLightOptionChanged(lightSetupItem);
+
+        return lightSetupItem;
+    }
+
+    /// <summary>
+    /// Sets the UI to indicate that rendering has started.
+    /// </summary>
+    private void RenderStarted()
+    {
+        // Update the UI to indicate that rendering is in progress.
+        Dispatcher.UIThread.Post(() =>
+        {
+            PreviewButton.Content = "Rendering";
+            PreviewButton.IsEnabled = false;
+            PreviewImage.IsVisible = false;
+            LoadingImage.IsVisible = true;
+        });
+    }
+
+    /// <summary>
+    /// Sets the UI to indicate that rendering has finished.
+    /// </summary>
+    /// <param name="uuid"></param>
+    private void RenderFinished(string uuid)
+    {
+        var tempDirectory = FileManager.GetTempDirectoryPath();
+
+        // Update the UI to indicate that rendering is complete.
+        Dispatcher.UIThread.Post(() =>
+        {
+            // Display the image and load it into memory
+            PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
+            // Delete the temp image and blender file
+            File.Delete(tempDirectory + uuid + ".png");
+            File.Delete(tempDirectory + uuid + ".blend");
+            PreviewImage.IsVisible = true;
+            LoadingImage.IsVisible = false;
+            PreviewButton.IsEnabled = true;
+            PreviewButton.Content = "Preview";
+        });
+    }
+
+    /// <summary>
+    /// Creates the resolution buttons for the user to select.
+    /// </summary>
+    private void CreateResolutionButtons()
+    {
+        // Create the aspect ratio buttons
+        for (var i = 0; i < 12; i++)
+        {
+            // Create the button
+            var resolutionButton = new Button
+            {
+                // Set the button content
+                Content = Resolution.AspectRatio16X9[i],
+            };
+
+            // Set the button click event
+            resolutionButton.Click += ResolutionButton_OnClick;
+            // Set the button properties
+            resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+            resolutionButton.HorizontalContentAlignment = Avalonia
+                .Layout
+                .HorizontalAlignment
+                .Center;
+            resolutionButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+            resolutionButton.Margin = new Thickness(5);
+            // Add the button to the grid
+            Grid.SetRow(resolutionButton, (i / 6) + 1);
+            Grid.SetColumn(resolutionButton, i % 6);
+            ResolutionGrid.Children.Add(resolutionButton);
+        }
+    }
 
     /// <summary>
     /// Unchecks all aspect ratio toggle buttons.
@@ -481,123 +547,97 @@ public partial class LightingPage : UserControl
     }
 
     /// <summary>
-    /// Sets up the lighting options according to the settings provided.
+    /// Bind the Option_Changed event handler to UI components.
     /// </summary>
-    /// <param name="lightingOptions">The list of light options to set up.</param>
-    /// <param name="settings">The settings for the light options.</param>
-    private void SetupLighting(
-        List<LightOptions> lightingOptions,
-        List<(string orientation, int power)> settings
-    )
+    private void BindOptionChanged()
     {
-        // Clear the light stack panel
-        LightOptionsStackPanel.Children.Clear();
+        WidthTextBox.TextChanged += Option_Changed;
+        HeightTextBox.TextChanged += Option_Changed;
+        CameraOrientationSelector.OrientationChanged += Option_Changed;
+        CameraDistanceValueSelector.ValueChanged += Option_Changed;
+        BackgroundColourSelector.ColourChanged += Option_Changed;
 
-        // Set the light options using the provided settings
-        for (var i = 0; i < lightingOptions.Count; i++)
+        OnePointLightingButton.Click += Option_Changed;
+        ThreePointLightingButton.Click += Option_Changed;
+        OverheadLightingButton.Click += Option_Changed;
+
+        AddLightButton.Click += Option_Changed;
+        ClearButton.Click += Option_Changed;
+    }
+
+    /// <summary>
+    /// Bind the Option_Changed event handler to a LightSetupItem control.
+    /// </summary>
+    private void BindLightOptionChanged(LightSetupItem lightSetupItem)
+    {
+        lightSetupItem.LightOrientationSelector.OrientationChanged += Option_Changed;
+        lightSetupItem.LightColourSelector.ColourChanged += Option_Changed;
+        lightSetupItem.PowerValueSelector.ValueChanged += Option_Changed;
+        lightSetupItem.SizeValueSelector.ValueChanged += Option_Changed;
+        lightSetupItem.DistanceValueSelector.ValueChanged += Option_Changed;
+        lightSetupItem.RemoveButton.Click += Option_Changed;
+    }
+
+    /// <summary>
+    /// Sets the optimal camera distance for the model.
+    /// </summary>
+    public void SetOptimalCameraDistance()
+    {
+        // Set the optimal camera distance
+        var optimalCameraDistance = SceneManager.ComputeOptimalCameraDistance(
+            DataManager.ModelMaxDimension * DataManager.UnitScale
+        );
+        CameraDistanceValueSelector.SetSliderBounds(0, optimalCameraDistance * 5, 0.2);
+        CameraDistanceValueSelector.SetValue(optimalCameraDistance);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // IPAGE IMPLEMENTATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Initializes the LightingPage.
+    /// </summary>
+    public void Initialize()
+    {
+        // Initialize the page
+        InitializeComponent();
+
+        // Add color changed event for the background color selector
+        BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
+
+        // Create the resolution buttons
+        CreateResolutionButtons();
+    }
+
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
+    public void OnFirstLoad()
+    {
+        // Bind the option changed event handler to the UI components
+        BindOptionChanged();
+
+        // Set up three point lighting by default
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupThreePointLighting();
+        foreach (var light in lights)
         {
-            var light = lightingOptions[i];
-            light.SetOrientation(settings[i].orientation);
-            light.SetColour(Colors.White);
-            light.SetPower(settings[i].power);
-            light.SetSize(3);
-            light.SetDistance(_maxDimension * 80);
-            AddLightEventHandlers(light);
-            LightOptionsStackPanel.Children.Add(light);
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
         }
+
+        BackgroundColourSelector.ColourPicker.Color = Color.Parse("#0B0B0C");
     }
 
     /// <summary>
-    /// Adds event handlers to the light options.
+    /// When the page is navigated to.
     /// </summary>
-    /// <param name="light"></param>
-    private void AddLightEventHandlers(LightOptions light)
+    public void OnNavigatedTo()
     {
-        light.LightOrientationSelector.OrientationChanged += Option_Changed;
-        light.LightColourSelector.ColourChanged += Option_Changed;
-        light.PowerValueSelector.ValueChanged += Option_Changed;
-        light.SizeValueSelector.ValueChanged += Option_Changed;
-        light.DistanceValueSelector.ValueChanged += Option_Changed;
-        light.RemoveButton.Click += Option_Changed;
-    }
+        // Set the file name
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
 
-    /// <summary>
-    /// Renders the preview image of the model.
-    /// </summary>
-    private void RenderPreview()
-    {
-        // Cancel all running render tasks
-        _cancelToken.Cancel();
-        _cancelToken = new CancellationTokenSource();
-        var token = _cancelToken.Token;
-
-        // Update the UI to indicate that rendering is in progress.
-        Dispatcher.UIThread.Post(() =>
-        {
-            PreviewButton.Content = "Rendering";
-            PreviewButton.IsEnabled = false;
-            PreviewImage.IsVisible = false;
-            LoadingImage.IsVisible = true;
-        });
-
-        // Create the render options
-        var previewRenderOptions = new RenderOptions();
-
-        // Store and retrieve the current options
-        SaveOptions();
-
-        // Set the base resolution
-        var resolution = DataManager.Resolution;
-        resolution = RenderManager.CalculatePreviewResolution(resolution);
-
-        var cameraDistance = DataManager.CameraDistance;
-        var lights = DataManager.Lights;
-
-        // Setup the preview camera
-        var cameraView = CameraOrientation.CurrentOrientation.Name;
-        var cameraPosition = RenderManager.GetPosition(cameraView, cameraDistance);
-        var camera = new Camera(cameraDistance, cameraPosition);
-
-        // Get the uuid for the render
-        var uuid = Guid.NewGuid().ToString().Replace("-", "");
-
-        // Get the temp directory
-        var tempDirectory = Path.GetTempPath().Replace("\\", "/");
-
-        // Set the render options
-        previewRenderOptions.SetName(uuid);
-        previewRenderOptions.SetModel(DataManager.ModelPath);
-        previewRenderOptions.SetUnit(DataManager.UnitScale);
-        previewRenderOptions.SetOutputDirectory(tempDirectory);
-        previewRenderOptions.SetResolution(resolution);
-        previewRenderOptions.SetCamera(camera);
-        previewRenderOptions.SetSaveBlenderFile(true);
-        previewRenderOptions.AddLights(lights);
-        previewRenderOptions.SetBackgroundColour(DataManager.BackgroundColour);
-
-        Task.Run(async () =>
-        {
-            // Render the preview image
-            var success = await RenderManager.Render(previewRenderOptions, "preview", token);
-
-            if (!success)
-            {
-                return;
-            }
-
-            // Update the UI to display the preview image
-            Dispatcher.UIThread.Post(() =>
-            {
-                // Display the image and load it into memory
-                PreviewImage.Source = new Bitmap(tempDirectory + uuid + ".png");
-                // Delete the temp image and blender file
-                File.Delete(tempDirectory + uuid + ".png");
-                File.Delete(tempDirectory + uuid + ".blend");
-                PreviewImage.IsVisible = true;
-                LoadingImage.IsVisible = false;
-                PreviewButton.IsEnabled = true;
-                PreviewButton.Content = "Preview";
-            });
-        });
+        // Render Preview
+        RenderPreview();
     }
 }

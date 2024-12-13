@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SoundManager.cs
-// This file manages sound operations such as playing audio files.
+// TextManager.cs
+// This file contains the logic for managing text/string operations.
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,9 +8,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-using System.Threading;
-using System.Threading.Tasks;
-using NAudio.Wave;
+using System;
+using System.Globalization;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -18,43 +17,32 @@ using NAudio.Wave;
 namespace Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SOUND MANAGER CLASS
+// TEXT MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// Manages sound operations such as playing audio files.
+/// Manages text/string operations.
 /// </summary>
-public static class SoundManager
+public static class TextManager
 {
     /// <summary>
-    /// Plays a sound from the specified file path.
+    /// Converts a string to title case.
     /// </summary>
-    /// <param name="path">The path to the audio file.</param>
-    public static void PlaySound(string path)
+    /// <param name="str">The string to convert.</param>
+    /// <returns>The string in title case.</returns>
+    public static string ToTitleCase(string str)
     {
-        // Run the audio file in a separate thread
-        Task.Run(() =>
-        {
-            // Create a new audio file reader and output device
-            using var audioFile = new AudioFileReader(path);
-            using var outputDevice = new WaveOutEvent();
-            // Initialize the output device and play the audio file
-            outputDevice.Init(audioFile);
-            outputDevice.Play();
-
-            // Wait for the audio file to finish playing
-            while (outputDevice.PlaybackState == PlaybackState.Playing)
-            {
-                Thread.Sleep(250);
-            }
-        });
+        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
     }
 
     /// <summary>
-    /// Plays an error sound.
+    /// Removes leading and trailing whitespace from a string as well as replaces spaces longer than one with a
+    /// single space.
     /// </summary>
-    public static void PlayErrorSound()
+    /// <param name="input">The string to format</param>
+    /// <returns></returns>
+    public static string RemoveWhitespace(string input)
     {
-        PlaySound("Assets/Sounds/error.mp3");
+        return string.Join(" ", input.Split(' ', StringSplitOptions.RemoveEmptyEntries));
     }
 }

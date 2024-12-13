@@ -34,7 +34,7 @@ public partial class ColourSelector : UserControl
     /// <summary>
     /// Event handler for when the colour is changed.
     /// </summary>
-    public event EventHandler ColourChanged;
+    public event EventHandler ColourChanged = delegate { };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -88,7 +88,7 @@ public partial class ColourSelector : UserControl
         if (e.Property == ColorButton.ColorProperty)
         {
             // Invoke the colour changed event
-            ColourChanged?.Invoke(this, e);
+            ColourChanged(this, e);
             // Set the text of the colour label
             ColourLabel.Content = ColourPicker.Color.ToString().ToUpper();
             // Set the fill of the colour rectangle

@@ -19,12 +19,12 @@
             RadiusY="{StaticResource RadiusRectangle}"
             x:Name="StatusColor" />
         <Label
-            Content="Name"
+            Content="NameLabel"
             Grid.Column="0"
             HorizontalAlignment="Left"
             Margin="10,0,0,0"
             VerticalAlignment="Center"
-            x:Name="Name" />
+            x:Name="NameLabel" />
         <Label
             Content="Status"
             Grid.Column="1"

@@ -17,7 +17,7 @@
                 MinWidth="700"
                 VerticalAlignment="Center">
                 <Label
-                    Content="Program Paths"
+                    Content="Blender Version"
                     FontSize="30"
                     HorizontalAlignment="Center"
                     Padding="0,20,0,50" />
@@ -30,13 +30,41 @@
                     <StackPanel HorizontalAlignment="Stretch">
                         <Label Content="Blender Executable Path" />
                         <Label
-                            Content="Version 4.2.X LTS is strongly recommended"
+                            Content="Bundled version (4.2.X LTS) is recommended"
                             FontFamily="{StaticResource JetBrainsMono}"
                             FontSize="10"
                             FontStyle="Italic" />
                     </StackPanel>
                 </StackPanel>
-                <controls:BrowsableFileTextBox Margin="0,20,0,0" x:Name="BlenderPathTextBox" />
+
+                <StackPanel
+                    Margin="0,20,0,0"
+                    Spacing="10"
+                    x:Name="BlenderPathStackPanel">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton
+                            Background="{StaticResource ControlsBackground}"
+                            Click="BlenderPathToggleButton_OnClick"
+                            Content="Bundled"
+                            Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Name="BundledBlenderToggleButton" />
+                        <ToggleButton
+                            Background="{StaticResource ControlsBackground}"
+                            Click="BlenderPathToggleButton_OnClick"
+                            Content="Custom"
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Name="CustomBlenderToggleButton" />
+                    </Grid>
+                </StackPanel>
                 <Button
                     Click="NextButton_OnClick"
                     Content="Next"

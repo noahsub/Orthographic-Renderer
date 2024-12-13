@@ -17,6 +17,8 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Orthographic.Renderer.Constants;
+using Orthographic.Renderer.Entities;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +33,7 @@ namespace Orthographic.Renderer.Pages;
 /// <summary>
 /// The ModelPage user control. Allows the user to select a model file.
 /// </summary>
-public partial class ModelPage : UserControl
+public partial class ModelPage : UserControl, IPage
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -42,96 +44,7 @@ public partial class ModelPage : UserControl
     /// </summary>
     public ModelPage()
     {
-        InitializeComponent();
-
-        // Load the recently opened files.
-        LoadRecentFiles();
-        // Set the default unit to millimeters.
-        UnitComboBox.SelectedIndex = 0;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // MODEL
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Checks if the model path is valid.
-    /// </summary>
-    /// <param name="modelPath">The model path to validate.</param>
-    /// <returns>True if the model path is valid, otherwise, false.</returns>
-    private static bool IsValidModelPath(string modelPath)
-    {
-        // Check if the model path is null or empty
-        if (string.IsNullOrEmpty(modelPath))
-        {
-            return false;
-        }
-
-        // Check if the model path exists and is a valid file type
-        return File.Exists(modelPath)
-            && ModelManager.ValidTypes.Contains(Path.GetExtension(modelPath));
-    }
-
-    /// <summary>
-    /// Updates the list of recent files.
-    /// </summary>
-    /// <param name="modelPath">The model path to add to the recent files.</param>
-    private static void UpdateRecentFiles(string modelPath)
-    {
-        // Read all paths
-        var paths = FileManager.ReadJsonArray(FileManager.GetRecentModelsFile(), "paths");
-
-        // Remove the model path if it already exists
-        paths.Remove(modelPath);
-        // Add the model path to the front of the list
-        paths.Insert(0, modelPath);
-
-        // If the list of paths is greater than 10, remove the last path
-        if (paths.Count > 10)
-        {
-            paths.RemoveAt(10);
-        }
-
-        // Write the updated paths to the file
-        FileManager.WriteArrayToJsonFile(FileManager.GetRecentModelsFile(), "paths", paths);
-    }
-
-    /// <summary>
-    /// Loads the recent files into the RecentlyOpenedComboBox.
-    /// </summary>
-    private void LoadRecentFiles()
-    {
-        // Read all paths
-        var paths = FileManager.ReadJsonArray(FileManager.GetRecentModelsFile(), "paths");
-
-        // Add each path to the RecentlyOpenedComboBox
-        foreach (var path in paths.Where(path => IsValidModelPath(path)))
-        {
-            RecentlyOpenedComboBox.Items.Add(path);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // WARNING
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Display a warning message to the user.
-    /// </summary>
-    /// <param name="message"></param>
-    private static void DisplayWarning(string message)
-    {
-        var warning = new Windows.Warning();
-        warning.SetWarning(message);
-        warning.Show();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // SETTERS
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void SetDimensionsUnknown()
-    {
-        SizeLabel.Content = "unknown";
+        Initialize();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,48 +56,31 @@ public partial class ModelPage : UserControl
     /// </summary>
     private void NextButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // Get the model path
-        var modelPath = ModelPathTextBox.PathTextBox.Text;
+        // Fix the model path
+        ModelFilePathSelector.FixPath();
 
-        // If the model path is null, set the border color to red and play an error sound
-        if (modelPath == null)
+        var path = ModelFilePathSelector.GetPath();
+
+        if (!ModelFilePathSelector.CheckPath(FileType.Model))
         {
-            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
             return;
         }
 
-        // Reformat the model path
-        modelPath = FileManager.ReformatPath(modelPath);
-
-        // If the model path is not valid, set the border color to red and play an error sound
-        if (!IsValidModelPath(modelPath))
+        if (!string.Equals(DataManager.ModelPath, path))
         {
-            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-            return;
+            DataManager.ModelPath = path;
         }
 
-        // Check if the path requires elevated permissions
-        if (FileManager.ElevatedPath(modelPath))
-        {
-            DisplayWarning(
-                "The model file is located in a protected directory. Please run the application as an administrator or move the file to a different location."
-            );
-            ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-            SoundManager.PlaySound("Assets/Sounds/error.mp3");
-            return;
-        }
+        // Measure the model
+        Measure(path);
 
-        // Set the border color to green and set the model path if it is valid
-        ModelPathTextBox.PathTextBox.BorderBrush = new SolidColorBrush(Colors.MediumSpringGreen);
-        DataManager.ModelPath = modelPath;
-        UpdateRecentFiles(modelPath);
+        // Set the optimal camera distance for the model on the LightingPage
+        var lightingPage = (LightingPage)NavigationManager.GetPage("LightingPage")!;
+        lightingPage.SetOptimalCameraDistance();
 
-        // Switch to the RenderPage
+        // Switch to the LightingPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "LightingPage");
-        NavigationManager.LoadPage("LightingPage");
     }
 
     /// <summary>
@@ -195,10 +91,9 @@ public partial class ModelPage : UserControl
         SelectionChangedEventArgs e
     )
     {
-        // Set the model path to the selected item in the RecentlyOpenedComboBox
-        var selectedText = RecentlyOpenedComboBox.SelectedItem?.ToString();
-        ModelPathTextBox.PathTextBox.Text = selectedText;
-        SizeLabel.Content = "unknown";
+        var selectedItem = RecentlyOpenedComboBox.SelectedItem?.ToString() ?? string.Empty;
+        ModelFilePathSelector.SetPath(selectedItem);
+        SizeLabel.Content = "UNKNOWN";
     }
 
     /// <summary>
@@ -208,17 +103,8 @@ public partial class ModelPage : UserControl
     {
         // Set the unit scale based on the selected item in the UnitComboBox
         var comboBoxItem = (ComboBoxItem)UnitComboBox.SelectedItem!;
-        var selectedText = comboBoxItem.Content?.ToString()?.ToLower();
-
-        DataManager.UnitScale = selectedText switch
-        {
-            "millimeters" => ModelUnit.Millimeter,
-            "centimeters" => ModelUnit.Centimeter,
-            "meters" => ModelUnit.Meter,
-            "inches" => ModelUnit.Inch,
-            "feet" => ModelUnit.Foot,
-            _ => DataManager.UnitScale,
-        };
+        var selectedText = comboBoxItem.Content?.ToString()?.ToLower() ?? string.Empty;
+        ModelManager.SetModelUnit(selectedText);
     }
 
     /// <summary>
@@ -238,70 +124,63 @@ public partial class ModelPage : UserControl
     /// <param name="e"></param>
     private void MeasureButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var modelPath = ModelPathTextBox.PathTextBox.Text;
-
-        // if the model path is null or empty
-        if (string.IsNullOrEmpty(modelPath))
+        // Fix the model path
+        ModelFilePathSelector.FixPath();
+        // Check the model path
+        if (!ModelFilePathSelector.CheckPath(FileType.Model))
         {
-            SizeLabel.Content = "unknown";
             return;
         }
 
         // Get the model path
-        modelPath = FileManager.ReformatPath(modelPath);
-        if (
-            modelPath == null
-            || !IsValidModelPath(modelPath)
-            || FileManager.ElevatedPath(modelPath)
-        )
+        var path = ModelFilePathSelector.GetPath();
+
+        var dimensions = Measure(path);
+        SizeLabel.Content =
+            $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HELPERS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private Vector3 Measure(string path)
+    {
+        // Get and set the dimensions of the model
+        var dimensions = ModelManager.GetDimensions(path);
+        DataManager.ModelDimensions = dimensions;
+        DataManager.ModelMaxDimension = ModelManager.GetMaxDimension(dimensions);
+        return dimensions;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // IPAGE INTERFACE IMPLEMENTATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Initializes the ModelPage.
+    /// </summary>
+    public void Initialize()
+    {
+        InitializeComponent();
+
+        // Load the recent models
+        var recentModels = FileManager.GetRecentModels();
+        foreach (var model in recentModels)
         {
-            SizeLabel.Content = "unknown";
-            return;
+            RecentlyOpenedComboBox.Items.Add(model);
         }
 
-        ModelPathTextBox.PathTextBox.Text = modelPath;
-
-        // Get the extension of the file
-        var extension = Path.GetExtension(modelPath);
-
-        // if the model is a valid type and not a .blend file
-        if (!ModelManager.ValidTypes.Contains(extension))
-        {
-            SizeLabel.Content = "unknown";
-            return;
-        }
-
-        // Get the dimensions of the model
-        Vector3 dimensions;
-        switch (extension.ToLower())
-        {
-            case ".obj":
-                dimensions = ModelManager.GetObjDimensions(modelPath);
-                SizeLabel.Content =
-                    $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
-                break;
-            case ".stl":
-                dimensions = ModelManager.GetStlDimensions(modelPath);
-                SizeLabel.Content =
-                    $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
-                break;
-            default:
-                SizeLabel.Content = "Cannot calculate dimensions for this file type.";
-                break;
-        }
+        // Set the default unit
+        UnitComboBox.SelectedIndex = 0;
     }
 
     /// <summary>
-    /// Deselects the selected item in the RecentlyOpenedComboBox when tapped.
+    /// When the page is first loaded by the user.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void RecentlyOpenedComboBox_OnTapped(object? sender, TappedEventArgs e)
-    {
-        var text = ModelPathTextBox.PathTextBox.Text;
-        // Deselect any selected items
-        RecentlyOpenedComboBox.SelectedIndex = -1;
-        // Set the model path to the original text
-        ModelPathTextBox.PathTextBox.Text = text;
-    }
+    public void OnFirstLoad() { }
+
+    /// <summary>
+    ///  When the page is navigated to.
+    /// </summary>
+    public void OnNavigatedTo() { }
 }

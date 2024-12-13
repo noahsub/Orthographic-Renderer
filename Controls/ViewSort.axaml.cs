@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// BrowsableDirectoryTextBox.axaml.cs
-// This file contains the logic for the BrowsableDirectoryTextBox control.
+// ViewSort.axaml.cs
+// This file contains the logic for the ViewSort control.
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,9 +8,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using System.Collections.Generic;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Platform.Storage;
+using Avalonia.Controls.Primitives;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -18,53 +18,51 @@ using Avalonia.Platform.Storage;
 namespace Orthographic.Renderer.Controls;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// BROWSABLE DIRECTORY TEXT BOX CLASS
+// VIEW SORT OPTIONS CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
-/// A text box that allows the user to browse for a directory.
+/// Selection of faces to sort by.
 /// </summary>
-public partial class BrowsableDirectoryTextBox : UserControl
+public partial class ViewSort : UserControl
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BrowsableDirectoryTextBox"/> class.
+    /// Initializes a new instance of the <see cref="ViewSort"/> class.
     /// </summary>
-    public BrowsableDirectoryTextBox()
+    public ViewSort()
     {
         InitializeComponent();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // EVENTS
+    // SELECTION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Allows the user to browse for a directory when the browse button is clicked.
+    /// Get the selected faces.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void BrowseButton_OnClick(object? sender, RoutedEventArgs e)
+    /// <returns>A list of selected faces.</returns>
+    public List<string> GetSelectedFaces()
     {
-        // Get the top level window
-        var topLevel = TopLevel.GetTopLevel(this);
+        // Create a list to store the selected faces
+        var selectedFaces = new List<string>();
 
-        // Open the folder picker
-        var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(
-            new FolderPickerOpenOptions { Title = "Select a Directory" }
-        );
-
-        // If no directory was selected, return
-        if (directory.Count < 1)
+        // Iterate through each control in the stack panel
+        foreach (var control in FacesStackPanel.Children)
         {
-            return;
+            // If the button is checked, add the face to the list
+            var button = (ToggleButton)control;
+            if (button.IsChecked == true)
+            {
+                selectedFaces.Add(button.Content?.ToString()?.ToLower() ?? string.Empty);
+            }
         }
 
-        // Set the path text box to the selected directory
-        var path = directory[0].Path.AbsolutePath.Replace("%20", " ");
-        PathTextBox.Text = path;
+        // Return the list of selected faces
+        return selectedFaces;
     }
 }

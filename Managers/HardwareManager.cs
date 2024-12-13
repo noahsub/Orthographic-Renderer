@@ -12,7 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using LibreHardwareMonitor.Hardware;
+using LibreHardwareMonitor.Hardware.Cpu;
 using Newtonsoft.Json.Linq;
+using Orthographic.Renderer.Entities;
 using Hardware = Orthographic.Renderer.Entities.Hardware;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,7 +227,7 @@ public static class HardwareManager
     /// <returns>A list of NVIDIA GPU hardware components.</returns>
     private static List<Hardware> GetNvidiaGpuHardware()
     {
-        // excute `nvidia-smi --query-gpu=count --format=csv,noheader` to get the number of NVIDIA GPUs
+        // execute `nvidia-smi --query-gpu=count --format=csv,noheader` to get the number of NVIDIA GPUs
         var gpuCount = int.Parse(
             ProcessManager.RunProcess(
                 "/bin/bash",
@@ -458,9 +460,68 @@ public static class HardwareManager
         );
 
         // Set the render devices
-        DataManager.OptixDevices = renderDevices["OPTIX"]?.ToObject<List<string>>() ?? [];
-        DataManager.CudaDevices = renderDevices["CUDA"]?.ToObject<List<string>>() ?? [];
-        DataManager.CpuDevices = renderDevices["CPU"]?.ToObject<List<string>>() ?? [];
+        var optixDevices = renderDevices["OPTIX"]?.ToObject<List<string>>() ?? [];
+        var cudaDevices = renderDevices["CUDA"]?.ToObject<List<string>>() ?? [];
+        var cpuDevices = renderDevices["CPU"]?.ToObject<List<string>>() ?? [];
+
+        // Set the render devices in the data manager
+        DataManager.OptixDevices = optixDevices;
+        DataManager.CudaDevices = cudaDevices;
+        DataManager.CpuDevices = cpuDevices;
+
+        // Create a list of render hardware
+        var devices = new List<RenderHardware>();
+        foreach (var device in optixDevices)
+        {
+            var frameworks = new List<string> { "OPTIX" };
+
+            // Set the render framework to OPTIX
+            DataManager.RenderFramework = "OPTIX";
+
+            if (cudaDevices.Contains(device))
+            {
+                cudaDevices.Remove(device);
+                frameworks.Add("CUDA");
+            }
+
+            if (cpuDevices.Contains(device))
+            {
+                cpuDevices.Remove(device);
+                frameworks.Add("CPU CYCLES");
+            }
+
+            devices.Add(new RenderHardware(device, frameworks));
+        }
+
+        foreach (var device in cudaDevices)
+        {
+            var frameworks = new List<string> { "CUDA" };
+
+            if (DataManager.RenderFramework == "")
+            {
+                DataManager.RenderFramework = "CUDA";
+            }
+
+            if (cpuDevices.Contains(device))
+            {
+                cpuDevices.Remove(device);
+                frameworks.Add("CPU CYCLES");
+            }
+
+            devices.Add(new RenderHardware(device, frameworks));
+        }
+
+        foreach (var device in cpuDevices)
+        {
+            if (DataManager.RenderFramework == "")
+            {
+                DataManager.RenderFramework = "CPU CYCLES";
+            }
+
+            devices.Add(new RenderHardware(device, new List<string> { "CPU CYCLES" }));
+        }
+
+        DataManager.RenderDevices = devices;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

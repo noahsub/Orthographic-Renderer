@@ -34,7 +34,7 @@ public partial class RenderQueueItem : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// The key for the associated view, see <see cref="RenderManager.RenderViews"/> for assignable values.
+    /// The key for the associated view, see <see cref="Constants.View"/> for assignable values.
     /// </summary>
     public string Key { get; set; } = "";
 

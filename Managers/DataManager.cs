@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Numerics;
 using Orthographic.Renderer.Entities;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +57,7 @@ public static class DataManager
     /// <summary>
     /// The distance of the camera from the origin of the model.
     /// </summary>
-    public static float CameraDistance { get; set; } = 0.0f;
+    public static float CameraDistance { get; set; }
 
     /// <summary>
     /// The resolution of the rendered image.
@@ -77,20 +78,40 @@ public static class DataManager
     /// <summary>
     /// The views to render.
     /// </summary>
-    public static List<string> SelectedViews { get; set; } = new List<string>();
+    public static List<string> SelectedViews { get; set; } = [];
 
     /// <summary>
     /// The OPTIX devices available.
     /// </summary>
-    public static List<string> OptixDevices { get; set; } = new List<string>();
+    public static List<string> OptixDevices { get; set; } = [];
 
     /// <summary>
     /// The CUDA devices available.
     /// </summary>
-    public static List<string> CudaDevices { get; set; } = new List<string>();
+    public static List<string> CudaDevices { get; set; } = [];
 
     /// <summary>
     /// The CPU devices available.
     /// </summary>
-    public static List<string> CpuDevices { get; set; } = new List<string>();
+    public static List<string> CpuDevices { get; set; } = [];
+
+    /// <summary>
+    /// The render devices available.
+    /// </summary>
+    public static List<RenderHardware> RenderDevices = [];
+
+    /// <summary>
+    /// The framework to use with the cycle render engine.
+    /// </summary>
+    public static string RenderFramework { get; set; } = "";
+
+    /// <summary>
+    /// The dimensions of the model.
+    /// </summary>
+    public static Vector3 ModelDimensions { get; set; } = new(0, 0, 0);
+
+    /// <summary>
+    /// The biggest dimension of the model.
+    /// </summary>
+    public static float ModelMaxDimension { get; set; }
 }

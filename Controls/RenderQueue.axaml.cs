@@ -118,7 +118,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the pending queue.
     /// </summary>
-    /// <returns>An enumerable of items in the pending queue.</returns>
+    /// <returns>An enumeration of items in the pending queue.</returns>
     public IEnumerable GetItemsPending()
     {
         return PendingQueue.ToArray();
@@ -127,7 +127,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the completed queue.
     /// </summary>
-    /// <returns>An enumerable of items in the completed queue.</returns>
+    /// <returns>An enumeration of items in the completed queue.</returns>
     public IEnumerable GetItemsCompleted()
     {
         return CompletedQueue.ToArray();
@@ -136,7 +136,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the failed queue.
     /// </summary>
-    /// <returns>An enumerable of items in the failed queue.</returns>
+    /// <returns>An enumeration of items in the failed queue.</returns>
     public IEnumerable GetItemsFailed()
     {
         return FailedQueue.ToArray();
@@ -145,7 +145,7 @@ public partial class RenderQueue : UserControl
     /// <summary>
     /// Get all items in the queues combined in the order pending, completed, failed.
     /// </summary>
-    /// <returns>An enumerable of all items in the queues.</returns>
+    /// <returns>An enumeration of all items in the queues.</returns>
     public IEnumerable GetItems()
     {
         // Combine the three queues into one
@@ -166,13 +166,13 @@ public partial class RenderQueue : UserControl
     public void AddToDisplay(RenderQueueItem item)
     {
         // If there are no items in the display, hide the empty state image
-        if (Items.Children.Count == 0)
+        if (ItemsStackPanel.Children.Count == 0)
         {
             EmptyImage.IsVisible = false;
         }
 
-        // Add the item to the Items stack panel
-        Items.Children.Add(item);
+        // Add the item to the ItemsStackPanel stack panel
+        ItemsStackPanel.Children.Add(item);
     }
 
     /// <summary>
@@ -182,13 +182,13 @@ public partial class RenderQueue : UserControl
     public void RemoveFromDisplay(RenderQueueItem item)
     {
         // If there are no items in the display, show the empty state image
-        if (Items.Children.Count == 0)
+        if (ItemsStackPanel.Children.Count == 0)
         {
             EmptyImage.IsVisible = true;
         }
 
-        // Remove the item from the Items stack panel
-        Items.Children.Remove(item);
+        // Remove the item from the ItemsStackPanel stack panel
+        ItemsStackPanel.Children.Remove(item);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +205,7 @@ public partial class RenderQueue : UserControl
         CompletedQueue.Clear();
         FailedQueue.Clear();
         // Clear the display
-        Items.Children.Clear();
+        ItemsStackPanel.Children.Clear();
         // Show the empty state image
         EmptyImage.IsVisible = true;
     }

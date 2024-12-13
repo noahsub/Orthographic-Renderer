@@ -3,7 +3,7 @@
     d:DesignHeight="150"
     d:DesignWidth="400"
     mc:Ignorable="d"
-    x:Class="Orthographic.Renderer.Controls.HardwareStatus"
+    x:Class="Orthographic.Renderer.Controls.HardwareStatItem"
     xmlns="https://github.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -28,7 +28,7 @@
                     x:Name="UnitLabel" />
             </StackPanel>
             <Label
-                Content="Name"
+                Content="NameLabel"
                 FontSize="20"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

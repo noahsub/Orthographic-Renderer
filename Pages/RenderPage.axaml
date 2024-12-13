@@ -17,7 +17,7 @@
             Opacity="{StaticResource GlobalOpacity}" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="0" />
         <Rectangle Fill="{StaticResource PrimaryBackground}" Grid.Row="2" />
-        <controls:HardwareMonitorBar Grid.Row="0" />
+        <controls:SystemStatsBar Grid.Row="0" />
         <!--  CONTENT GRID  -->
         <Grid ColumnDefinitions="2*, 1*" Grid.Row="1">
             <!--  QUEUE GRID  -->
@@ -42,12 +42,13 @@
                 </ScrollViewer>
             </Grid>
 
+            <!--  RENDER OUTPUT AND SETTINGS GRID  -->
             <Grid Grid.Column="1" Margin="0,0,20,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="70" />
-                    <RowDefinition Height="300" />
+                    <RowDefinition Height="260" />
                 </Grid.RowDefinitions>
                 <Label
                     Content="Renders"
@@ -55,6 +56,13 @@
                     Grid.Row="0"
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Center" />
+                <Image
+                    Grid.Row="1"
+                    Height="150"
+                    Opacity="0.5"
+                    Source="../Assets/Images/grey_cube.png"
+                    Width="150"
+                    x:Name="RenderOutputPlaceholderImage" />
                 <ScrollViewer Grid.Row="1">
                     <StackPanel Spacing="10" x:Name="RenderOutputStackPanel" />
                 </ScrollViewer>
@@ -66,27 +74,59 @@
                     VerticalContentAlignment="Center" />
                 <StackPanel Grid.Row="3" Spacing="10">
                     <Label Content="Processing mode" />
-                    <StackPanel
-                        HorizontalAlignment="Stretch"
-                        Orientation="Horizontal"
-                        Spacing="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <ToggleButton
                             Click="ToggleButton_OnClick"
                             Content="Sequential"
+                            Grid.Column="0"
                             HorizontalAlignment="Stretch"
                             x:Name="SequentialToggleButton" />
                         <ToggleButton
                             Click="ToggleButton_OnClick"
                             Content="Parallel"
+                            Grid.Column="2"
                             HorizontalAlignment="Stretch"
                             x:Name="ParallelToggleButton" />
-                    </StackPanel>
+                    </Grid>
                     <Label Content="Threads" />
                     <NumericUpDown Text="1" x:Name="ThreadsNumericUpDown" />
                     <Label Content="Output Directory" />
-                    <controls:BrowsableDirectoryTextBox x:Name="OutputBrowsableDirectoryTextBox" />
-                    <Label Content="Complete Sound" />
-                    <CheckBox IsCancel="True" x:Name="CompleteSoundCheckBox" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <controls:DirectoryPathSelector Grid.Column="0" x:Name="OutputDirectoryPathSelector" />
+                        <Button
+                            Click="OpenOutputDirectoryButton_OnClick"
+                            Content="Open"
+                            Grid.Column="2"
+                            x:Name="OpenOutputDirectoryButton" />
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Content="Complete Sound"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center" />
+                        <CheckBox
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            IsChecked="True"
+                            VerticalAlignment="Center"
+                            x:Name="CompleteSoundCheckBox" />
+                    </Grid>
                 </StackPanel>
             </Grid>
         </Grid>
@@ -94,7 +134,7 @@
         <!--  BOTTOM GRID  -->
         <Grid
             ColumnDefinitions="20,100,*,100,20,100,20"
-            Grid.Row="3"
+            Grid.Row="2"
             VerticalAlignment="Center">
             <Button
                 Click="BackButton_OnClick"
@@ -107,6 +147,7 @@
             <Label
                 Content="File"
                 Grid.Column="2"
+                Grid.ColumnSpan="3"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 x:Name="FileLabel" />

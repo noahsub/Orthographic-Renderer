@@ -31,7 +31,7 @@ public partial class ViewSelection : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// The key for the associated view, see <see cref="RenderManager.RenderViews"/> for assignable values.
+    /// The key for the associated view, see <see cref="Constants.View"/> for assignable values.
     /// </summary>
     public string Key { get; set; } = "";
 
@@ -72,7 +72,7 @@ public partial class ViewSelection : UserControl
     /// <param name="title">The title of the view</param>
     public void SetName(string title)
     {
-        var name = RenderManager.GetFormattedViewName(title);
+        var name = ViewManager.GetFormattedViewName(title);
         NameLabel.Content = name;
         Key = title;
     }

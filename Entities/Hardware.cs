@@ -32,7 +32,7 @@ public class Hardware
     /// <summary>
     /// The name of the hardware component.
     /// </summary>
-    public string Name;
+    public readonly string Name;
 
     /// <summary>
     /// The type of the hardware component.
@@ -100,7 +100,7 @@ public class Hardware
     public override string ToString()
     {
         var pathString = string.Join(", ", Path);
-        return $"Name: {Name}, Type: {Type}, SensorName: {SensorName}, SensorType: {SensorType}, Value: {Value}, Unit: {Unit}, Path: {pathString}";
+        return $"NameLabel: {Name}, Type: {Type}, SensorName: {SensorName}, SensorType: {SensorType}, Value: {Value}, Unit: {Unit}, Path: {pathString}";
     }
 
     /// <summary>

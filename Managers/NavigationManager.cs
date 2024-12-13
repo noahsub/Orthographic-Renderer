@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NavigationManager.cs
-// This file contains the logic for managing navigation operations within the application.
+// This file contains the logic for managing navigation operations within the application
 //
 // Copyright (C) 2024 noahsub
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Orthographic.Renderer.Pages;
@@ -23,9 +23,6 @@ namespace Orthographic.Renderer.Managers;
 // NAVIGATION MANAGER CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// <summary>
-/// Manages navigation operations within the application.
-/// </summary>
 public static class NavigationManager
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,201 +30,120 @@ public static class NavigationManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// A reference to the model page.
+    /// The pages that can be navigated to.
     /// </summary>
-    private static ModelPage? _modelPage = null;
+    private static readonly Dictionary<string, UserControl?> Pages =
+        new()
+        {
+            { "ModelPage", null },
+            { "ViewsPage", null },
+            { "RenderPage", null },
+            { "RequirementsPage", null },
+            { "UpdatePage", null },
+            { "LightingPage", null },
+            { "HardwarePage", null },
+        };
 
     /// <summary>
-    /// A reference to the views page.
+    /// The current page.
     /// </summary>
-    private static ViewsPage? _viewsPage = null;
+    private static UserControl? _currentPage;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // LOADING
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// A reference to the render page.
+    /// Contains a dictionary of pages and whether they have been loaded.
     /// </summary>
-    private static RenderPage? _renderPage = null;
-
-    /// <summary>
-    /// A reference to the requirements page.
-    /// </summary>
-    private static RequirementsPage? _requirementsPage = null;
-
-    /// <summary>
-    /// A reference to the update page.
-    /// </summary>
-    private static UpdatePage? _updatePage = null;
-
-    /// <summary>
-    /// A reference to the lighting page.
-    /// </summary>
-    private static LightingPage? _lightingPage = null;
-
-    /// <summary>
-    /// A reference to the hardware page.
-    /// </summary>
-    private static HardwarePage? _hardwarePage = null;
-
-    /// <summary>
-    /// The current page displayed in the main window.
-    /// </summary>
-    private static UserControl? _currentPage = null;
+    private static readonly Dictionary<string, bool> LoadedPages =
+        new()
+        {
+            { "ModelPage", false },
+            { "ViewsPage", false },
+            { "RenderPage", false },
+            { "RequirementsPage", false },
+            { "UpdatePage", false },
+            { "LightingPage", false },
+            { "HardwarePage", false },
+        };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // NAVIGATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static UserControl? GetCurrentPage()
-    {
-        return _currentPage;
-    }
-
     /// <summary>
-    /// Switches the current page displayed in the main window.
+    /// Switches the page to the specified page.
     /// </summary>
-    /// <param name="mainWindow">The main window of the application.</param>
-    /// <param name="page">The new page to be displayed.</param>
+    /// <param name="mainWindow">The main window.</param>
+    /// <param name="page">The page to switch to.</param>
     public static void SwitchPage(MainWindow mainWindow, string page)
     {
         var pageContent = mainWindow.FindControl<ContentControl>("PageContent");
-
         if (pageContent == null)
-        {
             return;
-        }
 
-        switch (page)
+        if (!Pages.ContainsKey(page))
+            return;
+
+        if (Pages[page] == null)
         {
-            case "ModelPage":
-                if (_modelPage == null)
-                {
-                    _modelPage = new ModelPage();
-                }
-                _modelPage.SetDimensionsUnknown();
-                pageContent.Content = _modelPage;
-                _currentPage = _modelPage;
-                break;
-            case "ViewsPage":
-                if (_viewsPage == null)
-                {
-                    _viewsPage = new ViewsPage();
-                }
-                pageContent.Content = _viewsPage;
-                _currentPage = _viewsPage;
-                _viewsPage.SetFileName();
-                _viewsPage.Load();
-                break;
-            case "RenderPage":
-                if (_renderPage == null)
-                {
-                    _renderPage = new RenderPage();
-                }
-                pageContent.Content = _renderPage;
-                _currentPage = _renderPage;
-                _renderPage.Load();
-                break;
-            case "RequirementsPage":
-                if (_requirementsPage == null)
-                {
-                    _requirementsPage = new RequirementsPage();
-                }
-                pageContent.Content = _requirementsPage;
-                _currentPage = _requirementsPage;
-                _requirementsPage.Load();
-                break;
-            case "UpdatePage":
-                if (_updatePage == null)
-                {
-                    _updatePage = new UpdatePage();
-                }
-                pageContent.Content = _updatePage;
-                _currentPage = _updatePage;
-                break;
-            case "LightingPage":
-                if (_lightingPage == null)
-                {
-                    _lightingPage = new LightingPage();
-                }
-                pageContent.Content = _lightingPage;
-                _currentPage = _lightingPage;
-                break;
-            case "HardwarePage":
-                if (_hardwarePage == null)
-                {
-                    _hardwarePage = new HardwarePage();
-                }
-                pageContent.Content = _hardwarePage;
-                _currentPage = _hardwarePage;
-                break;
-            default:
-                return;
+            Pages[page] = CreatePageInstance(page);
         }
-    }
 
-    public static void LoadPage(string page)
-    {
-        switch (page)
+        if (!LoadedPages[page])
         {
-            case "ModelPage":
-                // _modelPage?.Load();
-                break;
-            case "ViewsPage":
-                _viewsPage?.Load();
-                break;
-            case "RenderPage":
-                _renderPage?.Load();
-                break;
-            case "RequirementsPage":
-                _renderPage?.Load();
-                break;
-            case "UpdatePage":
-                // _updatePage?.Load();
-                break;
-            case "LightingPage":
-                _lightingPage?.Load();
-                break;
-            case "HardwarePage":
-                _hardwarePage?.Load();
-                break;
-            default:
-                return;
+            LoadedPages[page] = true;
+            (Pages[page] as dynamic)?.OnFirstLoad();
         }
-    }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // PAGE CREATION
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        pageContent.Content = Pages[page];
+        _currentPage = Pages[page];
+        (Pages[page] as dynamic)?.OnNavigatedTo();
+    }
 
     /// <summary>
-    /// Create a new page of the specified type.
+    /// Helper for creating an instance of the specified page.
+    /// </summary>
+    /// <param name="pageName"></param>
+    /// <returns></returns>
+    private static UserControl? CreatePageInstance(string pageName) =>
+        pageName switch
+        {
+            "ModelPage" => new ModelPage(),
+            "ViewsPage" => new ViewsPage(),
+            "RenderPage" => new RenderPage(),
+            "RequirementsPage" => new RequirementsPage(),
+            "UpdatePage" => new UpdatePage(),
+            "LightingPage" => new LightingPage(),
+            "HardwarePage" => new HardwarePage(),
+            _ => null,
+        };
+
+    /// <summary>
+    /// Creates an instance of the specified page.
     /// </summary>
     /// <param name="name"></param>
     public static async Task CreatePage(string name)
     {
-        switch (name)
-        {
-            case "ModelPage":
-                _modelPage = new ModelPage();
-                break;
-            case "ViewsPage":
-                _viewsPage = new ViewsPage();
-                break;
-            case "RenderPage":
-                _renderPage = new RenderPage();
-                break;
-            case "RequirementsPage":
-                _requirementsPage = new RequirementsPage();
-                break;
-            case "UpdatePage":
-                _updatePage = new UpdatePage();
-                break;
-            case "LightingPage":
-                _lightingPage = new LightingPage();
-                break;
-            case "HardwarePage":
-                _hardwarePage = new HardwarePage();
-                break;
-            default:
-                return;
-        }
+        Pages[name] = CreatePageInstance(name);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // GETTERS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Gets the current page.
+    /// </summary>
+    /// <returns></returns>
+    public static UserControl? GetCurrentPage() => _currentPage;
+
+    /// <summary>
+    /// Gets the specified page.
+    /// </summary>
+    /// <param name="name">The name of the page to get.</param>
+    /// <returns></returns>
+    public static Control? GetPage(string name) =>
+        Pages.ContainsKey(name) ? Pages[name] : new Control();
 }

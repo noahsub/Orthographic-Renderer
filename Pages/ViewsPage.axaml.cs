@@ -17,10 +17,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Windows;
 
@@ -32,7 +34,7 @@ namespace Orthographic.Renderer.Pages;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // RENDER PAGE CLASS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-public partial class ViewsPage : UserControl
+public partial class ViewsPage : UserControl, IPage
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -43,22 +45,7 @@ public partial class ViewsPage : UserControl
     /// </summary>
     public ViewsPage()
     {
-        InitializeComponent();
-
-        // Set the layout of the ViewStackGrid.
-        ViewStackGrid.SetLayout(5);
-
-        // Populate the views.
-        PopulateViews(RenderManager.RenderViews);
-    }
-
-    /// <summary>
-    /// Method that is called when the page is navigated to.
-    /// </summary>
-    public void Load()
-    {
-        // Set the file label to the name of the model file.
-        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        Initialize();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +90,7 @@ public partial class ViewsPage : UserControl
         var selectedViews = GetSelectedViews();
         ViewStackGrid.ClearItems();
         var selectedFaces = ViewSortOptions.GetSelectedFaces();
-        var sortedViews = RenderManager.SortViews(selectedFaces);
+        var sortedViews = ViewManager.SortViews(selectedFaces);
         PopulateViews(sortedViews);
         foreach (var control in ViewStackGrid.GetItems())
         {
@@ -226,5 +213,38 @@ public partial class ViewsPage : UserControl
         // Switch to the ModelPage
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "RenderPage");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // IPAGE INTERFACE IMPLEMENTATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Initializes the ViewsPage.
+    /// </summary>
+    public void Initialize()
+    {
+        // Create the views page
+        InitializeComponent();
+
+        // Set the layout of the ViewStackGrid.
+        ViewStackGrid.SetLayout(5);
+
+        // Populate the views.
+        PopulateViews(View.RenderViews);
+    }
+
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
+    public void OnFirstLoad() { }
+
+    /// <summary>
+    /// When the page is navigated to.
+    /// </summary>
+    public void OnNavigatedTo()
+    {
+        // Set the file label to the name of the model file.
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
     }
 }

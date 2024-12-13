@@ -11,6 +11,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +26,7 @@ namespace Orthographic.Renderer.Pages;
 /// <summary>
 /// Represents the update page of the application.
 /// </summary>
-public partial class UpdatePage : UserControl
+public partial class UpdatePage : UserControl, IPage
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
@@ -36,7 +37,7 @@ public partial class UpdatePage : UserControl
     /// </summary>
     public UpdatePage()
     {
-        InitializeComponent();
+        Initialize();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,4 +68,26 @@ public partial class UpdatePage : UserControl
         // Exit the application
         Environment.Exit(0);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // IPAGE INTERFACE IMPLEMENTATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Initializes the update page.
+    /// </summary>
+    public void Initialize()
+    {
+        InitializeComponent();
+    }
+
+    /// <summary>
+    /// Called when the page is first loaded by the user.
+    /// </summary>
+    public void OnFirstLoad() { }
+
+    /// <summary>
+    /// Called when the page is navigated to.
+    /// </summary>
+    public void OnNavigatedTo() { }
 }
