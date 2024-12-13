@@ -17,7 +17,7 @@
                 MinWidth="700"
                 VerticalAlignment="Center">
                 <Label
-                    Content="Program Paths"
+                    Content="Blender Version"
                     FontSize="30"
                     HorizontalAlignment="Center"
                     Padding="0,20,0,50" />
@@ -30,7 +30,7 @@
                     <StackPanel HorizontalAlignment="Stretch">
                         <Label Content="Blender Executable Path" />
                         <Label
-                            Content="Version 4.2.X LTS is strongly recommended"
+                            Content="Bundled version (4.2.X LTS) is recommended"
                             FontFamily="{StaticResource JetBrainsMono}"
                             FontSize="10"
                             FontStyle="Italic" />
