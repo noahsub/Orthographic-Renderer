@@ -228,7 +228,7 @@ public partial class RenderPage : UserControl, IPage
 
         RenderingFinished();
     }
-    
+
     /// <summary>
     /// Opens the output directory in the default file manager based on the operating system.
     /// </summary>
@@ -242,16 +242,16 @@ public partial class RenderPage : UserControl, IPage
         {
             return;
         }
-        
+
         // Get the output directory path.
         var path = OutputDirectoryPathSelector.GetPath();
-        
+
         // Open the output directory in the default file manager according to the operating system.
         if (OperatingSystem.IsWindows())
         {
             ProcessManager.RunProcess("explorer.exe", $"\"{path.Replace('/', '\\')}\"");
         }
-        
+
         if (OperatingSystem.IsLinux())
         {
             ProcessManager.RunProcess("xdg-open", $"\"{path}\"");
@@ -316,24 +316,28 @@ public partial class RenderPage : UserControl, IPage
             if (success)
             {
                 renderItem.SetStatus(RenderStatus.Completed);
-                
+
                 var outputDirectory = renderOptions.OutputDirectory;
                 if (!outputDirectory.EndsWith("/"))
                 {
                     outputDirectory += "/";
                 }
-                
+
                 using (var stream = File.OpenRead($"{outputDirectory}{renderOptions.Name}.png"))
                 {
                     var originalImage = new Bitmap(stream);
-                    var originalResolution =
-                        new Resolution(originalImage.PixelSize.Width, originalImage.PixelSize.Height);
+                    var originalResolution = new Resolution(
+                        originalImage.PixelSize.Width,
+                        originalImage.PixelSize.Height
+                    );
                     var resizedResolution = ImageManager.ResizeResolution(originalResolution, 600);
-                    var resizedImage = originalImage.CreateScaledBitmap(new PixelSize(resizedResolution.Width, resizedResolution.Height));
+                    var resizedImage = originalImage.CreateScaledBitmap(
+                        new PixelSize(resizedResolution.Width, resizedResolution.Height)
+                    );
                     originalImage.Dispose();
                     RenderOutputStackPanel.Children.Insert(0, new Image { Source = resizedImage });
                 }
-                
+
                 if (RenderOutputStackPanel.Children.Count > 0)
                 {
                     RenderOutputPlaceholderImage.IsVisible = false;
@@ -375,7 +379,9 @@ public partial class RenderPage : UserControl, IPage
         renderOptions.SetName($"{modelName}-{renderItem.Key}-{uuid}");
         renderOptions.SetModel(DataManager.ModelPath);
         renderOptions.SetUnit(DataManager.UnitScale);
-        renderOptions.SetOutputDirectory(OutputDirectoryPathSelector.PathTextBox.Text ?? string.Empty);
+        renderOptions.SetOutputDirectory(
+            OutputDirectoryPathSelector.PathTextBox.Text ?? string.Empty
+        );
         renderOptions.SetResolution(DataManager.Resolution);
 
         var cameraDistance = DataManager.CameraDistance;
@@ -466,7 +472,7 @@ public partial class RenderPage : UserControl, IPage
     {
         // Clear render output stack panel.
         RenderOutputStackPanel.Children.Clear();
-        
+
         // Disable the render button and enable the cancel button.
         RenderButton.IsEnabled = false;
         CancelButton.IsEnabled = true;
@@ -480,7 +486,7 @@ public partial class RenderPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Initializes the RenderPage.
     /// </summary>
@@ -519,14 +525,14 @@ public partial class RenderPage : UserControl, IPage
         // Set the file label to the name of the model file.
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
 
-        var userDirectory =  FileManager.GetDownloadsDirectoryPath();
+        var userDirectory = FileManager.GetDownloadsDirectoryPath();
         OutputDirectoryPathSelector.SetPath(userDirectory);
 
         SaveBlenderFile = true;
 
         // Populate the render queue.
         PopulateRenderQueue();
-        
+
         // Clear the render output stack panel.
         RenderOutputStackPanel.Children.Clear();
         RenderOutputPlaceholderImage.IsVisible = true;

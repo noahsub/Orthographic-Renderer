@@ -34,7 +34,7 @@ public partial class ValueSelector : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GLOBALS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Event handler for when the value is changed.
     /// </summary>
@@ -43,7 +43,7 @@ public partial class ValueSelector : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Creates a new instance of the <see cref="ValueSelector"/> class.
     /// </summary>
@@ -51,7 +51,7 @@ public partial class ValueSelector : UserControl
     {
         // Create the component
         InitializeComponent();
-        
+
         // Add event handlers
         ValueSlider.AddHandler(
             InputElement.PointerPressedEvent,
@@ -68,7 +68,7 @@ public partial class ValueSelector : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // EVENT HANDLERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// When the slider is released
     /// </summary>
@@ -88,7 +88,7 @@ public partial class ValueSelector : UserControl
     {
         return;
     }
-    
+
     /// <summary>
     /// When the slider value is changed
     /// </summary>
@@ -111,7 +111,7 @@ public partial class ValueSelector : UserControl
             ValueSlider.Value = value;
         }
     }
-    
+
     /// <summary>
     /// When the value slider is entered by the pointer
     /// </summary>
@@ -148,7 +148,7 @@ public partial class ValueSelector : UserControl
     {
         UnitLabel.Content = unit;
     }
-    
+
     /// <summary>
     /// Set the bounds of the value slider.
     /// </summary>
@@ -175,7 +175,7 @@ public partial class ValueSelector : UserControl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // GETTERS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Get the value of the value selector.
     /// </summary>

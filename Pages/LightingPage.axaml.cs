@@ -48,7 +48,7 @@ public partial class LightingPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private RenderOptions _previewRenderOptions = new();
-    
+
     /// <summary>
     /// A token source for cancelling the render tasks.
     /// </summary>
@@ -85,17 +85,21 @@ public partial class LightingPage : UserControl, IPage
             return;
         }
 
-        var resolution = ImageManager.ConvertResolutionNameToResolution(button.Content.ToString() ?? string.Empty);
+        var resolution = ImageManager.ConvertResolutionNameToResolution(
+            button.Content.ToString() ?? string.Empty
+        );
         WidthTextBox.Text = resolution.Width.ToString();
         HeightTextBox.Text = resolution.Height.ToString();
 
         // Change the colour of the text boxes to indicate that the resolution has changed
         var originalColour = WidthTextBox.Foreground;
-        
+
         Task.Run(async () =>
         {
             // Get the primary accent colour from the resource dictionary
-            var primaryColourHex = Application.Current?.Resources["PrimaryAccent"]?.ToString() ?? Colors.SeaGreen.ToString();
+            var primaryColourHex =
+                Application.Current?.Resources["PrimaryAccent"]?.ToString()
+                ?? Colors.SeaGreen.ToString();
             var highlightColour = Color.Parse(primaryColourHex);
 
             // Change the colour of the text boxes to the highlight colour
@@ -138,7 +142,7 @@ public partial class LightingPage : UserControl, IPage
     {
         // Save the current options
         RenderManager.SaveRenderOptions(_previewRenderOptions);
-        
+
         // Switch to the RenderPage
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "ViewsPage");
@@ -256,7 +260,7 @@ public partial class LightingPage : UserControl, IPage
         {
             NoLightsImage.IsVisible = false;
         }
-        
+
         RenderPreview();
     }
 
@@ -283,10 +287,10 @@ public partial class LightingPage : UserControl, IPage
         _cancelToken.Cancel();
         _cancelToken = new CancellationTokenSource();
         var token = _cancelToken.Token;
-        
+
         // Update the UI to indicate that rendering is in progress
         RenderStarted();
-        
+
         // Generate a unique identifier for the preview
         var uuid = Guid.NewGuid().ToString().Replace("-", "");
         // Set the preview render options
@@ -295,8 +299,10 @@ public partial class LightingPage : UserControl, IPage
         // Create a copy of the preview render options
         var previewRenderOptionsCopy = _previewRenderOptions.Copy();
         // Lower the resolution for the preview
-        previewRenderOptionsCopy.Resolution = 
-            ImageManager.ResizeResolution(previewRenderOptionsCopy.Resolution, 600);
+        previewRenderOptionsCopy.Resolution = ImageManager.ResizeResolution(
+            previewRenderOptionsCopy.Resolution,
+            600
+        );
 
         // Render the preview image
         Task.Run(async () =>
@@ -308,7 +314,7 @@ public partial class LightingPage : UserControl, IPage
             {
                 return;
             }
-            
+
             RenderFinished(uuid);
         });
     }
@@ -321,29 +327,29 @@ public partial class LightingPage : UserControl, IPage
     {
         // Name
         _previewRenderOptions.SetName(name);
-        
+
         // Model
         _previewRenderOptions.SetModel(DataManager.ModelPath);
-        
+
         // Unit
         _previewRenderOptions.SetUnit(DataManager.UnitScale);
-        
+
         // Output directory
         _previewRenderOptions.SetOutputDirectory(FileManager.GetTempDirectoryPath());
-        
+
         // Resolution
         var resolution = GetResolution();
         _previewRenderOptions.SetResolution(resolution);
-        
+
         // Camera
         _previewRenderOptions.SetCamera(GetCamera());
-        
+
         // Lights
         var lightSetupItems = LightSetupItemsStackPanel.Children.OfType<LightSetupItem>().ToList();
         var lights = SceneManager.GetLights(lightSetupItems);
         _previewRenderOptions.Lights.Clear();
         _previewRenderOptions.AddLights(lights);
-        
+
         // Background color
         _previewRenderOptions.SetBackgroundColour(BackgroundColourSelector.ColourPicker.Color);
     }
@@ -362,7 +368,7 @@ public partial class LightingPage : UserControl, IPage
         // Get and validate the width
         int width;
         bool widthValid = int.TryParse(WidthTextBox.Text, out width);
-        
+
         // Get and validate the height
         int height;
         bool heightValid = int.TryParse(HeightTextBox.Text, out height);
@@ -373,13 +379,13 @@ public partial class LightingPage : UserControl, IPage
             width = Resolution.DefaultWidth;
             WidthTextBox.Text = Resolution.DefaultWidth.ToString();
         }
-        
+
         if (!heightValid || height <= 0)
         {
             height = Resolution.DefaultHeight;
             HeightTextBox.Text = Resolution.DefaultHeight.ToString();
         }
-        
+
         // Return the resolution
         return new Entities.Resolution(width, height);
     }
@@ -409,7 +415,7 @@ public partial class LightingPage : UserControl, IPage
     {
         var lightSetupItem = new LightSetupItem();
         lightSetupItem.LightOrientationSelector.SetOrientation(light.View);
-        
+
         var colourComponents = light.Colour.Split(',');
         var red = byte.Parse(colourComponents[0]);
         var green = byte.Parse(colourComponents[1]);
@@ -417,16 +423,16 @@ public partial class LightingPage : UserControl, IPage
         var alpha = byte.Parse(colourComponents[3]);
         var colour = Avalonia.Media.Color.FromArgb(alpha, red, green, blue);
         lightSetupItem.SetColour(colour);
-        
+
         lightSetupItem.SetPower(light.Power);
         lightSetupItem.SetSize(light.Size);
         lightSetupItem.SetDistance(light.Distance);
-        
+
         BindLightOptionChanged(lightSetupItem);
-        
+
         return lightSetupItem;
     }
-    
+
     /// <summary>
     /// Sets the UI to indicate that rendering has started.
     /// </summary>
@@ -441,7 +447,7 @@ public partial class LightingPage : UserControl, IPage
             LoadingImage.IsVisible = true;
         });
     }
-    
+
     /// <summary>
     /// Sets the UI to indicate that rendering has finished.
     /// </summary>
@@ -449,7 +455,7 @@ public partial class LightingPage : UserControl, IPage
     private void RenderFinished(string uuid)
     {
         var tempDirectory = FileManager.GetTempDirectoryPath();
-        
+
         // Update the UI to indicate that rendering is complete.
         Dispatcher.UIThread.Post(() =>
         {
@@ -464,7 +470,7 @@ public partial class LightingPage : UserControl, IPage
             PreviewButton.Content = "Preview";
         });
     }
-    
+
     /// <summary>
     /// Creates the resolution buttons for the user to select.
     /// </summary>
@@ -482,7 +488,10 @@ public partial class LightingPage : UserControl, IPage
             // Set the button properties
             resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
             resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
-            resolutionButton.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            resolutionButton.HorizontalContentAlignment = Avalonia
+                .Layout
+                .HorizontalAlignment
+                .Center;
             resolutionButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
             resolutionButton.Margin = new Thickness(5);
             // Add the button to the grid
@@ -491,7 +500,7 @@ public partial class LightingPage : UserControl, IPage
             ResolutionGrid.Children.Add(resolutionButton);
         }
     }
-    
+
     /// <summary>
     /// Unchecks all aspect ratio toggle buttons.
     /// </summary>
@@ -550,7 +559,7 @@ public partial class LightingPage : UserControl, IPage
         OnePointLightingButton.Click += Option_Changed;
         ThreePointLightingButton.Click += Option_Changed;
         OverheadLightingButton.Click += Option_Changed;
-            
+
         AddLightButton.Click += Option_Changed;
         ClearButton.Click += Option_Changed;
     }
@@ -574,15 +583,17 @@ public partial class LightingPage : UserControl, IPage
     public void SetOptimalCameraDistance()
     {
         // Set the optimal camera distance
-        var optimalCameraDistance = SceneManager.ComputeOptimalCameraDistance(DataManager.ModelMaxDimension * DataManager.UnitScale);
+        var optimalCameraDistance = SceneManager.ComputeOptimalCameraDistance(
+            DataManager.ModelMaxDimension * DataManager.UnitScale
+        );
         CameraDistanceValueSelector.SetSliderBounds(0, optimalCameraDistance * 5, 0.2);
         CameraDistanceValueSelector.SetValue(optimalCameraDistance);
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Initializes the LightingPage.
     /// </summary>
@@ -590,10 +601,10 @@ public partial class LightingPage : UserControl, IPage
     {
         // Initialize the page
         InitializeComponent();
-        
+
         // Add color changed event for the background color selector
         BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
-        
+
         // Create the resolution buttons
         CreateResolutionButtons();
     }
@@ -605,7 +616,7 @@ public partial class LightingPage : UserControl, IPage
     {
         // Bind the option changed event handler to the UI components
         BindOptionChanged();
-        
+
         // Set up three point lighting by default
         LightSetupItemsStackPanel.Children.Clear();
         var lights = SceneManager.SetupThreePointLighting();
@@ -613,7 +624,7 @@ public partial class LightingPage : UserControl, IPage
         {
             LightSetupItemsStackPanel.Children.Add(CreateLight(light));
         }
-        
+
         BackgroundColourSelector.ColourPicker.Color = Color.Parse("#0B0B0C");
     }
 
@@ -624,7 +635,7 @@ public partial class LightingPage : UserControl, IPage
     {
         // Set the file name
         FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
-        
+
         // Render Preview
         RenderPreview();
     }

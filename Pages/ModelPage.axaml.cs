@@ -58,7 +58,7 @@ public partial class ModelPage : UserControl, IPage
     {
         // Fix the model path
         ModelFilePathSelector.FixPath();
-        
+
         var path = ModelFilePathSelector.GetPath();
 
         if (!ModelFilePathSelector.CheckPath(FileType.Model))
@@ -70,14 +70,14 @@ public partial class ModelPage : UserControl, IPage
         {
             DataManager.ModelPath = path;
         }
-        
+
         // Measure the model
         Measure(path);
 
         // Set the optimal camera distance for the model on the LightingPage
         var lightingPage = (LightingPage)NavigationManager.GetPage("LightingPage")!;
         lightingPage.SetOptimalCameraDistance();
-        
+
         // Switch to the LightingPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "LightingPage");
@@ -86,7 +86,10 @@ public partial class ModelPage : UserControl, IPage
     /// <summary>
     /// Handles the selection changed event of the RecentlyOpenedComboBox.
     /// </summary>
-    private void RecentlyOpenedComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private void RecentlyOpenedComboBox_OnSelectionChanged(
+        object? sender,
+        SelectionChangedEventArgs e
+    )
     {
         var selectedItem = RecentlyOpenedComboBox.SelectedItem?.ToString() ?? string.Empty;
         ModelFilePathSelector.SetPath(selectedItem);
@@ -128,12 +131,13 @@ public partial class ModelPage : UserControl, IPage
         {
             return;
         }
-        
+
         // Get the model path
         var path = ModelFilePathSelector.GetPath();
 
         var dimensions = Measure(path);
-        SizeLabel.Content = $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
+        SizeLabel.Content =
+            $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +151,7 @@ public partial class ModelPage : UserControl, IPage
         DataManager.ModelMaxDimension = ModelManager.GetMaxDimension(dimensions);
         return dimensions;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,18 +162,18 @@ public partial class ModelPage : UserControl, IPage
     public void Initialize()
     {
         InitializeComponent();
-        
+
         // Load the recent models
         var recentModels = FileManager.GetRecentModels();
         foreach (var model in recentModels)
         {
             RecentlyOpenedComboBox.Items.Add(model);
         }
-        
+
         // Set the default unit
         UnitComboBox.SelectedIndex = 0;
     }
- 
+
     /// <summary>
     /// When the page is first loaded by the user.
     /// </summary>

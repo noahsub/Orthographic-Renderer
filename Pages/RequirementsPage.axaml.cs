@@ -37,7 +37,7 @@ public partial class RequirementsPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="RequirementsPage"/> class.
     /// </summary>
@@ -62,13 +62,13 @@ public partial class RequirementsPage : UserControl, IPage
 
         // Get the path
         var path = BlenderFilePathSelector.GetPath();
-        
+
         // Save the Blender path if it has changed
         if (!string.Equals(DataManager.BlenderPath, path))
         {
             DataManager.BlenderPath = path;
         }
-        
+
         // Switch to the hardware page
         var mainWindow = (MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "HardwarePage");
@@ -85,7 +85,7 @@ public partial class RequirementsPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Initializes the RequirementsPage.
     /// </summary>
@@ -113,7 +113,7 @@ public partial class RequirementsPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPER FUNCTIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Loads the Blender path from memory.
     /// </summary>

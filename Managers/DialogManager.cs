@@ -27,7 +27,9 @@ public class DialogManager
         // Create a new warning dialog.
         var warning = new Windows.Warning();
         // Set the warning message.
-        warning.SetWarning("This path requires elevated permissions. Please run the program as an administrator or select a different path.");
+        warning.SetWarning(
+            "This path requires elevated permissions. Please run the program as an administrator or select a different path."
+        );
         // Show the warning dialog.
         warning.Show();
     }

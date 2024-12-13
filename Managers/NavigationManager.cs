@@ -81,17 +81,18 @@ public static class NavigationManager
     {
         return _currentPage;
     }
-    
-    public static Dictionary<string, bool> LoadedPages = new()
-    {
-        { "ModelPage", false },
-        { "ViewsPage", false },
-        { "RenderPage", false },
-        { "RequirementsPage", false },
-        { "UpdatePage", false },
-        { "LightingPage", false },
-        { "HardwarePage", false }
-    };
+
+    public static Dictionary<string, bool> LoadedPages =
+        new()
+        {
+            { "ModelPage", false },
+            { "ViewsPage", false },
+            { "RenderPage", false },
+            { "RequirementsPage", false },
+            { "UpdatePage", false },
+            { "LightingPage", false },
+            { "HardwarePage", false },
+        };
 
     /// <summary>
     /// Switches the current page displayed in the main window.
@@ -114,7 +115,7 @@ public static class NavigationManager
                 {
                     _modelPage = new ModelPage();
                 }
-                
+
                 if (!LoadedPages["ModelPage"])
                 {
                     LoadedPages["ModelPage"] = true;
@@ -129,13 +130,13 @@ public static class NavigationManager
                 {
                     _viewsPage = new ViewsPage();
                 }
-                
+
                 if (!LoadedPages["ViewsPage"])
                 {
                     LoadedPages["ViewsPage"] = true;
                     _viewsPage.OnFirstLoad();
                 }
-                
+
                 pageContent.Content = _viewsPage;
                 _currentPage = _viewsPage;
                 _viewsPage.OnNavigatedTo();
@@ -145,13 +146,13 @@ public static class NavigationManager
                 {
                     _renderPage = new RenderPage();
                 }
-                
+
                 if (!LoadedPages["RenderPage"])
                 {
                     LoadedPages["RenderPage"] = true;
                     _renderPage.OnFirstLoad();
                 }
-                
+
                 pageContent.Content = _renderPage;
                 _currentPage = _renderPage;
                 _renderPage.OnNavigatedTo();
@@ -167,7 +168,7 @@ public static class NavigationManager
                     LoadedPages["RequirementsPage"] = true;
                     _requirementsPage.OnFirstLoad();
                 }
-                
+
                 pageContent.Content = _requirementsPage;
                 _currentPage = _requirementsPage;
                 _requirementsPage.OnNavigatedTo();
@@ -177,12 +178,12 @@ public static class NavigationManager
                 {
                     _updatePage = new UpdatePage();
                 }
-                
+
                 if (!LoadedPages["UpdatePage"])
                 {
                     LoadedPages["UpdatePage"] = true;
                 }
-                
+
                 pageContent.Content = _updatePage;
                 _currentPage = _updatePage;
                 break;
@@ -191,13 +192,13 @@ public static class NavigationManager
                 {
                     _lightingPage = new LightingPage();
                 }
-                
+
                 if (!LoadedPages["LightingPage"])
                 {
                     LoadedPages["LightingPage"] = true;
                     _lightingPage.OnFirstLoad();
                 }
-                
+
                 pageContent.Content = _lightingPage;
                 _currentPage = _lightingPage;
                 _lightingPage.OnNavigatedTo();
@@ -207,13 +208,13 @@ public static class NavigationManager
                 {
                     _hardwarePage = new HardwarePage();
                 }
-                
+
                 if (!LoadedPages["HardwarePage"])
                 {
                     LoadedPages["HardwarePage"] = true;
                     _hardwarePage.OnFirstLoad();
                 }
-                
+
                 pageContent.Content = _hardwarePage;
                 _currentPage = _hardwarePage;
                 _hardwarePage.OnNavigatedTo();

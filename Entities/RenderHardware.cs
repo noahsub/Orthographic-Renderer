@@ -28,12 +28,12 @@ public class RenderHardware
     /// The name of the hardware component.
     /// </summary>
     public string Name { get; set; }
-    
+
     /// <summary>
     /// The type of the hardware component.
     /// </summary>
     public string Type { get; set; }
-    
+
     /// <summary>
     /// The frameworks that the hardware supports.
     /// </summary>
@@ -48,18 +48,17 @@ public class RenderHardware
     {
         // Set the name
         Name = name;
-        
+
         // Check if the hardware is a GPU or CPU and set the type accordingly
         if (!frameworks.Contains("CPU CYCLES"))
         {
             Type = "GPU";
         }
-        
         else
         {
             Type = "CPU";
         }
-        
+
         // Set the frameworks
         Frameworks = frameworks;
     }

@@ -210,7 +210,7 @@ public class RenderOptions
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // COPY
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Creates a copy of the render options.
     /// </summary>
@@ -227,7 +227,7 @@ public class RenderOptions
             Camera = this.Camera,
             BackgroundColour = this.BackgroundColour,
             Lights = this.Lights,
-            SaveBlenderFile = this.SaveBlenderFile
+            SaveBlenderFile = this.SaveBlenderFile,
         };
     }
 }

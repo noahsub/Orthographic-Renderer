@@ -49,7 +49,7 @@ public static class SoundManager
             }
         });
     }
-    
+
     /// <summary>
     /// Plays an error sound.
     /// </summary>

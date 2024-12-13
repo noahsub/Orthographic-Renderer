@@ -114,20 +114,20 @@ public partial class FilePathSelector : UserControl, IPathSelector
     {
         // Get the path from the text box
         var path = PathTextBox.Text;
-        
+
         // Check if path is null or empty
         if (string.IsNullOrEmpty(path))
         {
             return;
         }
-        
+
         // Reformat the path
         var reformattedPath = FileManager.ReformatPath(path);
-        
+
         // Set the text box to the reformatted path
         SetPath(reformattedPath);
     }
-    
+
     /// <summary>
     /// Check if the path in the text box is valid.
     /// </summary>
@@ -136,7 +136,7 @@ public partial class FilePathSelector : UserControl, IPathSelector
     {
         // Get the path from the text box
         var path = GetPath();
-        
+
         // Check if the path is valid
         var isValid = FileManager.VerifyFilePath(path);
 
@@ -146,22 +146,22 @@ public partial class FilePathSelector : UserControl, IPathSelector
             MarkInvalid();
             return false;
         }
-        
+
         // Check if the path requires elevated permissions
         var requiresElevation = FileManager.ElevatedPath(path);
-        
+
         // If it does, mark it as invalid
         if (requiresElevation)
         {
             // Mark the path as invalid
             MarkInvalid();
-            
+
             // Show the elevation required dialog
             DialogManager.ShowElevatedPermissionsWarningDialog();
-            
+
             return false;
         }
-        
+
         // Mark the path as valid
         MarkValid();
         return true;
@@ -176,7 +176,7 @@ public partial class FilePathSelector : UserControl, IPathSelector
     {
         // Get the path
         var path = GetPath();
-        
+
         // Verify the file path
         if (!FileManager.VerifyFilePath(path))
         {
@@ -210,7 +210,6 @@ public partial class FilePathSelector : UserControl, IPathSelector
                 return false;
             }
         }
-        
         // If the file type is model, check if the path is valid
         else if (fileType == FileType.Model && !FileManager.VerifyModelPath(path))
         {
@@ -239,7 +238,7 @@ public partial class FilePathSelector : UserControl, IPathSelector
     {
         // Set the border color to red
         PathTextBox.BorderBrush = Brushes.IndianRed;
-        
+
         // Play the error sound
         SoundManager.PlayErrorSound();
     }
@@ -252,7 +251,7 @@ public partial class FilePathSelector : UserControl, IPathSelector
     {
         // Get the path from the text box
         var path = PathTextBox.Text;
-        
+
         // Check if path is null or empty, if it is, then return empty string
         if (string.IsNullOrEmpty(path))
         {

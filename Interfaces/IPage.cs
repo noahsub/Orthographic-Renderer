@@ -20,12 +20,12 @@ public interface IPage
     /// placed here.
     /// </summary>
     void Initialize();
-    
+
     /// <summary>
     /// Called when the user first navigates to the page.
     /// </summary>
     void OnFirstLoad();
-    
+
     /// <summary>
     /// Called whenever the user navigates to the page.
     /// </summary>

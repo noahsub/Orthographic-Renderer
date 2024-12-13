@@ -94,22 +94,22 @@ public static class DataManager
     /// The CPU devices available.
     /// </summary>
     public static List<string> CpuDevices { get; set; } = [];
-    
+
     /// <summary>
     /// The render devices available.
     /// </summary>
     public static List<RenderHardware> RenderDevices = [];
-    
+
     /// <summary>
     /// The framework to use with the cycle render engine.
     /// </summary>
     public static string RenderFramework { get; set; } = "";
-    
+
     /// <summary>
     /// The dimensions of the model.
     /// </summary>
     public static Vector3 ModelDimensions { get; set; } = new Vector3(0, 0, 0);
-    
+
     /// <summary>
     /// The biggest dimension of the model.
     /// </summary>

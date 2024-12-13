@@ -34,7 +34,7 @@ public class TextManager
     {
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
     }
-    
+
     /// <summary>
     /// Removes leading and trailing whitespace from a string as well as replaces spaces longer than one with a
     /// single space.

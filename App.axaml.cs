@@ -96,7 +96,7 @@ public partial class App : Application
                 {
                     await Task.Run(HardwareManager.GetRenderHardware);
                 }
-                
+
                 // Check for updates asynchronously
                 splashScreen.SetLoadingTextUiThread("CHECKING FOR UPDATES");
                 DataManager.LatestVersion = await WebManager.GetLatestVersion();

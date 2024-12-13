@@ -31,7 +31,7 @@ public class ImageManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // RESOLUTION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Takes a resolution name and converts it to a resolution.
     /// For example, "1080p" would be converted to a resolution of 1920x1080.
@@ -45,24 +45,32 @@ public class ImageManager
         // Return the resolution.
         return new Entities.Resolution(resolution.Item1, resolution.Item2);
     }
-    
+
     /// <summary>
     /// Resizes a resolution to fit within a maximum dimension.
     /// </summary>
     /// <param name="resolution">The resolution to resize.</param>
     /// <param name="maxDimension">The maximum dimension to fit within.</param>
     /// <returns></returns>
-    public static Entities.Resolution ResizeResolution(Entities.Resolution resolution, int maxDimension)
+    public static Entities.Resolution ResizeResolution(
+        Entities.Resolution resolution,
+        int maxDimension
+    )
     {
         // Compute aspect ratio by determining the GCD of the width and height
         var gcd = (int)BigInteger.GreatestCommonDivisor(resolution.Width, resolution.Height);
         var aspectRatioWidth = resolution.Width / gcd;
         var aspectRatioHeight = resolution.Height / gcd;
 
-        var previewResolution = 
-            new Entities.Resolution(maxDimension, (maxDimension * aspectRatioHeight) / aspectRatioWidth);
+        var previewResolution = new Entities.Resolution(
+            maxDimension,
+            (maxDimension * aspectRatioHeight) / aspectRatioWidth
+        );
 
-        if (previewResolution.Width * previewResolution.Height < resolution.Width * resolution.Height)
+        if (
+            previewResolution.Width * previewResolution.Height
+            < resolution.Width * resolution.Height
+        )
         {
             resolution = previewResolution;
         }

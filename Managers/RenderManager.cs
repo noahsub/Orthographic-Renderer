@@ -46,7 +46,11 @@ public static class RenderManager
     /// <param name="quality">The quality of the render.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>True if the model was rendered successfully, otherwise false.</returns>
-    public static async Task<bool> Render(RenderOptions renderOptions, string quality, CancellationToken cancellationToken)
+    public static async Task<bool> Render(
+        RenderOptions renderOptions,
+        string quality,
+        CancellationToken cancellationToken
+    )
     {
         // Get the JSON representation of the render options
         var jsonRenderOptions = renderOptions.GetJsonRepresentation().Replace("\"", "\\\"");
@@ -85,7 +89,7 @@ public static class RenderManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // SERIALIZATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Saves the base render options to the data manager.
     /// </summary>

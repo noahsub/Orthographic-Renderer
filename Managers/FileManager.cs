@@ -30,7 +30,7 @@ namespace Orthographic.Renderer.Managers
     /// </summary>
     public static class FileManager
     {
-         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // JSON OPERATIONS
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +60,11 @@ namespace Orthographic.Renderer.Managers
             // Deserialize it into a dictionary
             var json = JsonConvert.DeserializeObject<Dictionary<string, object>>(text);
             // If the dictionary is not null and the key exists, return the value as a list of strings
-            if (json != null && json.TryGetValue(key, out var value) && value is Newtonsoft.Json.Linq.JArray jArray)
+            if (
+                json != null
+                && json.TryGetValue(key, out var value)
+                && value is Newtonsoft.Json.Linq.JArray jArray
+            )
             {
                 return jArray.ToObject<List<string>>() ?? new List<string>();
             }
@@ -186,7 +190,10 @@ namespace Orthographic.Renderer.Managers
             {
                 var fileName = Path.GetFileName(file);
                 var userFilePath = Path.Combine(userDirectory, fileName);
-                if (!File.Exists(userFilePath) || File.GetLastWriteTime(file) > File.GetLastWriteTime(userFilePath))
+                if (
+                    !File.Exists(userFilePath)
+                    || File.GetLastWriteTime(file) > File.GetLastWriteTime(userFilePath)
+                )
                 {
                     File.Copy(file, userFilePath, true);
                 }
@@ -244,13 +251,16 @@ namespace Orthographic.Renderer.Managers
         /// <returns></returns>
         public static string GetDownloadsDirectoryPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                "Downloads"
+            );
         }
-        
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // VERIFICATION
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
         /// <summary>
         /// Verifies if a blender path is valid.
         /// </summary>
@@ -263,7 +273,7 @@ namespace Orthographic.Renderer.Managers
             {
                 return true;
             }
-            
+
             // Check if the path is the bundled blender Linux executable
             if (OperatingSystem.IsUnix && path == "/Blender/Linux/blender")
             {
@@ -285,7 +295,7 @@ namespace Orthographic.Renderer.Managers
             var extension = Path.GetExtension(path).ToLower();
             return ModelManager.ValidTypes.Contains(extension);
         }
-        
+
         /// <summary>
         /// Verifies if a directory path exists.
         /// </summary>
@@ -295,7 +305,7 @@ namespace Orthographic.Renderer.Managers
         {
             return Directory.Exists(path);
         }
-        
+
         /// <summary>
         /// Verifies if a file path exists.
         /// </summary>

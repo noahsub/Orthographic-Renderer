@@ -39,7 +39,12 @@ namespace Orthographic.Renderer.Managers
         /// </summary>
         public static readonly List<string> ValidTypes = new List<string>
         {
-            ".blend", ".obj", ".stl", ".BLEND", ".OBJ", ".STL"
+            ".blend",
+            ".obj",
+            ".stl",
+            ".BLEND",
+            ".OBJ",
+            ".STL",
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

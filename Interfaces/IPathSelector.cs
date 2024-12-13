@@ -19,29 +19,29 @@ public interface IPathSelector
     /// Fixes the path of the path selector.
     /// </summary>
     void FixPath();
-    
+
     /// <summary>
     /// Checks if the path is valid.
     /// </summary>
     /// <returns></returns>
     bool CheckPath();
-    
+
     /// <summary>
     /// Marks the path as valid.
     /// </summary>
     void MarkValid();
-    
+
     /// <summary>
     /// Marks the path as invalid.
     /// </summary>
     void MarkInvalid();
-    
+
     /// <summary>
     /// Gets the path from the path selector.
     /// </summary>
     /// <returns></returns>
     string GetPath();
-    
+
     /// <summary>
     /// Sets the path of the path text box.
     /// </summary>

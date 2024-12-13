@@ -477,7 +477,7 @@ public static class HardwareManager
 
             // Set the render framework to OPTIX
             DataManager.RenderFramework = "OPTIX";
-            
+
             if (cudaDevices.Contains(device))
             {
                 cudaDevices.Remove(device);
@@ -489,40 +489,39 @@ public static class HardwareManager
                 cpuDevices.Remove(device);
                 frameworks.Add("CPU CYCLES");
             }
-            
+
             devices.Add(new RenderHardware(device, frameworks));
         }
 
         foreach (var device in cudaDevices)
         {
             var frameworks = new List<string> { "CUDA" };
-            
+
             if (DataManager.RenderFramework == "")
             {
                 DataManager.RenderFramework = "CUDA";
             }
-            
+
             if (cpuDevices.Contains(device))
             {
                 cpuDevices.Remove(device);
                 frameworks.Add("CPU CYCLES");
             }
-            
+
             devices.Add(new RenderHardware(device, frameworks));
         }
-        
+
         foreach (var device in cpuDevices)
         {
             if (DataManager.RenderFramework == "")
             {
                 DataManager.RenderFramework = "CPU CYCLES";
             }
-            
+
             devices.Add(new RenderHardware(device, new List<string> { "CPU CYCLES" }));
         }
-        
+
         DataManager.RenderDevices = devices;
-        
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

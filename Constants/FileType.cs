@@ -23,7 +23,7 @@ public enum FileType
     /// A model file.
     /// </summary>
     Model,
-    
+
     /// <summary>
     /// An executable file.
     /// </summary>

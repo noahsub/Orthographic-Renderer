@@ -29,12 +29,12 @@ public static class Resolution
     /// The default width of a render.
     /// </summary>
     public static readonly int DefaultWidth = 1920;
-    
+
     /// <summary>
     /// The default height of a render.
     /// </summary>
     public static readonly int DefaultHeight = 1080;
-    
+
     /// <summary>
     /// List of 4:3 aspect ratios.
     /// </summary>

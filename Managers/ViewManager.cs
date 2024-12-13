@@ -67,7 +67,7 @@ public class ViewManager
         // combine the lists in the order of x, y, z, w
         return exactMatches.Concat(subsets).Concat(supersets).Concat(noMatches).ToList();
     }
-    
+
     /// <summary>
     /// Gets the formatted view name by replacing hyphens with spaces and converting to title case.
     /// </summary>

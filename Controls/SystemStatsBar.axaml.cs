@@ -132,9 +132,8 @@ public partial class SystemStatsBar : UserControl
             {
                 for (var i = 0; i < HardwareGrid.Children.Count; i++)
                 {
-                    ((HardwareStatItem)HardwareGrid.Children[i]).ValueLabel.Content = updatedValues?[
-                        i
-                    ];
+                    ((HardwareStatItem)HardwareGrid.Children[i]).ValueLabel.Content =
+                        updatedValues?[i];
                 }
             });
         }

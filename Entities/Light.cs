@@ -27,7 +27,7 @@ public class Light
     /// The orientation of the light.
     /// </summary>
     public string View { get; set; }
-    
+
     /// <summary>
     /// The position of the light, including rotation.
     /// </summary>

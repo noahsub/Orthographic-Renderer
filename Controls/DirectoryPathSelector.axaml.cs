@@ -71,7 +71,7 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
         SetPath(path);
         FixPath();
     }
-    
+
     /// <summary>
     /// Detects when the text in the path text box is changed.
     /// </summary>
@@ -81,10 +81,10 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
     {
         // Set the border color to transparent
         PathTextBox.BorderBrush = Brushes.Transparent;
-        
+
         // Fix the path
         FixPath();
-        
+
         // Check the path
         CheckPath();
     }
@@ -100,16 +100,16 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
     {
         // Get the path from the text box
         var path = PathTextBox.Text;
-        
+
         // Check if path is null or empty
         if (string.IsNullOrEmpty(path))
         {
             return;
         }
-        
+
         // Reformat the path
         var reformattedPath = FileManager.ReformatPath(path);
-        
+
         // Set the text box to the reformatted path
         SetPath(reformattedPath);
     }
@@ -122,7 +122,7 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
     {
         // Get the path from the text box
         var path = GetPath();
-        
+
         // Check if the path is valid
         var isValid = FileManager.VerifyDirectoryPath(path);
 
@@ -132,7 +132,7 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
             MarkInvalid();
             return false;
         }
-        
+
         // Mark the path as valid
         MarkValid();
         return true;
@@ -154,7 +154,7 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
     {
         // Set the border color to red
         PathTextBox.BorderBrush = Brushes.IndianRed;
-        
+
         // Play the error sound
         SoundManager.PlayErrorSound();
     }
@@ -167,7 +167,7 @@ public partial class DirectoryPathSelector : UserControl, IPathSelector
     {
         // Get the path from the text box
         var path = PathTextBox.Text;
-        
+
         // Check if path is null or empty, if it is, then return empty string
         if (string.IsNullOrEmpty(path))
         {

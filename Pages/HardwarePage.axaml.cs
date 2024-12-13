@@ -85,7 +85,7 @@ public partial class HardwarePage : UserControl, IPage
     public void Initialize()
     {
         InitializeComponent();
-        
+
         // If there are no render devices, get the render hardware
         if (DataManager.RenderDevices.Count == 0)
         {
@@ -98,7 +98,7 @@ public partial class HardwarePage : UserControl, IPage
             var item = new RenderHardwareItem(device);
             RenderHardwareStackPanel.Children.Add(item);
         }
-        
+
         FrameworkLabel.Content = DataManager.RenderFramework;
     }
 

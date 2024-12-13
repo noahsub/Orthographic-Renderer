@@ -29,7 +29,7 @@ public class SceneManager
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // LIGHTING
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// Gets the light properties from a light setup item.
     /// </summary>
@@ -43,13 +43,15 @@ public class SceneManager
         var lightColour = lightSetupItem.LightColourSelector.ColourPicker.Color;
         var lightPower = float.Parse(lightSetupItem.PowerValueSelector.ValueTextBox.Text ?? "0");
         var lightSize = float.Parse(lightSetupItem.SizeValueSelector.ValueTextBox.Text ?? "0");
-        var lightDistance = float.Parse(lightSetupItem.DistanceValueSelector.ValueTextBox.Text ?? "0");
+        var lightDistance = float.Parse(
+            lightSetupItem.DistanceValueSelector.ValueTextBox.Text ?? "0"
+        );
         var lightPosition = GetPosition(lightOrientation, lightDistance);
-        
+
         // Create the light
         return new Light(lightOrientation, lightColour, lightPower, lightSize, lightDistance);
     }
-    
+
     /// <summary>
     /// Gets a list of lights from a list of light setup items.
     /// </summary>
@@ -84,7 +86,7 @@ public class SceneManager
 
         return lights;
     }
-    
+
     /// <summary>
     /// Sets up two-point lighting for the scene.
     /// </summary>
@@ -93,7 +95,7 @@ public class SceneManager
     {
         // The optimal distance for the light
         var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
-        
+
         // The lights to use for three-point lighting
         var lights = new List<Light>
         {
@@ -104,7 +106,7 @@ public class SceneManager
 
         return lights;
     }
-    
+
     /// <summary>
     /// Sets up overhead lighting for the scene.
     /// </summary>
@@ -113,13 +115,13 @@ public class SceneManager
     {
         // The optimal distance for the light
         var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
-        
+
         // The lights to use for overhead lighting
         var lights = new List<Light>
         {
             new Light("top", Avalonia.Media.Colors.White, 1000, 3, distance),
         };
-        
+
         return lights;
     }
 
@@ -169,7 +171,7 @@ public class SceneManager
         };
         return mapping[view];
     }
-    
+
     /// <summary>
     /// Computes the leg of a triangle given the hypotenuse.
     /// </summary>
