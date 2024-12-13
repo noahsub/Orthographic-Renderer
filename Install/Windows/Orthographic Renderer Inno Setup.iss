@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Orthographic Renderer"
-#define MyAppVersion "2.0.1"
+#define MyAppVersion "X.Y.Z"
 #define MyAppPublisher "noahsub"
 #define MyAppURL "https://github.com/noahsub/Orthographic.Renderer"
 #define MyAppExeName "Orthographic Renderer.exe"
@@ -35,7 +35,7 @@ DisableProgramGroupPage=yes
 LicenseFile=..\..\publish\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=Orthographic Renderer Installer
+OutputBaseFilename=orthographic-renderer-installer_X.Y.Z
 SetupIconFile=..\..\Assets\Icons\green_cube.ico
 Compression=lzma
 SolidCompression=yes
