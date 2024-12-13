@@ -49,6 +49,11 @@ public partial class LightSetupItem : UserControl
     public LightSetupItem()
     {
         InitializeComponent();
+        
+        // Set the slider bounds of the value selectors
+        PowerValueSelector.SetSliderBounds(0, 2000, 50);
+        SizeValueSelector.SetSliderBounds(0, 10, 0.2);
+        DistanceValueSelector.SetSliderBounds(0, 20, 1);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

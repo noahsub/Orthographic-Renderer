@@ -50,6 +50,7 @@ public partial class ValueSelector : UserControl
             return value;
         }
 
+        SetValue(0);
         return 0;
     }
 
@@ -63,11 +64,6 @@ public partial class ValueSelector : UserControl
         if (double.TryParse(ValueTextBox.Text, out var value))
         {
             ValueSlider.Value = value;
-        }
-        else
-        {
-            ValueSlider.Value = 0;
-            ValueTextBox.Text = "0";
         }
     }
 

@@ -12,6 +12,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Numerics;
 using Orthographic.Renderer.Entities;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,4 +104,14 @@ public static class DataManager
     /// The framework to use with the cycle render engine.
     /// </summary>
     public static string RenderFramework { get; set; } = "";
+    
+    /// <summary>
+    /// The dimensions of the model.
+    /// </summary>
+    public static Vector3 ModelDimensions { get; set; } = new Vector3(0, 0, 0);
+    
+    /// <summary>
+    /// The biggest dimension of the model.
+    /// </summary>
+    public static float ModelMaxDimension { get; set; } = 0.0f;
 }

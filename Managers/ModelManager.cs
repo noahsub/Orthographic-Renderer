@@ -66,6 +66,16 @@ namespace Orthographic.Renderer.Managers
         }
 
         /// <summary>
+        /// Gets the maximum dimension of a vector.
+        /// </summary>
+        /// <param name="dimensions"></param>
+        /// <returns></returns>
+        public static float GetMaxDimension(Vector3 dimensions)
+        {
+            return Math.Max(dimensions.X, Math.Max(dimensions.Y, dimensions.Z));
+        }
+
+        /// <summary>
         /// Gets the dimensions of a .obj file.
         /// </summary>
         /// <param name="path">The path to the .obj file.</param>

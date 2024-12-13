@@ -70,6 +70,10 @@ public partial class ModelPage : UserControl, IPage
             DataManager.ModelPath = path;
         }
         
+        // Measure the model
+        Measure(path);
+        
+        // Switch to the LightingPage
         var mainWindow = (Windows.MainWindow)this.VisualRoot!;
         NavigationManager.SwitchPage(mainWindow, "LightingPage");
     }
@@ -123,11 +127,22 @@ public partial class ModelPage : UserControl, IPage
         // Get the model path
         var path = ModelFilePathSelector.GetPath();
 
-        // Get and set the dimensions of the model
-        var dimensions = ModelManager.GetDimensions(path);
+        var dimensions = Measure(path);
         SizeLabel.Content = $"Size X: {dimensions.X}, Size Y: {dimensions.Y}, Size Z: {dimensions.Z} (unit unknown)";
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HELPERS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private Vector3 Measure(string path)
+    {
+        // Get and set the dimensions of the model
+        var dimensions = ModelManager.GetDimensions(path);
+        DataManager.ModelDimensions = dimensions;
+        DataManager.ModelMaxDimension = ModelManager.GetMaxDimension(dimensions);
+        return dimensions;
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

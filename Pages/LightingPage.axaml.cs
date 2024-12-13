@@ -88,6 +88,33 @@ public partial class LightingPage : UserControl, IPage
         var resolution = ImageManager.ConvertResolutionNameToResolution(button.Content.ToString() ?? string.Empty);
         WidthTextBox.Text = resolution.Width.ToString();
         HeightTextBox.Text = resolution.Height.ToString();
+
+        // Change the colour of the text boxes to indicate that the resolution has changed
+        var originalColour = WidthTextBox.Foreground;
+        
+        Task.Run(async () =>
+        {
+            // Get the primary accent colour from the resource dictionary
+            var primaryColourHex = Application.Current?.Resources["PrimaryAccent"]?.ToString() ?? Colors.SeaGreen.ToString();
+            var highlightColour = Color.Parse(primaryColourHex);
+
+            // Change the colour of the text boxes to the highlight colour
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                WidthTextBox.Foreground = new SolidColorBrush(highlightColour);
+                HeightTextBox.Foreground = new SolidColorBrush(highlightColour);
+            });
+
+            // Wait for 1 second
+            await Task.Delay(1000);
+
+            // Change the colour of the text boxes back to the original colour
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                WidthTextBox.Foreground = originalColour;
+                HeightTextBox.Foreground = originalColour;
+            });
+        });
     }
 
     /// <summary>
@@ -118,7 +145,7 @@ public partial class LightingPage : UserControl, IPage
     }
 
     /// <summary>
-    /// Detects if the background colour has changed and updates the background accordingly.
+    /// Detects if the background color has changed and updates the background accordingly.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -134,7 +161,17 @@ public partial class LightingPage : UserControl, IPage
     /// <param name="e"></param>
     private void AspectRatioToggleButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        UncheckAllAspectRatioButtons();
 
+        // Determine the clicked button and set the corresponding aspect ratio
+        var clickedButton = (ToggleButton)sender!;
+        clickedButton.IsChecked = true;
+
+        // Set the aspect ratios according to the clicked button
+        var aspectRatios = GetAspectRatios(clickedButton);
+
+        // Set the content of the resolution buttons to the aspect ratios
+        SetResolutionButtonsContent(aspectRatios);
     }
 
     /// <summary>
@@ -190,6 +227,7 @@ public partial class LightingPage : UserControl, IPage
     private void AddLightButton_OnClick(object? sender, RoutedEventArgs e)
     {
         LightSetupItem lightSetupItem = new();
+        BindLightOptionChanged(lightSetupItem);
         LightSetupItemsStackPanel.Children.Add(lightSetupItem);
     }
 
@@ -210,7 +248,7 @@ public partial class LightingPage : UserControl, IPage
     /// <param name="e"></param>
     private void Option_Changed(object? sender, EventArgs e)
     {
-
+        RenderPreview();
     }
 
     /// <summary>
@@ -221,72 +259,6 @@ public partial class LightingPage : UserControl, IPage
     private void PreviewButton_OnClick(object? sender, RoutedEventArgs e)
     {
         RenderPreview();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // IPAGE IMPLEMENTATION
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    /// <summary>
-    /// Initializes the LightingPage.
-    /// </summary>
-    public void Initialize()
-    {
-        // Initialize the page
-        InitializeComponent();
-        
-        // Add colour changed event for the background colour selector
-        BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
-        
-        // Create the resolution buttons
-        CreateResolutionButtons();
-    }
-
-    /// <summary>
-    /// When the page is first loaded by the user.
-    /// </summary>
-    public void OnFirstLoad()
-    {
-        return;
-    }
-
-    /// <summary>
-    /// When the page is navigated to.
-    /// </summary>
-    public void OnNavigatedTo()
-    {
-        return;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // HELPERS
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Creates the resolution buttons for the user to select.
-    /// </summary>
-    private void CreateResolutionButtons()
-    {
-        // Create the aspect ratio buttons
-        for (var i = 0; i < 12; i++)
-        {
-            // Create the button
-            var resolutionButton = new Button();
-            // Set the button content
-            resolutionButton.Content = Resolution.AspectRatio16X9[i];
-            // Set the button click event
-            resolutionButton.Click += ResolutionButton_OnClick;
-            // Set the button properties
-            resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-            resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
-            resolutionButton.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-            resolutionButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
-            resolutionButton.Margin = new Thickness(5);
-            // Add the button to the grid
-            Grid.SetRow(resolutionButton, (i / 6) + 1);
-            Grid.SetColumn(resolutionButton, i % 6);
-            ResolutionGrid.Children.Add(resolutionButton);
-        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -363,7 +335,7 @@ public partial class LightingPage : UserControl, IPage
         _previewRenderOptions.Lights.Clear();
         _previewRenderOptions.AddLights(lights);
         
-        // Background colour
+        // Background color
         _previewRenderOptions.SetBackgroundColour(BackgroundColourSelector.ColourPicker.Color);
     }
 
@@ -435,13 +407,12 @@ public partial class LightingPage : UserControl, IPage
         lightSetupItem.SetPower(light.Power);
         lightSetupItem.SetSize(light.Size);
         lightSetupItem.SetDistance(light.Distance);
+        
+        BindLightOptionChanged(lightSetupItem);
+        
         return lightSetupItem;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // UI
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     /// <summary>
     /// Sets the UI to indicate that rendering has started.
     /// </summary>
@@ -478,5 +449,162 @@ public partial class LightingPage : UserControl, IPage
             PreviewButton.IsEnabled = true;
             PreviewButton.Content = "Preview";
         });
+    }
+    
+    /// <summary>
+    /// Creates the resolution buttons for the user to select.
+    /// </summary>
+    private void CreateResolutionButtons()
+    {
+        // Create the aspect ratio buttons
+        for (var i = 0; i < 12; i++)
+        {
+            // Create the button
+            var resolutionButton = new Button();
+            // Set the button content
+            resolutionButton.Content = Resolution.AspectRatio16X9[i];
+            // Set the button click event
+            resolutionButton.Click += ResolutionButton_OnClick;
+            // Set the button properties
+            resolutionButton.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            resolutionButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+            resolutionButton.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            resolutionButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+            resolutionButton.Margin = new Thickness(5);
+            // Add the button to the grid
+            Grid.SetRow(resolutionButton, (i / 6) + 1);
+            Grid.SetColumn(resolutionButton, i % 6);
+            ResolutionGrid.Children.Add(resolutionButton);
+        }
+    }
+    
+    /// <summary>
+    /// Unchecks all aspect ratio toggle buttons.
+    /// </summary>
+    private void UncheckAllAspectRatioButtons()
+    {
+        AspectRatio16X9ToggleButton.IsChecked = false;
+        AspectRatio21X9ToggleButton.IsChecked = false;
+        AspectRatio4X3ToggleButton.IsChecked = false;
+        AspectRatio1X1ToggleButton.IsChecked = false;
+    }
+
+    /// <summary>
+    /// Gets the aspect ratios according to the clicked button.
+    /// </summary>
+    /// <param name="clickedButton">The aspect ratio button that was clicked.</param>
+    /// <returns>A string array of aspect ratios.</returns>
+    private string[] GetAspectRatios(ToggleButton clickedButton)
+    {
+        return clickedButton switch
+        {
+            _ when clickedButton == AspectRatio1X1ToggleButton =>
+                Resolution.AspectRatio1X1.ToArray(),
+            _ when clickedButton == AspectRatio4X3ToggleButton =>
+                Resolution.AspectRatio4X3.ToArray(),
+            _ when clickedButton == AspectRatio16X9ToggleButton =>
+                Resolution.AspectRatio16X9.ToArray(),
+            _ => Resolution.AspectRatio21X9.ToArray(),
+        };
+    }
+
+    /// <summary>
+    /// Sets the content of the resolution buttons according to the aspect ratios.
+    /// </summary>
+    /// <param name="aspectRatios"></param>
+    private void SetResolutionButtonsContent(string[] aspectRatios)
+    {
+        for (var i = 0; i < 12; i++)
+        {
+            // Get button from ResolutionGrid starting from the 7th element
+            var resolutionButton = (Button)ResolutionGrid.Children[i + 6];
+            resolutionButton.Content = aspectRatios[i];
+        }
+    }
+
+    /// <summary>
+    /// Bind the Option_Changed event handler to UI components.
+    /// </summary>
+    private void BindOptionChanged()
+    {
+        WidthTextBox.TextChanged += Option_Changed;
+        HeightTextBox.TextChanged += Option_Changed;
+        CameraOrientationSelector.OrientationChanged += Option_Changed;
+        CameraDistanceValueSelector.ValueChanged += Option_Changed;
+        BackgroundColourSelector.ColourChanged += Option_Changed;
+
+        OnePointLightingButton.Click += Option_Changed;
+        ThreePointLightingButton.Click += Option_Changed;
+        OverheadLightingButton.Click += Option_Changed;
+            
+        AddLightButton.Click += Option_Changed;
+        ClearButton.Click += Option_Changed;
+    }
+
+    /// <summary>
+    /// Bind the Option_Changed event handler to a LightSetupItem control.
+    /// </summary>
+    private void BindLightOptionChanged(LightSetupItem lightSetupItem)
+    {
+        lightSetupItem.LightOrientationSelector.OrientationChanged += Option_Changed;
+        lightSetupItem.LightColourSelector.ColourChanged += Option_Changed;
+        lightSetupItem.PowerValueSelector.ValueChanged += Option_Changed;
+        lightSetupItem.SizeValueSelector.ValueChanged += Option_Changed;
+        lightSetupItem.DistanceValueSelector.ValueChanged += Option_Changed;
+        lightSetupItem.RemoveButton.Click += Option_Changed;
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // IPAGE IMPLEMENTATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// <summary>
+    /// Initializes the LightingPage.
+    /// </summary>
+    public void Initialize()
+    {
+        // Initialize the page
+        InitializeComponent();
+        
+        // Add color changed event for the background color selector
+        BackgroundColourSelector.ColourChanged += BackgroundColourChanged_Event;
+        
+        // Create the resolution buttons
+        CreateResolutionButtons();
+    }
+
+    /// <summary>
+    /// When the page is first loaded by the user.
+    /// </summary>
+    public void OnFirstLoad()
+    {
+        // Bind the option changed event handler to the UI components
+        BindOptionChanged();
+        
+        // Set up three point lighting by default
+        LightSetupItemsStackPanel.Children.Clear();
+        var lights = SceneManager.SetupThreePointLighting();
+        foreach (var light in lights)
+        {
+            LightSetupItemsStackPanel.Children.Add(CreateLight(light));
+        }
+    }
+
+    /// <summary>
+    /// When the page is navigated to.
+    /// </summary>
+    public void OnNavigatedTo()
+    {
+        // Set the optimal camera distance
+        var optimalCameraDistance =
+            SceneManager.ComputeOptimalCameraDistance(DataManager.ModelMaxDimension * DataManager.UnitScale);
+        CameraDistanceValueSelector.SetSliderBounds(0, optimalCameraDistance * 5, 0.2);
+        CameraDistanceValueSelector.SetValue(optimalCameraDistance);
+        
+        // Set the file name
+        FileLabel.Content = Path.GetFileName(DataManager.ModelPath);
+        
+        // Render Preview
+        RenderPreview();
     }
 }

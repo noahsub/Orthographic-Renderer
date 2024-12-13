@@ -65,7 +65,7 @@ public class SceneManager
 
     public static List<Light> SetupOnePointLighting()
     {
-        var distance = 0;
+        var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
 
         var lights = new List<Light>
         {
@@ -77,7 +77,7 @@ public class SceneManager
     
     public static List<Light> SetupThreePointLighting()
     {
-        var distance = 8;
+        var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
         
         var lights = new List<Light>
         {
@@ -91,7 +91,7 @@ public class SceneManager
     
     public static List<Light> SetupOverheadLighting()
     {
-        var distance = 8;
+        var distance = (float)ComputeOptimalLightDistance(DataManager.ModelMaxDimension);
         
         var lights = new List<Light>
         {
@@ -156,5 +156,29 @@ public class SceneManager
     private static float ComputeTriangularLeg(float distance)
     {
         return (float)Math.Sqrt(Math.Pow(distance, 2) / 2);
+    }
+
+    /// <summary>
+    /// Computes the optimal camera distance based on the size of the model.
+    /// </summary>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static double ComputeOptimalCameraDistance(float size)
+    {
+        // Assuming size is in meters
+        // The formula for the optimal camera based on testing
+        return 3.2079307352327824 * Math.Pow(size, 1.0950872359751485) + 0.10375328078135429;
+    }
+
+    /// <summary>
+    /// Computes the optimal light distance based on the size of the model.
+    /// </summary>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static double ComputeOptimalLightDistance(float size)
+    {
+        // The formula for the optimal light distance based on testing
+        // Needs to be tested for larger models
+        return 8;
     }
 }
