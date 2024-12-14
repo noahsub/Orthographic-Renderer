@@ -27,6 +27,25 @@ cd ../../..
 dotnet publish -c Release -r linux-x64 --self-contained -o ./Install/Linux/Debian/tmp/usr/local/bin/orthographic-renderer
 cd Install/Linux/Debian
 
+# Make the Blender directory
+cd tmp/usr/local/bin/orthographic-renderer
+mkdir -p Blender/Linux
+
+# Download Blender
+cd ..
+curl -fSLo ./blender-4.2.4-linux-x64.tar.xz https://mirrors.ocf.berkeley.edu/blender/release/Blender4.2/blender-4.2.4-linux-x64.tar.xz
+
+# Extract Blender
+tar -xf blender-4.2.4-linux-x64.tar.xz -C .
+mv blender-4.2.4-linux-x64/* orthographic-renderer/Blender/Linux
+
+# Remove archive and empty directory
+rm -rf blender-4.2.4-linux-x64
+rm blender-4.2.4-linux-x64.tar.xz
+
+# Go back to the Install/Linux/Debian directory
+cd ../../../../
+
 # Create the DEBIAN directory
 mkdir -p tmp/DEBIAN
 
