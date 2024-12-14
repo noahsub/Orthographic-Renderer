@@ -37,11 +37,12 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="0,20,0,0">
-                    <controls:FilePathSelector x:Name="ModelFilePathSelector" />
+                    <controls:FilePathSelector ToolTip.Tip="Path to the model file for rendering" x:Name="ModelFilePathSelector" />
                     <ComboBox
                         HorizontalAlignment="Stretch"
                         Margin="0,5,0,0"
                         SelectionChanged="RecentlyOpenedComboBox_OnSelectionChanged"
+                        ToolTip.Tip="Recent files"
                         x:Name="RecentlyOpenedComboBox" />
                 </StackPanel>
                 <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
@@ -66,6 +67,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     Margin="0,20,0,0"
+                    ToolTip.Tip="Calculate the dimensions of the model"
                     x:Name="MeasureButton" />
                 <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
                     <Image
@@ -86,12 +88,14 @@
                     <ComboBox
                         HorizontalAlignment="Stretch"
                         SelectionChanged="UnitComboBox_OnSelectionChanged"
+                        ToolTip.Tip="Select the unit in which the model was designed"
                         x:Name="UnitComboBox">
                         <ComboBoxItem Content="Millimeters" Tag="mm" />
                         <ComboBoxItem Content="Centimeters" Tag="cm" />
                         <ComboBoxItem Content="Meters" Tag="m" />
                         <ComboBoxItem Content="Inches" Tag="in" />
                         <ComboBoxItem Content="Feet" Tag="ft" />
+
                     </ComboBox>
                 </StackPanel>
                 <Button
