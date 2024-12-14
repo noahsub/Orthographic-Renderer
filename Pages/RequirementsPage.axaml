@@ -53,6 +53,7 @@
                             Content="Bundled"
                             Grid.Column="0"
                             HorizontalAlignment="Stretch"
+                            ToolTip.Tip="Use the version of Blender provided with Orthographic Renderer"
                             VerticalAlignment="Stretch"
                             x:Name="BundledBlenderToggleButton" />
                         <ToggleButton
@@ -61,6 +62,7 @@
                             Content="Custom"
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
+                            ToolTip.Tip="Use a locally installed version of Blender"
                             VerticalAlignment="Stretch"
                             x:Name="CustomBlenderToggleButton" />
                     </Grid>
@@ -82,6 +84,7 @@
             <Button
                 Click="BlenderInstallButton_OnClick"
                 Content="Install Blender"
+                ToolTip.Tip="Install Blender version 4.2.X LTS"
                 Width="150"
                 x:Name="BlenderInstallButton" />
         </StackPanel>

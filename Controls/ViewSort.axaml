@@ -18,12 +18,30 @@
             Orientation="Horizontal"
             Spacing="10"
             x:Name="FacesStackPanel">
-            <ToggleButton Content="Front" Height="30" />
-            <ToggleButton Content="Right" Height="30" />
-            <ToggleButton Content="Back" Height="30" />
-            <ToggleButton Content="Left" Height="30" />
-            <ToggleButton Content="Top" Height="30" />
-            <ToggleButton Content="Bottom" Height="30" />
+            <ToggleButton
+                Content="Front"
+                Height="30"
+                ToolTip.Tip="Sort by views that contain the front face" />
+            <ToggleButton
+                Content="Right"
+                Height="30"
+                ToolTip.Tip="Sort by views that contain the right face" />
+            <ToggleButton
+                Content="Back"
+                Height="30"
+                ToolTip.Tip="Sort by views that contain the back face" />
+            <ToggleButton
+                Content="Left"
+                Height="30"
+                ToolTip.Tip="Sort by views that contain the left face" />
+            <ToggleButton
+                Content="Top"
+                Height="30"
+                ToolTip.Tip="Sort by views that contain the top face" />
+            <ToggleButton
+                Content="Bottom"
+                Height="30"
+                ToolTip.Tip="Sort by views that contain the bottom face" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -23,7 +23,7 @@
             <Grid Grid.Column="0" RowDefinitions="70,*">
                 <Label
                     Content="Views"
-                    FontSize="20"
+                    FontSize="25"
                     Grid.Row="0"
                     HorizontalAlignment="Left"
                     Margin="20,0,0,0"
@@ -78,7 +78,7 @@
                 x:Name="FileLabel" />
             <Button
                 Click="NextButton_OnClick"
-                Content="Next"
+                Content="Rendering"
                 Grid.Column="3"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
