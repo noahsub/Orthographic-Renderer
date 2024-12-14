@@ -212,8 +212,7 @@ public partial class RenderPage : UserControl, IPage
                     });
                     await Task.Delay(100, token);
                 }
-            },
-            token
+            }
         );
 
         // Get the mode of rendering.
@@ -434,7 +433,7 @@ public partial class RenderPage : UserControl, IPage
                     .Select(async renderItem =>
                     {
                         // Wait for the semaphore to be released.
-                        await semaphore.WaitAsync(token);
+                        await semaphore.WaitAsync();
                         try
                         {
                             // Render the item.

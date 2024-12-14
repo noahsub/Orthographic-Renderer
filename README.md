@@ -18,7 +18,7 @@
 <h1 align="center">Orthographic Renderer</h1>
 
 <p>
-A tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
+A tool for rendering orthographic views of 3D models using hardware accelerated ray tracing. Designed to replace traditional CPU rendering in CAD software, it is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
 </p>
 
 <h2>
@@ -26,6 +26,11 @@ Gallery
 </h2>
 
 <p align="center">
+  <img src="Assets/Images/Screenshots/requirements_page.png" alt="Icon">
+  <img src="Assets/Images/Screenshots/hardware_page.png" alt="Icon">
+  <img src="Assets/Images/Screenshots/model_page.png" alt="Icon">
+  <img src="Assets/Images/Screenshots/lighting_page.png" alt="Icon">
+  <img src="Assets/Images/Screenshots/views_page.png" alt="Icon">
   <img src="Assets/Images/Screenshots/render_page.png" alt="Icon">
 </p>
 
@@ -33,16 +38,14 @@ Gallery
 Installation
 </h2>
 <p>
-You can download the latest release from the releases page. The application is available for Windows. Linux and MacOS support is planned for the near future.
+Download the latest installer from the releases page. The application is available for Windows and Linux with NVIDIA GPU support. MacOS and AMD GPU support is planned for the future. 
 </p>
 
 <h2>
 Requirements
 </h2>
 <p>
-You must have Blender installed on your system to use this tool. You can download it from <a href="https://www.blender.org/download/">here</a>.
-If you install Blender in a protected directory, Orthographic Renderer may not be able to access it. To resolve this, you
-can either run Orthographic Renderer as an administrator or install the portable version of Blender to a non-protected directory.
+Blender is bundled with the application, so you do not need to install it separately. However, you should download and install the latest drivers for your GPU.
 </p>
 
 <h2>
@@ -58,60 +61,33 @@ so that the model is imported with the correct scale.
 </p>
 
 <h3>
-Rendering ⚡
+Hardware Capabilities 🖥️
 </h3>
-<h4>
-Views
-</h4>
 <p>
-There are 26 orthographic views to choose from. You can select the views you want to render by clicking on the checkboxes.
+The application will scan your system for compatible hardware and display the supported frameworks for each component.
 </p>
 
-<h4>
-Render Mode 🚀
-</h4>
+<h3>
+Camera and Lighting ☀️
+</h3>
 <p>
-There are two types of render modes to choose from. Sequential mode renders each view one by one, while parallel mode 
-renders all views at the same time. It is important to note that parallel mode is only faster if you have hardware with 
-enough overhead to run more than one render at a time. If you are reaching the limits of your hardware, you may want to
-lower the number of threads or use sequential mode.
+You can adjust the camera distance, and lights, and modify their colour, position, power, size, and distance. Additionally, you can change the background colour and view a real-time preview to dial in your settings as needed.
 </p>
 
-<h4>
-Camera 📷
-</h4>
+<h3>
+Views 📷
+</h3>
 <p>
-The distance of the camera from the model can be adjusted. The unit of measurement for distance is meters.
+There are 26 orthographic views to choose from. You can select the views you want to render by clicking on the checkboxes. 
 </p>
 
-<h4>
-Lighting ☀️
-</h4>
+<h3>
+Rendering 🚀
+</h3>
+
 <p>
-Orthographic Renderer uses a three point lighting system. The distance of the lights from the model can be adjusted.
-The unit of measurement for distance is meters.
+There are two types of render modes to choose from. Sequential mode renders each view one by one, while parallel mode renders all views at the same time. It is important to note that parallel mode is only faster if you have hardware with enough overhead to run more than one render at a time. If you are reaching the limits of your hardware, you may want to lower the number of threads or use sequential mode. Once your views have been selected and all settings have been adjusted, you can start rendering by clicking the "Render" button. You will be notified when the rendering is complete with both a sound (optional) and a popup message with statistics.  
 </p>
-
-<h4>
-Saving 💾
-</h4>
-<p>
-You can choose to save a .blend file while rendering so that .obj, and .stl files can be adjusted in Blender if needed.
-This may be useful if you need to make changes to the materials of the model.
-</p>
-
-<h4>
-Start Rendering ⚡
-</h4>
-<p>
-Once your views have been selected and all settings have been adjusted, you can start rendering by clicking the "Render"
-button. You will be notified when the rendering is complete with both a sound (optional) and a popup message with statistics.
-</p>
-
-
-<h2>
-Sample Renders
-</h2>
 
 <p align="center">
   <img src="Assets/Images/Examples/grid.png" alt="Icon">

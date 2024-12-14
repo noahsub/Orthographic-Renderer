@@ -81,6 +81,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <ToggleButton
+                            Background="{StaticResource ControlsBackground}"
                             Click="ToggleButton_OnClick"
                             Content="Sequential"
                             Grid.Column="0"
@@ -88,6 +89,7 @@
                             ToolTip.Tip="Render each item in the queue one by one"
                             x:Name="SequentialToggleButton" />
                         <ToggleButton
+                            Background="{StaticResource ControlsBackground}"
                             Click="ToggleButton_OnClick"
                             Content="Parallel"
                             Grid.Column="2"
