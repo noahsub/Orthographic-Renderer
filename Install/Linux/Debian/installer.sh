@@ -39,6 +39,10 @@ curl -fSLo ./blender-4.2.4-linux-x64.tar.xz https://mirrors.ocf.berkeley.edu/ble
 tar -xf blender-4.2.4-linux-x64.tar.xz -C .
 mv blender-4.2.4-linux-x64/* orthographic-renderer/Blender/Linux
 
+# Remove archive and empty directory
+rm -rf blender-4.2.4-linux-x64
+rm blender-4.2.4-linux-x64.tar.xz
+
 # Go back to the Install/Linux/Debian directory
 cd ../../../../
 
