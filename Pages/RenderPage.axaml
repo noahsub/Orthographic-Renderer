@@ -85,16 +85,21 @@
                             Content="Sequential"
                             Grid.Column="0"
                             HorizontalAlignment="Stretch"
+                            ToolTip.Tip="Render each item in the queue one by one"
                             x:Name="SequentialToggleButton" />
                         <ToggleButton
                             Click="ToggleButton_OnClick"
                             Content="Parallel"
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
+                            ToolTip.Tip="Render queue items simultaneously based on thread count for faster results. (Note: Over-allocating threads may slow down rendering)"
                             x:Name="ParallelToggleButton" />
                     </Grid>
                     <Label Content="Threads" />
-                    <NumericUpDown Text="1" x:Name="ThreadsNumericUpDown" />
+                    <NumericUpDown
+                        Text="1"
+                        ToolTip.Tip="The number of items that can be rendered simultaneously"
+                        x:Name="ThreadsNumericUpDown" />
                     <Label Content="Output Directory" />
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -102,11 +107,15 @@
                             <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="50" />
                         </Grid.ColumnDefinitions>
-                        <controls:DirectoryPathSelector Grid.Column="0" x:Name="OutputDirectoryPathSelector" />
+                        <controls:DirectoryPathSelector
+                            Grid.Column="0"
+                            ToolTip.Tip="Directory path for saving rendered images"
+                            x:Name="OutputDirectoryPathSelector" />
                         <Button
                             Click="OpenOutputDirectoryButton_OnClick"
                             Content="Open"
                             Grid.Column="2"
+                            ToolTip.Tip="Open the output directory in a file manager"
                             x:Name="OpenOutputDirectoryButton" />
                     </Grid>
                     <Grid>
@@ -124,6 +133,7 @@
                             Grid.Column="2"
                             HorizontalAlignment="Left"
                             IsChecked="True"
+                            ToolTip.Tip="Play a sound when the renders are complete"
                             VerticalAlignment="Center"
                             x:Name="CompleteSoundCheckBox" />
                     </Grid>
@@ -165,6 +175,7 @@
                 Content="Render"
                 Grid.Column="5"
                 HorizontalContentAlignment="Center"
+                ToolTip.Tip="Render the items in the queue"
                 VerticalAlignment="Center"
                 Width="100"
                 x:Name="RenderButton" />
