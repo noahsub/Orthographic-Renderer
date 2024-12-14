@@ -21,14 +21,17 @@
             <ToggleButton
                 Content="All"
                 Height="30"
+                ToolTip.Tip="Select all items"
                 x:Name="AllButton" />
             <ToggleButton
                 Content="None"
                 Height="30"
+                ToolTip.Tip="Deselect all items"
                 x:Name="NoneButton" />
             <ToggleButton
                 Content="Invert"
                 Height="30"
+                ToolTip.Tip="Invert selection"
                 x:Name="InvertButton" />
         </StackPanel>
     </Grid>

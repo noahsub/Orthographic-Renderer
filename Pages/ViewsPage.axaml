@@ -78,7 +78,7 @@
                 x:Name="FileLabel" />
             <Button
                 Click="NextButton_OnClick"
-                Content="Next"
+                Content="Rendering"
                 Grid.Column="3"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
