@@ -71,7 +71,7 @@ jobs:
       shell: pwsh
       run: |
         $version = Get-Content .\VERSION
-        (Get-Content .\Install\Windows\Orthographic Renderer Inno Setup.iss) -replace 'X\.Y\.Z', $version | Set-Content .\Install\Windows\Orthographic Renderer Inno Setup.iss
+        (Get-Content ".\Install\Windows\Orthographic Renderer Inno Setup.iss") -replace 'X\.Y\.Z', $version | Set-Content ".\Install\Windows\Orthographic Renderer Inno Setup.iss"
 
     # Run Inno Setup Script
     - name: Compile Installer Script
