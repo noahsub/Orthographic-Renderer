@@ -67,6 +67,13 @@ jobs:
       run: choco install innosetup -y --force
 
     # Run Inno Setup Script
+    - name: Replace version number in Inno Setup script
+      shell: pwsh
+      run: |
+        $version = Get-Content .\VERSION
+        (Get-Content .\Install\Windows\Orthographic Renderer Inno Setup.iss) -replace 'X\.Y\.Z', $version | Set-Content .\Install\Windows\Orthographic Renderer Inno Setup.iss
+
+    # Run Inno Setup Script
     - name: Compile Installer Script
       shell: pwsh
       run: iscc ".\Install\Windows\Orthographic Renderer Inno Setup.iss"
