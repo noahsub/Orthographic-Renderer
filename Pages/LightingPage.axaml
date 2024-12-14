@@ -86,7 +86,10 @@
                                     Content="Colour"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center" />
-                                <controls:ColourSelector VerticalAlignment="Center" x:Name="BackgroundColourSelector" />
+                                <controls:ColourSelector
+                                    ToolTip.Tip="Background colour of the render (supports full transparency)"
+                                    VerticalAlignment="Center"
+                                    x:Name="BackgroundColourSelector" />
                             </StackPanel>
 
                             <StackPanel
@@ -99,6 +102,7 @@
                                     VerticalAlignment="Center" />
                                 <controls:OrientationSelector
                                     Margin="10,0,0,0"
+                                    ToolTip.Tip="Model orientation in the render preview"
                                     VerticalAlignment="Center"
                                     x:Name="CameraOrientationSelector" />
                             </StackPanel>
@@ -113,6 +117,7 @@
                                     VerticalAlignment="Center" />
                                 <controls:ValueSelector
                                     Margin="10,0,0,0"
+                                    ToolTip.Tip="Distance between the camera and the model"
                                     VerticalAlignment="Center"
                                     x:Name="CameraDistanceValueSelector" />
                             </StackPanel>
@@ -143,6 +148,7 @@
                                 HorizontalContentAlignment="Center"
                                 Margin="5,5,5,5"
                                 Text="1920"
+                                ToolTip.Tip="The width of the image to be rendered"
                                 VerticalContentAlignment="Center"
                                 x:Name="WidthTextBox" />
                             <TextBox
@@ -151,6 +157,7 @@
                                 HorizontalContentAlignment="Center"
                                 Margin="5,5,5,5"
                                 Text="1080"
+                                ToolTip.Tip="The height of the image to be rendered"
                                 VerticalContentAlignment="Center"
                                 x:Name="HeightTextBox" />
 
@@ -164,6 +171,7 @@
                                 HorizontalContentAlignment="Center"
                                 Margin="5"
                                 Padding="0"
+                                ToolTip.Tip="List of resolutions with a 1:1 aspect ratio"
                                 VerticalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
                                 x:Name="AspectRatio1X1ToggleButton" />
@@ -178,6 +186,7 @@
                                 HorizontalContentAlignment="Center"
                                 Margin="5"
                                 Padding="0"
+                                ToolTip.Tip="List of resolutions with a 4:3 aspect ratio"
                                 VerticalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
                                 x:Name="AspectRatio4X3ToggleButton" />
@@ -192,6 +201,7 @@
                                 HorizontalContentAlignment="Center"
                                 Margin="5"
                                 Padding="0"
+                                ToolTip.Tip="List of resolutions with a 16:9 aspect ratio"
                                 VerticalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
                                 x:Name="AspectRatio16X9ToggleButton" />
@@ -206,6 +216,7 @@
                                 HorizontalContentAlignment="Center"
                                 Margin="5"
                                 Padding="0"
+                                ToolTip.Tip="List of resolutions with a 21:9 aspect ratio"
                                 VerticalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
                                 x:Name="AspectRatio21X9ToggleButton" />
@@ -222,6 +233,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     Margin="20,20,0,20"
+                    ToolTip.Tip="Generates a low-resolution preview of the render according to your settings"
                     VerticalAlignment="Stretch"
                     VerticalContentAlignment="Center"
                     x:Name="PreviewButton" />
@@ -238,7 +250,7 @@
 
                 <Label
                     Content="Lighting"
-                    FontSize="30"
+                    FontSize="25"
                     Grid.Row="0"
                     Margin="20,20,0,0" />
 
@@ -252,16 +264,19 @@
                         Background="{StaticResource PrimaryBackground}"
                         Click="OnePointLightingButton_OnClick"
                         Content="1 Point Lighting"
+                        ToolTip.Tip="Single light directed at the front of the model"
                         x:Name="OnePointLightingButton" />
                     <Button
                         Background="{StaticResource PrimaryBackground}"
                         Click="ThreePointLightingButton_OnClick"
                         Content="3 Point Lighting"
+                        ToolTip.Tip="Three lights arranged for optimal studio lighting"
                         x:Name="ThreePointLightingButton" />
                     <Button
                         Background="{StaticResource PrimaryBackground}"
                         Click="OverheadLightingButton_OnClick"
                         Content="Overhead Lighting"
+                        ToolTip.Tip="Single light directed at the top of the model"
                         x:Name="OverheadLightingButton" />
                 </StackPanel>
 
@@ -275,11 +290,13 @@
                         Background="{StaticResource PrimaryBackground}"
                         Click="AddLightButton_OnClick"
                         Content="Add Light"
+                        ToolTip.Tip="Add a light to the scene"
                         x:Name="AddLightButton" />
                     <Button
                         Background="{StaticResource PrimaryBackground}"
                         Click="ClearButton_OnClick"
                         Content="Clear"
+                        ToolTip.Tip="Clear all lights from the scene"
                         x:Name="ClearButton" />
                 </StackPanel>
 

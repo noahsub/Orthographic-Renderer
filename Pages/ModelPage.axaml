@@ -95,7 +95,6 @@
                         <ComboBoxItem Content="Meters" Tag="m" />
                         <ComboBoxItem Content="Inches" Tag="in" />
                         <ComboBoxItem Content="Feet" Tag="ft" />
-
                     </ComboBox>
                 </StackPanel>
                 <Button
