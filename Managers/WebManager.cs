@@ -11,6 +11,8 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -52,17 +54,38 @@ public static class WebManager
     /// <returns>The latest version of the application.</returns>
     public static async Task<string> GetLatestVersion()
     {
-        const string url =
-            "https://api.github.com/repos/noahsub/Orthographic-Renderer/releases/latest";
-        using var client = new HttpClient();
+        // Read the current version of the application from the VERSION file
+        var currentVersion = File.ReadAllLines("VERSION")[0].Trim();
+        var url = "https://api.github.com/repos/noahsub/Orthographic-Renderer/releases/latest";
+        var client = new HttpClient
+        {
+            // Set a timeout of 5 seconds for the HttpClient
+            Timeout = TimeSpan.FromSeconds(5),
+        };
         client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
-        var response = await client.GetAsync(url);
-        response.EnsureSuccessStatusCode();
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var latestRelease = JObject.Parse(responseBody);
-        // Get the tag name of the latest release
-        var tagName = latestRelease["tag_name"]?.ToString();
-        // Remove the 'v' from the tag name
-        return tagName?[1..] ?? string.Empty;
+
+        try
+        {
+            // Make a GET request to the GitHub API to get the latest release
+            var response = await client.GetAsync(url);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return currentVersion;
+            }
+
+            // Get the json content of the response
+            var content = await response.Content.ReadAsStringAsync();
+            var json = JObject.Parse(content);
+
+            // Get the tag name from the json content
+            var latestVersion = json["tag_name"]?.ToString().Replace("v", "");
+            return latestVersion ?? currentVersion;
+        }
+        
+        catch (Exception ex)
+        {
+            // If the version cannot be retrieved, return the current version to skip the update screen
+            return currentVersion;
+        }
     }
 }
