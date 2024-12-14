@@ -66,7 +66,7 @@ jobs:
       shell: pwsh
       run: choco install innosetup -y --force
 
-    # Run Inno Setup Script
+    # Update version number in Inno Setup script
     - name: Replace version number in Inno Setup script
       shell: pwsh
       run: |
