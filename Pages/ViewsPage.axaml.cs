@@ -20,6 +20,7 @@ using Avalonia.Input;
 using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Interfaces;
@@ -218,6 +219,8 @@ public partial class ViewsPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public string NavigationName { get; } = "ViewsPage";
 
     /// <summary>
     /// Initializes the ViewsPage.

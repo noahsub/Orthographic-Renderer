@@ -23,6 +23,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
+using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
@@ -491,6 +492,8 @@ public partial class RenderPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public string NavigationName { get; } = "RenderPage";
 
     /// <summary>
     /// Initializes the RenderPage.

@@ -25,6 +25,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using AvaloniaColorPicker;
+using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Interfaces;
@@ -594,6 +595,8 @@ public partial class LightingPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public string NavigationName { get; } = "LightingPage";
 
     /// <summary>
     /// Initializes the LightingPage.

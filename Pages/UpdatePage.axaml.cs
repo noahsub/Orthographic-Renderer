@@ -11,6 +11,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Interfaces;
 using Orthographic.Renderer.Managers;
 
@@ -72,6 +73,8 @@ public partial class UpdatePage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public string NavigationName { get; } = "UpdatePage";
 
     /// <summary>
     /// Initializes the update page.
