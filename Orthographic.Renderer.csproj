@@ -24,13 +24,14 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(RuntimeIdentifier)' == 'win-x64'">
-      <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre582" />
-    </ItemGroup>
-  
-    <ItemGroup Condition="'$(RuntimeIdentifier)' != 'win-x64'">
-      <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.4" />
-    </ItemGroup>
+  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+    <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre582" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+    <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.4" />
+  </ItemGroup>
+
 
   <ItemGroup>
       <Folder Include="Assets\Fonts\" />
