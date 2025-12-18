@@ -12,14 +12,7 @@ rm -rf tmp
 rm -f orthographic-renderer_$version.deb
 
 # Create tmp Directory in current directory
-mkdir -p tmp
-
-# Create required directories
-mkdir -p tmp/usr
-mkdir -p tmp/usr/local
-mkdir -p tmp/usr/local/bin
 mkdir -p tmp/usr/local/bin/orthographic-renderer
-mkdir -p tmp/usr/share
 mkdir -p tmp/usr/share/applications
 
 # publish the dotnet core application
@@ -50,23 +43,32 @@ cd ../../../../
 mkdir -p tmp/DEBIAN
 
 # Create the control file
-touch tmp/DEBIAN/control
-echo "Package: orthographic-renderer" > tmp/DEBIAN/control
-echo "Version: $version" >> tmp/DEBIAN/control
-echo "Maintainer: noahsub" >> tmp/DEBIAN/control
-echo "Architecture: amd64" >> tmp/DEBIAN/control
-echo "Description: A tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA." >> tmp/DEBIAN/control
+cat > tmp/DEBIAN/control <<EOL
+Package: orthographic-renderer
+Version: $version
+Maintainer: noahsub
+Architecture: amd64
+Description: A tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
+EOL
 
-# Create the desktop file
-touch tmp/usr/share/applications/orthographic-renderer.desktop
-echo "[Desktop Entry]" > tmp/usr/share/applications/orthographic-renderer.desktop
-echo "Version=$version" >> tmp/usr/share/applications/orthographic-renderer.desktop
-echo "Name=Orthographic Renderer" >> tmp/usr/share/applications/orthographic-renderer.desktop
-echo "Exec=/usr/local/bin/orthographic-renderer/Orthographic\ Renderer" >> tmp/usr/share/applications/orthographic-renderer.desktop
-echo "Path=/usr/local/bin/orthographic-renderer" >> tmp/usr/share/applications/orthographic-renderer.desktop
-echo "Icon=/usr/local/bin/orthographic-renderer/Assets/Icons/green_cube.png" >> tmp/usr/share/applications/orthographic-renderer.desktop
-echo "Type=Application" >> tmp/usr/share/applications/orthographic-renderer.desktop
-echo "Categories=Graphics;3DGraphics;" >> tmp/usr/share/applications/orthographic-renderer.desktop
+# Rename the binary to remove spaces
+mv tmp/usr/local/bin/orthographic-renderer/Orthographic\ Renderer \
+   tmp/usr/local/bin/orthographic-renderer/orthographic-renderer
+
+# Make the binary executable
+chmod +x tmp/usr/local/bin/orthographic-renderer/orthographic-renderer
+
+# Create the desktop file (fixed)
+cat > tmp/usr/share/applications/orthographic-renderer.desktop <<EOL
+[Desktop Entry]
+Version=$version
+Name=Orthographic Renderer
+Exec=/usr/local/bin/orthographic-renderer/orthographic-renderer
+Icon=/usr/local/bin/orthographic-renderer/Assets/Icons/green_cube.png
+Type=Application
+Terminal=false
+Categories=Graphics;3DGraphics;
+EOL
 
 # Build the package
 dpkg-deb --build tmp orthographic-renderer_$version.deb

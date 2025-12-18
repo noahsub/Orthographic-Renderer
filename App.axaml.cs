@@ -92,7 +92,7 @@ public partial class App : Application
                 }
 
                 // Get Render Hardware
-                splashScreen.SetLoadingTextUiThread("DETECTING BLENDER COMPATIBLE HARDWARE");
+                splashScreen.SetLoadingTextUiThread("DETECTING BLENDER COMPATIBLE HARDWARE [Stuck? Only NVIDIA GPUs are supported.]");
                 if (!string.IsNullOrEmpty(DataManager.BlenderPath))
                 {
                     await Task.Run(HardwareManager.GetRenderHardware);

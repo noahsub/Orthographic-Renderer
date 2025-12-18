@@ -119,15 +119,21 @@ namespace Orthographic.Renderer.Managers
         /// <returns>A vector representing the x, y, and z dimensions of the object.</returns>
         private static Vector3 GetStlDimensions(string path)
         {
-            using (var reader = new StreamReader(path))
-            {
-                var firstLine = reader.ReadLine();
-                if (firstLine != null && firstLine.Contains("solid"))
-                {
-                    return GetStlAsciiDimensions(path);
-                }
-            }
-            return GetStlBinaryDimensions(path);
+            using var fs = File.OpenRead(path);
+            if (fs.Length < 84)
+                return GetStlAsciiDimensions(path);
+
+            fs.Seek(80, SeekOrigin.Begin);
+            Span<byte> countBytes = stackalloc byte[4];
+            fs.Read(countBytes);
+
+            uint triangleCount = BitConverter.ToUInt32(countBytes);
+
+            // Binary file size must match exactly
+            if (fs.Length == 84 + triangleCount * 50)
+                return GetStlBinaryDimensions(path);
+
+            return GetStlAsciiDimensions(path);
         }
 
         /// <summary>
