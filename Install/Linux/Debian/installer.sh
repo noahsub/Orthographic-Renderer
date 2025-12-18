@@ -51,15 +51,19 @@ Architecture: amd64
 Description: A tool for rendering orthographic views of 3D models, designed to replace traditional CPU rendering in CAD software. It is optimized for both speed and quality, featuring parallel rendering capabilities and GPU acceleration via OPTIX and CUDA.
 EOL
 
+# Rename the binary to remove spaces
+mv tmp/usr/local/bin/orthographic-renderer/Orthographic\ Renderer \
+   tmp/usr/local/bin/orthographic-renderer/orthographic-renderer
+
 # Make the binary executable
-chmod +x tmp/usr/local/bin/orthographic-renderer/Orthographic\ Renderer
+chmod +x tmp/usr/local/bin/orthographic-renderer/orthographic-renderer
 
 # Create the desktop file (fixed)
 cat > tmp/usr/share/applications/orthographic-renderer.desktop <<EOL
 [Desktop Entry]
 Version=$version
 Name=Orthographic Renderer
-Exec="/usr/local/bin/orthographic-renderer/Orthographic Renderer"
+Exec=/usr/local/bin/orthographic-renderer/orthographic-renderer
 Icon=/usr/local/bin/orthographic-renderer/Assets/Icons/green_cube.png
 Type=Application
 Terminal=false
