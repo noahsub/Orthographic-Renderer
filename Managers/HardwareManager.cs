@@ -192,8 +192,9 @@ public static class HardwareManager
             // Memory filter
             else if (
                 hardware.Type == HardwareType.Memory
-                && requiredMemorySensorsTypes.Contains(hardware.SensorType)
-                && requiredMemorySensorNames.Contains(hardware.SensorName)
+                && hardware.SensorType == SensorType.Load
+                && hardware.SensorName == "Memory"
+                && !hardware.Name.ToLower().Contains("virtual")
             )
             {
                 memoryHardware.Add(hardware);
@@ -548,6 +549,7 @@ public static class HardwareManager
             "GeForce",
             "Laptop",
             "(TM)",
+            "Total ",
         };
         foreach (var word in redundantWords)
         {
