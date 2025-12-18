@@ -29,7 +29,7 @@
     </ItemGroup>
   
     <ItemGroup Condition="'$(RuntimeIdentifier)' != 'win-x64'">
-      <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre582" />
+      <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.4" />
     </ItemGroup>
 
   <ItemGroup>
