@@ -17,6 +17,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Orthographic.Renderer.Managers;
 using LibreHardwareMonitor.Software;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Controls;
@@ -157,6 +158,8 @@ public partial class RequirementsPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public string NavigationName { get; } = "RequirementsPage";
 
     /// <summary>
     /// Initializes the RequirementsPage.

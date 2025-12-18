@@ -18,6 +18,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Orthographic.Renderer.Managers;
 using Newtonsoft.Json.Linq;
 using Orthographic.Renderer.Controls;
 using Orthographic.Renderer.Interfaces;
@@ -80,6 +81,8 @@ public partial class HardwarePage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public string NavigationName { get; } = "HardwarePage";
 
     /// <summary>
     /// Initializes the HardwarePage.

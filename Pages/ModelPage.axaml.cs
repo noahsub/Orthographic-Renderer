@@ -16,6 +16,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Constants;
 using Orthographic.Renderer.Entities;
 using Orthographic.Renderer.Interfaces;
@@ -155,6 +156,8 @@ public partial class ModelPage : UserControl, IPage
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IPAGE INTERFACE IMPLEMENTATION
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public string NavigationName { get; } = "ModelPage";
 
     /// <summary>
     /// Initializes the ModelPage.

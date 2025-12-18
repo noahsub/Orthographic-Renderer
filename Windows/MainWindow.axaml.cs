@@ -13,6 +13,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Orthographic.Renderer.Managers;
+using Orthographic.Renderer.Managers;
 using Orthographic.Renderer.Pages;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

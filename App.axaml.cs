@@ -17,6 +17,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using LibreHardwareMonitor.Software;
 using Orthographic.Renderer.Managers;
+using Orthographic.Renderer.Pages;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NAMESPACE
@@ -107,13 +108,13 @@ public partial class App : Application
                 Dispatcher.UIThread.Post(async () =>
                 {
                     // Create application pages
-                    await NavigationManager.CreatePage("UpdatePage");
-                    await NavigationManager.CreatePage("RequirementsPage");
-                    await NavigationManager.CreatePage("HardwarePage");
-                    await NavigationManager.CreatePage("ModelPage");
-                    await NavigationManager.CreatePage("LightingPage");
-                    await NavigationManager.CreatePage("ViewsPage");
-                    await NavigationManager.CreatePage("RenderPage");
+                    await NavigationManager.CreatePage(new UpdatePage());
+                    await NavigationManager.CreatePage(new RequirementsPage());
+                    await NavigationManager.CreatePage(new HardwarePage());
+                    await NavigationManager.CreatePage(new ModelPage());
+                    await NavigationManager.CreatePage(new LightingPage());
+                    await NavigationManager.CreatePage(new ViewsPage());
+                    await NavigationManager.CreatePage(new RenderPage());
 
                     // IMPORTANT: MainWindow must be created after all pages are created, otherwise,
                     // the first page will be initialized twice

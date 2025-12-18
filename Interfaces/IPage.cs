@@ -15,6 +15,8 @@ namespace Orthographic.Renderer.Interfaces;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 public interface IPage
 {
+    string NavigationName { get; }
+    
     /// <summary>
     /// Called when the page is first created. Code that needs to be loaded during the splash screen should be
     /// placed here.
